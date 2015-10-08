@@ -1,0 +1,240 @@
+//
+//  ModifyMemberViewController.m
+//  RedScarf
+//
+//  Created by zhangb on 15/9/23.
+//  Copyright (c) 2015年 zhangb. All rights reserved.
+//
+
+#import "ModifyMemberViewController.h"
+
+@interface ModifyMemberViewController ()
+
+@end
+
+@implementation ModifyMemberViewController
+{
+    NSMutableArray *apartmentsArray;
+    NSMutableArray *selectedArray;
+    UITextField *modifyTf;
+    NSMutableArray *indexArr;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    apartmentsArray = [NSMutableArray array];
+    selectedArray = [NSMutableArray array];
+    indexArr = [NSMutableArray array];
+    [self navigationBar];
+    [self initView];
+}
+
+-(void)initView
+{
+    if ([self.title isEqualToString:@"修改电话"]) {
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
+        right.tintColor = [UIColor whiteColor];
+        self.navigationItem.rightBarButtonItem = right;
+        [self modifyPhone];
+    }
+    if ([self.title isEqualToString:@"修改配送时间"]) {
+        [self modifyTime];
+    }
+    if ([self.title isEqualToString:@"修改配送范围"]) {
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickSave)];
+        right.tintColor = [UIColor whiteColor];
+        self.navigationItem.rightBarButtonItem = right;
+        [self getMessage];
+        [self modifyRange];
+    }
+}
+
+-(void)modifyPhone
+{
+    UILabel *phoneLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 75, kUIScreenWidth-50, 40)];
+    phoneLabel.text = [NSString stringWithFormat:@"当前号码:%@",self.phoneString];
+    phoneLabel.textColor = color155;
+    phoneLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:phoneLabel];
+    
+    modifyTf = [[UITextField alloc] initWithFrame:CGRectMake(40, 120, kUIScreenWidth-80, 40)];
+    modifyTf.placeholder = @"输入电话号码";
+    modifyTf.layer.borderColor = color155.CGColor;
+    modifyTf.layer.borderWidth = 1.0;
+    modifyTf.layer.masksToBounds = YES;
+    modifyTf.layer.cornerRadius = 5;
+    modifyTf.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:modifyTf];
+}
+
+-(void)modifyTime
+{
+    
+}
+
+-(void)getMessage
+{
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:app.tocken forKey:@"token"];
+//    self.username = [self.username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [params setObject:self.username forKey:@"username"];
+    [self showHUD:@"正在加载"];
+    [RedScarf_API requestWithURL:@"/team/user/setting/addr" params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if ([[result objectForKey:@"success"] boolValue]) {
+            apartmentsArray = [[result objectForKey:@"msg"] objectForKey:@"apartments"];
+            NSString *selectedApartments = [[result objectForKey:@"msg"] objectForKey:@"selectedApartments"];
+            selectedArray = [selectedApartments componentsSeparatedByString:@","];
+            [self.tableView reloadData];
+        }else
+        {
+            [self alertView:[result objectForKey:@"msg"]];
+        }
+        [self hidHUD];
+    }];
+}
+
+-(void)modifyRange
+{
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth)];
+    self.tableView.userInteractionEnabled = NO;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+}
+
+#pragma mark -- tableViewDelegate
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return apartmentsArray.count;
+}
+
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifier = @"identifier";
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    if (cell == nil) {
+        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    }
+    NSMutableDictionary *dic = [apartmentsArray objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = [dic objectForKey:@"name"];
+    
+    for (NSString *str in selectedArray) {
+        if ([str isEqualToString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]]) {
+            cell.backgroundColor = MakeColor(32, 190, 251);
+            [indexArr addObject:[dic objectForKey:@"id"]];
+        }
+    }
+    
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSMutableDictionary *dic = [apartmentsArray objectAtIndex:indexPath.row];
+
+    if ([cell.backgroundColor isEqual:MakeColor(32, 190, 251)]) {
+        [indexArr removeObject:[dic objectForKey:@"id"]];
+        cell.backgroundColor = [UIColor whiteColor];
+    }else{
+        cell.backgroundColor = MakeColor(32, 190, 251);
+        [indexArr addObject:[dic objectForKey:@"id"]];
+    }
+    NSLog(@"indexArr = %@",indexArr);
+}
+
+-(void)didClickDone
+{
+    
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:app.tocken forKey:@"token"];
+    [params setObject:self.phoneString forKey:@"username"];
+    [params setValue:modifyTf.text forKey:@"mobilePhone"];
+    [self showHUD:@"正在加载"];
+    [RedScarf_API requestWithURL:@"/team/user" params:params httpMethod:@"PUT" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if ([[result objectForKey:@"success"] boolValue]) {
+            [self alertView:@"修改成功"];
+            [self.delegate returnNumber:modifyTf.text];
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        }else
+        {
+            [self alertView:[result objectForKey:@"msg"]];
+        }
+        [self hidHUD];
+    }];
+
+}
+
+-(void)didClickSave
+{
+    if ([self.navigationItem.rightBarButtonItem.title isEqualToString:@"编辑"]) {
+        self.navigationItem.rightBarButtonItem.title = @"保存";
+        self.tableView.userInteractionEnabled = YES;
+    }else{
+        AppDelegate *app = [UIApplication sharedApplication].delegate;
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        [params setObject:app.tocken forKey:@"token"];
+        NSString *addrs = [indexArr componentsJoinedByString:@","];
+        [params setObject:addrs forKey:@"addrs"];
+        [params setObject:self.username forKey:@"username"];
+        [self showHUD:@"正在加载"];
+        [RedScarf_API requestWithURL:@"/team/user/setting/addr" params:params httpMethod:@"PUT" block:^(id result) {
+            NSLog(@"result = %@",result);
+            if ([[result objectForKey:@"success"] boolValue]) {
+                [self alertView:@"修改成功"];
+                
+                [self.navigationController popViewControllerAnimated:YES];
+                
+            }else
+            {
+                [self alertView:[result objectForKey:@"msg"]];
+            }
+            [self hidHUD];
+        }];
+
+        self.navigationItem.rightBarButtonItem.title = @"编辑";
+        self.tableView.userInteractionEnabled = NO;
+    }
+}
+
+-(void)didClickLeft
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

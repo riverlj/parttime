@@ -1,0 +1,276 @@
+//
+//  RoomViewController.m
+//  RedScarf
+//
+//  Created by zhangb on 15/8/14.
+//  Copyright (c) 2015年 zhangb. All rights reserved.
+//
+
+#import "RoomViewController.h"
+#import "Header.h"
+#import "RoomTableViewCell.h"
+#import "RedScarf_API.h"
+#import "Header.h"
+#import "UIUtils.h"
+#import "AppDelegate.h"
+
+@implementation RoomViewController
+{
+    UIButton *doBtn;
+    UIButton *notBtn;
+    NSMutableArray *numArr;
+    NSString *yesOrNo;
+}
+
+-(void)viewDidLoad
+{
+    self.navigationController.navigationBar.hidden = NO;
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.tabBarController.tabBar.hidden = YES;
+    self.title = self.titleStr;
+    numArr = [NSMutableArray array];
+    self.dataArray = [NSMutableArray array];
+    [self initNavigation];
+    [self initTableView];
+    [self initFootBtn];
+    [self getMessage];
+}
+
+-(void)initNavigation
+{
+    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
+    left.tintColor = [UIColor whiteColor];
+    self.navigationItem.leftBarButtonItem = left;
+    //隐藏tabbar上的按钮
+    UIButton *barBtn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
+    [barBtn removeFromSuperview];
+}
+
+-(void)getMessage
+{
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    app.tocken = [UIUtils replaceAdd:app.tocken];
+    [params setObject:app.tocken forKey:@"token"];
+    [params setObject:self.aId forKey:@"aId"];
+    [params setObject:self.room forKey:@"room"];
+    
+    [RedScarf_API requestWithURL:@"/task/assignedTask/customerDetail" params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if ([[result objectForKey:@"success"] boolValue]) {
+            [self.dataArray removeAllObjects];
+            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
+                NSLog(@"dic = %@",dic);
+                [self.dataArray addObject:dic];
+                
+            }
+            [self.detailTableView reloadData];
+        }
+    }];
+}
+
+
+-(void)didClickLeft
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)initTableView
+{
+    self.detailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth-50)];
+    self.detailTableView.delegate = self;
+    self.detailTableView.dataSource = self;
+//    self.detailTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:self.detailTableView];
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.dataArray.count;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 110;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifier = @"identifier";
+    RoomTableViewCell *cell = [[RoomTableViewCell alloc] init];
+    if (cell == nil) {
+        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    }
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
+    
+    cell.nameLabel.text = [NSString stringWithFormat:@"%@:%@",[dic objectForKey:@"customerName"],[dic objectForKey:@"mobile"]];
+    cell.foodLabel.text = [dic objectForKey:@"content"];
+    cell.numberLabel.text = [NSString stringWithFormat:@"任务编号:%@",[dic objectForKey:@"sn"]];
+    cell.dateLabel.text = [dic objectForKey:@"date"];
+    
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    RoomTableViewCell *cell = (RoomTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
+    self.sn = [dic objectForKey:@"sn"];
+
+    
+    if (cell.roundBtn.image == nil) {
+        [cell.roundBtn setImage:[UIImage imageNamed:@"xuanzhong"]];
+        [doBtn setBackgroundImage:[UIImage imageNamed:@"songda@2x"] forState:UIControlStateNormal];
+        [notBtn setBackgroundImage:[UIImage imageNamed:@"weisongda@2x"] forState:UIControlStateNormal];
+        notBtn.userInteractionEnabled = YES;
+        doBtn.userInteractionEnabled = YES;
+        [numArr addObject:[NSNumber numberWithInteger:indexPath.row]];
+
+    }else{
+        [cell.roundBtn setImage:nil];
+       
+        [numArr removeObject:[NSNumber numberWithInteger:indexPath.row]];
+        
+        if (numArr.count == 0) {
+            [doBtn setBackgroundImage:[UIImage imageNamed:@"zhiqian@2x"] forState:UIControlStateNormal];
+            [notBtn setBackgroundImage:[UIImage imageNamed:@"zguqian@2x"] forState:UIControlStateNormal];
+            notBtn.userInteractionEnabled = NO;
+            doBtn.userInteractionEnabled = NO;
+        }
+    }
+
+}
+
+-(void)initFootBtn
+{
+    UIView *midLine;
+    if (kUIScreenWidth == 320) {
+        doBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth-45, kUIScreenWidth/2, 45)];
+        notBtn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2, kUIScreenHeigth-45, kUIScreenWidth/2, 45)];
+        midLine = [[UIView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-1, kUIScreenHeigth-45, 0.5, 45)];
+    }else{
+        doBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth-45, kUIScreenWidth/2, 48)];
+        notBtn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2, kUIScreenHeigth-45, kUIScreenWidth/2, 48)];
+        midLine = [[UIView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-1, kUIScreenHeigth-45, 0.5, 48)];
+    }
+    [doBtn setBackgroundImage:[UIImage imageNamed:@"zhiqian@2x"] forState:UIControlStateNormal];
+    [doBtn addTarget:self action:@selector(didClickDoBtn) forControlEvents:UIControlEventTouchUpInside];
+    doBtn.userInteractionEnabled = NO;
+    [self.view addSubview:doBtn];
+    
+    [notBtn setBackgroundImage:[UIImage imageNamed:@"zguqian@2x"] forState:UIControlStateNormal];
+    [notBtn addTarget:self action:@selector(didClickNotBtn) forControlEvents:UIControlEventTouchUpInside];
+    notBtn.userInteractionEnabled = NO;
+    [self.view addSubview:notBtn];
+    
+    midLine.backgroundColor = [UIColor whiteColor];
+    midLine.alpha = 0.5;
+    [self.view addSubview:midLine];
+
+}
+
+-(void)didClickDoBtn
+{
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    app.tocken = [UIUtils replaceAdd:app.tocken];
+    [params setObject:app.tocken forKey:@"token"];
+    [params setObject:self.sn forKey:@"sn"];
+    
+    [RedScarf_API requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if ([[result objectForKey:@"success"] boolValue]) {
+            yesOrNo = @"yes";
+            [self alertView:@"成功送达"];
+        }else{
+            yesOrNo = @"yes";
+            [self alertView:[result objectForKey:@"msg"]];
+        }
+    }];
+}
+
+-(void)didClickNotBtn
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"提示" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"库存不足",@"没有原因",@"生病了", nil];
+    [actionSheet showInView:self.view];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *reason;
+    switch (buttonIndex) {
+        case 0:
+        {
+            reason = @"库存不足";
+        }
+            break;
+        case 1:
+        {
+            reason = @"就是不想送";
+        }
+            break;
+        case 2:
+        {
+            reason = @"生病了";
+        }
+            break;
+        default:
+            break;
+    }
+    reason = [reason stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    app.tocken = [UIUtils replaceAdd:app.tocken];
+    [params setObject:app.tocken forKey:@"token"];
+    [params setObject:self.sn forKey:@"sn"];
+    if (reason.length) {
+        [params setObject:reason forKey:@"reason"];
+        [RedScarf_API requestWithURL:@"/task/assignedTask/undelivereReason" params:params httpMethod:@"PUT" block:^(id result) {
+            NSLog(@"result = %@",result);
+            if ([[result objectForKey:@"success"] boolValue]) {
+                [self alertView:@"提交成功"];
+            }else{
+                [self alertView:[result objectForKey:@"msg"]];
+            }
+        }];
+
+    }
+    
+}
+
+-(void)alertView:(NSString *)msg
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+        {
+//            if ([yesOrNo isEqualToString:@"yes"]) {
+//                [self getMessage];
+//                [self.detailTableView reloadData];
+                [self.navigationController popViewControllerAnimated:YES];
+//            }
+        }
+            break;
+        case 1:
+        {
+            
+        }
+            break;
+        case 2:
+        {
+            
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+
+@end

@@ -7,7 +7,10 @@
 //
 
 #import "BaseViewController.h"
+#import "Reachability.h"
 
 @interface TeamViewController : BaseViewController
+
+@property(nonatomic,strong)UITableView *teamTableView;
 
 @end

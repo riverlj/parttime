@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface TeamTableViewCell : UITableViewCell
+
+@property(nonatomic,strong)UIImageView *headImage;
+@property(nonatomic,strong)UILabel *nameLabel;
+@property(nonatomic,strong)UILabel *telLabel;
 
 @end

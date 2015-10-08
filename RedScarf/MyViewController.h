@@ -10,4 +10,6 @@
 
 @interface MyViewController : BaseViewController
 
+@property(nonatomic,strong) UITableView *informationTableView;
+
 @end

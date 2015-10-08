@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseTabbarViewController.h"
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property float autoSizeScaleX;
+@property float autoSizeScaleY;
+@property (nonatomic,strong) NSString *tocken;
+@property (nonatomic,strong) NSString *status;
+
+@property (nonatomic,assign) int count;
+
+- (void)setRoorViewController:(UIViewController *)rootVC;
+- (void)setViewController:(UIViewController *)rootVC;
 
 
 @end
