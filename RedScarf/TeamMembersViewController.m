@@ -20,8 +20,13 @@
     NSMutableArray *nameArray;
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:101010].hidden = NO;
+}
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:101010].hidden = YES;
     [self getMessage];
 }
 
@@ -29,13 +34,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"团队成员";
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+    [self comeBack:nil];
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
     UIImage *img= [[UIImage imageNamed:@"addmember"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-//    UIBarButtonItem *iten = [UIBarButtonItem alloc] initWithBarButtonSystemItem:ui target:<#(id)#> action:<#(SEL)#>
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(addMember)];
     self.navigationItem.rightBarButtonItem = right;
     listArray = [NSMutableArray array];

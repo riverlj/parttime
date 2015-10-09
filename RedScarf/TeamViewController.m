@@ -9,6 +9,7 @@
 #import "TeamViewController.h"
 #import "TeamMembersViewController.h"
 #import "CheckTaskViewController.h"
+#import "BaseTabbarViewController.h"
 
 @interface TeamViewController ()
 
@@ -25,12 +26,17 @@
     self.tabBarController.tabBar.hidden = NO;
 }
 
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"团队";
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     titleArray = [NSMutableArray arrayWithObjects:@"团队成员",@"查看排班", nil];
     imgArray = [NSMutableArray arrayWithObjects:@"chengyuan2x",@"paiban2x", nil];
     [self initTableView];
@@ -38,7 +44,7 @@
 
 -(void)initTableView
 {
-    self.teamTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.teamTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height)];
     self.teamTableView.delegate = self;
     self.teamTableView.dataSource = self;
     [self.view addSubview:self.teamTableView];

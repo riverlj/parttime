@@ -66,7 +66,7 @@
     eveydayArray = [NSMutableArray array];
     salayArray = [NSMutableArray array];
     
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     self.tabBarController.tabBar.hidden = YES;
     [self navigationBar];
     [self initTableView];

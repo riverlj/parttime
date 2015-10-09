@@ -21,15 +21,29 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    [self.tabBarController.view viewWithTag:101010].hidden = YES;
+
 }
 
 
 -(void)navigationBar
 {
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
+//    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
+//    left.tintColor = [UIColor whiteColor];
+//    self.navigationItem.leftBarButtonItem = left;
+}
+
+-(void)comeBack:(UIColor *)color
+{
+    
+    UIImage *img= [[UIImage imageNamed:@"comeback"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
     left.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = left;
+    
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:color,NSForegroundColorAttributeName, nil];
+    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
+
 }
 
 -(NSString *)stringFromStatus:(NetworkStatus)status
@@ -173,6 +187,11 @@
     [self.hud hide:YES afterDelay:1.5];
     self.hud = nil;
     
+}
+
+-(void)didClickLeft
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -28,7 +28,7 @@
     
     self.navigationController.navigationBar.hidden = NO;
     self.title = @"我的银行卡";
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     self.tabBarController.tabBar.hidden = YES;
     editOrSave = YES;
     cityArr = [NSArray arrayWithObjects:@"开户省份:",@"开户城市:",@"开户银行:",@"开户支行:", nil];

@@ -25,10 +25,9 @@
 {
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.hidden = NO;
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     self.title = @"修改送餐地址";
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
+   
     [self initNavigation];
     [self initView];
 }

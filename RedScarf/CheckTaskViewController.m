@@ -22,10 +22,22 @@
     UILabel *dateLabel;
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:101010].hidden = NO;
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:101010].hidden = YES;
+
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"查看排班";
+    [self comeBack:nil];
     self.view.backgroundColor = bgcolor;
     self.tabBarController.tabBar.hidden = YES;
     apartmentArray = [NSMutableArray array];

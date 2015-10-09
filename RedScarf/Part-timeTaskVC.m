@@ -25,15 +25,13 @@
     [barBtn removeFromSuperview];
     [self initTableView];
     [self judgeRoundView];
-
+    [self comeBack:nil];
 }
 
 -(void)viewDidLoad
 {
     self.title = @"待配送";
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
+  
     self.view.backgroundColor = MakeColor(244, 245, 246);
     self.navigationController.navigationBar.hidden = NO;
     

@@ -33,6 +33,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.tabBarController.tabBar.hidden = NO;
+    [self.tabBarController.view viewWithTag:101010].hidden = NO;
+
     [self getMessage];
 }
 
@@ -41,9 +43,6 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"我的";
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
     
     Reachability *reach = [Reachability reachabilityForInternetConnection];
     NetworkStatus status = [reach currentReachabilityStatus];

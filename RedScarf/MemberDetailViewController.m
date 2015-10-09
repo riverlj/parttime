@@ -22,6 +22,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:101010].hidden = YES;
     [self initView];
 }
 

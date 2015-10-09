@@ -10,13 +10,19 @@
 
 
 @implementation RecommendViewController
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self comeBack:nil];
+}
+
 -(void)viewDidLoad
 {
     self.title = @"我要推荐";
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationController.navigationBar.hidden = NO;
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     self.tabBarController.tabBar.hidden = YES;
     [self navigationBar];
     [self initView];

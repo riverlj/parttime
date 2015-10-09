@@ -33,7 +33,7 @@
     self.navigationController.navigationBar.hidden = NO;
     self.title = @"我的银行卡";
     editOrSave = YES;
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     self.tabBarController.tabBar.hidden = YES;
     indexArr = [NSMutableArray arrayWithObjects:@"",@"",@"",@"", nil];
     idArr = [NSMutableArray arrayWithObjects:@"",@"",@"",@"", nil];

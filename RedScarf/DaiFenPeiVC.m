@@ -29,6 +29,7 @@
     //隐藏tabbar上的按钮
     UIButton *barBtn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
     [barBtn removeFromSuperview];
+    [self comeBack:nil];
     [self getMessage];
 }
 
@@ -36,8 +37,8 @@
 {
     self.navigationController.navigationBar.hidden = NO;
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
-
+//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+    
     userBool = NO;
     self.tabBarController.tabBar.hidden = YES;
     self.dataArray = [NSMutableArray array];

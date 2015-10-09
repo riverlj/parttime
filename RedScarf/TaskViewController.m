@@ -43,8 +43,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.tabBarController.tabBar.hidden = NO;
-    self.navigationController.navigationBar.hidden = YES;
+    self.tabBarController.tabBar.hidden = YES;
+//    self.navigationController.navigationBar.hidden = YES;
     
     if (modTableView.nameTableView.length) {
         [self didClickAddress];
@@ -63,11 +63,7 @@
         daiFenTableView.nameTableView = @"";
     }
 
-    [self judgeRoundView];
-    [self judgePeiSongView];
 }
-
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -79,131 +75,19 @@
     self.nameArr = [NSMutableArray array];
     self.addressArr = [NSMutableArray array];
     self.dataArr = [NSMutableArray array];
+    
+    UIImage *img= [[UIImage imageNamed:@"comeback"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
+    left.tintColor = [UIColor whiteColor];
+    self.navigationItem.leftBarButtonItem = left;
 //    [self judgeRoundView];
     [self initButton];
     [self didClickDaiFenPeiBtn];
 }
 
--(void)judgeRoundView
-{
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSMutableArray *addArr = [NSMutableArray array];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
-    __block int fenpei;
-    countStr = 0;
-    
-    [RedScarf_API requestWithURL:@"/task/waitAssignTask" params:params httpMethod:@"GET" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if ([[result objectForKey:@"success"] boolValue]) {
-                fenpei = 0;
-                for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                    NSLog(@"dic = %@",dic);
-                    fenpei += [[dic objectForKey:@"taskNum"] intValue];
-                }
-                if (fenpei) {
-                    UIButton *btn = (UIButton *)[self.view viewWithTag:100];
-                    UIImageView *roundView = [[UIImageView alloc] initWithFrame:CGRectMake(navigationView.frame.size.width/3-40, 12, 7, 7)];
-                    roundView.image = [UIImage imageNamed:@"提醒@2x"];
-                    [btn addSubview:roundView];
-                }
-            }
-        }];
-    //地址先不上，先注掉
-//    [RedScarf_API requestWithURL:@"/task/unstandardAddr" params:params httpMethod:@"GET" block:^(id result) {
-//        NSLog(@"result = %@",result);
-//        if ([[result objectForKey:@"success"] boolValue]) {
-//            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-//                NSLog(@"dic = %@",dic);
-//                [addArr addObject:dic];
-//            }
-//            if ([addArr count]) {
-//                UIButton *btn = (UIButton *)[self.view viewWithTag:101];
-//                
-//                UIImageView *roundView = [[UIImageView alloc] initWithFrame:CGRectMake(navigationView.frame.size.width/4-13, 12, 7, 7)];
-//                roundView.image = [UIImage imageNamed:@"提醒@2x"];
-//                [btn addSubview:roundView];
-//                
-//            }
-//        }
-//    }];
-}
-
--(void)judgePeiSongView
-{
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
-    __block int peisong;
-    countStr = 0;
-    [RedScarf_API requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                peisong = [[dic objectForKey:@"count"] intValue];
-                countStr += peisong;
-            }
-            if (countStr) {
-                UILabel *label = (UILabel *)[[self.view viewWithTag:100006] viewWithTag:100008];
-                label.text = [NSString stringWithFormat:@"—总计:%d份—",countStr];
-                
-                UIButton *btn = (UIButton *)[self.view viewWithTag:102];
-                UIImageView *roundView = [[UIImageView alloc] initWithFrame:CGRectMake(navigationView.frame.size.width/3-40, 12, 7, 7)];
-                roundView.image = [UIImage imageNamed:@"提醒@2x"];
-                [btn addSubview:roundView];
-            }
-            
-        }
-    }];
-
-}
-
 -(void)initButton
 {
-    navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0,kUIScreenWidth , 64)];
-    navigationView.backgroundColor = MakeColor(32, 101, 208);
-    [self.view addSubview:navigationView];
-    
-    for (int i = 0; i < 3; i ++) {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-        btn.layer.cornerRadius = 5;
-        btn.layer.masksToBounds = YES;
-
-        btn.frame = CGRectMake(i*(navigationView.frame.size.width/3)+5, 25, navigationView.frame.size.width/3-5, 39);
-        if (i == 0) {
-            [btn setTitle:@"分配" forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(didClickFenPei) forControlEvents:UIControlEventTouchUpInside];
-            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            btn.tag = 100+i;
-    
-        }
-//        if (i == 1) {
-//            [btn setTitle:@"修改地址" forState:UIControlStateNormal];
-//            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            [btn addTarget:self action:@selector(didClickAddress) forControlEvents:UIControlEventTouchUpInside];
-//            btn.tag = 100+i;
-//
-//        }
-        if (i == 1) {
-            [btn setTitle:@"配送" forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(didClickPeiSong) forControlEvents:UIControlEventTouchUpInside];
-            btn.tag = 100+2;
-
-        }
-        if (i == 2) {
-            btn.frame = CGRectMake(kUIScreenWidth-50, 35, 20, 20);
-            btn.tag = 100+i;
-            [btn setBackgroundImage:[UIImage imageNamed:@"已处理"] forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(didClickFinish) forControlEvents:UIControlEventTouchUpInside];
-        }
-        
-        [navigationView addSubview:btn];
-    }
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(-1, navigationView.frame.origin.y+navigationView.frame.size.height, kUIScreenWidth+2, 51)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 51)];
     view.backgroundColor = MakeColor(244, 245, 246);
     view.tag = 10000;
     view.backgroundColor = [UIColor whiteColor];
@@ -240,12 +124,12 @@
 -(void)initTableView
 {
 
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, navigationView.frame.origin.y+navigationView.frame.size.height, kUIScreenWidth, 51)];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 115, kUIScreenWidth, 51)];
     self.searchBar.delegate = self;
-    [self.searchBar setBarTintColor:MakeColor(244, 245, 246)];
+//    [self.searchBar setBarTintColor:MakeColor(244, 245, 246)];
     
     self.searchBar.placeholder = @"搜索配送人";
-    self.YiFenPeiTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, navigationView.frame.origin.y+navigationView.frame.size.height+50.5, self.view.frame.size.width, self.view.frame.size.height-152)];
+    self.YiFenPeiTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 115, self.view.frame.size.width, self.view.frame.size.height-152)];
     self.YiFenPeiTableview.tag = 100002;
     self.YiFenPeiTableview.tableHeaderView = self.searchBar;
     self.YiFenPeiTableview.delegate = self;
@@ -392,14 +276,9 @@
     UIView *footView = [[UIView alloc] init];
     disTableView.tableFooterView = footView;
     disTableView.tableHeaderView = line;
-    [self.view addSubview:disTableView];}
-
--(void)didClickFinish
-{
-    
-    FinishViewController *finishVC = [[FinishViewController alloc] init];
-    [self.navigationController pushViewController:finishVC animated:YES];
+    [self.view addSubview:disTableView];
 }
+
 
 -(void)didClickDaiFenPeiBtn
 {
@@ -418,7 +297,7 @@
     [btn setTitleColor:MakeColor(32, 102, 208) forState:UIControlStateNormal];
     UIButton *btn1 = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:200];
     [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    daiFenTableView = [[DaiFenPeiTableView alloc] initWithFrame:CGRectMake(0, navigationView.frame.origin.y+navigationView.frame.size.height+50.5, self.view.frame.size.width, self.view.frame.size.height-166)];
+    daiFenTableView = [[DaiFenPeiTableView alloc] initWithFrame:CGRectMake(0, 115, self.view.frame.size.width, self.view.frame.size.height-115)];
     daiFenTableView.tag = 100000;
     daiFenTableView.backgroundColor = MakeColor(244, 245, 246);
 //    daiFenTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -652,6 +531,11 @@
             
         }
     }
+}
+
+-(void)didClickLeft
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

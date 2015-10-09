@@ -27,17 +27,14 @@
 {
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"已处理";
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
     hidden = NO;
     self.dataArr = [NSMutableArray array];
 
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = left;
+    [self comeBack:nil];
+    
     pageNum = 1;
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"xiangxia@2x"] style:UIBarButtonItemStylePlain target:self action:nil];
     UIButton *barBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -280,7 +277,13 @@
 {
     UIButton *btn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
     [btn setTitle:@"" forState:UIControlStateNormal];
+    [self.tabBarController.view viewWithTag:101010].hidden = NO;
 
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:101010].hidden = YES;
 }
 
 -(void)didClickLeft

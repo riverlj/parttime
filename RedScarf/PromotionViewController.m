@@ -28,13 +28,19 @@
 
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:101010].hidden = YES;
+    [self comeBack:nil];
+}
+
 -(void)viewDidLoad
 {
     self.title = @"推广活动";
     self.view.backgroundColor = [UIColor whiteColor];
 
     self.navigationController.navigationBar.hidden = NO;
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     self.tabBarController.tabBar.hidden = YES;
     dataArray = [NSMutableArray array];
     nameArray = [NSMutableArray array];

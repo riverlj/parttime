@@ -22,6 +22,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self comeBack:nil];
     //刷新tableview
     [self getMessage];
 }
@@ -30,7 +31,7 @@
 {
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = self.titleStr;
     self.dataArray = [NSMutableArray array];

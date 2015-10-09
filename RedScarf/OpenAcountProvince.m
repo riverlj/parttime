@@ -42,9 +42,7 @@
 
         urlString = @"/user/bankCard/bank/branch";
     }
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-        self.filteredArray = [NSMutableArray array];
+  
     self.dataArray = [NSMutableArray array];
     self.nameArray = [NSMutableArray array];
     

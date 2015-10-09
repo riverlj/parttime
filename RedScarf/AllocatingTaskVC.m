@@ -20,13 +20,17 @@
     int whichAlertView;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self comeBack:nil];
+}
+
 -(void)viewDidLoad
 {
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
-    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
+//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+   
     self.title = @"分配任务";
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
     [self.searchBar setBarTintColor:MakeColor(244, 245, 246)];

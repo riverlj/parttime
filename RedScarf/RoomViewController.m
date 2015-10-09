@@ -22,6 +22,11 @@
     NSString *yesOrNo;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self comeBack:nil];
+}
+
 -(void)viewDidLoad
 {
     self.navigationController.navigationBar.hidden = NO;

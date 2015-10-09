@@ -23,6 +23,7 @@
 
 -(void)alertView:(NSString *)msg;
 
+-(void)comeBack:(UIColor *)color;
 
 -(void)navigationBar;
 
