@@ -13,10 +13,15 @@
 #define kUIScreenWidth   [UIScreen mainScreen].bounds.size.width
 
 #define MakeColor(r, g, b) [UIColor colorWithRed:(r/255.0f) green:(g/255.0f) blue:(b/255.0f) alpha:1.0f]
-
 #define textcolor [UIColor colorWithRed:(75/255.0f) green:(75/255.0f) blue:(75/255.0f) alpha:1.0f]
 #define bgcolor [UIColor colorWithRed:(242/255.0f) green:(242/255.0f) blue:(248/255.0f) alpha:1.0f]
 #define color155 [UIColor colorWithRed:(155/255.0f) green:(155/255.0f) blue:(155/255.0f) alpha:1.0f]
+#define color234 [UIColor colorWithRed:(234/255.0f) green:(234/255.0f) blue:(238/255.0f) alpha:1.0f]
+#define color242 [UIColor colorWithRed:(242/255.0f) green:(242/255.0f) blue:(242/255.0f) alpha:1.0f]
+
+#define color102 [UIColor colorWithRed:(102/255.0f) green:(102/255.0f) blue:(102/255.0f) alpha:1.0f]
+#define colorblue [UIColor colorWithRed:(79/255.0f) green:(136/255.0f) blue:(251/255.0f) alpha:1.0f]
+
 #define color232 [UIColor colorWithRed:(232/255.0f) green:(232/255.0f) blue:(232/255.0f) alpha:1.0f]
 
 #define textFont12 [UIFont systemFontOfSize:12]

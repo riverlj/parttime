@@ -16,6 +16,12 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
+        self.groundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth-30, 45)];
+        self.groundImage.backgroundColor = [UIColor whiteColor];
+        self.groundImage.layer.cornerRadius = 5;
+        self.groundImage.layer.masksToBounds = YES;
+        [self.contentView addSubview:self.groundImage];
+        
         self.roundBtn = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12, 20, 20)];
         self.roundBtn.layer.borderColor = [UIColor grayColor].CGColor;
         self.roundBtn.layer.borderWidth = 1.0;
@@ -27,7 +33,7 @@
         self.nameLabel = [[UILabel alloc] init];
         self.nameLabel.font = [UIFont systemFontOfSize:16];
         self.nameLabel.textColor = MakeColor(75, 75, 75);
-        self.nameLabel.frame = CGRectMake(35, 2, kUIScreenWidth-30, 40);
+        self.nameLabel.frame = CGRectMake(40, 2, kUIScreenWidth-30, 40);
         [self.contentView addSubview:self.nameLabel];
         
     }

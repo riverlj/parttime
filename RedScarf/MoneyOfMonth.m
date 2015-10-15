@@ -25,6 +25,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [self comeBack:nil];
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     NSDate *now = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -36,7 +38,7 @@
     [btn setTitle:string forState:UIControlStateNormal];
     btn.tag = 30001;
     [btn addTarget:self action:@selector(initDatePickerView) forControlEvents:UIControlEventTouchUpInside];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:16];
     btn.frame = CGRectMake(kUIScreenWidth/2-50, 0, 100, 40);
     [self.navigationController.navigationBar addSubview:btn];

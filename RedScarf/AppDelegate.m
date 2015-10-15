@@ -60,7 +60,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults objectForKey:@"token"];
    
-    myDelegate.count = [[defaults objectForKey:@"count"] intValue];
+    myDelegate.count = [defaults objectForKey:@"count"];
     if (token.length) {
         BaseTabbarViewController *baseVC = [[BaseTabbarViewController alloc] init];
     

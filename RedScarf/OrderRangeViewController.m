@@ -34,7 +34,7 @@
 -(void)navigationBar
 {
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
+//    left.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = left;
 //    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
 //    right.tintColor = [UIColor whiteColor];

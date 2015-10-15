@@ -14,6 +14,11 @@
     NSMutableArray *typeArr;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+}
+
 -(void)viewDidLoad
 {
     self.title = @"账单详情";

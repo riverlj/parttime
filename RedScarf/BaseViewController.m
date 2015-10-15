@@ -21,7 +21,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.tabBarController.view viewWithTag:101010].hidden = YES;
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
 
 }
 
@@ -36,7 +36,7 @@
 -(void)comeBack:(UIColor *)color
 {
     
-    UIImage *img= [[UIImage imageNamed:@"comeback"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *img= [[UIImage imageNamed:@"newfanhui"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
     left.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = left;

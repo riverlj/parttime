@@ -174,20 +174,20 @@
                     app.tocken = [UIUtils replaceAdd:app.tocken];
 
                     [dic setObject:app.tocken forKey:@"token"];
-                [RedScarf_API requestWithURL:@"/resource/menu" params:dic httpMethod:@"GET" block:^(id result) {
+                [RedScarf_API requestWithURL:@"/resource/appMenu" params:dic httpMethod:@"GET" block:^(id result) {
                     NSLog(@"result = %@   %@",[result objectForKey:@"msg"],result);
                     
                     NSMutableArray *tabCount = [result objectForKey:@"msg"];
-                    
+                    app.array = tabCount;
                     for (NSDictionary *dic in tabCount) {
                         NSLog(@"dic = %@",dic);
+                        app.count = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
                     }
                     [Flurry logEvent:@"login_count"];
 
-                    app.count = tabCount.count;
                     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                     [defaults setObject:app.tocken forKey:@"token"];
-                    [defaults setObject:[NSString stringWithFormat:@"%d",app.count] forKey:@"count"];
+                    [defaults setObject:app.count forKey:@"count"];
                     [defaults synchronize];
                     baseTabVC = [[BaseTabbarViewController alloc] init];
                     [app setRoorViewController:baseTabVC];

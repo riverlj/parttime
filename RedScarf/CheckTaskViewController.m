@@ -24,7 +24,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:101010].hidden = NO;
+    [self.tabBarController.view viewWithTag:11011].hidden = NO;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -209,6 +209,7 @@
 {
     TeamModel *model = [[TeamModel alloc] init];
     model = [dateArray objectAtIndex:section];
+    NSLog(@"model.users.count= %lu  sectin = %ld",(unsigned long)model.users.count,(long)section);
     return model.users.count;
 }
 

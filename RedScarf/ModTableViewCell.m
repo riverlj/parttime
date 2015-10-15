@@ -24,11 +24,12 @@
         [self.contentView addSubview:self.addressLabel];
         
         self.modifyBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.modifyBtn setTitleColor:[UIColor  redColor] forState:UIControlStateNormal];
-        self.modifyBtn.frame = CGRectMake(kUIScreenWidth-75, 8, 50, 30);
-        self.modifyBtn.layer.borderColor = [UIColor redColor].CGColor;
-        self.modifyBtn.layer.borderWidth = 1;
-        self.modifyBtn.layer.cornerRadius = 8;
+        [self.modifyBtn setTitleColor:[UIColor  whiteColor] forState:UIControlStateNormal];
+        self.modifyBtn.frame = CGRectMake(kUIScreenWidth-115, 12, 90, 30);
+//        self.modifyBtn.layer.borderColor = [UIColor redColor].CGColor;
+        self.modifyBtn.backgroundColor = MakeColor(79, 136, 251);
+//        self.modifyBtn.layer.borderWidth = 1;
+        self.modifyBtn.layer.cornerRadius = 5;
         self.modifyBtn.layer.masksToBounds = YES;
         NSLog(@"~~%f",self.contentView.frame.size.width);
         [self.contentView addSubview:self.modifyBtn];

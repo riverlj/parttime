@@ -14,6 +14,9 @@
 @property(nonatomic,strong)UILabel *foodLabel;
 @property(nonatomic,strong)UIButton *btn;
 @property(nonatomic,strong)UIImageView *groundImage;
+@property(nonatomic,strong)UIView *line;
+
+@property(nonatomic,strong)UIButton *button;
 
 -(void)setIntroductionText:(NSString*)text;
 

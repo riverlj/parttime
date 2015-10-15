@@ -27,7 +27,7 @@
 {
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"已处理";
-
+    self.view.backgroundColor = MakeColor(241, 241, 241);
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
     hidden = NO;
@@ -36,17 +36,17 @@
     [self comeBack:nil];
     
     pageNum = 1;
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"xiangxia@2x"] style:UIBarButtonItemStylePlain target:self action:nil];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newshaixuan"] style:UIBarButtonItemStylePlain target:self action:nil];
     UIButton *barBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     barBtn.tag = 11111;
 //    barBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     barBtn.frame = CGRectMake(kUIScreenWidth-90, 6, 60, 30);
     [barBtn setTitle:@"    全 部" forState:UIControlStateNormal];
-    [barBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [barBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [barBtn addTarget:self action:@selector(didClickRight:) forControlEvents:UIControlEventTouchUpInside];
     [self.navigationController.navigationBar addSubview:barBtn];
     
-    right.tintColor = [UIColor whiteColor];
+    right.tintColor = [UIColor grayColor];
     self.navigationItem.rightBarButtonItem = right;
     [self getMessage];
     [self initTableView];
@@ -54,7 +54,7 @@
 
 -(void)initTableView
 {
-   self.finishTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+   self.finishTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, self.view.frame.size.height)];
     self.status = @"";
     self.finishTableView.delegate = self;
     self.finishTableView.dataSource = self;
@@ -160,9 +160,12 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    UIImageView *statusImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-70, 0, 45, 45)];
+    [cell.contentView addSubview:statusImage];
+    
     Model *model = [[Model alloc] init];
     model = [self.dataArr objectAtIndex:indexPath.section];
-    cell.nameLabel.text = [NSString stringWithFormat:@"配送人：%@",model.nameStr];
+    cell.nameLabel.text = [NSString stringWithFormat:@"配送人:%@",model.nameStr];
     cell.chuLiLabel.text = [NSString stringWithFormat:@"处理：%@",model.dateStr];
     cell.buyerLabel.text = [NSString stringWithFormat:@"收货人：%@",model.buyerStr];
     cell.telLabel.text = [NSString stringWithFormat:@"%@",model.telStr];
@@ -171,11 +174,13 @@
 //        cell.dateLabel.text = [NSString stringWithFormat:@"下单：%@",model.dateStr];
     cell.numberLabel.text = [NSString stringWithFormat:@"任务编号：%@",model.numberStr];
     if ([model.status isEqualToString:@"FINISHED"]) {
-        [cell.noctionBtn setTitle:@"已送达" forState:UIControlStateNormal];
-        cell.noctionBtn.backgroundColor = MakeColor(98, 206, 54);
+        statusImage.image = [UIImage imageNamed:@"yiwan@2x"];
+//        [cell.noctionBtn setTitle:@"已送达" forState:UIControlStateNormal];
+//        cell.noctionBtn.backgroundColor = MakeColor(98, 206, 54);
     }if ([model.status isEqualToString:@"UNDELIVERED"]) {
-        [cell.noctionBtn setTitle:@"未失败" forState:UIControlStateNormal];
-        cell.noctionBtn.backgroundColor = MakeColor(238, 43, 41);
+        statusImage.image = [UIImage imageNamed:@"weiwan@2x"];
+//        [cell.noctionBtn setTitle:@"未失败" forState:UIControlStateNormal];
+//        cell.noctionBtn.backgroundColor = MakeColor(238, 43, 41);
     }
     
     
@@ -192,32 +197,38 @@
 -(void)didClickRight:(id)sender
 {
     button = (UIButton *)sender;
-
+    
     if (hidden == NO) {
-        for (int i=0; i<3; i++) {
+        for (int i=0; i<2; i++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            btn.frame = CGRectMake(kUIScreenWidth-80, 64+i*40, 80, 40);
-            btn.backgroundColor = MakeColor(48, 98, 209);
+            btn.frame = CGRectMake(kUIScreenWidth-100, 64+i*40, 90, 40);
+            btn.backgroundColor = [UIColor grayColor];
             btn.tag = 100+i;
             [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             btn.titleLabel.textAlignment = NSTextAlignmentCenter;
             UIView *line = [[UIView alloc] init];
             line.backgroundColor = [UIColor whiteColor];
-            line.frame = CGRectMake(0, 39, 100, 1);
+            line.frame = CGRectMake(5, 39, 80, 1);
             [btn addSubview:line];
-            if (i == 0) {
-                [btn setTitle:@"   全 部" forState:UIControlStateNormal];
-                [btn addTarget:self action:@selector(all) forControlEvents:UIControlEventTouchUpInside];
-            }else if (i == 1) {
-                [btn setTitle:@"已送达" forState:UIControlStateNormal];
+//            if (i == 0) {
+//                [btn setTitle:@"   全 部" forState:UIControlStateNormal];
+//                [btn addTarget:self action:@selector(all) forControlEvents:UIControlEventTouchUpInside];
+//            }else
+                if (i == 0) {
+                [btn setTitle:@"已完成" forState:UIControlStateNormal];
                 [btn addTarget:self action:@selector(success) forControlEvents:UIControlEventTouchUpInside];
                 
             }else{
-                [btn setTitle:@"未送达" forState:UIControlStateNormal];
+                [btn setTitle:@"未完成" forState:UIControlStateNormal];
                 [btn addTarget:self action:@selector(fail) forControlEvents:UIControlEventTouchUpInside];
             }
             [self.view addSubview:btn];
         }
+        
+        UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-35, 35, 10, 10)];
+        [self.navigationController.navigationBar addSubview:img];
+        img.tag = 2020;
+        img.image = [UIImage imageNamed:@"sanjiao@2x"];
         
         hidden = YES;
     }else{
@@ -227,6 +238,7 @@
 
         hidden = NO;
 
+        [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
     }
 }
 
@@ -275,15 +287,16 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    UIButton *btn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
-    [btn setTitle:@"" forState:UIControlStateNormal];
-    [self.tabBarController.view viewWithTag:101010].hidden = NO;
+    [[self.navigationController.navigationBar viewWithTag:11111] removeFromSuperview];
+    [self.tabBarController.view viewWithTag:11011].hidden = NO;
+    [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
+
 
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:101010].hidden = YES;
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
 }
 
 -(void)didClickLeft

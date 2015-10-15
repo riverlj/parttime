@@ -17,6 +17,12 @@
     UITextView *suggestionView;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

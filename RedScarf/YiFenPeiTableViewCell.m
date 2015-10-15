@@ -16,9 +16,10 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.btn.frame = CGRectMake(kUIScreenWidth-65, 9, 45, 30);
-        self.btn.layer.borderColor = [UIColor redColor].CGColor;
-        self.btn.layer.borderWidth = 1;
+        self.btn.frame = CGRectMake(kUIScreenWidth-105, 9, 85, 30);
+//        self.btn.layer.borderColor = [UIColor redColor].CGColor;
+//        self.btn.layer.borderWidth = 1;
+        self.btn.backgroundColor = colorblue;
         self.btn.layer.cornerRadius = 8;
         self.btn.layer.masksToBounds = YES;
         [self.contentView addSubview:self.btn];

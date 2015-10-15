@@ -49,9 +49,45 @@
     }];
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.dataArray.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 30;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth-20, 30)];
+    for (int i = 0; i < 3; i++) {
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*i, 0, (kUIScreenWidth-20)/3, 30)];
+        [view addSubview:label];
+        label.backgroundColor = color234;
+        label.textColor = color155;
+        label.font = textFont14;
+        label.textAlignment = NSTextAlignmentCenter;
+        if (i == 0) {
+            label.frame = CGRectMake((kUIScreenWidth-20)/3*i, 0, (kUIScreenWidth-20)/3-30, 30);
+            label.text = @"套餐编号";
+        }
+        if (i == 1) {
+            label.frame = CGRectMake((kUIScreenWidth-20)/3*i-30, 0, (kUIScreenWidth-20)/3+60, 30);
+            label.text = @"菜品名称";
+        }
+        if (i == 2) {
+            label.frame = CGRectMake((kUIScreenWidth-20)/3*i+30, 0, (kUIScreenWidth-20)/3-30, 30);
+            label.text = @"数量";
+        }
+    }
+    return view;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -69,38 +105,43 @@
     NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     UILabel *typeLabel;
-    if (kUIScreenWidth == 320) {
-        typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, 38, 25)];
-    }else{
-        typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 10, 38, 25)];
-    }
+    
+    typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (kUIScreenWidth-20)/3-30, 35)];
+    typeLabel.textAlignment = NSTextAlignmentCenter;
     typeLabel.textColor = MakeColor(50, 122, 255);
     typeLabel.text = [dic objectForKey:@"tag"];
     typeLabel.font = [UIFont systemFontOfSize:12];
     [cell.contentView addSubview:typeLabel];
     
-    NSString *str = [NSString stringWithFormat:@"－%@",[dic objectForKey:@"content"]];
-    CGSize size = CGSizeMake(kUIScreenWidth-100, 1000);
-    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    NSString *str = [NSString stringWithFormat:@"%@",[dic objectForKey:@"content"]];
+    CGSize size = CGSizeMake((kUIScreenWidth-20)/3, 35);
+    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/3, 0, 0, 0)];
     CGSize labelSize = [str sizeWithFont:addressLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     UILabel *taskNum;
-    if (kUIScreenWidth == 320) {
-        addressLabel.frame = CGRectMake(40, 12, labelSize.width-40, labelSize.height);
-        taskNum = [[UILabel alloc] initWithFrame:CGRectMake(addressLabel.frame.size.width+addressLabel.frame.origin.x+5, 14, 25, 15)];
-    }else{
-        addressLabel.frame = CGRectMake(60, 12, labelSize.width-40, labelSize.height);
-        taskNum = [[UILabel alloc] initWithFrame:CGRectMake(addressLabel.frame.size.width+addressLabel.frame.origin.x+5, 14, 25, 15)];
-    }
-    
+    addressLabel.textAlignment = NSTextAlignmentCenter;
+    addressLabel.frame = CGRectMake(kUIScreenWidth/3-30, 0, (kUIScreenWidth-20)/3+60, 35);
+    taskNum = [[UILabel alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*2+30, 14, (kUIScreenWidth-20)/3-30, 15)];
+    taskNum.textAlignment = NSTextAlignmentCenter;
     addressLabel.text = str;
     addressLabel.font = [UIFont systemFontOfSize:12];
     addressLabel.textColor = MakeColor(75, 75, 75);
     [cell.contentView addSubview:addressLabel];
     
     taskNum.font = [UIFont systemFontOfSize:13];
-    taskNum.text = [NSString stringWithFormat:@"(%@)",[dic objectForKey:@"count"]];
-    taskNum.textColor = [UIColor redColor];
+    taskNum.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"count"]];
+    taskNum.textColor = MakeColor(75, 75, 75);
     [cell.contentView addSubview:taskNum];
+    
+    UIView *midLineView = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3-30, 0, 0.5, 35)];
+    midLineView.backgroundColor = color234;
+    [cell.contentView addSubview:midLineView];
+    UIView *midLineView1 = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*2+30, 0, 0.5, 35)];
+    midLineView1.backgroundColor = color234;
+    [cell.contentView addSubview:midLineView1];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 34.5, kUIScreenWidth-20, 0.5)];
+    lineView.backgroundColor = color234;
+    [cell.contentView addSubview:lineView];
     
     return cell;
 }

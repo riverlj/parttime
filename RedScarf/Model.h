@@ -35,6 +35,9 @@
 @property(nonatomic,strong)NSMutableArray *apartmentsArr;
 
 
-
+//
+@property(nonatomic,strong)NSMutableArray *contentArr;
+@property(nonatomic,strong)NSString *room;
+@property(nonatomic,strong)NSString *select;
 
 @end

@@ -26,6 +26,12 @@
 
 @implementation MyBankCardVC
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+}
+
 -(void)viewDidLoad
 {
     self.view.backgroundColor = [UIColor whiteColor];
@@ -49,7 +55,7 @@
     left.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = left;
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-    right.tintColor = [UIColor whiteColor];
+//    right.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = right;
     
     //隐藏tabbar上的按钮

@@ -18,7 +18,8 @@
 @property (nonatomic,strong) NSString *tocken;
 @property (nonatomic,strong) NSString *status;
 
-@property (nonatomic,assign) int count;
+@property (nonatomic,assign) NSString *count;
+@property (nonatomic,strong) NSMutableArray *array;
 
 - (void)setRoorViewController:(UIViewController *)rootVC;
 - (void)setViewController:(UIViewController *)rootVC;

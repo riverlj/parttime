@@ -27,7 +27,7 @@
     apartmentsArray = [NSMutableArray array];
     selectedArray = [NSMutableArray array];
     indexArr = [NSMutableArray array];
-    [self navigationBar];
+    [self comeBack:nil];
     [self initView];
 }
 
@@ -44,7 +44,6 @@
     }
     if ([self.title isEqualToString:@"修改配送范围"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickSave)];
-        right.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = right;
         [self getMessage];
         [self modifyRange];

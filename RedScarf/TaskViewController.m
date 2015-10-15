@@ -43,13 +43,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+
     self.tabBarController.tabBar.hidden = YES;
 //    self.navigationController.navigationBar.hidden = YES;
     
-    if (modTableView.nameTableView.length) {
-        [self didClickAddress];
-        modTableView.nameTableView = @"";
-    }
     if (disTableView.nameTableView.length) {
         [self didClickPeiSong];
         disTableView.nameTableView = @"";
@@ -65,10 +64,15 @@
 
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:11011].hidden = NO;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = MakeColor(244, 245, 246);
     self.title = @"任务";
     searchOrAll = @"all";
     countStr = 0;
@@ -76,11 +80,6 @@
     self.addressArr = [NSMutableArray array];
     self.dataArr = [NSMutableArray array];
     
-    UIImage *img= [[UIImage imageNamed:@"comeback"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = left;
-//    [self judgeRoundView];
     [self initButton];
     [self didClickDaiFenPeiBtn];
 }
@@ -96,25 +95,23 @@
     view.layer.borderWidth = 1.0;
     
     UIButton *waitBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    waitBtn.frame = CGRectMake(0, 0, view.frame.size.width/2, 50);
+    waitBtn.frame = CGRectMake(0, 0, view.frame.size.width/2, 45);
     waitBtn.tag = 100;
     [waitBtn setTitle:@"待分配" forState:UIControlStateNormal];
     [waitBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     waitBtn.font = [UIFont systemFontOfSize:18];
-    [waitBtn setBackgroundColor:MakeColor(244, 245, 246)];
     [waitBtn addTarget:self action:@selector(didClickDaiFenPeiBtn) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:waitBtn];
     UIButton *OverBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    OverBtn.frame = CGRectMake(view.frame.size.width/2, 0, view.frame.size.width/2, 50);
+    OverBtn.frame = CGRectMake(view.frame.size.width/2, 0, view.frame.size.width/2, 45);
     [OverBtn setTitle:@"已分配" forState:UIControlStateNormal];
     [OverBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     OverBtn.font = [UIFont systemFontOfSize:18];
     OverBtn.tag = 200;
-    [OverBtn setBackgroundColor:MakeColor(244, 245, 246)];
     [OverBtn addTarget:self action:@selector(didClickYiFenPei) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:OverBtn];
     
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(view.frame.size.width/4-40, 50, 80, 2)];
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 48, kUIScreenWidth/2, 3)];
     footView.backgroundColor = MakeColor(32, 102, 208);
     footView.tag = 10001;
     [view addSubview:footView];
@@ -126,16 +123,15 @@
 
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 115, kUIScreenWidth, 51)];
     self.searchBar.delegate = self;
-//    [self.searchBar setBarTintColor:MakeColor(244, 245, 246)];
     
     self.searchBar.placeholder = @"搜索配送人";
-    self.YiFenPeiTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 115, self.view.frame.size.width, self.view.frame.size.height-152)];
+    self.YiFenPeiTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 115, kUIScreenWidth, kUIScreenHeigth-115)];
     self.YiFenPeiTableview.tag = 100002;
     self.YiFenPeiTableview.tableHeaderView = self.searchBar;
     self.YiFenPeiTableview.delegate = self;
     self.YiFenPeiTableview.dataSource = self;
     //去掉分割线
-    self.YiFenPeiTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    self.YiFenPeiTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     [self.view addSubview:self.YiFenPeiTableview];
     [self showHUD:@"正在加载"];
@@ -202,37 +198,6 @@
 
 }
 
--(void)didClickAddress
-{
-    [self alertView:@"即将上线，敬请期待"];
-    
-    /*
-    [self setBtnBackgroundColor:1];
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    btn = (UIButton *)[navigationView viewWithTag:101];
-    [btn setBackgroundColor:MakeColor(21, 83, 177)];
-
-    NSArray *views = [self.view subviews];
-    for (UITableView *table in views) {
-        if ([table isKindOfClass:[UITableView class]]) {
-            [table removeFromSuperview];
-            
-        }
-    }
-
-    [[self.view viewWithTag:10000] setHidden:YES];
-    
-    modTableView = [[ModAddressTableView alloc] initWithFrame:CGRectMake(0, navigationView.frame.origin.y+navigationView.frame.size.height, kUIScreenWidth, self.view.frame.size.height-64)];
-    modTableView.tag = 100001;
-    modTableView.backgroundColor = MakeColor(244, 245, 246);
-
-    modTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    NSLog(@"kUIScreenWidth = %f",kUIScreenWidth);
-    [self.view addSubview:modTableView];
-    */
-    
-}
-
 -(void)didClickPeiSong
 {
     [self setBtnBackgroundColor:2];
@@ -292,14 +257,13 @@
     [self.view addSubview:[self.view viewWithTag:10000]];
     
     UIView *footView = [[self.view viewWithTag:10000] viewWithTag:10001];
-    footView.frame = CGRectMake([self.view viewWithTag:10000].frame.size.width/4-40, 49, 80, 2);
+    footView.frame = CGRectMake(0, 47, kUIScreenWidth/2, 3);
     UIButton *btn = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:100];
     [btn setTitleColor:MakeColor(32, 102, 208) forState:UIControlStateNormal];
     UIButton *btn1 = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:200];
     [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     daiFenTableView = [[DaiFenPeiTableView alloc] initWithFrame:CGRectMake(0, 115, self.view.frame.size.width, self.view.frame.size.height-115)];
     daiFenTableView.tag = 100000;
-    daiFenTableView.backgroundColor = MakeColor(244, 245, 246);
 //    daiFenTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     UIView *foot = [[UIView alloc] init];
     daiFenTableView.tableFooterView = foot;
@@ -309,7 +273,7 @@
 -(void)didClickYiFenPei
 {
     UIView *footView = [[self.view viewWithTag:10000] viewWithTag:10001];
-    footView.frame = CGRectMake([self.view viewWithTag:10000].frame.size.width/4*3-40, 49, 80, 2.5);
+    footView.frame = CGRectMake(kUIScreenWidth/2, 47, kUIScreenWidth/2, 3);
     UIButton *btn = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:100];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     UIButton *btn1 = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:200];
@@ -356,13 +320,13 @@
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
     view.backgroundColor = [UIColor whiteColor];
-    UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(40, 45, kUIScreenWidth-20, 1)];
-    line.image = [UIImage imageNamed:@"xuxian"];
+    UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(10, 44.5, kUIScreenWidth-10, 0.5)];
+    line.backgroundColor = color155;
     [view addSubview:line];
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kUIScreenWidth, 42)];
     nameLabel.text = [NSString stringWithFormat:@"%@:%@",model.username,model.mobile];
-    nameLabel.textColor = MakeColor(32, 102, 208);
-    nameLabel.font = [UIFont systemFontOfSize:18];
+    nameLabel.textColor = [UIColor grayColor];
+    nameLabel.font = [UIFont systemFontOfSize:15];
     [view addSubview:nameLabel];
     
     return view;
@@ -370,8 +334,8 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 1)];
-    view.backgroundColor = MakeColor(187, 186, 193);
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 10)];
+    view.backgroundColor = color242;
 
     return view;
 }
@@ -388,7 +352,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 1;
+    return 10;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -426,24 +390,18 @@
 
     }
     
-    if (indexPath.row != model.tasksArr.count-1) {
-        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(40, 44, kUIScreenWidth-20, 1)];
-        line.image = [UIImage imageNamed:@"xuxian"];
-        [cell.contentView addSubview:line];
-    }
-    
     NSString *str = [NSString stringWithFormat:@"%@",[addressDic objectForKey:@"apartmentName"]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    CGSize size = CGSizeMake(kUIScreenWidth-125, 30);
+    CGSize size = CGSizeMake(kUIScreenWidth-135, 30);
     CGSize labelSize = [str sizeWithFont:cell.addressLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    cell.addressLabel.frame = CGRectMake(40, 12, labelSize.width, labelSize.height);
+    cell.addressLabel.frame = CGRectMake(10, 12, labelSize.width, labelSize.height);
     cell.addressLabel.text = str;
     
-    UILabel *taskNum = [[UILabel alloc] initWithFrame:CGRectMake(cell.addressLabel.frame.size.width+cell.addressLabel.frame.origin.x+10, 14, 25, 15)];
+    UILabel *taskNum = [[UILabel alloc] initWithFrame:CGRectMake(cell.addressLabel.frame.size.width+cell.addressLabel.frame.origin.x+10, 14, 30, 15)];
     taskNum.font = [UIFont systemFontOfSize:13];
-    taskNum.text = [NSString stringWithFormat:@"(%@)",[addressDic objectForKey:@"taskNum"]];
-    taskNum.textColor = [UIColor redColor];
+    taskNum.text = [NSString stringWithFormat:@"%@份",[addressDic objectForKey:@"taskNum"]];
+    taskNum.textColor = [UIColor grayColor];
     [cell.contentView addSubview:taskNum];
 
     
@@ -452,7 +410,7 @@
     objc_setAssociatedObject(cell.btn, &UITableViewIndexSearch, indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [cell.btn addTarget:self action:@selector(didClickFenPeiBtn:) forControlEvents:UIControlEventTouchUpInside];
 
-    [cell.btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [cell.btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
     return cell;
 }

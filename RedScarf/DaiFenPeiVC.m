@@ -23,7 +23,6 @@
     UIButton *feipeiBtn;
     NSMutableArray *numArr;
 }
-
 -(void)viewWillAppear:(BOOL)animated
 {
     //隐藏tabbar上的按钮
@@ -31,12 +30,19 @@
     [barBtn removeFromSuperview];
     [self comeBack:nil];
     [self getMessage];
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [self comeBack:nil];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:11011].hidden = NO;
 }
 
 -(void)viewDidLoad
 {
     self.navigationController.navigationBar.hidden = NO;
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = color242;
 //    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     
     userBool = NO;
@@ -63,10 +69,13 @@
 {
     feipeiBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     feipeiBtn.frame = CGRectMake(0, kUIScreenHeigth-50, kUIScreenWidth, 50);
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth-51, kUIScreenWidth, 1)];
+    line.backgroundColor = color242;
+    [self.view addSubview:line];
     
     [feipeiBtn setTitle:@"分配" forState:UIControlStateNormal];
-    [feipeiBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    feipeiBtn.backgroundColor = MakeColor(129, 137, 138);
+    [feipeiBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    feipeiBtn.backgroundColor = [UIColor whiteColor];
     [feipeiBtn addTarget:self action:@selector(didClickFenPeiBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:feipeiBtn];
     
@@ -78,11 +87,12 @@
 
 -(void)initTableView
 {
-    self.addressTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 0,kUIScreenWidth , kUIScreenHeigth-50)];
+    self.addressTableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 15,kUIScreenWidth-30 , kUIScreenHeigth-50)];
     self.addressTableView.delegate = self;
     self.addressTableView.dataSource = self;
-//    self.addressTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.addressTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self viewDidLayoutSubviews];
+    self.addressTableView.backgroundColor = color242;
     [self.view addSubview:self.addressTableView];
 }
 
@@ -138,7 +148,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 45;
+    return 55;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -150,10 +160,10 @@
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
 //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    cell.backgroundColor = color242;
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     dic = [self.dataArray objectAtIndex:indexPath.row];
-    cell.nameLabel.text = [NSString stringWithFormat:@"%@  (%@)",[dic objectForKey:@"room"],[dic objectForKey:@"taskNum"]];
+    cell.nameLabel.text = [NSString stringWithFormat:@"%@  %@ 份",[dic objectForKey:@"room"],[dic objectForKey:@"taskNum"]];
     return cell;
 }
 
@@ -172,7 +182,7 @@
         [cell.roundBtn setImage:nil];
 
         if (numArr.count == 0) {
-            feipeiBtn.backgroundColor = MakeColor(129, 137, 138);
+            feipeiBtn.backgroundColor = [UIColor whiteColor];
 
         }
     }

@@ -22,15 +22,22 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
 }
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:11011].hidden = NO;
+}
+
 
 -(void)viewDidLoad
 {
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
 //    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
-   
+    self.view.backgroundColor = color242;
     self.title = @"分配任务";
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
     [self.searchBar setBarTintColor:MakeColor(244, 245, 246)];
@@ -96,6 +103,8 @@
 -(void)initTableView
 {
     self.taskTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
+    self.taskTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.taskTableView.backgroundColor = color242;
     self.taskTableView.delegate = self;
     self.taskTableView.dataSource = self;
 //    if (self.num == 1) {
@@ -136,7 +145,10 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-        
+    
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    cell.backgroundColor = color242;
     Model *model = [[Model alloc] init];
     NSString *str = @"";
     if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
@@ -150,7 +162,7 @@
         }
         for (NSMutableDictionary *dic in model.tasksArr)
         {
-            str = [str stringByAppendingString:[dic objectForKey:@"apartmentName"]];
+            str = [str stringByAppendingFormat:@"%@                                              \n",[dic objectForKey:@"apartmentName"]];
         }
         
     }else{
@@ -163,32 +175,61 @@
     cell.addLabel.text = [NSString stringWithFormat:@"%@:%@",model.username,model.mobile];
     cell.foodLabel.font = [UIFont systemFontOfSize:16];
     [cell setIntroductionText:[NSString stringWithFormat:@"%@",str]];
-
+    
+   
+    cell.button.tag = indexPath.row;
+    cell.button.frame = CGRectMake(cell.groundImage.frame.size.width-60, 0, 60, cell.frame.size.height-15);
+    [cell.button addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
+    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    indexModel = [[Model alloc] init];
+//    indexModel = [[Model alloc] init];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+//    NSLog(@"self.aId = %@ ,self.room = %@",self.aId,self.room);
+//    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
+//        //根据名字查找对应的数据
+//        NSString *name = @"";
+//        name = [self.filteredArray objectAtIndex:indexPath.row];
+//        for (Model *mod in self.array) {
+//            if ([mod.username isEqualToString:name]) {
+//                indexModel = mod;
+//            }
+//        }
+//
+//    }else{
+//        indexModel = [self.array objectAtIndex:indexPath.row];
+//    }
+//    
+//    
+//    [self alertView:@"" number:1];
+   
+}
 
+-(void)clickBtn:(id)sender
+{
+    UITableView *tableView = [[UITableView alloc] init];
+    UIButton *btn = (UIButton *)sender;
+    indexModel = [[Model alloc] init];
     NSLog(@"self.aId = %@ ,self.room = %@",self.aId,self.room);
     if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
         //根据名字查找对应的数据
         NSString *name = @"";
-        name = [self.filteredArray objectAtIndex:indexPath.row];
+        name = [self.filteredArray objectAtIndex:btn.tag];
         for (Model *mod in self.array) {
             if ([mod.username isEqualToString:name]) {
                 indexModel = mod;
             }
         }
-
+        
     }else{
-        indexModel = [self.array objectAtIndex:indexPath.row];
+        indexModel = [self.array objectAtIndex:btn.tag];
     }
     
     
     [self alertView:@"" number:1];
-   
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

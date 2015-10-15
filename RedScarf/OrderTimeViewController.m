@@ -27,6 +27,7 @@
     NSMutableArray *saveOtherDaysArray;
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -46,12 +47,9 @@
 
 -(void)navigationBar
 {
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = left;
-        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-        right.tintColor = [UIColor whiteColor];
-        self.navigationItem.rightBarButtonItem = right;
+    [self comeBack:nil];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
+    self.navigationItem.rightBarButtonItem = right;
     
     //隐藏tabbar上的按钮
     UIButton *barBtn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];

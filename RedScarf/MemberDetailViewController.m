@@ -22,7 +22,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:101010].hidden = YES;
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self initView];
 }
 
@@ -33,7 +33,7 @@
     self.view.backgroundColor = bgcolor;
     msgDictionary = [NSMutableDictionary dictionary];
     self.title = @"详细信息";
-    [self navigationBar];
+    [self comeBack:nil];
     [self getMessage];
     [self initView];
 }

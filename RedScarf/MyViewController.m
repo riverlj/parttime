@@ -32,9 +32,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:11011].hidden = NO;
     self.tabBarController.tabBar.hidden = NO;
-    [self.tabBarController.view viewWithTag:101010].hidden = NO;
-
     [self getMessage];
 }
 

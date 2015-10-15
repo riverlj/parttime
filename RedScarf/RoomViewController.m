@@ -25,12 +25,13 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
 }
 
 -(void)viewDidLoad
 {
     self.navigationController.navigationBar.hidden = NO;
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = color242;
     self.tabBarController.tabBar.hidden = YES;
     self.title = self.titleStr;
     numArr = [NSMutableArray array];
@@ -85,7 +86,8 @@
     self.detailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth-50)];
     self.detailTableView.delegate = self;
     self.detailTableView.dataSource = self;
-//    self.detailTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.detailTableView.backgroundColor = color242;
+    self.detailTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.detailTableView];
 }
 
@@ -95,7 +97,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 110;
+    return 120;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -104,7 +106,8 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = color242;
     NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
     
     cell.nameLabel.text = [NSString stringWithFormat:@"%@:%@",[dic objectForKey:@"customerName"],[dic objectForKey:@"mobile"]];
@@ -125,10 +128,12 @@
     
     if (cell.roundBtn.image == nil) {
         [cell.roundBtn setImage:[UIImage imageNamed:@"xuanzhong"]];
-        [doBtn setBackgroundImage:[UIImage imageNamed:@"songda@2x"] forState:UIControlStateNormal];
-        [notBtn setBackgroundImage:[UIImage imageNamed:@"weisongda@2x"] forState:UIControlStateNormal];
-        notBtn.userInteractionEnabled = YES;
-        doBtn.userInteractionEnabled = YES;
+        UIButton *btn = (UIButton *)[self.view viewWithTag:1234];
+        UIButton *btn1 = (UIButton *)[self.view viewWithTag:2234];
+        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [btn1 setTitleColor:colorblue forState:UIControlStateNormal];
+        btn1.userInteractionEnabled = YES;
+        btn.userInteractionEnabled = YES;
         [numArr addObject:[NSNumber numberWithInteger:indexPath.row]];
 
     }else{
@@ -137,8 +142,10 @@
         [numArr removeObject:[NSNumber numberWithInteger:indexPath.row]];
         
         if (numArr.count == 0) {
-            [doBtn setBackgroundImage:[UIImage imageNamed:@"zhiqian@2x"] forState:UIControlStateNormal];
-            [notBtn setBackgroundImage:[UIImage imageNamed:@"zguqian@2x"] forState:UIControlStateNormal];
+            UIButton *btn = (UIButton *)[self.view viewWithTag:1234];
+            UIButton *btn1 = (UIButton *)[self.view viewWithTag:2234];
+            [btn setTitleColor:color155 forState:UIControlStateNormal];
+            [btn1 setTitleColor:color155 forState:UIControlStateNormal];
             notBtn.userInteractionEnabled = NO;
             doBtn.userInteractionEnabled = NO;
         }
@@ -148,30 +155,32 @@
 
 -(void)initFootBtn
 {
-    UIView *midLine;
-    if (kUIScreenWidth == 320) {
-        doBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth-45, kUIScreenWidth/2, 45)];
-        notBtn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2, kUIScreenHeigth-45, kUIScreenWidth/2, 45)];
-        midLine = [[UIView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-1, kUIScreenHeigth-45, 0.5, 45)];
-    }else{
-        doBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth-45, kUIScreenWidth/2, 48)];
-        notBtn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2, kUIScreenHeigth-45, kUIScreenWidth/2, 48)];
-        midLine = [[UIView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-1, kUIScreenHeigth-45, 0.5, 48)];
+    
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth-45.5, kUIScreenWidth, 0.5)];
+    line.backgroundColor = MakeColor(169, 169, 169);
+    [self.view addSubview:line];
+    
+    for (int i = 0; i < 2; i++) {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2*i, kUIScreenHeigth-45, kUIScreenWidth/2, 45)];
+        [btn setTitleColor:color155 forState:UIControlStateNormal];
+        btn.backgroundColor = [UIColor whiteColor];
+        btn.titleLabel.font = textFont14;
+        [self.view addSubview:btn];
+        if (i == 0) {
+            btn.tag = 1234;
+            [btn setTitle:@"遇到问题" forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(didClickNotBtn) forControlEvents:UIControlEventTouchUpInside];
+        }
+        if (i == 1) {
+            btn.tag = 2234;
+            [btn setTitle:@"已送达" forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(didClickDoBtn) forControlEvents:UIControlEventTouchUpInside];
+        }
     }
-    [doBtn setBackgroundImage:[UIImage imageNamed:@"zhiqian@2x"] forState:UIControlStateNormal];
-    [doBtn addTarget:self action:@selector(didClickDoBtn) forControlEvents:UIControlEventTouchUpInside];
-    doBtn.userInteractionEnabled = NO;
-    [self.view addSubview:doBtn];
-    
-    [notBtn setBackgroundImage:[UIImage imageNamed:@"zguqian@2x"] forState:UIControlStateNormal];
-    [notBtn addTarget:self action:@selector(didClickNotBtn) forControlEvents:UIControlEventTouchUpInside];
-    notBtn.userInteractionEnabled = NO;
-    [self.view addSubview:notBtn];
-    
-    midLine.backgroundColor = [UIColor whiteColor];
-    midLine.alpha = 0.5;
-    [self.view addSubview:midLine];
 
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2, kUIScreenHeigth-38, 0.5, 30)];
+    lineView.backgroundColor = MakeColor(169, 169, 169);
+    [self.view addSubview:lineView];
 }
 
 -(void)didClickDoBtn

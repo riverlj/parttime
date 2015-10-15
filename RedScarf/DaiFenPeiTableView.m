@@ -75,7 +75,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 45;
+    return 55;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -88,18 +88,17 @@
 
     NSMutableDictionary *dic = self.dataArray[indexPath.row];
     NSString *str = [NSString stringWithFormat:@"%@",[dic objectForKey:@"apartmentName"]];
-    CGSize size = CGSizeMake(kUIScreenWidth-100, 1000);
+    CGSize size = CGSizeMake(kUIScreenWidth-125, 30);
     CGSize labelSize = [str sizeWithFont:cell.addressLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    cell.addressLabel.frame = CGRectMake(10, 12, labelSize.width, labelSize.height);
+    cell.addressLabel.frame = CGRectMake(10, 17, labelSize.width, labelSize.height);
     cell.addressLabel.text = str;
     
-    UILabel *taskNum = [[UILabel alloc] initWithFrame:CGRectMake(cell.addressLabel.frame.size.width+cell.addressLabel.frame.origin.x+10, 14, 25, 15)];
+    UILabel *taskNum = [[UILabel alloc] initWithFrame:CGRectMake(cell.addressLabel.frame.size.width+cell.addressLabel.frame.origin.x+5, 19, 30, 15)];
     taskNum.font = [UIFont systemFontOfSize:13];
-    taskNum.text = [NSString stringWithFormat:@"(%@)",[dic objectForKey:@"taskNum"]];
-    taskNum.textColor = [UIColor redColor];
+    taskNum.text = [NSString stringWithFormat:@"%@份",[dic objectForKey:@"taskNum"]];
+    taskNum.textColor = [UIColor grayColor];
     [cell.contentView addSubview:taskNum];
     
-    cell.backgroundColor = MakeColor(244, 245, 246);
     [cell.modifyBtn setTitle:@"分配" forState:UIControlStateNormal];
     cell.modifyBtn.tag = indexPath.row;
     [cell.modifyBtn addTarget:self action:@selector(didClickFenPeiBtn:) forControlEvents:UIControlEventTouchUpInside];
