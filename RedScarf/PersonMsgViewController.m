@@ -270,7 +270,7 @@
     if (indexPath.section == 0) {
         cell.textLabel.text = self.personMsgArray[indexPath.row];
         if (indexPath.row == 0) {
-            UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(70, 15, 15, 15)];
+            UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(85, 15, 15, 15)];
             if (judgeGender.length) {
                 if ([judgeGender isEqualToString:@"1"]) {
                     genderView.image = [UIImage imageNamed:@"nan"];
