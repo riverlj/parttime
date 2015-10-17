@@ -22,6 +22,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
 }
 
@@ -124,6 +125,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 114,kUIScreenWidth-20, kUIScreenHeigth-130)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = color242;
     self.dataArray = [NSMutableArray array];
     [self.view addSubview:self.tableView];
@@ -194,7 +196,9 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 35;
+    UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+    
+    return cell.frame.size.height;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -204,11 +208,13 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
+    
     NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     UILabel *typeLabel;
     
     typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (kUIScreenWidth-20)/3-30, 35)];
+    typeLabel.numberOfLines = 0;
     typeLabel.textAlignment = NSTextAlignmentCenter;
     typeLabel.textColor = MakeColor(50, 122, 255);
     typeLabel.text = [dic objectForKey:@"tag"];
@@ -218,30 +224,47 @@
     NSString *str = [NSString stringWithFormat:@"%@",[dic objectForKey:@"content"]];
     CGSize size = CGSizeMake((kUIScreenWidth-20)/3, 35);
     UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/3, 0, 0, 0)];
-    CGSize labelSize = [str sizeWithFont:addressLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+//    CGSize labelSize = [str sizeWithFont:addressLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     UILabel *taskNum;
     addressLabel.textAlignment = NSTextAlignmentCenter;
-    addressLabel.frame = CGRectMake(kUIScreenWidth/3-30, 0, (kUIScreenWidth-20)/3+60, 35);
-    taskNum = [[UILabel alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*2+30, 14, (kUIScreenWidth-20)/3-30, 15)];
+    addressLabel.numberOfLines = 0;
+    addressLabel.frame = CGRectMake(kUIScreenWidth/3-30, 0, (kUIScreenWidth-20)/3+70, 35);
+    taskNum = [[UILabel alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*2+40, 14, (kUIScreenWidth-20)/3-30, 15)];
     taskNum.textAlignment = NSTextAlignmentCenter;
     addressLabel.text = str;
     addressLabel.font = [UIFont systemFontOfSize:12];
     addressLabel.textColor = MakeColor(75, 75, 75);
     [cell.contentView addSubview:addressLabel];
     
+    //
+    CGRect frame = [cell frame];
+    
+    addressLabel.text = str;
+    
+    addressLabel.numberOfLines = 10;
+    CGSize size1 = CGSizeMake((kUIScreenWidth-20)/3+65, 1000);
+    
+    CGSize labelSize = [addressLabel.text sizeWithFont:addressLabel.font constrainedToSize:size1 lineBreakMode:NSLineBreakByClipping];
+    
+    addressLabel.frame = CGRectMake(addressLabel.frame.origin.x, addressLabel.frame.origin.y, labelSize.width, labelSize.height);
+    
+    frame.size.height = labelSize.height+20;
+    
+    cell.frame = frame;
+    
     taskNum.font = [UIFont systemFontOfSize:13];
     taskNum.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"count"]];
     taskNum.textColor = MakeColor(75, 75, 75);
     [cell.contentView addSubview:taskNum];
     
-    UIView *midLineView = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3-30, 0, 0.5, 35)];
+    UIView *midLineView = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3-30, 0, 0.5, cell.frame.size.height)];
     midLineView.backgroundColor = color234;
     [cell.contentView addSubview:midLineView];
-    UIView *midLineView1 = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*2+30, 0, 0.5, 35)];
+    UIView *midLineView1 = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*2+40, 0, 0.5, cell.frame.size.height)];
     midLineView1.backgroundColor = color234;
     [cell.contentView addSubview:midLineView1];
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 34.5, kUIScreenWidth-20, 0.5)];
+    //横线
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, cell.frame.size.height-0.5, kUIScreenWidth-20, 0.5)];
     lineView.backgroundColor = color234;
     [cell.contentView addSubview:lineView];
     

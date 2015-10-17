@@ -259,6 +259,8 @@
 
 -(void)success
 {
+    [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
+
     [self.dataArr removeAllObjects];
     [button setTitle:@"" forState:UIControlStateNormal];
     UIButton *btn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
@@ -273,6 +275,8 @@
 
 -(void)fail
 {
+    [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
+
     [self.dataArr removeAllObjects];
     [button setTitle:@"" forState:UIControlStateNormal];
     UIButton *btn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
@@ -289,6 +293,7 @@
 {
     [[self.navigationController.navigationBar viewWithTag:11111] removeFromSuperview];
     [self.tabBarController.view viewWithTag:11011].hidden = NO;
+    [self.tabBarController.view viewWithTag:22022].hidden = NO;
     [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
 
 
@@ -296,6 +301,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
 }
 

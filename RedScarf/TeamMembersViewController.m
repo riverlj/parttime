@@ -22,10 +22,12 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = NO;
     [self.tabBarController.view viewWithTag:11011].hidden = NO;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self getMessage];
 }
@@ -37,9 +39,10 @@
     [self comeBack:nil];
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
-    UIImage *img= [[UIImage imageNamed:@"addmember"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(addMember)];
-    self.navigationItem.rightBarButtonItem = right;
+    //添加成员
+//    UIImage *img= [[UIImage imageNamed:@"addmember"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(addMember)];
+//    self.navigationItem.rightBarButtonItem = right;
     listArray = [NSMutableArray array];
     nameArray = [NSMutableArray array];
     [self navigationBar];

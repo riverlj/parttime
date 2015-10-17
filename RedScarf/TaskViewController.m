@@ -44,6 +44,7 @@
 {
     [super viewWillAppear:animated];
     [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
 
     self.tabBarController.tabBar.hidden = YES;
@@ -66,6 +67,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = NO;
     [self.tabBarController.view viewWithTag:11011].hidden = NO;
 }
 

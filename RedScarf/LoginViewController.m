@@ -114,7 +114,7 @@
     UIButton *forgetBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [forgetBtn setTitleColor:MakeColor(32, 102, 208) forState:UIControlStateNormal];
     forgetBtn.frame = CGRectMake(loginBtn.frame.origin.x+loginBtn.frame.size.width/2-35, loginBtn.frame.size.height+loginBtn.frame.origin.y+7, 70, 30);
-//    [self.view addSubview:forgetBtn];
+    [self.view addSubview:forgetBtn];
     [forgetBtn addTarget:self action:@selector(ForgetPassWord) forControlEvents:UIControlEventTouchUpInside];
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"忘记密码?"];
     NSRange strRange = {0,[str length]};

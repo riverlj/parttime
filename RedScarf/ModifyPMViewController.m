@@ -25,6 +25,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
 }
@@ -37,7 +38,7 @@
     addressArray = [NSMutableArray array];
     if ([self.judgeStr isEqualToString:@"name"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-        right.tintColor = [UIColor whiteColor];
+//        right.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = right;
 
         self.title = @"修改姓名";
@@ -51,7 +52,7 @@
     }
     if ([self.judgeStr isEqualToString:@"address"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-        right.tintColor = [UIColor whiteColor];
+//        right.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = right;
         [self initAddress];
         self.title = @"修改地址";

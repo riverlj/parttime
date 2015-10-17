@@ -149,7 +149,6 @@
     if ([[root objectForKey:@"success"] boolValue]) {
         [self.totalArr addObject:[root objectForKey:@"msg"]];
     }
-//    [self reloadData];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

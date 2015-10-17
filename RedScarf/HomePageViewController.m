@@ -39,6 +39,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = NO;
     self.tabBarController.tabBar.hidden = NO;
 }
@@ -79,6 +80,11 @@
     
 }
 
+-(void)banner:(id)sender
+{
+    
+}
+
 -(void)initHomeView
 {
     
@@ -105,6 +111,10 @@
         frame.size = scroll.frame.size;
         
         UIImageView *view = [[UIImageView alloc] initWithFrame:frame];
+        view.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(banner:)];
+        tap.numberOfTapsRequired = 1;
+        [view addGestureRecognizer:tap];
         view.image = [UIImage imageNamed:array[i]];
         [scroll addSubview:view];
         //        controll.currentPage = i;

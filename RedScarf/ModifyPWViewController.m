@@ -16,6 +16,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
 }
@@ -39,7 +40,7 @@
 -(void)navigationBar
 {
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
+//    left.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = left;
     
     //隐藏tabbar上的按钮

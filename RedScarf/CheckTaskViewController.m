@@ -24,10 +24,12 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = NO;
     [self.tabBarController.view viewWithTag:11011].hidden = NO;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:101010].hidden = YES;
 
 }

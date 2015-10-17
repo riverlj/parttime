@@ -20,11 +20,14 @@
     UIButton *notBtn;
     NSMutableArray *numArr;
     NSString *yesOrNo;
+    
+    NSString *judgeAlterView;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
 }
 
@@ -33,6 +36,7 @@
     self.navigationController.navigationBar.hidden = NO;
     self.view.backgroundColor = color242;
     self.tabBarController.tabBar.hidden = YES;
+    judgeAlterView = @"yes";
     self.title = self.titleStr;
     numArr = [NSMutableArray array];
     self.dataArray = [NSMutableArray array];
@@ -185,22 +189,8 @@
 
 -(void)didClickDoBtn
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
-    [params setObject:self.sn forKey:@"sn"];
     
-    [RedScarf_API requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            yesOrNo = @"yes";
-            [self alertView:@"成功送达"];
-        }else{
-            yesOrNo = @"yes";
-            [self alertView:[result objectForKey:@"msg"]];
-        }
-    }];
+    [self alertView:@"确认送达"];
 }
 
 -(void)didClickNotBtn
@@ -255,7 +245,7 @@
 
 -(void)alertView:(NSString *)msg
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
     [alertView show];
 }
 
@@ -264,11 +254,31 @@
     switch (buttonIndex) {
         case 0:
         {
-//            if ([yesOrNo isEqualToString:@"yes"]) {
-//                [self getMessage];
-//                [self.detailTableView reloadData];
+            if ([judgeAlterView isEqualToString:@"yes"]) {
+                judgeAlterView = @"no";
+                AppDelegate *app = [UIApplication sharedApplication].delegate;
+                NSMutableDictionary *params = [NSMutableDictionary dictionary];
+                app.tocken = [UIUtils replaceAdd:app.tocken];
+                [params setObject:app.tocken forKey:@"token"];
+                [params setObject:self.sn forKey:@"sn"];
+                
+                [RedScarf_API requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" block:^(id result) {
+                    NSLog(@"result = %@",result);
+                    if ([[result objectForKey:@"success"] boolValue]) {
+                        yesOrNo = @"yes";
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"成功送达" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                        [alertView show];
+                        
+                    }else{
+                        yesOrNo = @"yes";
+                        [self alertView:[result objectForKey:@"msg"]];
+                    }
+                }];
+
+            }else{
                 [self.navigationController popViewControllerAnimated:YES];
-//            }
+            }
+            
         }
             break;
         case 1:

@@ -17,6 +17,7 @@
 #import "OrderTimeViewController.h"
 #import "OrderRangeViewController.h"
 #import "PersonMsgViewController.h"
+#import "GoPeiSongViewController.h"
 
 @interface MyViewController ()
 {
@@ -32,9 +33,21 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:11011].hidden = NO;
+    [self.tabBarController.view viewWithTag:22022].hidden = NO;
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     self.tabBarController.tabBar.hidden = NO;
+    //改变navigationbar的颜色
+    self.navigationController.navigationBar.barTintColor = MakeColor(26, 30, 37);
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
+    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
     [self getMessage];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],NSForegroundColorAttributeName, nil];
+    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
 }
 
 - (void)viewDidLoad {
@@ -51,13 +64,30 @@
     if ([net isEqualToString:@"not"]) {
         [self alertView:@"当前没有网络"];
     }
-    
+    //圆形
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-25, kUIScreenHeigth-80, 60, 60)];
+    [btn setBackgroundColor:[UIColor redColor]];
+    [btn addTarget:self action:@selector(pressChange:) forControlEvents:UIControlEventTouchUpInside];
+    btn.layer.cornerRadius = 30;
+    btn.tag = 22022;
+    [btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
+    btn.layer.masksToBounds = YES;
+    [self.tabBarController.view addSubview:btn];
+
 
     cellArr = [NSArray arrayWithObjects:@"配送时间",@"配送范围", nil];
     imageArr = [NSArray arrayWithObjects:@"time",@"anwei", nil];
     [self getMessage];
     [self initTableView];
 }
+
+-(void)pressChange:(id)sender
+{
+    GoPeiSongViewController *goVC = [[GoPeiSongViewController alloc] init];
+    [self.navigationController pushViewController:goVC animated:YES];
+    
+}
+
 
 -(void)getMessage
 {
@@ -87,7 +117,7 @@
     UIView *view = [[UIView alloc] init];
     self.informationTableView.tableFooterView = view;
     
-    headImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 70, 70)];
+    
     [self.view addSubview:self.informationTableView];
 }
 
@@ -120,9 +150,9 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-//    if (section == 2) {
-//        return 20;
-//    }
+    if (section == 0) {
+        return 0;
+    }
     
     return 10;
 }
@@ -130,7 +160,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 90;
+        return 170;
     }
     return 45;
 }
@@ -158,34 +188,31 @@
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if (indexPath.section == 0) {
-        
+        cell.backgroundColor = MakeColor(55, 57, 63);
+        headImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-40, 15, 80, 80)];
         headImage.layer.cornerRadius = 35;
         headImage.layer.masksToBounds = YES;
         if (headImage.image == nil) {
              headImage.image = [UIImage imageNamed:@"touxiang"];
         }
-       
+       cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.contentView addSubview:headImage];
         
-        UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(95, 20, 50, 30)];
+        UIImageView *ceoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(headImage.frame.origin.x+headImage.frame.size.width/2-10, headImage.frame.origin.y+headImage.frame.size.height-8, 20, 10)];
+        ceoImageView.image = [UIImage imageNamed: @"ceo"];
+        [cell.contentView addSubview:ceoImageView];
+        
+        UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-40, headImage.frame.size.height+headImage.frame.origin.y+5, 80, 30)];
+        nameLabel.textAlignment = NSTextAlignmentCenter;
         NSMutableDictionary *userInfo = [infoDic objectForKey:@"userInfo"];
         nameLabel.text = [userInfo objectForKey:@"realName"];
-        nameLabel.textColor = [UIColor blackColor];
+        nameLabel.textColor = [UIColor whiteColor];
         nameLabel.font = [UIFont systemFontOfSize:16];
-        UILabel *telLabel = [[UILabel alloc] initWithFrame:CGRectMake(95, nameLabel.frame.size.height+nameLabel.frame.origin.y-5, 150, 25)];
+        UILabel *telLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-45, nameLabel.frame.size.height+nameLabel.frame.origin.y-5, 100, 25)];
         
-        UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 28, 13, 13)];
-        if ([[userInfo objectForKey:@"sex"] intValue] == 1) {
-            genderView.image = [UIImage imageNamed:@"nan"];
-
-        }else  if([[userInfo objectForKey:@"sex"] intValue] == 2){
-            genderView.image = [UIImage imageNamed:@"nv"];
-
-        }
-        [cell.contentView addSubview:genderView];
-        
-        telLabel.text = [NSString stringWithFormat:@"电话:%@",[userInfo objectForKey:@"mobilePhone"]];
-        telLabel.textColor = MakeColor(75, 75, 75);
+        telLabel.text = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"mobilePhone"]];
+        telLabel.textColor = colorblue;
+        telLabel.textAlignment = NSTextAlignmentCenter;
         telLabel.font = [UIFont systemFontOfSize:14];
         [cell.contentView addSubview:nameLabel];
         [cell.contentView addSubview:telLabel];
@@ -194,22 +221,19 @@
         
 
         for (int i = 0; i < 1; i++) {
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 280, 25)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(47, 10, 280, 25)];
             label.textColor = MakeColor(75, 75, 75);
             if (indexPath.row == 0) {
-                label.text = [NSString stringWithFormat:@"本月工资：%@",[infoDic objectForKey:@"salary"]];
+                UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
+                photoView.image = [UIImage imageNamed:@"Wallet3x"];
+                [cell.contentView addSubview:photoView];
+                label.text = [NSString stringWithFormat:@"我的工资"];
                 
             }else if (indexPath.row == 1){
-//                UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
-//                photoView.image = [UIImage imageNamed:@"tuiguan@2x"];
-//                [cell.contentView addSubview:photoView];
-//                label.frame = CGRectMake(47, 10, 280, 25);
-//                label.text = @"推广活动";
-//            }else{
+
                 UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
-                photoView.image = [UIImage imageNamed:@"yinhangka"];
+                photoView.image = [UIImage imageNamed:@"yinhang2x"];
                 [cell.contentView addSubview:photoView];
-                label.frame = CGRectMake(47, 10, 280, 25);
                 label.text = @"我的银行卡";
             }
             label.font = [UIFont systemFontOfSize:16];
@@ -220,7 +244,7 @@
     else if (indexPath.section == 2){
         
         UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
-        photoView.image = [UIImage imageNamed:@"fankuiyijian"];
+        photoView.image = [UIImage imageNamed:@"fankui2x"];
         [cell.contentView addSubview:photoView];
         
         UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(47, 10, 280, 25)];
@@ -241,15 +265,7 @@
         cellLabel.font = [UIFont systemFontOfSize:16];
         [cell.contentView addSubview:cellLabel];
     }
-//    else if (indexPath.section == 3){
-//        UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
-//        photoView.image = [UIImage imageNamed:@"baohu"];
-//        [cell.contentView addSubview:photoView];
-//        
-//        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(47, 10, 280, 25)];
-//        cellLabel.text = @"维护校园信息";
-//        [cell.contentView addSubview:cellLabel];
-//    }
+
     else if (indexPath.section == 5){
         UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
         photoView.image = [UIImage imageNamed:@"tuiguan@2x"];
