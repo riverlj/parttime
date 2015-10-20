@@ -168,14 +168,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
-    NSData *imageData = [[NSData alloc] initWithContentsOfFile:imageFile];
-    UIImage *image = [[UIImage alloc] initWithData:imageData];
-    if (image != nil)
-    {
-        headImage.image = image;
-    }
+//    
+//    NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
+//    NSData *imageData = [[NSData alloc] initWithContentsOfFile:imageFile];
+//    UIImage *image = [[UIImage alloc] initWithData:imageData];
+//    if (image != nil)
+//    {
+//        headImage.image = image;
+//    }
     [self.navigationController setNavigationBarHidden:NO];
 }
 
@@ -192,9 +192,20 @@
         headImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-40, 15, 80, 80)];
         headImage.layer.cornerRadius = 35;
         headImage.layer.masksToBounds = YES;
-        if (headImage.image == nil) {
-             headImage.image = [UIImage imageNamed:@"touxiang"];
-        }
+//        if (headImage.image == nil) {
+//             headImage.image = [UIImage imageNamed:@"touxiang"];
+//        }else{
+            NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
+            NSData *imageData = [[NSData alloc] initWithContentsOfFile:imageFile];
+            UIImage *image = [[UIImage alloc] initWithData:imageData];
+            if (image != nil)
+            {
+                headImage.image = image;
+            }else{
+                headImage.image = [UIImage imageNamed:@"touxiang"];
+            }
+
+//        }
        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.contentView addSubview:headImage];
         

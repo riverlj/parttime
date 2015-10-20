@@ -32,8 +32,8 @@
     self.title = @"分餐点";
     self.tabBarController.tabBar.hidden = YES;
     self.view.backgroundColor = color242;
-    AppDelegate *app = [[UIApplication sharedApplication] delegate];
-    if ([app.count containsString:@"8"]) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
         [self initSeparateBtn];
         
     }else{
@@ -45,11 +45,10 @@
 
 -(void)initTableView
 {
-     AppDelegate *app = [[UIApplication sharedApplication] delegate];
-    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     headTableView.tag = 999;
-    if ([app.count containsString:@"8"]) {
-         headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 124,kUIScreenWidth-20, kUIScreenHeigth-130)];
+    if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
+         headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 124,kUIScreenWidth-20, kUIScreenHeigth-245)];
     }else{
          headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 20,kUIScreenWidth-20, kUIScreenHeigth-130)];
     }
@@ -280,7 +279,7 @@
 
 -(void)initBtn
 {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-30, kUIScreenHeigth-125, 60, 15)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-30, kUIScreenHeigth-110, 60, 15)];
     label.textAlignment = NSTextAlignmentCenter;
     label.tag = 666;
     label.font  =textFont12;
@@ -288,17 +287,17 @@
     label.text = @"早餐领完?";
     [self.view addSubview:label];
     
-    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-42, kUIScreenHeigth-100, 84, 84)];
+    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-42, kUIScreenHeigth-90, 75, 75)];
     image.backgroundColor = MakeColor(195, 224, 250);
     image.tag = 777;
-    image.layer.cornerRadius = 40;
+    image.layer.cornerRadius = 37;
     image.layer.masksToBounds = YES;
     [self.view addSubview:image];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [btn addTarget:self action:@selector(didClickPeiSong) forControlEvents:UIControlEventTouchUpInside];
     btn.tag = 888;
-    btn.frame = CGRectMake(kUIScreenWidth/2-40, kUIScreenHeigth-98, 80, 80);
+    btn.frame = CGRectMake(kUIScreenWidth/2-39.5, kUIScreenHeigth-87.5, 70, 70);
     [btn setBackgroundImage:[UIImage imageNamed:@"qupeisong2x"] forState:UIControlStateNormal];
     [self.view addSubview:btn];
 }

@@ -147,8 +147,7 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-    
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     cell.backgroundColor = color242;
     Model *model = [[Model alloc] init];
@@ -181,58 +180,58 @@
    
     cell.button.tag = indexPath.row;
     cell.button.frame = CGRectMake(cell.groundImage.frame.size.width-60, 0, 60, cell.frame.size.height-15);
-    [cell.button addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.button addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    indexModel = [[Model alloc] init];
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-//    NSLog(@"self.aId = %@ ,self.room = %@",self.aId,self.room);
-//    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
-//        //根据名字查找对应的数据
-//        NSString *name = @"";
-//        name = [self.filteredArray objectAtIndex:indexPath.row];
-//        for (Model *mod in self.array) {
-//            if ([mod.username isEqualToString:name]) {
-//                indexModel = mod;
-//            }
-//        }
-//
-//    }else{
-//        indexModel = [self.array objectAtIndex:indexPath.row];
-//    }
-//    
-//    
-//    [self alertView:@"" number:1];
-   
-}
-
--(void)clickBtn:(id)sender
-{
-    UITableView *tableView = [[UITableView alloc] init];
-    UIButton *btn = (UIButton *)sender;
     indexModel = [[Model alloc] init];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     NSLog(@"self.aId = %@ ,self.room = %@",self.aId,self.room);
     if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
         //根据名字查找对应的数据
         NSString *name = @"";
-        name = [self.filteredArray objectAtIndex:btn.tag];
+        name = [self.filteredArray objectAtIndex:indexPath.row];
         for (Model *mod in self.array) {
             if ([mod.username isEqualToString:name]) {
                 indexModel = mod;
             }
         }
-        
+
     }else{
-        indexModel = [self.array objectAtIndex:btn.tag];
+        indexModel = [self.array objectAtIndex:indexPath.row];
     }
     
     
     [self alertView:@"" number:1];
+   
 }
+
+//-(void)clickBtn:(id)sender
+//{
+//    UITableView *tableView = [[UITableView alloc] init];
+//    UIButton *btn = (UIButton *)sender;
+//    indexModel = [[Model alloc] init];
+//    NSLog(@"self.aId = %@ ,self.room = %@",self.aId,self.room);
+//    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
+//        //根据名字查找对应的数据
+//        NSString *name = @"";
+//        name = [self.filteredArray objectAtIndex:btn.tag];
+//        for (Model *mod in self.array) {
+//            if ([mod.username isEqualToString:name]) {
+//                indexModel = mod;
+//            }
+//        }
+//        
+//    }else{
+//        indexModel = [self.array objectAtIndex:btn.tag];
+//    }
+//    
+//    
+//    [self alertView:@"" number:1];
+//}
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

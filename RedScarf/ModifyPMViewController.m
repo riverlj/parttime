@@ -169,12 +169,12 @@
             [genderBtn setTitle:@"男" forState:UIControlStateNormal];
             genderBtn.backgroundColor = MakeColor(231, 239, 254);
             genderView.frame = CGRectMake((kUIScreenWidth-50)/4-27, 12, 15, 15);
-            genderView.image = [UIImage imageNamed:@"nan"];
+            genderView.image = [UIImage imageNamed:@"nan2x"];
         }else{
             genderBtn.tag = 321;
             [genderBtn setTitle:@"女" forState:UIControlStateNormal];
-            genderView.frame = CGRectMake((kUIScreenWidth-50)/4*3-27, 12, 15, 15);
-            genderView.image = [UIImage imageNamed:@"nv"];
+            genderView.frame = CGRectMake((kUIScreenWidth-50)/4*3-27, 12, 12, 15);
+            genderView.image = [UIImage imageNamed:@"nv2x"];
         }
     }
 }

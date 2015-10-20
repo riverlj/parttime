@@ -16,7 +16,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, kUIScreenWidth-30, self.frame.size.height-20)];
+        self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, kUIScreenWidth-30, self.frame.size.height-10)];
 //        self.bgImageView.image = [UIImage imageNamed:@"liebiao"];
         self.backgroundColor = [UIColor whiteColor];
         self.bgImageView.layer.cornerRadius = 5;

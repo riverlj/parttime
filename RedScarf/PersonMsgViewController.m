@@ -278,15 +278,17 @@
             UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(headLabel.frame.size.width+headLabel.frame.origin.x+5, 15, 15, 15)];
             if (judgeGender.length) {
                 if ([judgeGender isEqualToString:@"1"]) {
-                    genderView.image = [UIImage imageNamed:@"nan"];
+                    genderView.image = [UIImage imageNamed:@"nan2x"];
                 }else{
-                    genderView.image = [UIImage imageNamed:@"nv"];
+                    genderView.frame = CGRectMake(headLabel.frame.size.width+headLabel.frame.origin.x+5, 15, 12, 15);
+                    genderView.image = [UIImage imageNamed:@"nv2x"];
                 }
             }else{
                 if ([[NSString stringWithFormat:@"%@",self.personMsgArray[7]] isEqualToString:@"1"]) {
-                    genderView.image = [UIImage imageNamed:@"nan"];
+                    genderView.image = [UIImage imageNamed:@"nan2x"];
                 }else{
-                    genderView.image = [UIImage imageNamed:@"nv"];
+                    genderView.frame = CGRectMake(headLabel.frame.size.width+headLabel.frame.origin.x+5, 15, 12, 15);
+                    genderView.image = [UIImage imageNamed:@"nv2x"];
                 }
             }
            

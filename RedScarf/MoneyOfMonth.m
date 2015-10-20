@@ -128,7 +128,12 @@
     [rightBtn setBackgroundImage:[UIImage imageNamed:@"newyou"] forState:UIControlStateNormal];
     [self.view addSubview:rightBtn];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, dateLabel.frame.size.height+dateLabel.frame.origin.y+5, kUIScreenWidth-30, kUIScreenHeigth/2+50)];
+    if (kUIScreenWidth == 320) {
+         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, dateLabel.frame.size.height+dateLabel.frame.origin.y+5, kUIScreenWidth-30, kUIScreenHeigth/2)];
+    }else{
+         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, dateLabel.frame.size.height+dateLabel.frame.origin.y+5, kUIScreenWidth-30, kUIScreenHeigth/2+50)];
+    }
+   
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.layer.borderWidth = 0.5;
@@ -282,11 +287,25 @@
     Str = [Str stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
     Str = [Str stringByReplacingOccurrencesOfString:@":" withString:@"月"];
     
-    dateLabel.text = Str;
+    
     dateStr = [Str stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
     dateStr = [dateStr stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
-    dateStr = [NSString stringWithFormat:@"%@01",dateStr];
-    [self getMessage];
+    
+    //判断月份是否大于当前月
+    NSString *dateString = dateStr;
+    dateString = [dateString stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    string = [string stringByReplacingOccurrencesOfString:@"年" withString:@""];
+    string = [string stringByReplacingOccurrencesOfString:@"月" withString:@""];
+    if ([dateString intValue] > [string intValue]) {
+        tag--;
+        [self alertView:@"查询月份不能大于当前月"];
+        return;
+    }else{
+        dateLabel.text = Str;
+        dateStr = [NSString stringWithFormat:@"%@01",dateStr];
+        [self getMessage];
+    }
+    
 }
 
 

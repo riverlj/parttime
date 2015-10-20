@@ -31,7 +31,7 @@
     [Flurry setCrashReportingEnabled:YES];
     [Flurry startSession:@"ZWVZ56TNDFHVQX48RMD2"];
     AppDelegate *myDelegate = [UIApplication sharedApplication].delegate;
-    
+    myDelegate.count = @"";
     if (kUIScreenHeigth>480) {
         myDelegate.autoSizeScaleX = kUIScreenWidth/320;
         myDelegate.autoSizeScaleY = kUIScreenHeigth/568;

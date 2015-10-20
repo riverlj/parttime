@@ -12,6 +12,7 @@
 #import "RedScarf_API.h"
 #import "UIUtils.h"
 #import "Flurry.h"
+#import "ForgetPassViewController.h"
 
 
 @interface LoginViewController ()
@@ -139,7 +140,7 @@
         return;
     }
     if (nameField.text.length != 11) {
-        [self alertView:@"用户名不正确"];
+        [self alertView:@"用户名输入不正确"];
         return;
     }
     if (passField.text.length == 0) {
@@ -195,13 +196,14 @@
                 }];
                     
                 }
-            }];
+        }];
     
 }
 
 -(void)ForgetPassWord
 {
-    
+    ForgetPassViewController *forgetPassVC = [[ForgetPassViewController alloc] init];
+    [self presentViewController:forgetPassVC animated:YES completion:nil];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

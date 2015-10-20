@@ -25,6 +25,8 @@
     [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
+    disTableView = [[DistributionTableView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth-64)];
+    [self.view addSubview:disTableView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated

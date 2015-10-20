@@ -20,7 +20,7 @@
         self.groundImage.backgroundColor = [UIColor whiteColor];
         self.groundImage.layer.cornerRadius = 5;
         self.groundImage.layer.masksToBounds = YES;
-        self.groundImage.userInteractionEnabled = YES;
+//        self.groundImage.userInteractionEnabled = YES;
         [self.contentView addSubview:self.groundImage];
         
         self.addLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 200, 50)];

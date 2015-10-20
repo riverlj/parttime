@@ -13,10 +13,34 @@
 @end
 
 @implementation BannerViewController
+{
+    UIWebView *bannerView;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    self.tabBarController.tabBar.hidden = YES;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"详情";
+    [self comeBack:nil];
+    [self initWebView];
+}
+
+-(void)initWebView
+{
+    bannerView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
+    bannerView.delegate = self;
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://jianzhi.honglingjinclub.com/html/banner/noticePage.html"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];
+    [bannerView loadRequest:request];
+    [self.view addSubview:bannerView];
 }
 
 - (void)didReceiveMemoryWarning {

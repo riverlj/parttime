@@ -344,6 +344,7 @@
                 [self alertView:@"手机号输入有误"];
                 return;
             }
+            bankTf.text = [bankTf.text stringByReplacingOccurrencesOfString:@" " withString:@""];
             if (![UIUtils isNumber:bankTf.text]) {
                 
                 [self alertView:@"卡号输入有误"];
@@ -356,7 +357,7 @@
             NSString *name = nameTf.text;
             name = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             [params setObject:name forKey:@"accountName"];
-            bankTf.text = [bankTf.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+//            bankTf.text = [bankTf.text stringByReplacingOccurrencesOfString:@" " withString:@""];
             [params setObject:bankTf.text forKey:@"sn"];
             [params setObject:telTf.text forKey:@"mobilePhone"];
             [params setObject:emailTf.text forKey:@"email"];
@@ -380,6 +381,14 @@
                     }
                     [self alertView:@"保存成功"];
                     self.navigationItem.rightBarButtonItem.title = @"编辑";
+                    bankTf.userInteractionEnabled = NO;
+                    nameTf.userInteractionEnabled = NO;
+                    telTf.userInteractionEnabled = NO;
+                    emailTf.userInteractionEnabled = NO;
+                    proBtn.userInteractionEnabled = NO;
+                    cityBtn.userInteractionEnabled = NO;
+                    bankBtn.userInteractionEnabled = NO;
+                    bankChildBtn.userInteractionEnabled = NO;
                 }else{
                     [self alertView:[result objectForKey:@"msg"]];
                 }

@@ -10,7 +10,7 @@
 //正式
 //#define  REDSCARF_BASE_URL @"http://jianzhi.honglingjinclub.com"
 //测试
-#define  REDSCARF_BASE_URL @"http://121.42.58.92:8888"
+#define  REDSCARF_BASE_URL @"http://121.42.58.92"
 //#define  REDSCARF_BASE_URL @"http://192.168.1.41:8080"
 
 

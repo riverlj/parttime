@@ -18,6 +18,7 @@
 #import "SeparateViewController.h"
 #import "OrderRangeViewController.h"
 #import "OrderTimeViewController.h"
+#import "BannerViewController.h"
 
 @interface HomePageViewController ()
 
@@ -48,9 +49,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = bgcolor;
-    
-    AppDelegate *app = [[UIApplication sharedApplication] delegate];
-    if ([app.count containsString:@"8"]) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
         titleArray = [NSMutableArray arrayWithObjects:@"任务分配",@"分餐点",@"历史任务",@"管理成员",@"查看排班",@"我的推广", nil];
         imageArray = [NSArray arrayWithObjects:@"rwfp@2x",@"fencan@2x",@"lishi@2x",@"guanlichengyuan@2x",@"ckpaiban@2x",@"tuiguang2x", nil];
     }else{
@@ -82,7 +82,8 @@
 
 -(void)banner:(id)sender
 {
-    
+    BannerViewController *bannerVC = [[BannerViewController alloc] init];
+    [self.navigationController pushViewController:bannerVC animated:YES];
 }
 
 -(void)initHomeView
@@ -137,12 +138,12 @@
 //    listScroll.scrollEnabled = YES;
     listScroll.contentSize = CGSizeMake(0, (kUIScreenHeigth-214)*1.2);
     [self.view addSubview:listScroll];
-    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 3; j++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             btn.tag = 100*i+j;
-            if ([app.count containsString:@"8"]) {
+            if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
                 [btn addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
             }else{
                 [btn addTarget:self action:@selector(didClickPartTime:) forControlEvents:UIControlEventTouchUpInside];

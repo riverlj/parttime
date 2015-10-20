@@ -8,6 +8,6 @@
 
 #import "BaseViewController.h"
 
-@interface BannerViewController : BaseViewController
+@interface BannerViewController : BaseViewController<UIWebViewDelegate>
 
 @end
