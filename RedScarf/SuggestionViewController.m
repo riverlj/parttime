@@ -56,10 +56,11 @@
 -(void)initView
 {
    UILabel * view = [[UILabel alloc] initWithFrame:CGRectMake(25, 85, kUIScreenWidth-50, 40)];
-    view.text = @"请输入内容。。";
+    view.text = @"请输入您的问题,200字以内。。";
     view.tag = 20001;
+    view.alpha = 0.2;
     view.font = [UIFont systemFontOfSize:14];
-    view.textColor = MakeColor(75 , 75, 75);
+    view.textColor = [UIColor grayColor];
     [self.view addSubview:view];
     
     suggestionView = [[UITextView alloc] initWithFrame:CGRectMake(20, 80, kUIScreenWidth-40, 150)];

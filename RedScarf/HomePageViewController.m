@@ -159,10 +159,16 @@
             lineView.backgroundColor = color232;
             [listScroll addSubview:lineView];
             
-            UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(btn.frame.size.width/2-20, imageY, 40, 40)];
+            UIImageView *image;
+            if (kUIScreenWidth == 320) {
+                image = [[UIImageView alloc] initWithFrame:CGRectMake(btn.frame.size.width/2-15, imageY, 30, 30)];
+            }else{
+                image = [[UIImageView alloc] initWithFrame:CGRectMake(btn.frame.size.width/2-20, imageY, 40, 40)];
+            }
+            
             [btn addSubview:image];
             
-            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/3*j, btn.frame.size.height+btn.frame.origin.y-35, kUIScreenWidth/3, 35)];
+            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/3*j, btn.frame.size.height+btn.frame.origin.y-45, kUIScreenWidth/3, 35)];
             if (i == 0) {
                 titleLabel.text = titleArray[j];
                 image.image = [UIImage imageNamed:imageArray[j]];

@@ -103,7 +103,7 @@
     countLabel.font = [UIFont systemFontOfSize:12];
     [self.view addSubview:countLabel];
     
-    UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(roundView.frame.origin.x+roundView.frame.size.width/2-20, roundView.frame.origin.y+50, 40, 40)];
+    UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(roundView.frame.origin.x+10, roundView.frame.origin.y+50, 100, 40)];
     moneyLabel.textAlignment = NSTextAlignmentCenter;
     moneyLabel.text = [NSString stringWithFormat:@"%@",self.salary];
     moneyLabel.textColor = MakeColor(87, 87, 87);

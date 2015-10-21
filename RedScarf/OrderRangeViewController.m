@@ -113,13 +113,11 @@
     
     cell.textLabel.text = [dic objectForKey:@"name"];
     
-    UIImageView *finishImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 0, 50, 50)];
-    [cell.contentView addSubview:finishImage];
-    finishImage.image = [UIImage imageNamed:@"peisong2x"];
-    
     for (NSString *str in idArray) {
         if ([str isEqualToString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]]) {
-            cell.backgroundColor = MakeColor(32, 190, 251);
+            UIImageView *finishImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 0, 50, 50)];
+            [cell.contentView addSubview:finishImage];
+            finishImage.image = [UIImage imageNamed:@"peisong2x"];
         }
     }
     

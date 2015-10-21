@@ -149,6 +149,7 @@
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             [self alertView:@"修改成功"];
+            [self.navigationController popViewControllerAnimated:YES];
         }else{
             [self alertView:[result objectForKey:@"msg"]];
         }

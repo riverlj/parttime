@@ -85,9 +85,8 @@
                 [self.addressArr addObject:model];
             }
             
-//            Model *m = self.addressArr[0];
-//            m.select = @"xialazu2x";
-
+            //默认展开第一行
+            [self detailZero:0];
             [self reloadData];
         }
         [self hidHUD];
@@ -342,6 +341,20 @@
         }
     }
 
+    
+    [self getRoomMsg:model.aId];
+}
+
+-(void)detailZero:(int)sender
+{
+    
+    Model *model = [[Model alloc] init];
+    model = self.addressArr[sender];
+    if ([model.select isEqualToString:@"zu2x"]) {
+        model.select = @"xialazu2x";
+    }else{
+        model.select = @"zu2x";
+    }
     
     [self getRoomMsg:model.aId];
 }

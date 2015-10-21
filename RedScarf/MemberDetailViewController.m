@@ -74,11 +74,11 @@
     nameLabel.text = [msgDictionary objectForKey:@"realName"];
     [bgView addSubview:nameLabel];
 
-    UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(170, 50, 15, 15)];
-    if ([msgDictionary objectForKey:@"sex"]) {
-        genderView.image = [UIImage imageNamed:@"nan"];
+    UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(170, 50, 12, 15)];
+    if ([[msgDictionary objectForKey:@"sex"] boolValue]) {
+        genderView.image = [UIImage imageNamed:@"nan2x"];
     }else{
-        genderView.image = [UIImage imageNamed:@"nv"];
+        genderView.image = [UIImage imageNamed:@"nv2x"];
     }
     
     [bgView addSubview:genderView];

@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "UIUtils.h"
 #import "Header.h"
+#import "SeparateTableViewCell.h"
 
 @implementation HeadDisTableView
 
@@ -75,15 +76,15 @@
         label.font = textFont14;
         label.textAlignment = NSTextAlignmentCenter;
         if (i == 0) {
-            label.frame = CGRectMake((kUIScreenWidth-20)/3*i, 0, (kUIScreenWidth-20)/3-30, 30);
+            label.frame = CGRectMake(0, 0, (kUIScreenWidth-20)/5*2, 30);
             label.text = @"套餐编号";
         }
         if (i == 1) {
-            label.frame = CGRectMake((kUIScreenWidth-20)/3*i-30, 0, (kUIScreenWidth-20)/3+60, 30);
+            label.frame = CGRectMake((kUIScreenWidth-20)/5*2, 0, (kUIScreenWidth-20)/5*2, 30);
             label.text = @"菜品名称";
         }
         if (i == 2) {
-            label.frame = CGRectMake((kUIScreenWidth-20)/3*i+30, 0, (kUIScreenWidth-20)/3-30, 30);
+            label.frame = CGRectMake((kUIScreenWidth-20)/5*4, 0, (kUIScreenWidth-20)/5, 30);
             label.text = @"数量";
         }
     }
@@ -92,56 +93,33 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 35;
+    SeparateTableViewCell *cell = (SeparateTableViewCell *)[self tableView:self cellForRowAtIndexPath:indexPath];
+    return cell.frame.size.height ;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"identifier3";
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    SeparateTableViewCell *cell = [[SeparateTableViewCell alloc] init];
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
     NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    UILabel *typeLabel;
-    
-    typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (kUIScreenWidth-20)/3-30, 35)];
-    typeLabel.textAlignment = NSTextAlignmentCenter;
-    typeLabel.textColor = MakeColor(50, 122, 255);
-    typeLabel.text = [dic objectForKey:@"tag"];
-    typeLabel.font = [UIFont systemFontOfSize:12];
-    [cell.contentView addSubview:typeLabel];
+
+    cell.typeLabel.text = [dic objectForKey:@"tag"];
     
     NSString *str = [NSString stringWithFormat:@"%@",[dic objectForKey:@"content"]];
-    CGSize size = CGSizeMake((kUIScreenWidth-20)/3, 35);
-    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/3, 0, 0, 0)];
-    CGSize labelSize = [str sizeWithFont:addressLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    UILabel *taskNum;
-    addressLabel.textAlignment = NSTextAlignmentCenter;
-    addressLabel.frame = CGRectMake(kUIScreenWidth/3-30, 0, (kUIScreenWidth-20)/3+60, 35);
-    taskNum = [[UILabel alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*2+30, 14, (kUIScreenWidth-20)/3-30, 15)];
-    taskNum.textAlignment = NSTextAlignmentCenter;
-    addressLabel.text = str;
-    addressLabel.font = [UIFont systemFontOfSize:12];
-    addressLabel.textColor = MakeColor(75, 75, 75);
-    [cell.contentView addSubview:addressLabel];
+    cell.foodLabel.font = textFont12;
+    [cell setIntroductionText:str];
     
-    taskNum.font = [UIFont systemFontOfSize:13];
-    taskNum.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"count"]];
-    taskNum.textColor = MakeColor(75, 75, 75);
-    [cell.contentView addSubview:taskNum];
+    cell.numLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"count"]];
     
-    UIView *midLineView = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3-30, 0, 0.5, 35)];
+    UIView *midLineView = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/5*2, 0, 0.5, cell.foodLabel.frame.size.height)];
     midLineView.backgroundColor = color234;
     [cell.contentView addSubview:midLineView];
-    UIView *midLineView1 = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*2+30, 0, 0.5, 35)];
+    UIView *midLineView1 = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/5*4, 0, 0.5, cell.foodLabel.frame.size.height)];
     midLineView1.backgroundColor = color234;
     [cell.contentView addSubview:midLineView1];
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 34.5, kUIScreenWidth-20, 0.5)];
-    lineView.backgroundColor = color234;
-    [cell.contentView addSubview:lineView];
     
     return cell;
 }

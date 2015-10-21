@@ -342,6 +342,8 @@
     if (indexPath.section == 0) {
         
         if (indexPath.row == 0) {
+            modifyVC.name = self.personMsgArray[indexPath.row];
+            modifyVC.gender = [NSString stringWithFormat:@"%@",self.personMsgArray[7]];
             modifyVC.judgeStr = @"name";
         }
         if (indexPath.row == 1) {

@@ -69,6 +69,7 @@
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             [listArray removeAllObjects];
+            [nameArray removeAllObjects];
             for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
                 [listArray addObject:dic];
                 [nameArray addObject:[dic objectForKey:@"realName"]];
