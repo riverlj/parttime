@@ -46,7 +46,7 @@
     userArray = [NSMutableArray array];
     dateArray = [NSMutableArray array];
     tag = 0;
-    [self navigationBar];
+//    [self navigationBar];
     [self initTableView];
     [self getMessage];
 

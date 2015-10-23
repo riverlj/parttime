@@ -176,7 +176,7 @@
             genderView.image = [UIImage imageNamed:@"nan2x"];
         }else{
             genderBtn.tag = 321;
-            if ([self.gender isEqualToString:@"0"]) {
+            if ([self.gender isEqualToString:@"2"]) {
                 genderBtn.backgroundColor = MakeColor(231, 239, 254);
             }
             [genderBtn setTitle:@"女" forState:UIControlStateNormal];

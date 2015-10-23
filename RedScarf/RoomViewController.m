@@ -195,7 +195,7 @@
 
 -(void)didClickNotBtn
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"提示" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"库存不足",@"没有原因",@"生病了", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"提示" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"餐品不够",@"送错或漏送",@"餐品腐坏",@"餐品破损",@"其他", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -205,17 +205,27 @@
     switch (buttonIndex) {
         case 0:
         {
-            reason = @"库存不足";
+            reason = @"餐品不够";
         }
             break;
         case 1:
         {
-            reason = @"就是不想送";
+            reason = @"送错或漏送";
         }
             break;
         case 2:
         {
-            reason = @"生病了";
+            reason = @"餐品腐坏";
+        }
+            break;
+        case 3:
+        {
+            reason = @"餐品破损";
+        }
+            break;
+        case 4:
+        {
+            reason = @"其他";
         }
             break;
         default:
@@ -234,8 +244,11 @@
             NSLog(@"result = %@",result);
             if ([[result objectForKey:@"success"] boolValue]) {
                 [self alertView:@"提交成功"];
+                judgeAlterView = @"no";
+                return ;
             }else{
                 [self alertView:[result objectForKey:@"msg"]];
+                return;
             }
         }];
 

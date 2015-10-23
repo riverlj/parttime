@@ -45,7 +45,7 @@
 //    self.navigationItem.rightBarButtonItem = right;
     listArray = [NSMutableArray array];
     nameArray = [NSMutableArray array];
-    [self navigationBar];
+//    [self navigationBar];
     [self initTableView];
     [self getMessage];
 }
@@ -88,7 +88,9 @@
 {
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
     self.searchBar.placeholder = @"搜索";
-    [self.searchBar setBarTintColor:MakeColor(244, 245, 246)];
+    [self.searchBar.layer setBorderColor:color242.CGColor];
+    [self.searchBar.layer setBorderWidth:1.0];
+    [self.searchBar setBarTintColor:color242];
     self.searchaDisplay = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     self.searchaDisplay.searchResultsDelegate = self;
     self.searchaDisplay.searchResultsDataSource = self;
@@ -123,7 +125,6 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-//    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     NSMutableDictionary *dic;
     

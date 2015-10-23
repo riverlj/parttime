@@ -48,7 +48,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = bgcolor;
+    self.view.backgroundColor = color234;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
         titleArray = [NSMutableArray arrayWithObjects:@"任务分配",@"分餐点",@"历史任务",@"管理成员",@"查看排班",@"我的推广", nil];
@@ -60,6 +60,9 @@
 
     array = [NSArray arrayWithObjects:@"banner", nil];
     self.title = @"首页";
+    
+    UIButton *button = (UIButton *)[self.tabBarController.view viewWithTag:11011];
+    [button removeFromSuperview];
     //圆形
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-25, kUIScreenHeigth-80, 60, 60)];
     [btn setBackgroundColor:[UIColor redColor]];
@@ -88,8 +91,12 @@
 
 -(void)initHomeView
 {
+    if (kUIScreenWidth == 320) {
+        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 128)];
+    }else{
+        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 150)];
+    }
     
-    scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 150)];
     scroll.scrollEnabled = YES;
     scroll.userInteractionEnabled = YES;
     scroll.contentSize = CGSizeMake(kUIScreenWidth*array.count, 100);
@@ -133,7 +140,13 @@
         imageY = 35;
     }
 
-    UIScrollView *listScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 214, kUIScreenWidth, kUIScreenHeigth-214)];
+    UIScrollView *listScroll;
+    if (kUIScreenWidth == 320) {
+        listScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 192, kUIScreenWidth, kUIScreenHeigth-214)];
+    }else{
+        listScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 214, kUIScreenWidth, kUIScreenHeigth-214)];
+    }
+    
     listScroll.userInteractionEnabled = YES;
 //    listScroll.scrollEnabled = YES;
     listScroll.contentSize = CGSizeMake(0, (kUIScreenHeigth-214)*1.2);
@@ -142,6 +155,9 @@
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 3; j++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            btn.backgroundColor = color242;
+            btn.layer.borderColor = MakeColor(220, 220, 220).CGColor;
+            btn.layer.borderWidth = 0.5;
             btn.tag = 100*i+j;
             if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
                 [btn addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -149,16 +165,9 @@
                 [btn addTarget:self action:@selector(didClickPartTime:) forControlEvents:UIControlEventTouchUpInside];
             }
             
-            btn.frame = CGRectMake(kUIScreenWidth/3*j, i*wight, kUIScreenWidth/3, wight);
+            btn.frame = CGRectMake(kUIScreenWidth/3*j, i*wight, kUIScreenWidth/3+1, wight+1);
+
             [listScroll addSubview:btn];
-            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(kUIScreenWidth/3*j, 0, 1, wight*2)];
-            line.backgroundColor = color232;
-            [listScroll addSubview:line];
-            
-            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, j*wight, kUIScreenWidth, 1)];
-            lineView.backgroundColor = color232;
-            [listScroll addSubview:lineView];
-            
             UIImageView *image;
             if (kUIScreenWidth == 320) {
                 image = [[UIImageView alloc] initWithFrame:CGRectMake(btn.frame.size.width/2-15, imageY, 30, 30)];

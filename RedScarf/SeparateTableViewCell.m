@@ -19,12 +19,15 @@
         self.typeLabel.textColor = colorblue;
         self.typeLabel.font = textFont12;
         self.typeLabel.numberOfLines = 0;
+//        self.typeLabel.backgroundColor = [UIColor greenColor];
         self.typeLabel.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:self.typeLabel];
         
         self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/5*2+5, 0, (kUIScreenWidth-20)/5*2, 35)];
         self.foodLabel.textColor = color155;
+        self.foodLabel.numberOfLines = 0;
         self.foodLabel.font = textFont12;
+//        self.foodLabel.backgroundColor = [UIColor redColor];
         self.foodLabel.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:self.foodLabel];
         
@@ -48,8 +51,13 @@
     
     CGSize labelSize = [self.foodLabel.text sizeWithFont:self.foodLabel.font constrainedToSize:size lineBreakMode:NSLineBreakByClipping];
     
-    self.foodLabel.frame = CGRectMake(self.foodLabel.frame.origin.x, self.foodLabel.frame.origin.y, labelSize.width-10, labelSize.height+20);
-    self.typeLabel.frame = CGRectMake(self.typeLabel.frame.origin.x, self.typeLabel.frame.origin.y, labelSize.width-10, labelSize.height);
+    if (labelSize.width-10 < (kUIScreenWidth-20)/5*2) {
+        self.foodLabel.frame = CGRectMake(self.foodLabel.frame.origin.x, self.foodLabel.frame.origin.y,(kUIScreenWidth-20)/5*2-10, labelSize.height+20);
+        self.typeLabel.frame = CGRectMake(self.typeLabel.frame.origin.x, self.typeLabel.frame.origin.y,(kUIScreenWidth-20)/5*2-10, labelSize.height+20);
+    }else{
+        self.foodLabel.frame = CGRectMake(self.foodLabel.frame.origin.x, self.foodLabel.frame.origin.y, labelSize.width-10, labelSize.height+20);
+        self.typeLabel.frame = CGRectMake(self.typeLabel.frame.origin.x, self.typeLabel.frame.origin.y, labelSize.width-10, labelSize.height+20);
+    }
 
     frame.size.height = labelSize.height+20;
     

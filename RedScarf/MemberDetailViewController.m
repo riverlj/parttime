@@ -70,12 +70,12 @@
     headView.image = [UIImage imageNamed:@"touxiang"];
     [bgView addSubview:headView];
     
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 40, 70, 35)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 33, 70, 35)];
     nameLabel.text = [msgDictionary objectForKey:@"realName"];
     [bgView addSubview:nameLabel];
 
-    UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(170, 50, 12, 15)];
-    if ([[msgDictionary objectForKey:@"sex"] boolValue]) {
+    UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(170, 43, 12, 15)];
+    if ([msgDictionary objectForKey:@"sex"] == 1) {
         genderView.image = [UIImage imageNamed:@"nan2x"];
     }else{
         genderView.image = [UIImage imageNamed:@"nv2x"];
@@ -83,7 +83,7 @@
     
     [bgView addSubview:genderView];
     
-    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 65, kUIScreenWidth-120, 30)];
+    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 57, kUIScreenWidth-120, 30)];
     addressLabel.font = textFont14;
     addressLabel.textColor = textcolor;
     addressLabel.text = [[msgDictionary objectForKey:@"apartment"] objectForKey:@"name"];
@@ -107,7 +107,7 @@
         
         if (i == 0) {
             btn.tag = 1000;
-            UILabel *telLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-130, 110, 90, 50)];
+            UILabel *telLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-140, 110, 110, 50)];
             if (phoneText.length) {
                 telLabel.text = phoneText;
             }else{
@@ -191,7 +191,7 @@
     if (btn.tag == 1001) {
 //        modifyMemberVC.title = @"修改配送时间";
         OrderTimeViewController *orderTimeVC = [[OrderTimeViewController alloc] init];
-        orderTimeVC.username = [msgDictionary objectForKey:@"mobilePhone"];
+        orderTimeVC.username = [msgDictionary objectForKey:@"username"];
         [self.navigationController pushViewController:orderTimeVC animated:YES];
     }
     if (btn.tag == 1002) {

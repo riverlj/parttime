@@ -75,7 +75,7 @@
     [params setObject:app.tocken forKey:@"token"];
     if (self.username.length) {
         [params setObject:self.username forKey:@"username"];
-//        url = @"/team/user/setting/time";
+        url = @"/team/user/setting/time";
     }
     [self showHUD:@"正在加载"];
     [RedScarf_API requestWithURL:url params:params httpMethod:@"GET" block:^(id result) {
@@ -461,7 +461,18 @@
         NSMutableString *jsonString = [NSMutableString stringWithFormat:@"[%@,%@]",dataString,dataString1];
         jsonString = [jsonString stringByReplacingOccurrencesOfString:@"=" withString:@":"];
         //系统put请求
-        NSString *urlString = [NSString stringWithFormat:@"http://121.42.58.92:8888/user/setting/time?token=%@&&username=%@",app.tocken,self.username];
+        NSString *urlString;
+        NSData *teamData;
+        if (self.username.length) {
+            urlString = [NSString stringWithFormat:@"http://121.42.58.92/team/user/setting/time?token=%@&&username=%@",app.tocken,self.username];
+            
+            //ustlist
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:jsonString,@"urlList",self.username,@"username", nil];
+            teamData = [self toJsonData:dic];
+        }else{
+            urlString = [NSString stringWithFormat:@"http://121.42.58.92/user/setting/time?token=%@&&username=%@",app.tocken,self.username];
+        }
+        
         NSURL *url = [NSURL URLWithString:urlString];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"PUT"];
@@ -471,7 +482,12 @@
         [request setAllHTTPHeaderFields:content];
 //        NSLog(@"[self toJsonData:array] = %@",[self toJsonData:array]);
         NSData *DATA = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-        [request setHTTPBody:DATA];
+        if (self.username.length) {
+            [request setHTTPBody:teamData];
+        }else{
+            [request setHTTPBody:DATA];
+        }
+        
         [NSURLConnection connectionWithRequest:request delegate:self];
 
     }

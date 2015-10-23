@@ -152,11 +152,11 @@
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 45)];
     bgView.backgroundColor = [UIColor whiteColor];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44.5, kUIScreenWidth, 0.5)];
-    lineView.backgroundColor = color102;
-    [bgView addSubview:lineView];
+//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44.5, kUIScreenWidth, 0.5)];
+//    lineView.backgroundColor = color102;
+//    [bgView addSubview:lineView];
     
-    UIImageView *click = [[UIImageView alloc] initWithFrame:CGRectMake(10, 18, 8, 8)];
+    UIImageView *click = [[UIImageView alloc] initWithFrame:CGRectMake(20, 18, 8, 8)];
     
     [bgView addSubview:click];
     
@@ -166,19 +166,14 @@
     label.font = textFont15;
     label.textAlignment = NSTextAlignmentLeft;
     Model *model = [[Model alloc] init];
-//    if (self.addressArr.count) {
-        model = [self.addressArr objectAtIndex:section];
-//        if (section == 0) {
-//            click.image = [UIImage imageNamed:@"xialazu2x"];
-//        }else{
-            click.image = [UIImage imageNamed:model.select];
-//        }
-//    }
+    model = [self.addressArr objectAtIndex:section];
+    click.image = [UIImage imageNamed:model.select];
+
     NSString *str = [NSString stringWithFormat:@"%@",model.apartmentName];
     
     CGSize size = CGSizeMake(kUIScreenWidth-80, 1000);
     CGSize labelSize = [str sizeWithFont:label.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    label.frame = CGRectMake(30, 12, labelSize.width, labelSize.height);
+    label.frame = CGRectMake(35, 12, labelSize.width, labelSize.height);
     label.text = str;
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(label.frame.size.width+label.frame.origin.x+5, 15, 12, 12)];
@@ -222,7 +217,12 @@
     self.roomArr = mo.apartmentsArr;
     NSMutableDictionary *model = [self.roomArr objectAtIndex:indexPath.row];
     for (NSMutableDictionary *dic in [[self.roomArr objectAtIndex:indexPath.row] objectForKey:@"content"]) {
-        str = [str stringByAppendingFormat:@"%@                                              \n",[dic objectForKey:@"content"]];
+        
+        UILabel *tag = [[UILabel alloc] init];
+        tag.text = [dic objectForKey:@"tag"];
+        tag.textColor = colorblue;
+        
+        str = [str stringByAppendingFormat:@"%@   %@ (%@)\n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
     }
     cell.addLabel.frame = CGRectMake(45, 0, 200, 50);
     cell.foodLabel.frame = CGRectMake(45, cell.addLabel.frame.size.height+cell.addLabel.frame.origin.y, kUIScreenWidth-30, 40);
@@ -349,14 +349,19 @@
 {
     
     Model *model = [[Model alloc] init];
-    model = self.addressArr[sender];
-    if ([model.select isEqualToString:@"zu2x"]) {
-        model.select = @"xialazu2x";
+    if (self.addressArr.count) {
+        model = self.addressArr[sender];
+        if ([model.select isEqualToString:@"zu2x"]) {
+            model.select = @"xialazu2x";
+        }else{
+            model.select = @"zu2x";
+        }
+        
+        [self getRoomMsg:model.aId];
     }else{
-        model.select = @"zu2x";
+        
     }
-    
-    [self getRoomMsg:model.aId];
+   
 }
 
 -(void)viewDidLayoutSubviews {

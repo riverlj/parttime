@@ -42,7 +42,9 @@
     self.view.backgroundColor = color242;
     self.title = @"分配任务";
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
-    [self.searchBar setBarTintColor:MakeColor(244, 245, 246)];
+    [self.searchBar.layer setBorderColor:color242.CGColor];
+    [self.searchBar.layer setBorderWidth:1.0];
+    [self.searchBar setBarTintColor:color242];
     self.searchaDisplay = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     self.searchaDisplay.searchResultsDelegate = self;
     self.searchaDisplay.searchResultsDataSource = self;
@@ -170,7 +172,7 @@
         model = [self.array objectAtIndex:indexPath.row];
 
         for (NSMutableDictionary *dic in model.tasksArr) {
-            str = [str stringByAppendingFormat:@"%@                                              \n",[dic objectForKey:@"apartmentName"]];
+            str = [str stringByAppendingFormat:@"\n%@                                              \n",[dic objectForKey:@"apartmentName"]];
         }
     }
     cell.addLabel.text = [NSString stringWithFormat:@"%@:%@",model.username,model.mobile];

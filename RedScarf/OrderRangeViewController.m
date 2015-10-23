@@ -63,7 +63,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    
+    [params setObject:self.username forKey:@"username"];
     [RedScarf_API requestWithURL:@"/user/setting/addr" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
@@ -113,7 +113,9 @@
     
     cell.textLabel.text = [dic objectForKey:@"name"];
     
-    for (NSString *str in idArray) {
+    NSString *select = idArray[0];
+    NSArray *arr = [select componentsSeparatedByString:@","];
+    for (NSString *str in arr) {
         if ([str isEqualToString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]]) {
             UIImageView *finishImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 0, 50, 50)];
             [cell.contentView addSubview:finishImage];

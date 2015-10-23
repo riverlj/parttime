@@ -198,7 +198,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+    SeparateTableViewCell *cell = (SeparateTableViewCell *)[self tableView:self.tableView cellForRowAtIndexPath:indexPath];
     
     return cell.frame.size.height;
 }

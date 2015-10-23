@@ -53,7 +53,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+    
+    UIButton *button = (UIButton *)[self.tabBarController.view viewWithTag:22022];
+    [button removeFromSuperview];
+    self.view.backgroundColor = bgcolor;
     self.title = @"我的";
     
     Reachability *reach = [Reachability reachabilityForInternetConnection];
@@ -72,6 +75,7 @@
     btn.tag = 22022;
     [btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
     btn.layer.masksToBounds = YES;
+    
     [self.tabBarController.view addSubview:btn];
 
 
@@ -116,7 +120,7 @@
     self.informationTableView.dataSource = self;
     UIView *view = [[UIView alloc] init];
     self.informationTableView.tableFooterView = view;
-    
+    self.informationTableView.backgroundColor = bgcolor;
     
     [self.view addSubview:self.informationTableView];
 }
@@ -168,14 +172,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    
-//    NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
-//    NSData *imageData = [[NSData alloc] initWithContentsOfFile:imageFile];
-//    UIImage *image = [[UIImage alloc] initWithData:imageData];
-//    if (image != nil)
-//    {
-//        headImage.image = image;
-//    }
+
     [self.navigationController setNavigationBarHidden:NO];
 }
 
@@ -192,9 +189,7 @@
         headImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-40, 15, 80, 80)];
         headImage.layer.cornerRadius = 35;
         headImage.layer.masksToBounds = YES;
-//        if (headImage.image == nil) {
-//             headImage.image = [UIImage imageNamed:@"touxiang"];
-//        }else{
+
             NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
             NSData *imageData = [[NSData alloc] initWithContentsOfFile:imageFile];
             UIImage *image = [[UIImage alloc] initWithData:imageData];
@@ -205,7 +200,6 @@
                 headImage.image = [UIImage imageNamed:@"touxiang"];
             }
 
-//        }
        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.contentView addSubview:headImage];
         
@@ -277,15 +271,6 @@
         [cell.contentView addSubview:cellLabel];
     }
 
-    else if (indexPath.section == 5){
-        UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
-        photoView.image = [UIImage imageNamed:@"tuiguan@2x"];
-        [cell.contentView addSubview:photoView];
-        
-        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(47, 10, 280, 25)];
-        cellLabel.text = @"推广活动";
-        [cell.contentView addSubview:cellLabel];
-    }
     
     return cell;
 }
@@ -322,10 +307,7 @@
             [self.navigationController pushViewController:moneyOfMonthVC animated:YES];
             
         }else if (indexPath.row == 1){
-//            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
-//            [self.navigationController pushViewController:promotionVC animated:YES];
-//
-//        }else{
+
             MyBankCardVC *bankCardVC = [[MyBankCardVC alloc] init];
             [self.navigationController pushViewController:bankCardVC animated:YES];
         }
@@ -339,11 +321,13 @@
         if (indexPath.row == 0) {
             OrderTimeViewController *orderTimeVC = [[OrderTimeViewController alloc] init];
             NSMutableDictionary *userInfo = [infoDic objectForKey:@"userInfo"];
-            orderTimeVC.username = [userInfo objectForKey:@"username"];
+//            orderTimeVC.username = [userInfo objectForKey:@"username"];
             [self.navigationController pushViewController:orderTimeVC animated:YES];
         }
         if (indexPath.row == 1) {
             OrderRangeViewController *orderRangeVC = [[OrderRangeViewController alloc] init];
+            NSMutableDictionary *userInfo = [infoDic objectForKey:@"userInfo"];
+            orderRangeVC.username = [userInfo objectForKey:@"username"];
             [self.navigationController pushViewController:orderRangeVC animated:YES];
         }
         

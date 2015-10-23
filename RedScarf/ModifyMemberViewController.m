@@ -7,6 +7,7 @@
 //
 
 #import "ModifyMemberViewController.h"
+#import "ListCell.h"
 
 @interface ModifyMemberViewController ()
 
@@ -18,6 +19,7 @@
     NSMutableArray *selectedArray;
     UITextField *modifyTf;
     NSMutableArray *indexArr;
+    UIImageView *finishImage;
 }
 
 - (void)viewDidLoad {
@@ -35,7 +37,7 @@
 {
     if ([self.title isEqualToString:@"修改电话"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-        right.tintColor = [UIColor whiteColor];
+//        right.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = right;
         [self modifyPhone];
     }
@@ -121,21 +123,36 @@
     return apartmentsArray.count;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
+}
+
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    ListCell *cell = [[ListCell alloc] init];
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
     NSMutableDictionary *dic = [apartmentsArray objectAtIndex:indexPath.row];
+    cell.photoView.hidden = YES;
+    cell.name.hidden = YES;
+    cell.order.hidden = YES;
+    cell.telLabel.hidden = YES;
+    cell.sort.hidden = YES;
+    cell.totalCount.hidden = YES;
     
     cell.textLabel.text = [dic objectForKey:@"name"];
-    
+    cell.finishImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-50, 0, 50, 50)];
+    [cell.contentView addSubview:cell.finishImage];
+    cell.finishImage.hidden = YES;
+    cell.finishImage.image = [UIImage imageNamed:@"peisong2x"];
     for (NSString *str in selectedArray) {
         if ([str isEqualToString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]]) {
-            cell.backgroundColor = MakeColor(32, 190, 251);
+            cell.backgroundColor = MakeColor(254, 254, 254);
+            cell.finishImage.hidden = NO;
             [indexArr addObject:[dic objectForKey:@"id"]];
         }
     }
@@ -146,15 +163,17 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    ListCell *cell = (ListCell *)[tableView cellForRowAtIndexPath:indexPath];
     NSMutableDictionary *dic = [apartmentsArray objectAtIndex:indexPath.row];
 
-    if ([cell.backgroundColor isEqual:MakeColor(32, 190, 251)]) {
+    if ([cell.backgroundColor isEqual:MakeColor(254, 254, 254)]) {
         [indexArr removeObject:[dic objectForKey:@"id"]];
+        cell.finishImage.hidden = YES;
         cell.backgroundColor = [UIColor whiteColor];
     }else{
-        cell.backgroundColor = MakeColor(32, 190, 251);
+        cell.backgroundColor = MakeColor(254, 254, 254);
         [indexArr addObject:[dic objectForKey:@"id"]];
+        cell.finishImage.hidden = NO;
     }
     NSLog(@"indexArr = %@",indexArr);
 }
@@ -207,6 +226,7 @@
             }else
             {
                 [self alertView:[result objectForKey:@"msg"]];
+                return ;
             }
             [self hidHUD];
         }];

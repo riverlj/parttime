@@ -16,7 +16,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.btn.frame = CGRectMake(kUIScreenWidth-105, 9, 85, 30);
+        self.btn.frame = CGRectMake(kUIScreenWidth-105, 7, 85, 30);
 //        self.btn.layer.borderColor = [UIColor redColor].CGColor;
 //        self.btn.layer.borderWidth = 1;
         self.btn.backgroundColor = colorblue;

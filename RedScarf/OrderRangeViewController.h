@@ -10,4 +10,6 @@
 
 @interface OrderRangeViewController : BaseViewController
 
+@property(nonatomic,strong)NSString *username;
+
 @end
