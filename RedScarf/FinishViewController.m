@@ -113,6 +113,11 @@
     return YES;
 }
 
+-(void)getFilterMsg
+{
+    
+}
+
 //~~~~~~~~
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
 {

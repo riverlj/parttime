@@ -63,6 +63,7 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.aId forKey:@"aId"];
+    self.room = [self.room stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:self.room forKey:@"room"];
     
     [RedScarf_API requestWithURL:@"/task/assignedTask/customerDetail" params:params httpMethod:@"GET" block:^(id result) {
@@ -115,7 +116,12 @@
     NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
     
     cell.nameLabel.text = [NSString stringWithFormat:@"%@:%@",[dic objectForKey:@"customerName"],[dic objectForKey:@"mobile"]];
-    cell.foodLabel.text = [dic objectForKey:@"content"];
+    //content是个数组
+    NSString *contentStr = @"";
+    for (NSDictionary *content in [dic objectForKey:@"content"]) {
+        contentStr = [contentStr stringByAppendingString:[content objectForKey:@"content"]];
+    }
+    cell.foodLabel.text = contentStr;
     cell.numberLabel.text = [NSString stringWithFormat:@"任务编号:%@",[dic objectForKey:@"sn"]];
     cell.dateLabel.text = [dic objectForKey:@"date"];
     

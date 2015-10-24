@@ -242,15 +242,22 @@
         NSInteger page = i / 7;
         
         // 圆角按钮
+        UILabel *superLabel = [[UILabel alloc] init];
         UIButton *aBt = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        superLabel.layer.borderColor = MakeColor(244, 245, 246).CGColor;
+        superLabel.layer.borderWidth = 0.8;
+        
         aBt.userInteractionEnabled = NO;
         if (kUIScreenWidth == 320) {
-            aBt.frame = CGRectMake(index * 41+17, page  *  45 + 75, 41, 45);
+            superLabel.frame = CGRectMake(index * 41+17, page  *  45 + 75, 41, 45);
+            aBt.frame = CGRectMake(index * 41+24, page  *  45 + 82, 27, 27);
         }else{
-            aBt.frame = CGRectMake(index * 49+17, page  *  45 + 75, 49, 45);
+            superLabel.frame = CGRectMake(index * 49+17, page  *  45 + 75, 49, 45);
+            aBt.frame = CGRectMake(index * 49+24, page  *  45 + 82, 27, 27);
         }
-        aBt.layer.borderColor = MakeColor(244, 245, 246).CGColor;
-        aBt.layer.borderWidth = 0.8;
+        aBt.layer.cornerRadius = 13;
+        aBt.layer.masksToBounds = YES;
+
         aBt.tag = 100+i;
         
         aBt.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -260,19 +267,21 @@
         if ((i-num+1)<dayCount+2) {
             [aBt setTitleColor:MakeColor(200, 200, 200) forState:UIControlStateNormal];
         }else{
+            [aBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             for (NSString *day in getDaysArray) {
                 if ((i-num+1) == [day intValue]) {
-                    [aBt setBackgroundColor:MakeColor(58, 196, 219)];
+                    [aBt setBackgroundColor:MakeColor(150, 184, 245)];
+                    [aBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 }
  
             }
-            [aBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            
             [aBt addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
         }
         
         [aBt setTitle:[NSString stringWithFormat:@"%d",i-num+1] forState:UIControlStateNormal];
         
-        
+        [bgView addSubview:superLabel];
         [bgView addSubview:aBt];
     }
     
@@ -301,42 +310,37 @@
         NSInteger page = i / 7;
         
         // 圆角按钮
+        UILabel *superLabel = [[UILabel alloc] init];
         UIButton *aBt = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        superLabel.layer.borderColor = MakeColor(244, 245, 246).CGColor;
+        superLabel.layer.borderWidth = 0.8;
+        
         aBt.userInteractionEnabled = NO;
+        aBt.layer.cornerRadius = 13;
+        aBt.layer.masksToBounds = YES;
         if (kUIScreenWidth == 320) {
-            aBt.frame = CGRectMake(index * 41+17, page  *  45 + 385, 41, 45);
+            
+            superLabel.frame = CGRectMake(index * 41+17, page  *  45 + 385, 41, 45);
+            aBt.frame = CGRectMake(index * 41+24, page  *  45 + 395, 27, 27);
         }else{
-            aBt.frame = CGRectMake(index * 49+17, page  *  45 + 385, 49, 45);
+            superLabel.frame = CGRectMake(index * 49+17, page  *  45 + 385, 49, 45);
+            aBt.frame = CGRectMake(index * 49+24, page  *  45 + 395, 27, 27);
         }
-        aBt.layer.borderColor = MakeColor(244, 245, 246).CGColor;
-        aBt.layer.borderWidth = 0.8;
+        [aBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         aBt.tag = 1000+i;
         for (NSString *day in getOtherDaysArray) {
             if ((i-otherNum+1) == [day intValue]) {
-                [aBt setBackgroundColor:MakeColor(58, 196, 219)];
+                [aBt setBackgroundColor:MakeColor(150, 184, 245)];
+                [aBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             }
         }
         [aBt addTarget:self action:@selector(otherBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         aBt.titleLabel.textAlignment = NSTextAlignmentCenter;
-//        if (otherNum == 2) {
-            [aBt setTitle:[NSString stringWithFormat:@"%d",i-otherNum+1] forState:UIControlStateNormal];
-//        }
-        
-        [aBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [aBt setTitle:[NSString stringWithFormat:@"%d",i-otherNum+1] forState:UIControlStateNormal];
+
+        [bgView addSubview:superLabel];
         [bgView addSubview:aBt];
     }
-    
-//    for (int j = 0; j < 5; j++) {
-//        for (int i = 0; i < 7; i++) {
-//            UIButton *dayBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//            dayBtn.frame = CGRectMake(15+(kUIScreenWidth-30)/7*i, 45*j+75, (kUIScreenWidth-30)/7, 45);
-//            dayBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-//            [dayBtn setTitle:[NSString stringWithFormat:@"%d",7*j+i] forState:UIControlStateNormal];
-//            [dayBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//            [bgView addSubview:dayBtn];
-//            
-//        }
-//    }
     
 }
 
@@ -384,11 +388,13 @@
 -(void)btnAction:(id)sender
 {
     UIButton *btn = (UIButton *)sender;
-    if ([btn.backgroundColor isEqual:MakeColor(58, 196, 219)]) {
+    if ([btn.backgroundColor isEqual:MakeColor(150, 184, 245)]) {
         btn.backgroundColor = [UIColor whiteColor];
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [getDaysArray removeObject:btn.titleLabel.text];
     }else{
-        btn.backgroundColor = MakeColor(58, 196, 219);
+        btn.backgroundColor = MakeColor(150, 184, 245);
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [getDaysArray addObject:btn.titleLabel.text];
     }
     
@@ -397,11 +403,13 @@
 -(void)otherBtnAction:(id)sender
 {
     UIButton *btn = (UIButton *)sender;
-    if ([btn.backgroundColor isEqual:MakeColor(58, 196, 219)]) {
+    if ([btn.backgroundColor isEqual:MakeColor(150, 184, 245)]) {
         btn.backgroundColor = [UIColor whiteColor];
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [getOtherDaysArray removeObject:btn.titleLabel.text];
     }else{
-        btn.backgroundColor = MakeColor(58, 196, 219);
+        btn.backgroundColor = MakeColor(150, 184, 245);
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [getOtherDaysArray addObject:btn.titleLabel.text];
     }
 }
@@ -466,9 +474,8 @@
         if (self.username.length) {
             urlString = [NSString stringWithFormat:@"http://121.42.58.92/team/user/setting/time?token=%@&&username=%@",app.tocken,self.username];
             
-            //ustlist
-            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:jsonString,@"urlList",self.username,@"username", nil];
-            teamData = [self toJsonData:dic];
+            NSMutableString *STR = [NSMutableString stringWithFormat:@"{\n\"ustList\":%@,\n\"username\":\"%@\"\n}",jsonString,self.username];
+            teamData = [STR dataUsingEncoding:NSUTF8StringEncoding];
         }else{
             urlString = [NSString stringWithFormat:@"http://121.42.58.92/user/setting/time?token=%@&&username=%@",app.tocken,self.username];
         }
