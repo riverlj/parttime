@@ -45,7 +45,7 @@
     saveDaysArray = [NSMutableArray array];
     saveOtherDaysArray = [NSMutableArray array];
     [self navigationBar];
-//    [self initBtnView];
+
     [self getDate];
     
 }

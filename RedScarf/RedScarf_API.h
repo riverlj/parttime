@@ -13,6 +13,7 @@
 #define  REDSCARF_BASE_URL @"http://121.42.58.92"
 //#define  REDSCARF_BASE_URL @"http://192.168.1.41:8080"
 
+#define  CNINSURE_B2C_BASE_URL @"http://b2cmob.baoxian.com/b2cmobServer/"
 
 #import <Foundation/Foundation.h>
 #import "ASIFormDataRequest.h"

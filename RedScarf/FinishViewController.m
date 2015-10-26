@@ -19,6 +19,7 @@
     BOOL hidden;
     UIButton *button;
     int pageNum;
+    NSString *search;
     MJRefreshFooterView *footView;
     MJRefreshHeaderView *headView;
 }
@@ -32,10 +33,11 @@
     self.tabBarController.tabBar.hidden = YES;
     hidden = NO;
     self.dataArr = [NSMutableArray array];
+    self.searchDataArr = [NSMutableArray array];
     self.filteredArray = [NSMutableArray array];
     self.telArray = [NSMutableArray array];
     [self comeBack:nil];
-    
+    search = @"no";
     pageNum = 1;
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newshaixuan"] style:UIBarButtonItemStylePlain target:self action:nil];
     UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newshaixuan"] landscapeImagePhone:[UIImage imageNamed:@"newshaixuan"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickRight:)];
@@ -60,16 +62,16 @@
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
     [self.searchBar.layer setBorderColor:MakeColor(241, 241, 241).CGColor];
     [self.searchBar.layer setBorderWidth:1.0];
+    self.searchBar.delegate = self;
     [self.searchBar setBarTintColor:MakeColor(241, 241, 241)];
-    self.searchaDisplay = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
-    self.searchaDisplay.searchResultsDelegate = self;
-    self.searchaDisplay.searchResultsDataSource = self;
-    self.searchaDisplay.delegate = self;
     
-   self.finishTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, self.view.frame.size.height)];
+    self.finishTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, self.view.frame.size.height)];
+    self.finishTableView.backgroundColor = MakeColor(241, 241, 241);
     self.status = @"";
     self.finishTableView.delegate = self;
     self.finishTableView.dataSource = self;
+    UIView *foot = [[UIView alloc] init];
+    self.finishTableView.tableFooterView = foot;
     self.finishTableView.tableHeaderView = self.searchBar;
     self.finishTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.finishTableView];
@@ -86,39 +88,17 @@
 
 #pragma mark -- searchbarDelegate
 
--(void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [self.filteredArray removeAllObjects];
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"self contains [cd] %@",searchText];
-    NSArray *tempArray = [self.telArray filteredArrayUsingPredicate:pred];
-    
-    self.filteredArray = [NSMutableArray arrayWithArray:tempArray];
-    
+    [searchBar resignFirstResponder];
 }
 
-
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-//    [self filterContentForSearchText:searchString scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
-    [self getMessage:searchString];
-    return YES;
+    [self.view endEditing:YES];
+    [self getMessage:searchBar.text];
 }
 
-
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
-{
-    // 当用户改变搜索范围时，让列表的数据来源重新加载数据
-    [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
-    // 返回YES，让table view重新加载。
-    return YES;
-}
-
--(void)getFilterMsg
-{
-    
-}
-
-//~~~~~~~~
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
 {
     if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) {
@@ -149,9 +129,10 @@
     [RedScarf_API requestWithURL:@"/task/taskByStatus" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
-           
+            [self.searchDataArr removeAllObjects];
             for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
                 NSLog(@"dic = %@",dic);
+                NSLog(@"[dic objectForKey:@conten] = %@",[dic objectForKey:@"content"]);
                 Model *model = [[Model alloc] init];
                 model.nameStr = [dic objectForKey:@"username"];
                 model.chuLiStr = [dic objectForKey:@"username"];
@@ -159,11 +140,18 @@
                 model.telStr = [dic objectForKey:@"mobile"];
                 [self.telArray addObject:model.telStr];
                 model.addressStr = [dic objectForKey:@"apartmentname"];
-                model.foodStr = [dic objectForKey:@"content"];
+                model.foodArr = [dic objectForKey:@"content"];
                 model.dateStr = [dic objectForKey:@"endDate"];
                 model.numberStr = [dic objectForKey:@"sn"];
                 model.status = [dic objectForKey:@"status"];
-                [self.dataArr addObject:model];
+                if (phone.length) {
+                    [self.searchDataArr addObject:model];
+                    search = @"yes";
+                }else{
+                    search = @"no";
+                    [self.dataArr addObject:model];
+                }
+                
             }
             
             [self.finishTableView reloadData];
@@ -179,19 +167,34 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
    
-//    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
-//        return self.filteredArray.count;
-//        
-//    }else{
+    if ([search isEqualToString:@"yes"]) {
+        return self.searchDataArr.count;
+    }else{
          return self.dataArr.count;
-//    }
+    }
+
 
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 12;
+    if (section != 0) {
+        return 10;
+    }
+    return 0;
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
+
+//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 10)];
+//    view.backgroundColor = MakeColor(241, 241, 241);
+//    return view;
+//}
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -207,7 +210,8 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 160;
+    [self.view endEditing:YES];
+    return 180;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -235,7 +239,12 @@
 //        }
 //        
 //    }else{
-        model = [self.dataArr objectAtIndex:indexPath.section];
+    if ([search isEqualToString:@"yes"]) {
+         model = [self.searchDataArr objectAtIndex:indexPath.section];
+    }else{
+         model = [self.dataArr objectAtIndex:indexPath.section];
+    }
+    
 //    }
     
     cell.nameLabel.text = [NSString stringWithFormat:@"配送人:%@",model.nameStr];
@@ -243,7 +252,16 @@
     cell.buyerLabel.text = [NSString stringWithFormat:@"收货人：%@",model.buyerStr];
     cell.telLabel.text = [NSString stringWithFormat:@"%@",model.telStr];
     cell.addressLabel.text = [NSString stringWithFormat:@"%@",model.addressStr];
-    cell.foodLabel.text = [NSString stringWithFormat:@"%@",model.foodStr];
+    
+    NSString *contentStr = @"";
+    NSLog(@"food = %@",model.foodArr);
+    for (NSDictionary *dic in model.foodArr) {
+        contentStr = [contentStr stringByAppendingString:[dic objectForKey:@"content"]];
+        NSLog(@"contentStr = %@",contentStr);
+        NSLog(@"food = %@",[dic objectForKey:@"content"]);
+    }
+    NSLog(@"food = %@",contentStr);
+    cell.foodLabel.text = [NSString stringWithFormat:@"%@",contentStr];
 //        cell.dateLabel.text = [NSString stringWithFormat:@"下单：%@",model.dateStr];
     cell.numberLabel.text = [NSString stringWithFormat:@"任务编号：%@",model.numberStr];
     if ([model.status isEqualToString:@"FINISHED"]) {

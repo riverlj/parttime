@@ -17,6 +17,8 @@
 
 @property(nonatomic,strong)NSMutableArray *dataArr;
 
+@property(nonatomic,strong)NSMutableArray *searchDataArr;
+
 @property(nonatomic,strong)NSMutableArray *filteredArray;
 
 @property(nonatomic,strong)NSMutableArray *telArray;

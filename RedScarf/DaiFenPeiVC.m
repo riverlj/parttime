@@ -220,7 +220,7 @@
     }
     NSLog(@"aid = %@,room = %@",self.aId,room);
 
-    if ([feipeiBtn.backgroundColor isEqual: MakeColor(32, 44, 46)]) {
+    if ([feipeiBtn.backgroundColor isEqual: colorblue]) {
         AllocatingTaskVC *allocatingVC = [[AllocatingTaskVC alloc] init];
         allocatingVC.aId = self.aId;
         allocatingVC.room = room;

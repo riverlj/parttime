@@ -20,6 +20,8 @@
     UITextField *modifyTf;
     NSMutableArray *indexArr;
     UIImageView *finishImage;
+    
+    BOOL userEnable;
 }
 
 - (void)viewDidLoad {
@@ -100,8 +102,9 @@
 
 -(void)modifyRange
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth)];
-    self.tableView.userInteractionEnabled = NO;
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth-64)];
+//    self.tableView.userInteractionEnabled = NO;
+    userEnable = NO;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -135,6 +138,11 @@
     ListCell *cell = [[ListCell alloc] init];
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    }
+    if (userEnable) {
+        cell.userInteractionEnabled = YES;
+    }else{
+        cell.userInteractionEnabled = NO;
     }
     NSMutableDictionary *dic = [apartmentsArray objectAtIndex:indexPath.row];
     cell.photoView.hidden = YES;
@@ -207,7 +215,8 @@
 {
     if ([self.navigationItem.rightBarButtonItem.title isEqualToString:@"编辑"]) {
         self.navigationItem.rightBarButtonItem.title = @"保存";
-        self.tableView.userInteractionEnabled = YES;
+        userEnable = YES;
+        [self.tableView reloadData];
     }else{
         AppDelegate *app = [UIApplication sharedApplication].delegate;
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -232,7 +241,8 @@
         }];
 
         self.navigationItem.rightBarButtonItem.title = @"编辑";
-        self.tableView.userInteractionEnabled = NO;
+        userEnable = NO;
+        [self.tableView reloadData];
     }
 }
 

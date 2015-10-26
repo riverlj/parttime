@@ -66,7 +66,8 @@
         self.addressLabel.textColor = textcolor;
         [self.contentView addSubview:self.addressLabel];
         
-        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.addressLabel.frame.origin.y+self.addressLabel.frame.size.height, kUIScreenWidth-70, 20)];
+        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.addressLabel.frame.origin.y+self.addressLabel.frame.size.height, kUIScreenWidth-70, 30)];
+        self.foodLabel.numberOfLines = 0;
         self.foodLabel.font = textFont12;
         self.foodLabel.textColor = MakeColor(141, 173, 221);
         [self.contentView addSubview:self.foodLabel];

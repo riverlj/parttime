@@ -249,6 +249,7 @@
             NSString *url = @"/task/waitAssignTask/updateTask";
             
             if (self.room.length) {
+                self.room = [self.room stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 [params setValue:self.room forKey:@"room"];
             }
             //已分配跳过来的界面

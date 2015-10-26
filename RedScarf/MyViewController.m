@@ -295,10 +295,10 @@
             [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardNo"]];
             [personVC.personMsgArray addObject:@"密码"];
             [personVC.personMsgArray addObject:[info objectForKey:@"sex"]];
-            [self.navigationController pushViewController:personVC animated:YES];
 
         }
-            }
+        [self.navigationController pushViewController:personVC animated:YES];
+    }
     if (indexPath.section == 1) {
         
         if (indexPath.row == 0) {

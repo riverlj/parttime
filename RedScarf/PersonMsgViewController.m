@@ -259,6 +259,7 @@
     }
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.textLabel.textColor = MakeColor(91, 91, 91);
+    
     if (indexPath.section == 0) {
         
         UILabel *headLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2, 0, kUIScreenWidth/2-30, 45)];
@@ -266,7 +267,9 @@
         headLabel.font = textFont14;
         headLabel.textColor = MakeColor(91, 91, 91);
         headLabel.textAlignment = NSTextAlignmentRight;
-        headLabel.text = self.personMsgArray[indexPath.row];
+        if (self.personMsgArray.count) {
+             headLabel.text = self.personMsgArray[indexPath.row];
+        }
         
         UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kUIScreenWidth/2-30, 45)];
         nameLabel.font = textFont15;
@@ -284,12 +287,15 @@
                     genderView.image = [UIImage imageNamed:@"nv2x"];
                 }
             }else{
-                if ([[NSString stringWithFormat:@"%@",self.personMsgArray[7]] isEqualToString:@"1"]) {
-                    genderView.image = [UIImage imageNamed:@"nan2x"];
-                }else{
-                    genderView.frame = CGRectMake(headLabel.frame.size.width+headLabel.frame.origin.x+5, 15, 12, 15);
-                    genderView.image = [UIImage imageNamed:@"nv2x"];
+                if (self.personMsgArray.count) {
+                    if ([[NSString stringWithFormat:@"%@",self.personMsgArray[7]] isEqualToString:@"1"]) {
+                        genderView.image = [UIImage imageNamed:@"nan2x"];
+                    }else{
+                        genderView.frame = CGRectMake(headLabel.frame.size.width+headLabel.frame.origin.x+5, 15, 12, 15);
+                        genderView.image = [UIImage imageNamed:@"nv2x"];
+                    }
                 }
+                
             }
            
             [cell.contentView addSubview:genderView];
@@ -337,43 +343,46 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    ModifyPMViewController *modifyVC = [[ModifyPMViewController alloc] init];
-    ModifyPWViewController *modifyPW = [[ModifyPWViewController alloc] init];
-    if (indexPath.section == 0) {
+    if (self.personMsgArray.count) {
+        ModifyPMViewController *modifyVC = [[ModifyPMViewController alloc] init];
+        ModifyPWViewController *modifyPW = [[ModifyPWViewController alloc] init];
+        if (indexPath.section == 0) {
+            
+            if (indexPath.row == 0) {
+                modifyVC.name = self.personMsgArray[indexPath.row];
+                modifyVC.gender = [NSString stringWithFormat:@"%@",self.personMsgArray[7]];
+                modifyVC.judgeStr = @"name";
+            }
+            if (indexPath.row == 1) {
+                modifyVC.judgeStr = @"major";
+                modifyVC.schoolId = self.schoolId;
+            }
+            if (indexPath.row == 2) {
+                modifyVC.judgeStr = @"address";
+                modifyVC.schoolId = self.schoolId;
+                modifyVC.currentAddress = self.personMsgArray[2];
+            }
+            modifyVC.delegate = self;
+            [self.navigationController pushViewController:modifyVC animated:YES];
+        }
+        if (indexPath.section == 1) {
+            if (indexPath.row == 0) {
+                modifyPW.titleString = @"查看身份证";
+                modifyPW.idString = self.personMsgArray[4];
+            }
+            if (indexPath.row == 1) {
+                modifyPW.titleString = @"查看学生证";
+                modifyPW.idString = self.personMsgArray[5];
+            }
+            [self.navigationController pushViewController:modifyPW animated:YES];
+        }
+        if (indexPath.section == 2) {
+            modifyPW.titleString = @"修改密码";
+            [self.navigationController pushViewController:modifyPW animated:YES];
+        }
         
-        if (indexPath.row == 0) {
-            modifyVC.name = self.personMsgArray[indexPath.row];
-            modifyVC.gender = [NSString stringWithFormat:@"%@",self.personMsgArray[7]];
-            modifyVC.judgeStr = @"name";
-        }
-        if (indexPath.row == 1) {
-            modifyVC.judgeStr = @"major";
-            modifyVC.schoolId = self.schoolId;
-        }
-        if (indexPath.row == 2) {
-            modifyVC.judgeStr = @"address";
-            modifyVC.schoolId = self.schoolId;
-            modifyVC.currentAddress = self.personMsgArray[2];
-        }
-        modifyVC.delegate = self;
-        [self.navigationController pushViewController:modifyVC animated:YES];
+
     }
-    if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            modifyPW.titleString = @"查看身份证";
-            modifyPW.idString = self.personMsgArray[4];
-        }
-        if (indexPath.row == 1) {
-            modifyPW.titleString = @"查看学生证";
-             modifyPW.idString = self.personMsgArray[5];
-        }
-        [self.navigationController pushViewController:modifyPW animated:YES];
-    }
-    if (indexPath.section == 2) {
-        modifyPW.titleString = @"修改密码";
-        [self.navigationController pushViewController:modifyPW animated:YES];
-    }
-   
 }
 
 -(void)returnString:(NSString *)string gender:(NSString *)sex judge:(NSString *)from

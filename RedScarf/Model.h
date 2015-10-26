@@ -25,6 +25,7 @@
 @property(nonatomic,strong)NSString *numberStr;
 @property(nonatomic,strong)NSString *noctionStr;
 @property(nonatomic,strong)NSString *status;
+@property(nonatomic,strong)NSMutableArray *foodArr;
 
 //已分配
 @property(nonatomic,strong)NSString *mobile;
