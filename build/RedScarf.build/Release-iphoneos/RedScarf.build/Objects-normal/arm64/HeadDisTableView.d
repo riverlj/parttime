@@ -7,4 +7,5 @@ dependencies: \
   /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/AppDelegate.h \
   /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/BaseTabbarViewController.h \
   /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/UIUtils.h \
-  /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/Header.h
+  /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/Header.h \
+  /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/SeparateTableViewCell.h

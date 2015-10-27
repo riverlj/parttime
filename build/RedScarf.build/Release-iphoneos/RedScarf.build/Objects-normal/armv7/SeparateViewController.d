@@ -10,4 +10,5 @@ dependencies: \
   /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/UIUtils.h \
   /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/HeadDisTableView.h \
   /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/BaseTableView.h \
-  /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/GoPeiSongViewController.h
+  /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/GoPeiSongViewController.h \
+  /Users/zhangb/Desktop/RedScarf-zhangb-0902/RedScarf/SeparateTableViewCell.h

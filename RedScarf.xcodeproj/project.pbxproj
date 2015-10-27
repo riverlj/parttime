@@ -1830,8 +1830,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 兵 张 (UD8B5Z876T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 兵 张 (UD8B5Z876T)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Big brother Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1851,7 +1851,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "cdc5c58e-2885-4ae3-9407-c9777b9b9966";
+				PROVISIONING_PROFILE = "4c92a2ac-6719-46f1-9a89-580eeb7163f6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1874,8 +1874,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 兵 张 (UD8B5Z876T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 兵 张 (UD8B5Z876T)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Big brother Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1888,7 +1888,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "cdc5c58e-2885-4ae3-9407-c9777b9b9966";
+				PROVISIONING_PROFILE = "4c92a2ac-6719-46f1-9a89-580eeb7163f6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1901,8 +1901,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 兵 张 (UD8B5Z876T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 兵 张 (UD8B5Z876T)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Big brother Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/RedScarf/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -1924,7 +1924,7 @@
 					"$(PROJECT_DIR)/RedScarf/umeng_ios_social_sdk_4.2.3_arm64_custom/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cdc5c58e-2885-4ae3-9407-c9777b9b9966";
+				PROVISIONING_PROFILE = "4c92a2ac-6719-46f1-9a89-580eeb7163f6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1935,8 +1935,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 兵 张 (UD8B5Z876T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 兵 张 (UD8B5Z876T)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Big brother Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/RedScarf/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -1958,7 +1958,7 @@
 					"$(PROJECT_DIR)/RedScarf/umeng_ios_social_sdk_4.2.3_arm64_custom/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cdc5c58e-2885-4ae3-9407-c9777b9b9966";
+				PROVISIONING_PROFILE = "4c92a2ac-6719-46f1-9a89-580eeb7163f6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
