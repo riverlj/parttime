@@ -19,6 +19,7 @@
 #import "OrderRangeViewController.h"
 #import "OrderTimeViewController.h"
 #import "BannerViewController.h"
+#import "MsgViewController.h"
 
 @interface HomePageViewController ()
 
@@ -58,7 +59,7 @@
         imageArray = [NSArray arrayWithObjects:@"fencan@2x",@"lishi@2x",@"shijian2x",@"fanwei2x",@"tuiguang2x",@"qidai2x", nil];
     }
 
-    array = [NSArray arrayWithObjects:@"banner", nil];
+    array = [NSArray arrayWithObjects:@"newbanner", nil];
     self.title = @"首页";
     
     UIButton *button = (UIButton *)[self.tabBarController.view viewWithTag:11011];
@@ -72,8 +73,16 @@
     [btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
     btn.layer.masksToBounds = YES;
     [self.tabBarController.view addSubview:btn];
-    
+    UIImage *image = [[UIImage imageNamed:@"lingdang"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
+    self.navigationItem.rightBarButtonItem = r;
     [self initHomeView];
+}
+
+-(void)didClickMsg:(id)sender
+{
+    MsgViewController *msgVC = [[MsgViewController alloc] init];
+    [self.navigationController pushViewController:msgVC animated:YES];
 }
 
 -(void)pressChange:(id)sender

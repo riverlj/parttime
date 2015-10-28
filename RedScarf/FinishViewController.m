@@ -39,7 +39,7 @@
     [self comeBack:nil];
     search = @"no";
     pageNum = 1;
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newshaixuan"] style:UIBarButtonItemStylePlain target:self action:nil];
+    
     UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newshaixuan"] landscapeImagePhone:[UIImage imageNamed:@"newshaixuan"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickRight:)];
     
     UIButton *barBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];

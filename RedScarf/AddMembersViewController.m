@@ -8,6 +8,7 @@
 
 #import "AddMembersViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "Base64ForImage.h"
 
 @interface AddMembersViewController ()
 
@@ -23,16 +24,42 @@
     NSMutableArray *majorArray;
     NSMutableArray *addressArray;
     
-    NSData *idData;
-    NSData *studentIdData;
+    NSString *idString;
+    NSString *studentIdString;
+    
+    UIImage *idImage;
+    UIImage *stuImage;
     
     NSMutableDictionary *imageDic;
 
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    UIView *navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 64)];
+    [self.view addSubview:navigationView];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-60, 10, 160, 54)];
+    [self.view addSubview:title];
+    title.text = @"添加校园兼职";
+    
+    UIImageView *back = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 24, 34)];
+    back.image = [UIImage imageNamed:@"newfanhui"];
+    back.userInteractionEnabled = YES;
+    [self.view addSubview:back];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(comeToBack)];
+    tap.numberOfTapsRequired = 1;
+    [back addGestureRecognizer:tap];
+
+    
+    
     self.title = @"添加校园兼职";
     imgArray = [NSMutableArray arrayWithObjects:@"xingming2x",@"shouji2x",@"zhuzhi2x",@"shenfen2x",@"xuesheng2x", nil];
     imageDic = [NSMutableDictionary dictionary];
@@ -40,9 +67,14 @@
     [self initView];
 }
 
+-(void)comeToBack
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 -(void)initView
 {
-    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
+    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth)];
     scroll.tag = 10000;
     scroll.contentSize = CGSizeMake(0, kUIScreenHeigth*1.2);
     scroll.backgroundColor = bgcolor;
@@ -121,10 +153,14 @@
         
         if (i == 0) {
             papersImg.tag = 1000;
+            [papersImg setImage:idImage forState:UIControlStateNormal];
+
             label.text = @"身份证照片：";
         }
         if (i == 1) {
             papersImg.tag = 1001;
+            [papersImg setImage:stuImage forState:UIControlStateNormal];
+
             label.text = @"学生证照片：";
         }
     }
@@ -138,7 +174,7 @@
     saveBtn.layer.cornerRadius = 5;
     [saveBtn setBackgroundColor:MakeColor(85, 130, 255)];
     [saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [saveBtn addTarget:self action:@selector(saveMsg) forControlEvents:UIControlEventTouchUpInside];
+    [saveBtn addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
 }
 
 ////////获取地址
@@ -247,147 +283,6 @@
     
 }
 
-
-////////////////
--(void)saveMsg
-{
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    [params setObject:app.tocken forKey:@"token"];
-    
-    NSInteger major = [pickerView selectedRowInComponent:0];
-    //    NSLog(@"major = %@",[addressArray[major] objectForKey:@"id"]);
-    for (int i = 0; i < 4; i++) {
-        UITextField *tf = (UITextField *)[[self.view viewWithTag:10000] viewWithTag:100+i];
-        if (i == 0) {
-            [params setObject:tf.text forKey:@"realName"];
-        }
-        if (i == 1) {
-            [params setObject:tf.text forKey:@"mobilePhone"];
-        }
-        if (i == 2) {
-            [params setObject:[addressArray[major] objectForKey:@"id"] forKey:@"apartment.id"];
-        }
-        if (i == 3) {
-            [params setObject:tf.text forKey:@"studentIdCardNo"];
-        }
-        if (i == 4) {
-            [params setObject:tf.text forKey:@"idCardNo"];
-        }
-    }
-
-    
-    //分界线的标识符
-    NSString *TWITTERFON_FORM_BOUNDARY = @"AaB03x";
-    //根据url初始化request
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.1.47:8080/user?token=%@",app.tocken]]cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
-    
-    //分界线 --AaB03x
-    NSString *MPboundary=[[NSString alloc]initWithFormat:@"--%@",TWITTERFON_FORM_BOUNDARY];
-    //结束符 AaB03x--
-    NSString *endMPboundary=[[NSString alloc]initWithFormat:@"%@--",MPboundary];
-    //要上传的图片
-    UIImage *image;//=[params objectForKey:@"pic"];
-    //得到图片的data
-    //NSData* data = UIImagePNGRepresentation(image);
-    //http body的字符串
-    NSMutableString *body=[[NSMutableString alloc]init];
-    //参数的集合的所有key的集合
-    NSArray *keys= [params allKeys];
-    
-    //遍历keys
-    for(int i=0;i<[keys count];i++) {
-        //得到当前key
-        NSString *key=[keys objectAtIndex:i];
-        //如果key不是pic，说明value是字符类型，比如name：Boris
-        //if(![key isEqualToString:@"pic"]) {
-        //添加分界线，换行
-        [body appendFormat:@"%@\r\n",MPboundary];
-        //添加字段名称，换2行
-        [body appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",key];
-        //[body appendString:@"Content-Transfer-Encoding: 8bit"];
-        //添加字段的值
-        [body appendFormat:@"%@\r\n",[params objectForKey:key]];
-        //}
-    }
-    ////添加分界线，换行
-    //[body appendFormat:@"%@\r\n",MPboundary];
-    
-    //声明myRequestData，用来放入http body
-    NSMutableData *myRequestData=[NSMutableData data];
-    //将body字符串转化为UTF8格式的二进制
-    [myRequestData appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    //循环加入上传图片
-    keys = [imageDic allKeys];
-    for(int i = 0; i< [keys count] ; i++){
-        //要上传的图片
-        image = [imageDic objectForKey:[keys objectAtIndex:i]];
-        //得到图片的data
-        NSData* data =  UIImagePNGRepresentation(image);
-        NSMutableString *imgbody = [[NSMutableString alloc] init];
-        //此处循环添加图片文件
-        //添加图片信息字段
-        //声明pic字段，文件名为boris.png
-        //[body appendFormat:[NSString stringWithFormat: @"Content-Disposition: form-data; name=\"File\"; filename=\"%@\"\r\n", [keys objectAtIndex:i]]];
-        
-        ////添加分界线，换行
-        [imgbody appendFormat:@"%@\r\n",MPboundary];
-        [imgbody appendFormat:@"Content-Disposition: form-data; name=\"File%d\"; filename=\"%@.png\"\r\n", i, [keys objectAtIndex:i]];
-        //声明上传文件的格式
-        [imgbody appendFormat:@"Content-Type: image/png\r\n\r\n"];
-        
-        NSLog(@"上传的图片：%d  %@", i, [keys objectAtIndex:i]);
-        
-        //将body字符串转化为UTF8格式的二进制
-        //[myRequestData appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-        [myRequestData appendData:[imgbody dataUsingEncoding:NSUTF8StringEncoding]];
-        //将image的data加入
-        [myRequestData appendData:data];
-        [myRequestData appendData:[ @"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    }
-    //声明结束符：--AaB03x--
-    NSString *end=[[NSString alloc]initWithFormat:@"%@\r\n",endMPboundary];
-    //加入结束符--AaB03x--
-    [myRequestData appendData:[end dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    //设置HTTPHeader中Content-Type的值
-    NSString *content=[[NSString alloc]initWithFormat:@"multipart/form-data; boundary=%@",TWITTERFON_FORM_BOUNDARY];
-    //设置HTTPHeader
-    [request setValue:content forHTTPHeaderField:@"Content-Type"];
-    //[request setValue:@"keep-alive" forHTTPHeaderField:@"connection"];
-    //[request setValue:@"UTF-8" forHTTPHeaderField:@"Charsert"];
-    //设置Content-Length
-    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[myRequestData length]] forHTTPHeaderField:@"Content-Length"];
-    //设置http body
-    [request setHTTPBody:myRequestData];
-    //http method
-    [request setHTTPMethod:@"POST"];
-    
-    
-    //建立连接，设置代理
-    [NSURLConnection connectionWithRequest:request delegate:self];
-    
-    //设置接受response的data
-//    if (conn) {
-//        mResponseData = [NSMutableData data];
-//    }
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
-    if ([dataString containsString:@"true"]) {
-        [self alertView:@"修改成功"];
-        return;
-    }else{
-        [self alertView:@"修改失败"];
-    }
-    NSLog(@"dataString = %@",dataString);
-    
-}
-
 -(void)save
 {
     AppDelegate *app = [UIApplication sharedApplication].delegate;
@@ -396,7 +291,7 @@
 
     NSInteger major = [pickerView selectedRowInComponent:0];
 //    NSLog(@"major = %@",[addressArray[major] objectForKey:@"id"]);
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         UITextField *tf = (UITextField *)[[self.view viewWithTag:10000] viewWithTag:100+i];
         if (i == 0) {
             [params setObject:tf.text forKey:@"realName"];
@@ -414,14 +309,14 @@
             [params setObject:tf.text forKey:@"idCardNo"];
         }
     }
-//    [params setObject:studentIdData forKey:@"studentIdCardPics"];
-//
-//    [params setObject:idData forKey:@"idCardPics"];
 
-
+    NSArray *idArray = [NSArray arrayWithObjects:idString, nil];
+    NSArray *stuArray = [NSArray arrayWithObjects:studentIdString, nil];
+    [params setObject:idArray forKey:@"idCardPics"];
+    [params setObject:stuArray forKey:@"studentIdCardPics"];
     
     [self showHUD:@"正在加载"];
-    [RedScarf_API requestWithURL:[NSString stringWithFormat:@"/user?token=%@",app.tocken] params:params httpMethod:@"POST" block:^(id result) {
+    [RedScarf_API requestWithURL:[NSString stringWithFormat:@"/user/2?token=%@",app.tocken] params:params httpMethod:@"POST" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
            
@@ -468,7 +363,6 @@
         pichker.allowsEditing = YES;//是否可编辑
         //摄像头
         pichker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        // [self presentModalViewController:pichker animated:YES];
         [self presentViewController:pichker animated:YES completion:nil];
         
         
@@ -505,6 +399,17 @@
     }
     
 }
+
+-(NSString *) image2String:(UIImage *)image{
+    NSData* pictureData = UIImageJPEGRepresentation(image,0.3);//进行图片压缩从0.0到1.0（0.0表示最大压缩，质量最低);
+    NSLog(@"调用了image@String方法");
+    NSLog(@"%@这个值是什么实现的？",pictureData);
+    NSString* pictureDataString = [pictureData base64Encoding];//图片转码成为base64Encoding，
+    NSLog(@"%@++++是空值么？",pictureDataString);
+    NSLog(@"base64转码，的实验");
+    return pictureDataString;
+}
+
 //选中图片进入的代理方法
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
@@ -525,26 +430,18 @@
         }else{
             [imageDic setObject:image1 forKey:@"studentIdCardPics"];
         }
-
-//    }else{
-//        [imageArray addObject:image1];
-//    }
     
-    
-       [btn setImage:image1 forState:UIControlStateNormal];
+    [btn setImage:image1 forState:UIControlStateNormal];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
     
-    NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
-    
-    NSData *imageData = UIImagePNGRepresentation(image1);
     if (btn.tag == 1000) {
-        idData = imageData;
+        idString = [self image2String:image1];
+        idImage = image1;
     }else{
-        studentIdData = imageData;
+        studentIdString = [self image2String:image1];
+        stuImage = image1;
     }
-    
-    [imageData writeToFile:imageFile atomically:YES];
     
 }
 
@@ -553,31 +450,6 @@
     [textField resignFirstResponder];
     return YES;
 }
-
-//- (NSString *)saveImage:(UIImage *)tempImage WithName:(NSString *)imageName{
-//    NSData* imageData;
-//    
-//    //判断图片是不是png格式的文件
-//    if (UIImagePNGRepresentation(tempImage)) {
-//        //返回为png图像。
-//        imageData = UIImagePNGRepresentation(tempImage);
-//    }else {
-//        //返回为JPEG图像。
-//        imageData = UIImageJPEGRepresentation(tempImage, 1.0);
-//    }
-//    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-//    
-//    NSString* documentsDirectory = [paths objectAtIndex:0];
-//    
-//    NSString* fullPathToFile = [documentsDirectory stringByAppendingPathComponent:imageName];
-//    
-//    NSArray *nameAry=[fullPathToFile componentsSeparatedByString:@"/"];
-//    NSLog(@"===fullPathToFile===%@",fullPathToFile);
-//    NSLog(@"===FileName===%@",[nameAry objectAtIndex:[nameAry count]-1]);
-//    
-//    [imageData writeToFile:fullPathToFile atomically:NO];
-//    return fullPathToFile;
-//}
 
 
 #pragma mark 结束时恢复界面高度

@@ -295,7 +295,10 @@
             [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardNo"]];
             [personVC.personMsgArray addObject:@"密码"];
             [personVC.personMsgArray addObject:[info objectForKey:@"sex"]];
-
+            [personVC.personMsgArray addObject:[info objectForKey:@"idCardUrl1"]];
+            [personVC.personMsgArray addObject:[info objectForKey:@"idCardUrl2"]];
+            [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl1"]];
+            [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl2"]];
         }
         [self.navigationController pushViewController:personVC animated:YES];
     }

@@ -133,6 +133,7 @@
     self.YiFenPeiTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 115, kUIScreenWidth, kUIScreenHeigth-115)];
     self.YiFenPeiTableview.tag = 100002;
     self.YiFenPeiTableview.tableHeaderView = self.searchBar;
+    self.YiFenPeiTableview.backgroundColor = color242;
     self.YiFenPeiTableview.delegate = self;
     self.YiFenPeiTableview.dataSource = self;
     //去掉分割线

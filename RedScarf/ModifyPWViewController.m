@@ -90,6 +90,24 @@
     for (int i = 0; i < 2; i++) {
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake((kUIScreenWidth-60)/2*i+(i+1)*20, 210, (kUIScreenWidth-60)/2, 90)];
         img.image = [UIImage imageNamed:@"sn"];
+        
+        if ([self.titleString isEqualToString:@"查看身份证"]) {
+            if (i == 0) {
+                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.idUrl1]]];
+            }
+            if (i == 1) {
+                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.idUrl2]]];
+            }
+        }else{
+            if (i == 0) {
+                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.studentUrl1]]];
+            }
+            if (i == 1) {
+                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.studentUrl2]]];
+            }
+
+        }
+        
         [self.view addSubview:img];
     }
 }

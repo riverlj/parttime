@@ -86,30 +86,33 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
-    [params setObject:@"2" forKey:@"type"];
-    
-    [RedScarf_API requestWithURL:@"/user/version" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-            
-            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-            dic = [result objectForKey:@"body"];
-            NSString *versionStr = [dic objectForKey:@"version"];
-            
-            //当前版本
-            NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-            CFShow((__bridge CFTypeRef)(infoDictionary));
-            NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-            
-            if ([versionStr intValue] == [app_Version intValue]) {
-                UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                [aler show];
-            }
-        }
+    if (app.tocken.length) {
+        [params setObject:app.tocken forKey:@"token"];
+        [params setObject:@"2" forKey:@"type"];
         
-    }];
+        [RedScarf_API requestWithURL:@"/user/version" params:params httpMethod:@"GET" block:^(id result) {
+            NSLog(@"result = %@",result);
+            if (![[result objectForKey:@"code"] boolValue]) {
+                
+                NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+                dic = [result objectForKey:@"body"];
+                NSString *versionStr = [dic objectForKey:@"version"];
+                
+                //当前版本
+                NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+                CFShow((__bridge CFTypeRef)(infoDictionary));
+                NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+                
+                if ([versionStr intValue] == [app_Version intValue]) {
+//                    UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//                    [aler show];
+                }
+            }
+            
+        }];
+        
 
+    }
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

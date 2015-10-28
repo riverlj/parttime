@@ -40,9 +40,9 @@
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
     //添加成员
-//    UIImage *img= [[UIImage imageNamed:@"addmember"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-//    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(addMember)];
-//    self.navigationItem.rightBarButtonItem = right;
+    UIImage *img= [[UIImage imageNamed:@"addmember"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(addMember)];
+    self.navigationItem.rightBarButtonItem = right;
     listArray = [NSMutableArray array];
     nameArray = [NSMutableArray array];
 //    [self navigationBar];
@@ -53,7 +53,8 @@
 -(void)addMember
 {
     AddMembersViewController *addMembersVC = [[AddMembersViewController alloc] init];
-    [self.navigationController pushViewController:addMembersVC animated:YES];
+    [self presentViewController:addMembersVC animated:YES completion:nil];
+//    [self.navigationController pushViewController:addMembersVC animated:YES];
 }
 
 -(void)getMessage
