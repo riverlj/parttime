@@ -27,7 +27,8 @@
         self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 10, 250, 35)];
         [self.groundImage addSubview:self.nameLabel];
         self.nameLabel.font = [UIFont systemFontOfSize:16];
-        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, self.nameLabel.frame.size.height+self.nameLabel.frame.origin.y, 200, 30)];
+        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, self.nameLabel.frame.size.height+self.nameLabel.frame.origin.y, kUIScreenWidth-90, 30)];
+        self.foodLabel.numberOfLines = 0;
         self.foodLabel.font = [UIFont systemFontOfSize:12];
         [self.groundImage addSubview:self.foodLabel];
         
@@ -36,7 +37,7 @@
         self.numberLabel.textColor = MakeColor(187, 186, 193);
 
         [self.groundImage addSubview:self.numberLabel];
-        self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-100, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 110, 30)];
+        self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-120, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 110, 30)];
         self.dateLabel.textColor = MakeColor(187, 186, 193);
 
         self.dateLabel.font = [UIFont systemFontOfSize:12];

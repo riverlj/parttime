@@ -19,4 +19,6 @@
 
 @property(nonatomic,strong)UIImageView *photoView;
 
+@property(nonatomic,strong)UIImageView *finishImage;
+
 @end

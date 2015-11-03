@@ -22,12 +22,14 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = NO;
     [self.tabBarController.view viewWithTag:11011].hidden = NO;
 }
 
@@ -40,7 +42,9 @@
     self.view.backgroundColor = color242;
     self.title = @"分配任务";
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
-    [self.searchBar setBarTintColor:MakeColor(244, 245, 246)];
+    [self.searchBar.layer setBorderColor:color242.CGColor];
+    [self.searchBar.layer setBorderWidth:1.0];
+    [self.searchBar setBarTintColor:color242];
     self.searchaDisplay = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     self.searchaDisplay.searchResultsDelegate = self;
     self.searchaDisplay.searchResultsDataSource = self;
@@ -145,8 +149,7 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-    
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     cell.backgroundColor = color242;
     Model *model = [[Model alloc] init];
@@ -169,7 +172,7 @@
         model = [self.array objectAtIndex:indexPath.row];
 
         for (NSMutableDictionary *dic in model.tasksArr) {
-            str = [str stringByAppendingFormat:@"%@                                              \n",[dic objectForKey:@"apartmentName"]];
+            str = [str stringByAppendingFormat:@"\n%@                                              \n",[dic objectForKey:@"apartmentName"]];
         }
     }
     cell.addLabel.text = [NSString stringWithFormat:@"%@:%@",model.username,model.mobile];
@@ -179,58 +182,58 @@
    
     cell.button.tag = indexPath.row;
     cell.button.frame = CGRectMake(cell.groundImage.frame.size.width-60, 0, 60, cell.frame.size.height-15);
-    [cell.button addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.button addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    indexModel = [[Model alloc] init];
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-//    NSLog(@"self.aId = %@ ,self.room = %@",self.aId,self.room);
-//    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
-//        //根据名字查找对应的数据
-//        NSString *name = @"";
-//        name = [self.filteredArray objectAtIndex:indexPath.row];
-//        for (Model *mod in self.array) {
-//            if ([mod.username isEqualToString:name]) {
-//                indexModel = mod;
-//            }
-//        }
-//
-//    }else{
-//        indexModel = [self.array objectAtIndex:indexPath.row];
-//    }
-//    
-//    
-//    [self alertView:@"" number:1];
-   
-}
-
--(void)clickBtn:(id)sender
-{
-    UITableView *tableView = [[UITableView alloc] init];
-    UIButton *btn = (UIButton *)sender;
     indexModel = [[Model alloc] init];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     NSLog(@"self.aId = %@ ,self.room = %@",self.aId,self.room);
     if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
         //根据名字查找对应的数据
         NSString *name = @"";
-        name = [self.filteredArray objectAtIndex:btn.tag];
+        name = [self.filteredArray objectAtIndex:indexPath.row];
         for (Model *mod in self.array) {
             if ([mod.username isEqualToString:name]) {
                 indexModel = mod;
             }
         }
-        
+
     }else{
-        indexModel = [self.array objectAtIndex:btn.tag];
+        indexModel = [self.array objectAtIndex:indexPath.row];
     }
     
     
     [self alertView:@"" number:1];
+   
 }
+
+//-(void)clickBtn:(id)sender
+//{
+//    UITableView *tableView = [[UITableView alloc] init];
+//    UIButton *btn = (UIButton *)sender;
+//    indexModel = [[Model alloc] init];
+//    NSLog(@"self.aId = %@ ,self.room = %@",self.aId,self.room);
+//    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
+//        //根据名字查找对应的数据
+//        NSString *name = @"";
+//        name = [self.filteredArray objectAtIndex:btn.tag];
+//        for (Model *mod in self.array) {
+//            if ([mod.username isEqualToString:name]) {
+//                indexModel = mod;
+//            }
+//        }
+//        
+//    }else{
+//        indexModel = [self.array objectAtIndex:btn.tag];
+//    }
+//    
+//    
+//    [self alertView:@"" number:1];
+//}
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -246,6 +249,7 @@
             NSString *url = @"/task/waitAssignTask/updateTask";
             
             if (self.room.length) {
+                self.room = [self.room stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 [params setValue:self.room forKey:@"room"];
             }
             //已分配跳过来的界面

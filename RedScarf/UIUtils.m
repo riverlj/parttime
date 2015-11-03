@@ -41,7 +41,7 @@
 
 //验证数字
 + (BOOL)isNumber:(NSString *)str {
-    NSString *regex = @"[0-9]{1,6}";
+    NSString *regex = @"[0-9]{1,25}";
     NSPredicate *mobileTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
     return [mobileTest evaluateWithObject:str];
 }
@@ -54,6 +54,16 @@
     
     return [emailTest evaluateWithObject:email];
 }
+
+//验证姓名  是 4- 12个汉字 或 字母
++ (BOOL)isValidateCharacter:(NSString *)str {
+    
+    NSString *regex = @"[\u4e00-\u9fa5]{2,14}|[A-Z,a-z]{2,14}";
+    NSPredicate *mobileTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [mobileTest evaluateWithObject:str];
+    
+}
+
 
 
 

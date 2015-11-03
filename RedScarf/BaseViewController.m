@@ -28,9 +28,7 @@
 
 -(void)navigationBar
 {
-//    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-//    left.tintColor = [UIColor whiteColor];
-//    self.navigationItem.leftBarButtonItem = left;
+
 }
 
 -(void)comeBack:(UIColor *)color

@@ -19,10 +19,18 @@
     NSMutableArray *idArray;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
+    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"配送范围";
+    self.view.backgroundColor = color242;
     self.tabBarController.tabBar.hidden = YES;
     addressArray = [NSMutableArray array];
     idArray = [NSMutableArray array];
@@ -33,13 +41,6 @@
 
 -(void)navigationBar
 {
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-//    left.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = left;
-//    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-//    right.tintColor = [UIColor whiteColor];
-//    self.navigationItem.rightBarButtonItem = right;
-    
     //隐藏tabbar上的按钮
     UIButton *barBtn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
     [barBtn removeFromSuperview];
@@ -47,9 +48,12 @@
 
 -(void)initTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 15, kUIScreenWidth-30, kUIScreenHeigth)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    UIView *foot = [[UIView alloc] init];
+    self.tableView.tableFooterView = foot;
+    self.tableView.backgroundColor = color242;
     [self.view addSubview:self.tableView];
 }
 
@@ -59,7 +63,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    
+    [params setObject:self.username forKey:@"username"];
     [RedScarf_API requestWithURL:@"/user/setting/addr" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
@@ -91,6 +95,11 @@
     return addressArray.count;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
+}
+
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -99,13 +108,18 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
+    
     NSMutableDictionary *dic = [addressArray objectAtIndex:indexPath.row];
     
     cell.textLabel.text = [dic objectForKey:@"name"];
     
-    for (NSString *str in idArray) {
+    NSString *select = idArray[0];
+    NSArray *arr = [select componentsSeparatedByString:@","];
+    for (NSString *str in arr) {
         if ([str isEqualToString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]]) {
-            cell.backgroundColor = MakeColor(32, 190, 251);
+            UIImageView *finishImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 0, 50, 50)];
+            [cell.contentView addSubview:finishImage];
+            finishImage.image = [UIImage imageNamed:@"peisong2x"];
         }
     }
     

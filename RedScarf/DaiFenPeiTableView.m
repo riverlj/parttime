@@ -75,7 +75,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 55;
+    return 45;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,10 +90,10 @@
     NSString *str = [NSString stringWithFormat:@"%@",[dic objectForKey:@"apartmentName"]];
     CGSize size = CGSizeMake(kUIScreenWidth-125, 30);
     CGSize labelSize = [str sizeWithFont:cell.addressLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    cell.addressLabel.frame = CGRectMake(10, 17, labelSize.width, labelSize.height);
+    cell.addressLabel.frame = CGRectMake(20, 12, labelSize.width, labelSize.height);
     cell.addressLabel.text = str;
     
-    UILabel *taskNum = [[UILabel alloc] initWithFrame:CGRectMake(cell.addressLabel.frame.size.width+cell.addressLabel.frame.origin.x+5, 19, 30, 15)];
+    UILabel *taskNum = [[UILabel alloc] initWithFrame:CGRectMake(cell.addressLabel.frame.size.width+cell.addressLabel.frame.origin.x+5, 14, 30, 15)];
     taskNum.font = [UIFont systemFontOfSize:13];
     taskNum.text = [NSString stringWithFormat:@"%@份",[dic objectForKey:@"taskNum"]];
     taskNum.textColor = [UIColor grayColor];

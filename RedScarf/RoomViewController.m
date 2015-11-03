@@ -20,11 +20,14 @@
     UIButton *notBtn;
     NSMutableArray *numArr;
     NSString *yesOrNo;
+    
+    NSString *judgeAlterView;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
 }
 
@@ -33,6 +36,7 @@
     self.navigationController.navigationBar.hidden = NO;
     self.view.backgroundColor = color242;
     self.tabBarController.tabBar.hidden = YES;
+    judgeAlterView = @"yes";
     self.title = self.titleStr;
     numArr = [NSMutableArray array];
     self.dataArray = [NSMutableArray array];
@@ -59,6 +63,7 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.aId forKey:@"aId"];
+    self.room = [self.room stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:self.room forKey:@"room"];
     
     [RedScarf_API requestWithURL:@"/task/assignedTask/customerDetail" params:params httpMethod:@"GET" block:^(id result) {
@@ -111,7 +116,12 @@
     NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
     
     cell.nameLabel.text = [NSString stringWithFormat:@"%@:%@",[dic objectForKey:@"customerName"],[dic objectForKey:@"mobile"]];
-    cell.foodLabel.text = [dic objectForKey:@"content"];
+    //content是个数组
+    NSString *contentStr = @"";
+    for (NSDictionary *content in [dic objectForKey:@"content"]) {
+        contentStr = [contentStr stringByAppendingString:[content objectForKey:@"content"]];
+    }
+    cell.foodLabel.text = contentStr;
     cell.numberLabel.text = [NSString stringWithFormat:@"任务编号:%@",[dic objectForKey:@"sn"]];
     cell.dateLabel.text = [dic objectForKey:@"date"];
     
@@ -185,27 +195,13 @@
 
 -(void)didClickDoBtn
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
-    [params setObject:self.sn forKey:@"sn"];
     
-    [RedScarf_API requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            yesOrNo = @"yes";
-            [self alertView:@"成功送达"];
-        }else{
-            yesOrNo = @"yes";
-            [self alertView:[result objectForKey:@"msg"]];
-        }
-    }];
+    [self alertView:@"确认送达"];
 }
 
 -(void)didClickNotBtn
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"提示" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"库存不足",@"没有原因",@"生病了", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"提示" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"餐品不够",@"送错或漏送",@"餐品腐坏",@"餐品破损",@"其他", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -215,17 +211,27 @@
     switch (buttonIndex) {
         case 0:
         {
-            reason = @"库存不足";
+            reason = @"餐品不够";
         }
             break;
         case 1:
         {
-            reason = @"就是不想送";
+            reason = @"送错或漏送";
         }
             break;
         case 2:
         {
-            reason = @"生病了";
+            reason = @"餐品腐坏";
+        }
+            break;
+        case 3:
+        {
+            reason = @"餐品破损";
+        }
+            break;
+        case 4:
+        {
+            reason = @"其他";
         }
             break;
         default:
@@ -244,8 +250,11 @@
             NSLog(@"result = %@",result);
             if ([[result objectForKey:@"success"] boolValue]) {
                 [self alertView:@"提交成功"];
+                judgeAlterView = @"no";
+                return ;
             }else{
                 [self alertView:[result objectForKey:@"msg"]];
+                return;
             }
         }];
 
@@ -255,7 +264,7 @@
 
 -(void)alertView:(NSString *)msg
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
     [alertView show];
 }
 
@@ -264,11 +273,31 @@
     switch (buttonIndex) {
         case 0:
         {
-//            if ([yesOrNo isEqualToString:@"yes"]) {
-//                [self getMessage];
-//                [self.detailTableView reloadData];
+            if ([judgeAlterView isEqualToString:@"yes"]) {
+                judgeAlterView = @"no";
+                AppDelegate *app = [UIApplication sharedApplication].delegate;
+                NSMutableDictionary *params = [NSMutableDictionary dictionary];
+                app.tocken = [UIUtils replaceAdd:app.tocken];
+                [params setObject:app.tocken forKey:@"token"];
+                [params setObject:self.sn forKey:@"sn"];
+                
+                [RedScarf_API requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" block:^(id result) {
+                    NSLog(@"result = %@",result);
+                    if ([[result objectForKey:@"success"] boolValue]) {
+                        yesOrNo = @"yes";
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"成功送达" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                        [alertView show];
+                        
+                    }else{
+                        yesOrNo = @"yes";
+                        [self alertView:[result objectForKey:@"msg"]];
+                    }
+                }];
+
+            }else{
                 [self.navigationController popViewControllerAnimated:YES];
-//            }
+            }
+            
         }
             break;
         case 1:

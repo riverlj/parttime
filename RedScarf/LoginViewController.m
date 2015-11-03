@@ -12,6 +12,7 @@
 #import "RedScarf_API.h"
 #import "UIUtils.h"
 #import "Flurry.h"
+#import "ForgetPassViewController.h"
 
 
 @interface LoginViewController ()
@@ -114,7 +115,7 @@
     UIButton *forgetBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [forgetBtn setTitleColor:MakeColor(32, 102, 208) forState:UIControlStateNormal];
     forgetBtn.frame = CGRectMake(loginBtn.frame.origin.x+loginBtn.frame.size.width/2-35, loginBtn.frame.size.height+loginBtn.frame.origin.y+7, 70, 30);
-//    [self.view addSubview:forgetBtn];
+    [self.view addSubview:forgetBtn];
     [forgetBtn addTarget:self action:@selector(ForgetPassWord) forControlEvents:UIControlEventTouchUpInside];
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"忘记密码?"];
     NSRange strRange = {0,[str length]};
@@ -139,7 +140,7 @@
         return;
     }
     if (nameField.text.length != 11) {
-        [self alertView:@"用户名不正确"];
+        [self alertView:@"用户名输入不正确"];
         return;
     }
     if (passField.text.length == 0) {
@@ -195,13 +196,14 @@
                 }];
                     
                 }
-            }];
+        }];
     
 }
 
 -(void)ForgetPassWord
 {
-    
+    ForgetPassViewController *forgetPassVC = [[ForgetPassViewController alloc] init];
+    [self presentViewController:forgetPassVC animated:YES completion:nil];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

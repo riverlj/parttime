@@ -13,41 +13,20 @@
 
 @implementation MoneyOfMonth
 {
-    UIPickerView *pickerView;
-    NSArray *monthArray;
-    NSArray *yearArray;
     
     NSString *dateStr;
-    
+    NSString *string;
     NSMutableArray *eveydayArray;
     NSMutableArray *salayArray;
+    int tag;
+    UILabel *dateLabel;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    NSDate *now = [NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM:"];
-    NSString *string = [formatter stringFromDate:now];
-    string = [string stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
-    string = [string stringByReplacingOccurrencesOfString:@":" withString:@"月"];
-
-    [btn setTitle:string forState:UIControlStateNormal];
-    btn.tag = 30001;
-    [btn addTarget:self action:@selector(initDatePickerView) forControlEvents:UIControlEventTouchUpInside];
-//    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:16];
-    btn.frame = CGRectMake(kUIScreenWidth/2-50, 0, 100, 40);
-    [self.navigationController.navigationBar addSubview:btn];
-    
-    dateStr = @"";
-    dateStr = [string stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
-    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
-    dateStr = [NSString stringWithFormat:@"%@01",dateStr];
-    [self getMessage];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -58,8 +37,7 @@
 
 -(void)viewDidLoad
 {
-    monthArray = [NSArray arrayWithObjects:@"01月",@"02月",@"03月",@"04月",@"05月",@"06月",@"07月",@"08月",@"09月",@"10月",@"11月",@"12月", nil];
-    yearArray = [NSArray arrayWithObjects:@"2015年",@"2016年",@"2017年",@"2018年",@"2019年",@"2020年",@"2021年",@"2022年",@"2023年",@"2024年",@"2025年",@"2026年", nil];
+    self.title = @"我的工资";
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -67,9 +45,22 @@
     
     eveydayArray = [NSMutableArray array];
     salayArray = [NSMutableArray array];
-    
-//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
+    tag = 0;
     self.tabBarController.tabBar.hidden = YES;
+    
+    NSDate *now = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM:"];
+    string = [formatter stringFromDate:now];
+    string = [string stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
+    string = [string stringByReplacingOccurrencesOfString:@":" withString:@"月"];
+    
+    dateStr = @"";
+    dateStr = [string stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
+    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
+    dateStr = [NSString stringWithFormat:@"%@01",dateStr];
+    [self getMessage];
+    
     [self navigationBar];
     [self initTableView];
     
@@ -86,7 +77,7 @@
     [RedScarf_API requestWithURL:@"/salary/month" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
-            
+            [eveydayArray removeAllObjects];
             for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
                 NSLog(@"dic = %@",dic);
                 [eveydayArray addObject:[dic objectForKey:@"date"]];
@@ -97,90 +88,56 @@
     }];
 }
 
-
--(void)initDatePickerView
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-100, self.view.frame.size.height/2-120, 200, 240)];
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, view.frame.size.width, 40)];
-    head.backgroundColor = MakeColor(32, 102, 208);
-    [view addSubview:head];
-    
-    view.backgroundColor = [UIColor whiteColor];
-    view.layer.masksToBounds = YES;
-    view.layer.borderWidth = 1.0;
-    view.layer.borderColor = MakeColor(75, 75, 75).CGColor;
-    view.tag = 101;
-    view.layer.cornerRadius = 5;
-    [self.view addSubview:view];
-    
-    pickerView = [[UIPickerView alloc] init];
-    pickerView.delegate = self;
-    pickerView.dataSource = self;
-    pickerView.frame = CGRectMake(0, -20, 200, 240);
-    [view addSubview:pickerView];
-    
-    UIButton *makeSureBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    makeSureBtn.frame = CGRectMake(70, 200, 60, 30);
-    makeSureBtn.layer.cornerRadius = 3;
-    makeSureBtn.layer.masksToBounds = YES;
-    makeSureBtn.layer.borderColor = MakeColor(32, 102, 208).CGColor;
-    makeSureBtn.layer.borderWidth = 1.0;
-    [makeSureBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [makeSureBtn addTarget:self action:@selector(didClickMakeSureBtn) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:makeSureBtn];
-    
-}
-
--(void)didClickMakeSureBtn
-{
-    NSInteger yearRow = [pickerView selectedRowInComponent:0];
-    NSInteger monthRow = [pickerView selectedRowInComponent:1];
-    
-    UIButton *btn = (UIButton *)[self.navigationController.navigationBar viewWithTag:30001];
-    [btn setTitle:[NSString stringWithFormat:@"%@%@",yearArray[yearRow],monthArray[monthRow]] forState:UIControlStateNormal];
-    btn.titleLabel.text = [btn.titleLabel.text stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
-    btn.titleLabel.text = [btn.titleLabel.text stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
-    
-    dateStr = @"";
-    dateStr = [NSString stringWithFormat:@"%@01",btn.titleLabel.text];
-    [self getMessage];
-    [[self.view viewWithTag:101] removeFromSuperview];
-}
-
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return yearArray.count;
-}
-
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 2;
-}
-
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    if (component == 0) {
-        return yearArray[row];
-    }
-    if (component == 1) {
-        return monthArray[row];
-    }
-    
-    return nil;
-}
-
-
 -(void)initTableView
 {
-    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 64, kUIScreenWidth, 40)];
-    countLabel.text = [NSString stringWithFormat:@"本月工资：%@",self.salary];
+    UIImageView *roundView = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-60, 85, 120, 120)];
+    roundView.layer.cornerRadius = 60;
+    roundView.layer.masksToBounds = YES;
+    [self.view addSubview:roundView];
+    roundView.layer.borderColor = MakeColor(63, 196, 221).CGColor;
+    roundView.layer.borderWidth = 2.0;
+    
+    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(roundView.frame.origin.x+roundView.frame.size.width/2-20, roundView.frame.origin.y+30, 40, 20)];
+    countLabel.text = [NSString stringWithFormat:@"月工资"];
     countLabel.textColor = MakeColor(87, 87, 87);
     countLabel.font = [UIFont systemFontOfSize:12];
     [self.view addSubview:countLabel];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 104, kUIScreenWidth-30, kUIScreenHeigth-5)];
+    UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(roundView.frame.origin.x+10, roundView.frame.origin.y+50, 100, 40)];
+    moneyLabel.textAlignment = NSTextAlignmentCenter;
+    moneyLabel.text = [NSString stringWithFormat:@"%@",self.salary];
+    moneyLabel.textColor = MakeColor(87, 87, 87);
+    moneyLabel.font = [UIFont systemFontOfSize:18];
+    [self.view addSubview:moneyLabel];
+    
+    dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-60, roundView.frame.origin.y+roundView.frame.size.height+5, 120, 40)];
+    dateLabel.textAlignment = NSTextAlignmentCenter;
+    dateLabel.text = string;
+    [self.view addSubview:dateLabel];
+    dateLabel.textColor = colorblue;
+    
+    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [leftBtn addTarget:self action:@selector(leftBtn) forControlEvents:UIControlEventTouchUpInside];
+    leftBtn.frame = CGRectMake(kUIScreenWidth/4-30, roundView.frame.origin.y+roundView.frame.size.height/2-10, 30, 30);
+    [leftBtn setBackgroundImage:[UIImage imageNamed:@"zuo"] forState:UIControlStateNormal];
+    [self.view addSubview:leftBtn];
+    
+    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [rightBtn addTarget:self action:@selector(rightBtn) forControlEvents:UIControlEventTouchUpInside];
+    rightBtn.frame = CGRectMake(kUIScreenWidth/4*3, roundView.frame.origin.y+roundView.frame.size.height/2-10, 30, 30);
+    [rightBtn setBackgroundImage:[UIImage imageNamed:@"newyou"] forState:UIControlStateNormal];
+    [self.view addSubview:rightBtn];
+    
+    if (kUIScreenWidth == 320) {
+         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, dateLabel.frame.size.height+dateLabel.frame.origin.y+5, kUIScreenWidth-30, kUIScreenHeigth/2)];
+    }else{
+         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, dateLabel.frame.size.height+dateLabel.frame.origin.y+5, kUIScreenWidth-30, kUIScreenHeigth/2+50)];
+    }
+   
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.layer.borderWidth = 0.5;
+    self.tableView.layer.borderColor = color242.CGColor;
     [self.view addSubview:self.tableView];
 }
 
@@ -250,22 +207,27 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     
-        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,(kUIScreenWidth-30)/2 , 40)];
-        dateLabel.text = [eveydayArray objectAtIndex:indexPath.row];
-        dateLabel.font = [UIFont systemFontOfSize:13];
-        dateLabel.textAlignment = NSTextAlignmentCenter;
-        dateLabel.textColor = MakeColor(75, 75, 75);
-        [cell.contentView addSubview:dateLabel];
+        UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,(kUIScreenWidth-30)/2 , 40)];
+        date.text = [eveydayArray objectAtIndex:indexPath.row];
+        date.font = [UIFont systemFontOfSize:13];
+        date.textAlignment = NSTextAlignmentCenter;
+        date.textColor = MakeColor(75, 75, 75);
+        [cell.contentView addSubview:date];
 
         UIButton *totalCount = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        totalCount.frame = CGRectMake((kUIScreenWidth-30)/2, 0, (kUIScreenWidth-30)/2, 40);
+        totalCount.frame = CGRectMake((kUIScreenWidth-30)/2, 0, (kUIScreenWidth-30)/2-35, 40);
         [totalCount setTitle:[NSString stringWithFormat:@"%@",salayArray[indexPath.row]] forState:UIControlStateNormal];
         [totalCount setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-        totalCount.tag = indexPath.row;
-        [totalCount addTarget:self action:@selector(DetailMoneyOfMonth:) forControlEvents:UIControlEventTouchUpInside];
+    
         [cell.contentView addSubview:totalCount];
     
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    UIButton *detailBtn = [[UIButton alloc] initWithFrame:CGRectMake(totalCount.frame.origin.x+totalCount.frame.size.width, 12, 15, 15)];
+    [cell.contentView addSubview:detailBtn];
+    [detailBtn setBackgroundImage:[UIImage imageNamed:@"xiangqin"] forState:UIControlStateNormal];
+     detailBtn.tag = indexPath.row;
+    [detailBtn addTarget:self action:@selector(DetailMoneyOfMonth:) forControlEvents:UIControlEventTouchUpInside];
+    
+//    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return cell;
 }
@@ -292,6 +254,59 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)leftBtn
+{
+    NSDate *date = [NSDate date];
+    tag--;
+    NSTimeInterval interval = 30*24*60*60*tag;
+    NSDate *date1 = [date initWithTimeIntervalSinceNow:+interval];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM:"];
+    NSString *Str = [formatter stringFromDate:date1];
+    Str = [Str stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
+    Str = [Str stringByReplacingOccurrencesOfString:@":" withString:@"月"];
+    
+    dateLabel.text = Str;
+    dateStr = [Str stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
+    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
+    dateStr = [NSString stringWithFormat:@"%@01",dateStr];
+    [self getMessage];
+}
+
+-(void)rightBtn
+{
+    NSDate *date = [NSDate date];
+    tag++;
+    NSTimeInterval interval = 30*24*60*60*tag;
+    NSDate *date1 = [date initWithTimeIntervalSinceNow:+interval];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM:"];
+    NSString *Str = [formatter stringFromDate:date1];
+    Str = [Str stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
+    Str = [Str stringByReplacingOccurrencesOfString:@":" withString:@"月"];
+    
+    
+    dateStr = [Str stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
+    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
+    
+    //判断月份是否大于当前月
+    NSString *dateString = dateStr;
+    dateString = [dateString stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    string = [string stringByReplacingOccurrencesOfString:@"年" withString:@""];
+    string = [string stringByReplacingOccurrencesOfString:@"月" withString:@""];
+    if ([dateString intValue] > [string intValue]) {
+        tag--;
+        [self alertView:@"查询月份不能大于当前月"];
+        return;
+    }else{
+        dateLabel.text = Str;
+        dateStr = [NSString stringWithFormat:@"%@01",dateStr];
+        [self getMessage];
+    }
+    
+}
 
 
 @end

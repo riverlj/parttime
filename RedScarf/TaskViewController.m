@@ -44,13 +44,14 @@
 {
     [super viewWillAppear:animated];
     [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
 
     self.tabBarController.tabBar.hidden = YES;
 //    self.navigationController.navigationBar.hidden = YES;
     
     if (disTableView.nameTableView.length) {
-        [self didClickPeiSong];
+//        [self didClickPeiSong];
         disTableView.nameTableView = @"";
     }
     if (self.yiOrDaifenpei.length) {
@@ -66,6 +67,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = NO;
     [self.tabBarController.view viewWithTag:11011].hidden = NO;
 }
 
@@ -112,7 +114,7 @@
     [view addSubview:OverBtn];
     
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 48, kUIScreenWidth/2, 3)];
-    footView.backgroundColor = MakeColor(32, 102, 208);
+    footView.backgroundColor =  MakeColor(79, 136, 251);
     footView.tag = 10001;
     [view addSubview:footView];
     [self setBtnBackgroundColor:0];
@@ -123,11 +125,15 @@
 
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 115, kUIScreenWidth, 51)];
     self.searchBar.delegate = self;
+    [self.searchBar setBarTintColor:color242];
+    [self.searchBar.layer setBorderColor:color242.CGColor];
+    [self.searchBar.layer setBorderWidth:1.0];
     
     self.searchBar.placeholder = @"搜索配送人";
     self.YiFenPeiTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 115, kUIScreenWidth, kUIScreenHeigth-115)];
     self.YiFenPeiTableview.tag = 100002;
     self.YiFenPeiTableview.tableHeaderView = self.searchBar;
+    self.YiFenPeiTableview.backgroundColor = color242;
     self.YiFenPeiTableview.delegate = self;
     self.YiFenPeiTableview.dataSource = self;
     //去掉分割线
@@ -198,52 +204,52 @@
 
 }
 
--(void)didClickPeiSong
-{
-    [self setBtnBackgroundColor:2];
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    btn = (UIButton *)[navigationView viewWithTag:102];
-    [btn setBackgroundColor:MakeColor(21, 83, 177)];
-
-    NSArray *views = [self.view subviews];
-    for (UITableView *table in views) {
-        if ([table isKindOfClass:[UITableView class]]) {
-            [table removeFromSuperview];
-
-        }
-    }
-
-    [[self.view viewWithTag:10000] setHidden:YES];
-    
-    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(40, navigationView.frame.origin.y+navigationView.frame.size.height, kUIScreenWidth-80, kUIScreenHeigth/2-55)];
-    [self.view addSubview:backgroundView];
-    backgroundView.tag = 100006;
-//    backgroundView.contentMode = UIViewContentModeScaleAspectFit;
-    backgroundView.image = [UIImage imageNamed:@"beijing@2x"];
-    backgroundView.userInteractionEnabled = YES;
-    
-    HeadDisTableView *headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 0,backgroundView.frame.size.width-30, backgroundView.frame.size.height-50)];
-    headTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    headTableView.tag = 100005;
-    [backgroundView addSubview:headTableView];
-    
-    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(backgroundView.frame.size.width/2-80, headTableView.frame.size.height+headTableView.frame.origin.y+12, 160, 10)];
-    countLabel.tag = 100008;
-    countLabel.text = [NSString stringWithFormat:@"—总计:%d份—",countStr];
-    countLabel.font = [UIFont systemFontOfSize:12];
-    countLabel.textAlignment = UITextAlignmentCenter;
-    [backgroundView addSubview:countLabel];
-    
-    
-    disTableView = [[DistributionTableView alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth/2+10, kUIScreenWidth,kUIScreenHeigth/2-55)];
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(10, 0, kUIScreenWidth-10, 0.5)];
-    line.backgroundColor = MakeColor(187, 186, 193);
-    UIView *footView = [[UIView alloc] init];
-    disTableView.tableFooterView = footView;
-    disTableView.tableHeaderView = line;
-    [self.view addSubview:disTableView];
-}
-
+//-(void)didClickPeiSong
+//{
+//    [self setBtnBackgroundColor:2];
+//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    btn = (UIButton *)[navigationView viewWithTag:102];
+//    [btn setBackgroundColor:MakeColor(21, 83, 177)];
+//
+//    NSArray *views = [self.view subviews];
+//    for (UITableView *table in views) {
+//        if ([table isKindOfClass:[UITableView class]]) {
+//            [table removeFromSuperview];
+//
+//        }
+//    }
+//
+//    [[self.view viewWithTag:10000] setHidden:YES];
+//    
+//    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(40, navigationView.frame.origin.y+navigationView.frame.size.height, kUIScreenWidth-80, kUIScreenHeigth/2-55)];
+//    [self.view addSubview:backgroundView];
+//    backgroundView.tag = 100006;
+////    backgroundView.contentMode = UIViewContentModeScaleAspectFit;
+//    backgroundView.image = [UIImage imageNamed:@"beijing@2x"];
+//    backgroundView.userInteractionEnabled = YES;
+//    
+//    HeadDisTableView *headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 0,backgroundView.frame.size.width-30, backgroundView.frame.size.height-50)];
+//    headTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    headTableView.tag = 100005;
+//    [backgroundView addSubview:headTableView];
+//    
+//    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(backgroundView.frame.size.width/2-80, headTableView.frame.size.height+headTableView.frame.origin.y+12, 160, 10)];
+//    countLabel.tag = 100008;
+//    countLabel.text = [NSString stringWithFormat:@"—总计:%d份—",countStr];
+//    countLabel.font = [UIFont systemFontOfSize:12];
+//    countLabel.textAlignment = UITextAlignmentCenter;
+//    [backgroundView addSubview:countLabel];
+//    
+//    
+//    disTableView = [[DistributionTableView alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth/2+10, kUIScreenWidth,kUIScreenHeigth/2-55)];
+//    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(10, 0, kUIScreenWidth-10, 0.5)];
+//    line.backgroundColor = MakeColor(187, 186, 193);
+//    UIView *footView = [[UIView alloc] init];
+//    disTableView.tableFooterView = footView;
+//    disTableView.tableHeaderView = line;
+//    [self.view addSubview:disTableView];
+//}
+//
 
 -(void)didClickDaiFenPeiBtn
 {
@@ -259,7 +265,7 @@
     UIView *footView = [[self.view viewWithTag:10000] viewWithTag:10001];
     footView.frame = CGRectMake(0, 47, kUIScreenWidth/2, 3);
     UIButton *btn = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:100];
-    [btn setTitleColor:MakeColor(32, 102, 208) forState:UIControlStateNormal];
+    [btn setTitleColor: MakeColor(79, 136, 251) forState:UIControlStateNormal];
     UIButton *btn1 = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:200];
     [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     daiFenTableView = [[DaiFenPeiTableView alloc] initWithFrame:CGRectMake(0, 115, self.view.frame.size.width, self.view.frame.size.height-115)];
@@ -277,7 +283,7 @@
     UIButton *btn = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:100];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     UIButton *btn1 = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:200];
-    [btn1 setTitleColor:MakeColor(32, 102, 208) forState:UIControlStateNormal];
+    [btn1 setTitleColor: MakeColor(79, 136, 251) forState:UIControlStateNormal];
     searchOrAll = @"all";
 
     [self getMessage];
@@ -323,7 +329,12 @@
     UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(10, 44.5, kUIScreenWidth-10, 0.5)];
     line.backgroundColor = color155;
     [view addSubview:line];
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kUIScreenWidth, 42)];
+    
+    UIImageView *personImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 15, 3, 14)];
+    personImageView.backgroundColor = colorblue;
+    [view addSubview:personImageView];
+    
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, kUIScreenWidth, 42)];
     nameLabel.text = [NSString stringWithFormat:@"%@:%@",model.username,model.mobile];
     nameLabel.textColor = [UIColor grayColor];
     nameLabel.font = [UIFont systemFontOfSize:15];
@@ -395,7 +406,7 @@
     
     CGSize size = CGSizeMake(kUIScreenWidth-135, 30);
     CGSize labelSize = [str sizeWithFont:cell.addressLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    cell.addressLabel.frame = CGRectMake(10, 12, labelSize.width, labelSize.height);
+    cell.addressLabel.frame = CGRectMake(20, 12, labelSize.width, labelSize.height);
     cell.addressLabel.text = str;
     
     UILabel *taskNum = [[UILabel alloc] initWithFrame:CGRectMake(cell.addressLabel.frame.size.width+cell.addressLabel.frame.origin.x+10, 14, 30, 15)];

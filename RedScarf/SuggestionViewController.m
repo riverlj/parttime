@@ -20,6 +20,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
 }
 
@@ -54,16 +55,17 @@
 
 -(void)initView
 {
-   UILabel * view = [[UILabel alloc] initWithFrame:CGRectMake(25, 85, kUIScreenWidth-50, 40)];
-    view.text = @"请输入内容。。";
+   UITextField * view = [[UITextField alloc] initWithFrame:CGRectMake(25, 85, kUIScreenWidth-50, 40)];
+    view.placeholder = @"请输入您的问题,200字以内。";
+    view.backgroundColor = [UIColor redColor];
     view.tag = 20001;
     view.font = [UIFont systemFontOfSize:14];
-    view.textColor = MakeColor(75 , 75, 75);
     [self.view addSubview:view];
     
     suggestionView = [[UITextView alloc] initWithFrame:CGRectMake(20, 80, kUIScreenWidth-40, 150)];
     suggestionView.delegate = self;
-    suggestionView.text=view.text;
+    suggestionView.text=view.placeholder;
+    suggestionView.textColor = color155;
     suggestionView.selectedRange=NSMakeRange(0,0) ;   //起始位置
     suggestionView.selectedRange=NSMakeRange(view.text.length,0);
     [self.view addSubview:suggestionView];
@@ -139,7 +141,7 @@
 
 -(void)submit:(id)sender
 {
-    if ([suggestionView.text isEqualToString:@""]) {
+    if ([suggestionView.text isEqualToString:@""] || [suggestionView.text isEqualToString:@"请输入您的问题,200字以内。"]) {
         [self alertView:@"请输入内容"];
         return;
     }

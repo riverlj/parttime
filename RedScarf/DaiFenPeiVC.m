@@ -30,12 +30,14 @@
     [barBtn removeFromSuperview];
     [self comeBack:nil];
     [self getMessage];
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = NO;
     [self.tabBarController.view viewWithTag:11011].hidden = NO;
 }
 
@@ -163,7 +165,19 @@
     cell.backgroundColor = color242;
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     dic = [self.dataArray objectAtIndex:indexPath.row];
-    cell.nameLabel.text = [NSString stringWithFormat:@"%@  %@ 份",[dic objectForKey:@"room"],[dic objectForKey:@"taskNum"]];
+    
+    NSString *str = [dic objectForKey:@"room"];
+    CGSize size = CGSizeMake(kUIScreenWidth-80, 40);
+    CGSize labelSize = [str sizeWithFont:cell.nameLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+    cell.nameLabel.frame = CGRectMake(40, 0, labelSize.width, 45);
+    cell.nameLabel.text = str;
+    
+    UILabel *count = [[UILabel alloc] initWithFrame:CGRectMake(cell.nameLabel.frame.size.width+cell.nameLabel.frame.origin.x+10, 2, 45, 40)];
+    count.font = textFont16;
+    count.textColor = color155;
+    count.text = [NSString stringWithFormat:@"%@份",[dic objectForKey:@"taskNum"]];
+    [cell.contentView addSubview:count];
+    
     return cell;
 }
 
@@ -174,7 +188,8 @@
     if (cell.roundBtn.image == nil) {
         [cell.roundBtn setImage:[UIImage imageNamed:@"xuanzhong"]];
         [numArr addObject:[NSNumber numberWithInteger:indexPath.row]];
-        [feipeiBtn setBackgroundColor:MakeColor(32, 44, 46)];
+        [feipeiBtn setBackgroundColor:colorblue];
+        [feipeiBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
     }else{
         [numArr removeObject:[NSNumber numberWithInteger:indexPath.row]];
@@ -183,6 +198,7 @@
 
         if (numArr.count == 0) {
             feipeiBtn.backgroundColor = [UIColor whiteColor];
+            [feipeiBtn setTitleColor:colorblue forState:UIControlStateNormal];
 
         }
     }
@@ -204,7 +220,7 @@
     }
     NSLog(@"aid = %@,room = %@",self.aId,room);
 
-    if ([feipeiBtn.backgroundColor isEqual: MakeColor(32, 44, 46)]) {
+    if ([feipeiBtn.backgroundColor isEqual: colorblue]) {
         AllocatingTaskVC *allocatingVC = [[AllocatingTaskVC alloc] init];
         allocatingVC.aId = self.aId;
         allocatingVC.room = room;

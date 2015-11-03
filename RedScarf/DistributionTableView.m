@@ -32,6 +32,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self reloadData];
     self.addressArr = [NSMutableArray array];
     self.roomArr = [NSMutableArray array];
     self.totalArr = [NSMutableArray array];
@@ -79,17 +80,14 @@
                 model.apartmentName = [dic objectForKey:@"apartmentName"];
                 model.taskNum = [dic objectForKey:@"taskNum"];
                 model.aId = [dic objectForKey:@"apartmentId"];
-                
+                model.apartmentsArr = nil;
                 model.select = @"zu2x";
                 [self.addressArr addObject:model];
             }
+            
+            //默认展开第一行
+            [self detailZero:0];
             [self reloadData];
-            for (int i = 0; i < self.addressArr.count; i++) {
-                Model *model = [[Model alloc] init];
-                model = self.addressArr[i];
-                [self getRoomMsg:model.aId];
-            }
-
         }
         [self hidHUD];
     }];
@@ -103,54 +101,23 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:sender forKey:@"aId"];
-//    Model *model = [[Model alloc] init];
-//    if (self.addressArr.count) {
-//        model = [self.addressArr objectAtIndex:sender];
-//        [params setObject:model.aId forKey:@"aId"];
-//    }
     
-//    [RedScarf_API requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" block:^(id result) {
-//        NSLog(@"result = %@",result);
-//        if ([[result objectForKey:@"success"] boolValue]) {
-//            [self.roomArr removeAllObjects];
-//
-//            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-//                NSLog(@"dic = %@",dic);
-//                [self.roomArr addObject:dic];
-////                [self reloadData];
-//            }
-//            [self.totalArr addObject:self.roomArr];
-//        }
-//    }];
+    [RedScarf_API requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if ([[result objectForKey:@"success"] boolValue]) {
+            [self.roomArr removeAllObjects];
 
-    NSString *url_String = [NSString stringWithFormat:@"%@/task/assignedTask/roomDetail?token=%@&&aId=%@",REDSCARF_BASE_URL,app.tocken,sender];
-    NSURL *url = [NSURL URLWithString:url_String];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
-    [NSURLConnection connectionWithRequest:request delegate:self];
-    
+            for (Model *model in self.addressArr) {
+                if ([model.aId isEqualToString:sender]) {
+                    model.apartmentsArr = [result objectForKey:@"msg"];
+                }
+            }
+            [self reloadData];
+
+        }
+    }];
 }
 
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    self.totalData = [NSMutableData data];
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [self.totalData appendData:data];
-}
-
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    NSDictionary *root = [NSJSONSerialization JSONObjectWithData:self.totalData options:0 error:nil];
-     NSLog(@"root = %@",root);
-    if ([[root objectForKey:@"success"] boolValue]) {
-        [self.totalArr addObject:[root objectForKey:@"msg"]];
-    }
-//    [self reloadData];
-}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -163,19 +130,15 @@
     if (self.addressArr.count) {
         model = self.addressArr[section];
     }
-    NSMutableArray *integer = [NSMutableArray array];
-    if (self.totalArr.count) {
-        integer = self.totalArr[section];
-    }
     
     if ([model.select isEqualToString:@"zu2x"]) {
         return 0;
     }
     if ([model.select isEqualToString:@"xialazu2x"]) {
-        return integer.count;
+        return model.apartmentsArr.count;
     }
     
-    return integer.count;
+    return model.apartmentsArr.count;
    
 }
 
@@ -193,7 +156,7 @@
     lineView.backgroundColor = color102;
     [bgView addSubview:lineView];
     
-    UIImageView *click = [[UIImageView alloc] initWithFrame:CGRectMake(10, 18, 8, 8)];
+    UIImageView *click = [[UIImageView alloc] initWithFrame:CGRectMake(20, 18, 8, 8)];
     
     [bgView addSubview:click];
     
@@ -203,19 +166,14 @@
     label.font = textFont15;
     label.textAlignment = NSTextAlignmentLeft;
     Model *model = [[Model alloc] init];
-    if (self.addressArr.count) {
-        model = [self.addressArr objectAtIndex:section];
-//        if (section == 0) {
-//            click.image = [UIImage imageNamed:@"xialazu2x"];
-//        }else{
-            click.image = [UIImage imageNamed:model.select];
-//        }
-    }
+    model = [self.addressArr objectAtIndex:section];
+    click.image = [UIImage imageNamed:model.select];
+
     NSString *str = [NSString stringWithFormat:@"%@",model.apartmentName];
     
     CGSize size = CGSizeMake(kUIScreenWidth-80, 1000);
     CGSize labelSize = [str sizeWithFont:label.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    label.frame = CGRectMake(30, 12, labelSize.width, labelSize.height);
+    label.frame = CGRectMake(35, 12, labelSize.width, labelSize.height);
     label.text = str;
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(label.frame.size.width+label.frame.origin.x+5, 15, 12, 12)];
@@ -233,14 +191,13 @@
     btn.tag = section;
     [btn addTarget:self action:@selector(detail:) forControlEvents:UIControlEventTouchUpInside];
     
-    
     return bgView;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GoPeiSongTableViewCell *cell = (GoPeiSongTableViewCell *)[self tableView:self cellForRowAtIndexPath:indexPath];
-    return cell.frame.size.height ;
+    return cell.frame.size.height+10 ;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -254,10 +211,18 @@
     cell.backgroundColor = MakeColor(242, 242, 248);
     cell.bgImageView.backgroundColor = [UIColor whiteColor];
     NSString *str = @"";
-    self.roomArr = self.totalArr[indexPath.section];
+    
+    Model *mo = self.addressArr[indexPath.section];
+    
+    self.roomArr = mo.apartmentsArr;
     NSMutableDictionary *model = [self.roomArr objectAtIndex:indexPath.row];
     for (NSMutableDictionary *dic in [[self.roomArr objectAtIndex:indexPath.row] objectForKey:@"content"]) {
-        str = [str stringByAppendingFormat:@"%@                                              \n",[dic objectForKey:@"content"]];
+        
+        UILabel *tag = [[UILabel alloc] init];
+        tag.text = [dic objectForKey:@"tag"];
+        tag.textColor = colorblue;
+        
+        str = [str stringByAppendingFormat:@"%@   %@ (%@)\n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
     }
     cell.addLabel.frame = CGRectMake(45, 0, 200, 50);
     cell.foodLabel.frame = CGRectMake(45, cell.addLabel.frame.size.height+cell.addLabel.frame.origin.y, kUIScreenWidth-30, 40);
@@ -279,13 +244,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-//    Model *model = [[Model alloc] init];
-//    model = [self.addressArr objectAtIndex:indexPath.row];
-//    DistributionVC *disVC = [[DistributionVC alloc] init];
-//    disVC.titleStr = [NSString stringWithFormat:@"%@  (%@)",model.apartmentName,model.taskNum];
-//    disVC.delegate = self;
-//    disVC.aId = model.aId;
-//    [self.viewController.navigationController pushViewController:disVC animated:YES];
 }
 
 //送达
@@ -295,12 +253,14 @@
     NSIndexPath *indexPath = objc_getAssociatedObject(btn, &UITableViewIndexSearch);
     NSLog(@"indexPath.row = %ld,indexPath.section = %ld",(long)indexPath.row,(long)indexPath.section);
 
-    NSMutableArray *roomArray = [self.totalArr objectAtIndex:indexPath.section];
+    Model *model = [[Model alloc] init];
+    model = [self.addressArr objectAtIndex:indexPath.section];
+    
+    NSMutableArray *roomArray = model.apartmentsArr;
+    
     NSMutableDictionary *roomDic = [roomArray objectAtIndex:indexPath.row];
     self.roomNum = [roomDic objectForKey:@"room"];
     
-    Model *model = [[Model alloc] init];
-    model = [self.addressArr objectAtIndex:indexPath.section];
     self.aId = model.aId;
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:nil delegate:self cancelButtonTitle:@"取消确认" otherButtonTitles:@"确认送达", nil];
@@ -312,11 +272,9 @@
     UIButton *btn = (UIButton *)sender;
     NSIndexPath *indexPath = objc_getAssociatedObject(btn, &UITableViewIndexSearch);
     
-    self.roomArr = self.totalArr[indexPath.section];
+    Model *model = self.addressArr[indexPath.section];
+    self.roomArr = model.apartmentsArr;
     NSMutableDictionary *dic = [self.roomArr objectAtIndex:indexPath.row];
-    
-    Model *model = [[Model alloc] init];
-    model = [self.addressArr objectAtIndex:indexPath.section];
 
     RoomViewController *roomVC = [[RoomViewController alloc] init];
     roomVC.titleStr = [dic objectForKey:@"room"];
@@ -365,6 +323,7 @@
 {
     UIButton *btn = (UIButton *)sender;
     NSLog(@"section = %ld",(long)btn.tag);
+    
   
     Model *model = [[Model alloc] init];
     model = self.addressArr[btn.tag];
@@ -373,8 +332,36 @@
     }else{
         model.select = @"zu2x";
     }
-    [self reloadData];
-//    [self getRoomMsg:btn.tag];
+    
+    for (int i = 0; i < self.addressArr.count; i++) {
+        if (i != btn.tag) {
+            Model *model = [[Model alloc] init];
+            model = self.addressArr[i];
+            model.select = @"zu2x";
+        }
+    }
+
+    
+    [self getRoomMsg:model.aId];
+}
+
+-(void)detailZero:(int)sender
+{
+    
+    Model *model = [[Model alloc] init];
+    if (self.addressArr.count) {
+        model = self.addressArr[sender];
+        if ([model.select isEqualToString:@"zu2x"]) {
+            model.select = @"xialazu2x";
+        }else{
+            model.select = @"zu2x";
+        }
+        
+        [self getRoomMsg:model.aId];
+    }else{
+        
+    }
+   
 }
 
 -(void)viewDidLayoutSubviews {

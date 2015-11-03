@@ -15,5 +15,6 @@
 + (NSString *)replaceAdd:(NSString *)string;
 + (BOOL)isNumber:(NSString *)str;
 + (BOOL)isValidateEmail:(NSString *)email;
++ (BOOL)isValidateCharacter:(NSString *)str;
 
 @end

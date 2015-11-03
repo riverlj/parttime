@@ -17,6 +17,16 @@
 
 @property(nonatomic,strong)NSMutableArray *dataArr;
 
+@property(nonatomic,strong)NSMutableArray *searchDataArr;
+
+@property(nonatomic,strong)NSMutableArray *filteredArray;
+
+@property(nonatomic,strong)NSMutableArray *telArray;
+
 @property(nonatomic,strong)NSString *status;
+
+@property(nonatomic,strong)UISearchBar *searchBar;
+
+@property(nonatomic,strong)UISearchDisplayController *searchaDisplay;
 
 @end

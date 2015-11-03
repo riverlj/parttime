@@ -29,6 +29,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
 }
 
@@ -148,6 +149,16 @@
     headView2.backgroundColor = MakeColor(244, 245, 246);
     [backgroungView addSubview:headView2];
     
+    UIImageView *personImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 2, 15)];
+    personImageView.backgroundColor = colorblue;
+    [headView2 addSubview:personImageView];
+    
+    UILabel *personLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 0, 100, 35)];
+    personLabel.text = @"开户人";
+    personLabel.font = textFont14;
+    personLabel.textColor = colorblue;
+    [headView2 addSubview:personLabel];
+    
     nameTf = [[UITextField alloc] initWithFrame:CGRectMake(70, headView2.frame.size.height+headView2.frame.origin.y, kUIScreenWidth-60, 45)];
     nameTf.delegate = self;
     nameTf.textColor = MakeColor(75, 75, 75);
@@ -195,6 +206,16 @@
     UIView *headView3 = [[UIView alloc] initWithFrame:CGRectMake(0, emailTf.frame.size.height+emailTf.frame.origin.y, kUIScreenWidth, 35)];
     headView3.backgroundColor = MakeColor(244, 245, 246);
     [backgroungView addSubview:headView3];
+    
+    UIImageView *msgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 2, 15)];
+    msgImageView.backgroundColor = colorblue;
+    [headView3 addSubview:msgImageView];
+    
+    UILabel *msgLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 0, 100, 35)];
+    msgLabel.text = @"开户信息";
+    msgLabel.font = textFont14;
+    msgLabel.textColor = colorblue;
+    [headView3 addSubview:msgLabel];
     
     for (int i = 0; i < 4; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, headView3.frame.size.height+headView3.frame.origin.y+i*45, 90, 45)];
@@ -308,14 +329,35 @@
                     indexArr[i] = [indexArr[i] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 }
             }
-            if (![UIUtils isValidateEmail:emailText]) {
+            if (![UIUtils isValidateEmail:emailTf.text]) {
                 [self alertView:@"邮箱不正确"];
+                return;
             }
             
+            if (![UIUtils isValidateCharacter:nameTf.text]) {
+                [self alertView:@"名字为两个以上的汉字"];
+                return;
+            }
+            
+            if (![UIUtils isNumber:telTf.text] || telTf.text.length != 11) {
+           
+                [self alertView:@"手机号输入有误"];
+                return;
+            }
+            bankTf.text = [bankTf.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+            if (![UIUtils isNumber:bankTf.text]) {
+                
+                [self alertView:@"卡号输入有误"];
+                return;
+            }
+
             
             [params setObject:app.tocken forKey:@"token"];
-            [params setObject:nameTf.text forKey:@"accountName"];
-            bankTf.text = [bankTf.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+            
+            NSString *name = nameTf.text;
+            name = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            [params setObject:name forKey:@"accountName"];
+//            bankTf.text = [bankTf.text stringByReplacingOccurrencesOfString:@" " withString:@""];
             [params setObject:bankTf.text forKey:@"sn"];
             [params setObject:telTf.text forKey:@"mobilePhone"];
             [params setObject:emailTf.text forKey:@"email"];
@@ -339,6 +381,14 @@
                     }
                     [self alertView:@"保存成功"];
                     self.navigationItem.rightBarButtonItem.title = @"编辑";
+                    bankTf.userInteractionEnabled = NO;
+                    nameTf.userInteractionEnabled = NO;
+                    telTf.userInteractionEnabled = NO;
+                    emailTf.userInteractionEnabled = NO;
+                    proBtn.userInteractionEnabled = NO;
+                    cityBtn.userInteractionEnabled = NO;
+                    bankBtn.userInteractionEnabled = NO;
+                    bankChildBtn.userInteractionEnabled = NO;
                 }else{
                     [self alertView:[result objectForKey:@"msg"]];
                 }

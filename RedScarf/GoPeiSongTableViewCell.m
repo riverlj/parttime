@@ -16,7 +16,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, kUIScreenWidth-30, self.frame.size.height-20)];
+        self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, kUIScreenWidth-30, self.frame.size.height-10)];
 //        self.bgImageView.image = [UIImage imageNamed:@"liebiao"];
         self.backgroundColor = [UIColor whiteColor];
         self.bgImageView.layer.cornerRadius = 5;
@@ -29,7 +29,7 @@
         
         [self.contentView addSubview:self.addLabel];
         
-        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, self.addLabel.frame.size.height+self.addLabel.frame.origin.y, kUIScreenWidth-30, 40)];
+        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, self.addLabel.frame.size.height+self.addLabel.frame.origin.y, kUIScreenWidth-30, 40)];
         self.foodLabel.font = [UIFont systemFontOfSize:14];
         self.foodLabel.textColor = MakeColor(75, 75, 75);
         self.foodLabel.numberOfLines = 0;
@@ -62,7 +62,7 @@
     self.foodLabel.text = text;
     
     self.foodLabel.numberOfLines = 10;
-    CGSize size = CGSizeMake(200, 1000);
+    CGSize size = CGSizeMake(kUIScreenWidth-70, 1000);
     
     CGSize labelSize = [self.foodLabel.text sizeWithFont:self.foodLabel.font constrainedToSize:size lineBreakMode:NSLineBreakByClipping];
     

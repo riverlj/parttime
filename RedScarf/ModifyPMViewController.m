@@ -25,6 +25,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
 }
@@ -32,12 +33,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = MakeColor(242, 242, 242);
+    self.view.backgroundColor = MakeColor(242, 242, 248);
     array = [NSMutableArray array];
     addressArray = [NSMutableArray array];
     if ([self.judgeStr isEqualToString:@"name"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-        right.tintColor = [UIColor whiteColor];
+//        right.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = right;
 
         self.title = @"修改姓名";
@@ -51,7 +52,7 @@
     }
     if ([self.judgeStr isEqualToString:@"address"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-        right.tintColor = [UIColor whiteColor];
+//        right.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = right;
         [self initAddress];
         self.title = @"修改地址";
@@ -78,22 +79,23 @@
 {
     UILabel *currentAddress = [[UILabel alloc] initWithFrame:CGRectMake(25, 69, kUIScreenWidth-50, 40)];
     currentAddress.textColor = MakeColor(125, 125, 125);
-    currentAddress.text = [NSString stringWithFormat:@"当前地址:%@",self.currentAddress];
+   
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前地址:%@",self.currentAddress]];
+    [str addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, 5)];
+    currentAddress.attributedText = str;
     [self.view addSubview:currentAddress];
     
-    UIImageView *lineView = [[UIImageView alloc] initWithFrame:CGRectMake(25, 114, kUIScreenWidth-50, 1)];
-    lineView.image = [UIImage imageNamed:@"xuxian"];
-    [self.view addSubview:lineView];
-    
-    UIButton *modifyBtn = [[UIButton alloc] initWithFrame:CGRectMake(25, 130, kUIScreenWidth-50, 40)];
-    [modifyBtn setTitle:@" 选择地址" forState:UIControlStateNormal];
+    UIButton *modifyBtn = [[UIButton alloc] initWithFrame:CGRectMake(25, 115, kUIScreenWidth-50, 45)];
+    [modifyBtn setTitle:@" 选择楼栋" forState:UIControlStateNormal];
+    modifyBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [modifyBtn setBackgroundColor:[UIColor whiteColor]];
     modifyBtn.tag = 56789;
     [modifyBtn setTitleColor:MakeColor(125, 125, 125) forState:UIControlStateNormal];
     modifyBtn.layer.borderColor = MakeColor(125, 125, 125).CGColor;
     [modifyBtn addTarget:self action:@selector(didClickModifyBtn) forControlEvents:UIControlEventTouchUpInside];
-    modifyBtn.layer.cornerRadius = 5;
+    modifyBtn.layer.cornerRadius = 3;
     modifyBtn.layer.masksToBounds = YES;
-    modifyBtn.layer.borderWidth = 1.0;
+    modifyBtn.layer.borderWidth = 0.5;
     [self.view addSubview:modifyBtn];
     
 }
@@ -135,7 +137,7 @@
 -(void)modifyName
 {
     nameTf = [[UITextField alloc] initWithFrame:CGRectMake(25, 84, kUIScreenWidth-50, 40)];
-    nameTf.placeholder = @"输入姓名";
+    nameTf.placeholder = self.name;
     nameTf.layer.borderColor = MakeColor(230, 230, 230).CGColor;
     nameTf.layer.borderWidth = 1.0;
     nameTf.layer.masksToBounds = YES;
@@ -166,14 +168,20 @@
         if (i == 0) {
             genderBtn.tag = 123;
             [genderBtn setTitle:@"男" forState:UIControlStateNormal];
-            genderBtn.backgroundColor = MakeColor(231, 239, 254);
+            if ([self.gender isEqualToString:@"1"]) {
+                genderBtn.backgroundColor = MakeColor(231, 239, 254);
+            }
+            
             genderView.frame = CGRectMake((kUIScreenWidth-50)/4-27, 12, 15, 15);
-            genderView.image = [UIImage imageNamed:@"nan"];
+            genderView.image = [UIImage imageNamed:@"nan2x"];
         }else{
             genderBtn.tag = 321;
+            if ([self.gender isEqualToString:@"2"]) {
+                genderBtn.backgroundColor = MakeColor(231, 239, 254);
+            }
             [genderBtn setTitle:@"女" forState:UIControlStateNormal];
-            genderView.frame = CGRectMake((kUIScreenWidth-50)/4*3-27, 12, 15, 15);
-            genderView.image = [UIImage imageNamed:@"nv"];
+            genderView.frame = CGRectMake((kUIScreenWidth-50)/4*3-27, 12, 12, 15);
+            genderView.image = [UIImage imageNamed:@"nv2x"];
         }
     }
 }
@@ -183,26 +191,16 @@
     UIButton *btn = sender;
     UIButton *button;
     if (btn.tag == 123) {
-        if ([btn.backgroundColor isEqual:MakeColor(231, 239, 254)]) {
-            btn.backgroundColor = [UIColor whiteColor];
-            button = (UIButton *)[[self.view viewWithTag:1234] viewWithTag:321];
-            button.backgroundColor = MakeColor(231, 239, 254);
-        }else{
-            btn.backgroundColor = MakeColor(231, 239, 254);
+        
             button = (UIButton *)[[self.view viewWithTag:1234] viewWithTag:321];
             button.backgroundColor = [UIColor whiteColor];
-        }
+            btn.backgroundColor = MakeColor(231, 239, 254);
     }
     if (btn.tag == 321) {
-        if ([btn.backgroundColor isEqual:MakeColor(231, 239, 254)]) {
-            btn.backgroundColor = [UIColor whiteColor];
-            button = (UIButton *)[[self.view viewWithTag:1234] viewWithTag:123];
-            button.backgroundColor = MakeColor(231, 239, 254);
-        }else{
+
             btn.backgroundColor = MakeColor(231, 239, 254);
             button = (UIButton *)[[self.view viewWithTag:1234] viewWithTag:123];
             button.backgroundColor = [UIColor whiteColor];
-        }
     }
 }
 

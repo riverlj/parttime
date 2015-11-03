@@ -16,6 +16,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
 }
@@ -39,7 +40,7 @@
 -(void)navigationBar
 {
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
+//    left.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = left;
     
     //隐藏tabbar上的按钮
@@ -89,6 +90,24 @@
     for (int i = 0; i < 2; i++) {
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake((kUIScreenWidth-60)/2*i+(i+1)*20, 210, (kUIScreenWidth-60)/2, 90)];
         img.image = [UIImage imageNamed:@"sn"];
+        
+        if ([self.titleString isEqualToString:@"查看身份证"]) {
+            if (i == 0) {
+                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.idUrl1]]];
+            }
+            if (i == 1) {
+                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.idUrl2]]];
+            }
+        }else{
+            if (i == 0) {
+                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.studentUrl1]]];
+            }
+            if (i == 1) {
+                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.studentUrl2]]];
+            }
+
+        }
+        
         [self.view addSubview:img];
     }
 }

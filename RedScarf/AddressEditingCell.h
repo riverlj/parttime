@@ -12,6 +12,7 @@
 
 @property(nonatomic,strong)UIImageView *roundBtn;
 @property(nonatomic,strong)UILabel *nameLabel;
+@property(nonatomic,strong)UILabel *countLabel;
 @property(nonatomic,strong)UIImageView *groundImage;
 
 @end

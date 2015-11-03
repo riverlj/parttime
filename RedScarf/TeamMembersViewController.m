@@ -22,10 +22,12 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = NO;
     [self.tabBarController.view viewWithTag:11011].hidden = NO;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self getMessage];
 }
@@ -37,12 +39,13 @@
     [self comeBack:nil];
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
+    //添加成员
     UIImage *img= [[UIImage imageNamed:@"addmember"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(addMember)];
     self.navigationItem.rightBarButtonItem = right;
     listArray = [NSMutableArray array];
     nameArray = [NSMutableArray array];
-    [self navigationBar];
+//    [self navigationBar];
     [self initTableView];
     [self getMessage];
 }
@@ -50,7 +53,8 @@
 -(void)addMember
 {
     AddMembersViewController *addMembersVC = [[AddMembersViewController alloc] init];
-    [self.navigationController pushViewController:addMembersVC animated:YES];
+    [self presentViewController:addMembersVC animated:YES completion:nil];
+//    [self.navigationController pushViewController:addMembersVC animated:YES];
 }
 
 -(void)getMessage
@@ -65,6 +69,8 @@
     [RedScarf_API requestWithURL:@"/user/teamMembers/" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
+            [listArray removeAllObjects];
+            [nameArray removeAllObjects];
             for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
                 [listArray addObject:dic];
                 [nameArray addObject:[dic objectForKey:@"realName"]];
@@ -83,7 +89,9 @@
 {
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
     self.searchBar.placeholder = @"搜索";
-    [self.searchBar setBarTintColor:MakeColor(244, 245, 246)];
+    [self.searchBar.layer setBorderColor:color242.CGColor];
+    [self.searchBar.layer setBorderWidth:1.0];
+    [self.searchBar setBarTintColor:color242];
     self.searchaDisplay = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     self.searchaDisplay.searchResultsDelegate = self;
     self.searchaDisplay.searchResultsDataSource = self;
@@ -118,7 +126,6 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-//    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     NSMutableDictionary *dic;
     

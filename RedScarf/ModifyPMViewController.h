@@ -21,4 +21,8 @@
 @property(nonatomic,strong) NSString *schoolId;
 @property(nonatomic,strong)NSString *currentAddress;
 
+@property(nonatomic,strong)NSString *name;
+@property(nonatomic,strong)NSString *gender;
+
+
 @end

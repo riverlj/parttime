@@ -19,6 +19,7 @@
     BOOL hidden;
     UIButton *button;
     int pageNum;
+    NSString *search;
     MJRefreshFooterView *footView;
     MJRefreshHeaderView *headView;
 }
@@ -26,17 +27,21 @@
 -(void)viewDidLoad
 {
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"已处理";
+    self.title = @"历史任务";
     self.view.backgroundColor = MakeColor(241, 241, 241);
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
     hidden = NO;
     self.dataArr = [NSMutableArray array];
-
+    self.searchDataArr = [NSMutableArray array];
+    self.filteredArray = [NSMutableArray array];
+    self.telArray = [NSMutableArray array];
     [self comeBack:nil];
-    
+    search = @"no";
     pageNum = 1;
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newshaixuan"] style:UIBarButtonItemStylePlain target:self action:nil];
+    
+    UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newshaixuan"] landscapeImagePhone:[UIImage imageNamed:@"newshaixuan"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickRight:)];
+    
     UIButton *barBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     barBtn.tag = 11111;
 //    barBtn.titleLabel.textAlignment = NSTextAlignmentRight;
@@ -46,18 +51,28 @@
     [barBtn addTarget:self action:@selector(didClickRight:) forControlEvents:UIControlEventTouchUpInside];
     [self.navigationController.navigationBar addSubview:barBtn];
     
-    right.tintColor = [UIColor grayColor];
-    self.navigationItem.rightBarButtonItem = right;
-    [self getMessage];
+    r.tintColor = [UIColor grayColor];
+    self.navigationItem.rightBarButtonItem = r;
+    [self getMessage:nil];
     [self initTableView];
 }
 
 -(void)initTableView
 {
-   self.finishTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, self.view.frame.size.height)];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
+    [self.searchBar.layer setBorderColor:MakeColor(241, 241, 241).CGColor];
+    [self.searchBar.layer setBorderWidth:1.0];
+    self.searchBar.delegate = self;
+    [self.searchBar setBarTintColor:MakeColor(241, 241, 241)];
+    
+    self.finishTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, self.view.frame.size.height)];
+    self.finishTableView.backgroundColor = MakeColor(241, 241, 241);
     self.status = @"";
     self.finishTableView.delegate = self;
     self.finishTableView.dataSource = self;
+    UIView *foot = [[UIView alloc] init];
+    self.finishTableView.tableFooterView = foot;
+    self.finishTableView.tableHeaderView = self.searchBar;
     self.finishTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.finishTableView];
     [self showHUD:@"正在加载"];
@@ -71,19 +86,31 @@
 //    headView.scrollView = self.finishTableView;
 }
 
-//~~~~~~~~
+#pragma mark -- searchbarDelegate
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.view endEditing:YES];
+    [self getMessage:searchBar.text];
+}
+
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
 {
     if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) {
         
     }else{
         pageNum += 1;
-        [self getMessage];
+        [self getMessage:nil];
     }
    
 }
 
--(void)getMessage
+-(void)getMessage:(NSString *)phone
 {
     AppDelegate *app = [UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -95,23 +122,36 @@
         [params setObject:self.status forKey:@"status"];
         
     }
+    
+    if (phone.length) {
+        [params setObject:phone forKey:@"phoneKey"];
+    }
     [RedScarf_API requestWithURL:@"/task/taskByStatus" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
-           
+            [self.searchDataArr removeAllObjects];
             for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
                 NSLog(@"dic = %@",dic);
+                NSLog(@"[dic objectForKey:@conten] = %@",[dic objectForKey:@"content"]);
                 Model *model = [[Model alloc] init];
                 model.nameStr = [dic objectForKey:@"username"];
                 model.chuLiStr = [dic objectForKey:@"username"];
                 model.buyerStr = [dic objectForKey:@"customername"];
                 model.telStr = [dic objectForKey:@"mobile"];
+                [self.telArray addObject:model.telStr];
                 model.addressStr = [dic objectForKey:@"apartmentname"];
-                model.foodStr = [dic objectForKey:@"content"];
+                model.foodArr = [dic objectForKey:@"content"];
                 model.dateStr = [dic objectForKey:@"endDate"];
                 model.numberStr = [dic objectForKey:@"sn"];
                 model.status = [dic objectForKey:@"status"];
-                [self.dataArr addObject:model];
+                if (phone.length) {
+                    [self.searchDataArr addObject:model];
+                    search = @"yes";
+                }else{
+                    search = @"no";
+                    [self.dataArr addObject:model];
+                }
+                
             }
             
             [self.finishTableView reloadData];
@@ -126,13 +166,35 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.dataArr.count;
+   
+    if ([search isEqualToString:@"yes"]) {
+        return self.searchDataArr.count;
+    }else{
+         return self.dataArr.count;
+    }
+
+
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 12;
+    if (section != 0) {
+        return 10;
+    }
+    return 0;
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
+
+//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 10)];
+//    view.backgroundColor = MakeColor(241, 241, 241);
+//    return view;
+//}
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -148,7 +210,8 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 160;
+    [self.view endEditing:YES];
+    return 180;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -159,31 +222,55 @@
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    UIImageView *statusImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-70, 0, 45, 45)];
+   
+    UIImageView *statusImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-65, 0, 45, 45)];
+
     [cell.contentView addSubview:statusImage];
     
     Model *model = [[Model alloc] init];
-    model = [self.dataArr objectAtIndex:indexPath.section];
+//    
+//    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
+//        
+//        NSString *tel = [self.telArray objectAtIndex:indexPath.section];
+//        for (Model *m in self.dataArr) {
+//            if ([m.telStr isEqualToString:tel]) {
+//                model = m;
+//            }
+//        }
+//        
+//    }else{
+    if ([search isEqualToString:@"yes"]) {
+         model = [self.searchDataArr objectAtIndex:indexPath.section];
+    }else{
+         model = [self.dataArr objectAtIndex:indexPath.section];
+    }
+    
+//    }
+    
     cell.nameLabel.text = [NSString stringWithFormat:@"配送人:%@",model.nameStr];
     cell.chuLiLabel.text = [NSString stringWithFormat:@"处理：%@",model.dateStr];
     cell.buyerLabel.text = [NSString stringWithFormat:@"收货人：%@",model.buyerStr];
     cell.telLabel.text = [NSString stringWithFormat:@"%@",model.telStr];
     cell.addressLabel.text = [NSString stringWithFormat:@"%@",model.addressStr];
-    cell.foodLabel.text = [NSString stringWithFormat:@"%@",model.foodStr];
+    
+    NSString *contentStr = @"";
+    NSLog(@"food = %@",model.foodArr);
+    for (NSDictionary *dic in model.foodArr) {
+        contentStr = [contentStr stringByAppendingString:[dic objectForKey:@"content"]];
+        NSLog(@"contentStr = %@",contentStr);
+        NSLog(@"food = %@",[dic objectForKey:@"content"]);
+    }
+    NSLog(@"food = %@",contentStr);
+    cell.foodLabel.text = [NSString stringWithFormat:@"%@",contentStr];
 //        cell.dateLabel.text = [NSString stringWithFormat:@"下单：%@",model.dateStr];
     cell.numberLabel.text = [NSString stringWithFormat:@"任务编号：%@",model.numberStr];
     if ([model.status isEqualToString:@"FINISHED"]) {
         statusImage.image = [UIImage imageNamed:@"yiwan@2x"];
-//        [cell.noctionBtn setTitle:@"已送达" forState:UIControlStateNormal];
-//        cell.noctionBtn.backgroundColor = MakeColor(98, 206, 54);
+
     }if ([model.status isEqualToString:@"UNDELIVERED"]) {
         statusImage.image = [UIImage imageNamed:@"weiwan@2x"];
-//        [cell.noctionBtn setTitle:@"未失败" forState:UIControlStateNormal];
-//        cell.noctionBtn.backgroundColor = MakeColor(238, 43, 41);
     }
-    
-    
+        
     return cell;
 }
 
@@ -196,10 +283,9 @@
 
 -(void)didClickRight:(id)sender
 {
-    button = (UIButton *)sender;
     
     if (hidden == NO) {
-        for (int i=0; i<2; i++) {
+        for (int i=0; i<3; i++) {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             btn.frame = CGRectMake(kUIScreenWidth-100, 64+i*40, 90, 40);
             btn.backgroundColor = [UIColor grayColor];
@@ -209,12 +295,14 @@
             UIView *line = [[UIView alloc] init];
             line.backgroundColor = [UIColor whiteColor];
             line.frame = CGRectMake(5, 39, 80, 1);
-            [btn addSubview:line];
-//            if (i == 0) {
-//                [btn setTitle:@"   全 部" forState:UIControlStateNormal];
-//                [btn addTarget:self action:@selector(all) forControlEvents:UIControlEventTouchUpInside];
-//            }else
-                if (i == 0) {
+            
+            if (i == 0) {
+                [btn addSubview:line];
+                [btn setTitle:@"全 部" forState:UIControlStateNormal];
+                [btn addTarget:self action:@selector(all) forControlEvents:UIControlEventTouchUpInside];
+            }else
+                if (i == 1) {
+                [btn addSubview:line];
                 [btn setTitle:@"已完成" forState:UIControlStateNormal];
                 [btn addTarget:self action:@selector(success) forControlEvents:UIControlEventTouchUpInside];
                 
@@ -244,13 +332,15 @@
 
 -(void)all
 {
+    [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
+
     [self.dataArr removeAllObjects];
     [button setTitle:@"" forState:UIControlStateNormal];
     UIButton *btn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
     btn.titleLabel.textAlignment = NSTextAlignmentRight;
     [btn setTitle:@"   全 部" forState:UIControlStateNormal];
     self.status = @"";
-    [self getMessage];
+    [self getMessage:nil];
     hidden = NO;
     [[self.view viewWithTag:100] removeFromSuperview];
     [[self.view viewWithTag:101] removeFromSuperview];
@@ -259,12 +349,14 @@
 
 -(void)success
 {
+    [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
+
     [self.dataArr removeAllObjects];
     [button setTitle:@"" forState:UIControlStateNormal];
     UIButton *btn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
     [btn setTitle:@"已送达" forState:UIControlStateNormal];
     self.status = @"FINISHED";
-    [self getMessage];
+    [self getMessage:nil];
     hidden = NO;
     [[self.view viewWithTag:100] removeFromSuperview];
     [[self.view viewWithTag:101] removeFromSuperview];
@@ -273,12 +365,14 @@
 
 -(void)fail
 {
+    [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
+
     [self.dataArr removeAllObjects];
     [button setTitle:@"" forState:UIControlStateNormal];
     UIButton *btn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
     [btn setTitle:@"未送达" forState:UIControlStateNormal];
     self.status = @"UNDELIVERED";
-    [self getMessage];
+    [self getMessage:nil];
     hidden = NO;
     [[self.view viewWithTag:100] removeFromSuperview];
     [[self.view viewWithTag:101] removeFromSuperview];
@@ -289,6 +383,7 @@
 {
     [[self.navigationController.navigationBar viewWithTag:11111] removeFromSuperview];
     [self.tabBarController.view viewWithTag:11011].hidden = NO;
+    [self.tabBarController.view viewWithTag:22022].hidden = NO;
     [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
 
 
@@ -296,6 +391,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
 }
 
