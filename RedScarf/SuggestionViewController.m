@@ -72,7 +72,6 @@
     suggestionView.layer.borderWidth = 0.8;
     suggestionView.layer.borderColor = MakeColor(203, 203, 203).CGColor;
     suggestionView.layer.masksToBounds = YES;
-    
     suggestionView.layer.cornerRadius = 5;
     
     UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];

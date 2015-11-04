@@ -36,12 +36,12 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
         [self initSeparateBtn];
-        
+        [self initView];
     }else{
         [self initTableView];
         [self initBtn];
     }
-    [self initView];
+    
 }
 
 -(void)initTableView
@@ -54,7 +54,6 @@
          headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 20,kUIScreenWidth-20, kUIScreenHeigth-130)];
     }
     
-//    headTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     UIView *foot = [[UIView alloc] init];
     headTableView.tableFooterView = foot;
     headTableView.backgroundColor = color242;
@@ -257,6 +256,8 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [btn addTarget:self action:@selector(didClickPeiSong) forControlEvents:UIControlEventTouchUpInside];
     btn.tag = 888;
+    [btn setTitle:@"qusongcan2" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
     btn.frame = CGRectMake(kUIScreenWidth/2-39.5, kUIScreenHeigth-87.5, 70, 70);
     [btn setBackgroundImage:[UIImage imageNamed:@"qupeisong2x"] forState:UIControlStateNormal];
     [self.view addSubview:btn];
@@ -265,6 +266,8 @@
 -(void)didClickPeiSong
 {
     GoPeiSongViewController *goPeiSongVC = [[GoPeiSongViewController alloc] init];
+    [[BaiduMobStat defaultStat] logEvent:@"qusongcan2" eventLabel:@"button2"];
+
     [self.navigationController pushViewController:goPeiSongVC animated:YES];
 }
 

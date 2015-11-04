@@ -18,6 +18,7 @@
 #import "OrderRangeViewController.h"
 #import "PersonMsgViewController.h"
 #import "GoPeiSongViewController.h"
+#import "WalletViewController.h"
 
 @interface MyViewController ()
 {
@@ -107,10 +108,11 @@
             infoDic = [NSMutableDictionary dictionary];
             infoDic = [result objectForKey:@"msg"];
             
-            }
+        }
         
         [self.informationTableView reloadData];
     }];
+
 }
 
 -(void)initTableView
@@ -203,13 +205,18 @@
        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.contentView addSubview:headImage];
         
-        UIImageView *ceoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(headImage.frame.origin.x+headImage.frame.size.width/2-10, headImage.frame.origin.y+headImage.frame.size.height-8, 20, 10)];
-        ceoImageView.image = [UIImage imageNamed: @"ceo"];
-        [cell.contentView addSubview:ceoImageView];
+        NSMutableDictionary *userInfo = [infoDic objectForKey:@"userInfo"];
+        
+        if (![[userInfo objectForKey:@"position"] isEqualToString:@"校园兼职"]) {
+            UIImageView *ceoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(headImage.frame.origin.x+headImage.frame.size.width/2-10, headImage.frame.origin.y+headImage.frame.size.height-8, 20, 10)];
+            ceoImageView.image = [UIImage imageNamed: @"ceo"];
+            [cell.contentView addSubview:ceoImageView];
+
+        }
         
         UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-40, headImage.frame.size.height+headImage.frame.origin.y+5, 80, 30)];
         nameLabel.textAlignment = NSTextAlignmentCenter;
-        NSMutableDictionary *userInfo = [infoDic objectForKey:@"userInfo"];
+        
         nameLabel.text = [userInfo objectForKey:@"realName"];
         nameLabel.textColor = [UIColor whiteColor];
         nameLabel.font = [UIFont systemFontOfSize:16];
@@ -239,7 +246,8 @@
                 UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
                 photoView.image = [UIImage imageNamed:@"yinhang2x"];
                 [cell.contentView addSubview:photoView];
-                label.text = @"我的银行卡";
+                label.text = @"红领巾钱包";
+//                label.text = @"我的银行卡";
             }
             label.font = [UIFont systemFontOfSize:16];
 
@@ -282,37 +290,52 @@
         PersonMsgViewController *personVC = [[PersonMsgViewController alloc] init];
         personVC.personMsgArray = [NSMutableArray array];
         NSMutableDictionary *info = [infoDic objectForKey:@"userInfo"];
+        
         if (info) {
             [personVC.personMsgArray addObject:[info objectForKey:@"realName"]];
             NSMutableDictionary *apartmentDic = [info objectForKey:@"apartment"];
+             //地址
+            [personVC.personMsgArray addObject:[apartmentDic objectForKey:@"name"]];
             //学校
             [personVC.personMsgArray addObject:[[apartmentDic objectForKey:@"school"] objectForKey:@"name"]];
             personVC.schoolId = [[apartmentDic objectForKey:@"school"] objectForKey:@"id"];
-            //地址
-            [personVC.personMsgArray addObject:[apartmentDic objectForKey:@"name"]];
+            
             [personVC.personMsgArray addObject:[info objectForKey:@"mobilePhone"]];
             [personVC.personMsgArray addObject:[info objectForKey:@"idCardNo"]];
             [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardNo"]];
             [personVC.personMsgArray addObject:@"密码"];
             [personVC.personMsgArray addObject:[info objectForKey:@"sex"]];
             [personVC.personMsgArray addObject:[info objectForKey:@"idCardUrl1"]];
-            [personVC.personMsgArray addObject:[info objectForKey:@"idCardUrl2"]];
+            
+            if ([info objectForKey:@"idCardUrl2"] != nil) {
+                [personVC.personMsgArray addObject:[info objectForKey:@"idCardUrl2"]];
+            }
+           
             [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl1"]];
-            [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl2"]];
+            if ([info objectForKey:@"studentIdCardUrl2"] != nil) {
+                [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl2"]];
+            }
+            
+            if (![[info objectForKey:@"position"] isEqualToString:@"校园兼职"]) {
+                personVC.position = @"ceo";
+            }
         }
         [self.navigationController pushViewController:personVC animated:YES];
     }
     if (indexPath.section == 1) {
         
         if (indexPath.row == 0) {
+//            [self alertView:@"即将上线"];
             MoneyOfMonth *moneyOfMonthVC = [[MoneyOfMonth alloc] init];
             moneyOfMonthVC.salary = [infoDic objectForKey:@"salary"];
             [self.navigationController pushViewController:moneyOfMonthVC animated:YES];
             
         }else if (indexPath.row == 1){
 
-            MyBankCardVC *bankCardVC = [[MyBankCardVC alloc] init];
-            [self.navigationController pushViewController:bankCardVC animated:YES];
+            WalletViewController *walletVC = [[WalletViewController alloc] init];
+            [self.navigationController pushViewController:walletVC animated:YES];
+//            MyBankCardVC *bankCardVC = [[MyBankCardVC alloc] init];
+//            [self.navigationController pushViewController:bankCardVC animated:YES];
         }
         
     }
@@ -324,7 +347,7 @@
         if (indexPath.row == 0) {
             OrderTimeViewController *orderTimeVC = [[OrderTimeViewController alloc] init];
             NSMutableDictionary *userInfo = [infoDic objectForKey:@"userInfo"];
-//            orderTimeVC.username = [userInfo objectForKey:@"username"];
+            orderTimeVC.username = [userInfo objectForKey:@"username"];
             [self.navigationController pushViewController:orderTimeVC animated:YES];
         }
         if (indexPath.row == 1) {

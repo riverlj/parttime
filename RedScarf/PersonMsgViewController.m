@@ -83,9 +83,11 @@
     headView.layer.cornerRadius = 35;
     [bgView addSubview:headView];
     
-    UIImageView *ceoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(headView.frame.origin.x+headView.frame.size.width/2-10, headView.frame.origin.y+headView.frame.size.height-8, 20, 10)];
-    ceoImageView.image = [UIImage imageNamed: @"ceo"];
-    [bgView addSubview:ceoImageView];
+    if ([self.position isEqualToString:@"ceo"]) {
+        UIImageView *ceoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(headView.frame.origin.x+headView.frame.size.width/2-10, headView.frame.origin.y+headView.frame.size.height-8, 20, 10)];
+        ceoImageView.image = [UIImage imageNamed: @"ceo"];
+        [bgView addSubview:ceoImageView];
+    }
     
     UIButton *loginOutBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     loginOutBtn.frame = CGRectMake(70, self.tableView.frame.size.height+self.tableView.frame.origin.y+20, kUIScreenWidth-140, 40);
@@ -148,7 +150,6 @@
         pichker.allowsEditing = YES;//是否可编辑
         //摄像头
         pichker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        // [self presentModalViewController:pichker animated:YES];
         [self presentViewController:pichker animated:YES completion:nil];
         
         
@@ -177,7 +178,6 @@
         
         //打开相册选择照片
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        //[self presentModalViewController:picker  animated:YES];
         [self presentViewController:picker animated:YES completion:nil];
     }else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"你没有摄像头" delegate:nil cancelButtonTitle:@"Drat!" otherButtonTitles:nil];
@@ -262,7 +262,7 @@
     
     if (indexPath.section == 0) {
         
-        UILabel *headLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2, 0, kUIScreenWidth/2-30, 45)];
+        UILabel *headLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 0, kUIScreenWidth-100, 45)];
         [cell.contentView addSubview:headLabel];
         headLabel.font = textFont14;
         headLabel.textColor = MakeColor(91, 91, 91);
@@ -305,7 +305,7 @@
             nameLabel.text = @"地址";
         }
         if (indexPath.row == 2) {
-            nameLabel.text = @"地址";
+            nameLabel.text = @"学校";
         }
         if (indexPath.row == 3) {
             cell.userInteractionEnabled = NO;
@@ -354,13 +354,13 @@
                 modifyVC.judgeStr = @"name";
             }
             if (indexPath.row == 1) {
-                modifyVC.judgeStr = @"major";
-                modifyVC.schoolId = self.schoolId;
-            }
-            if (indexPath.row == 2) {
                 modifyVC.judgeStr = @"address";
                 modifyVC.schoolId = self.schoolId;
                 modifyVC.currentAddress = self.personMsgArray[2];
+            }
+            if (indexPath.row == 2) {
+                modifyVC.judgeStr = @"major";
+                modifyVC.schoolId = self.schoolId;
             }
             modifyVC.delegate = self;
             [self.navigationController pushViewController:modifyVC animated:YES];
@@ -370,14 +370,14 @@
                 modifyPW.titleString = @"查看身份证";
                 modifyPW.idString = self.personMsgArray[4];
                 modifyPW.idUrl1 = self.personMsgArray[8];
-                modifyPW.idUrl2 = self.personMsgArray[9];
+//                modifyPW.idUrl2 = self.personMsgArray[9];
 
             }
             if (indexPath.row == 1) {
                 modifyPW.titleString = @"查看学生证";
                 modifyPW.idString = self.personMsgArray[5];
-                modifyPW.studentUrl1 = self.personMsgArray[10];
-                modifyPW.studentUrl2 = self.personMsgArray[11];
+                modifyPW.studentUrl1 = self.personMsgArray[9];
+//                modifyPW.studentUrl2 = self.personMsgArray[11];
 
             }
             [self.navigationController pushViewController:modifyPW animated:YES];

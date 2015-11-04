@@ -35,7 +35,7 @@
 
 -(void)initWebView
 {
-    bannerView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
+    bannerView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth+64)];
     bannerView.delegate = self;
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://jianzhi.honglingjinclub.com/html/banner/20151026/QandA.html"]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];

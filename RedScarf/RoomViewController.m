@@ -195,12 +195,13 @@
 
 -(void)didClickDoBtn
 {
-    
+    [[BaiduMobStat defaultStat] logEvent:@"已送达" eventLabel:@"button4"];
     [self alertView:@"确认送达"];
 }
 
 -(void)didClickNotBtn
 {
+    [[BaiduMobStat defaultStat] logEvent:@"遇到问题" eventLabel:@"button5"];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"提示" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"餐品不够",@"送错或漏送",@"餐品腐坏",@"餐品破损",@"其他", nil];
     [actionSheet showInView:self.view];
 }

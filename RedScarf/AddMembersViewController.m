@@ -50,7 +50,7 @@
     [self.view addSubview:title];
     title.text = @"添加校园兼职";
     
-    UIImageView *back = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 24, 34)];
+    UIImageView *back = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 30, 40)];
     back.image = [UIImage imageNamed:@"newfanhui"];
     back.userInteractionEnabled = YES;
     [self.view addSubview:back];
@@ -74,7 +74,7 @@
 
 -(void)initView
 {
-    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth)];
+    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth-64)];
     scroll.tag = 10000;
     scroll.contentSize = CGSizeMake(0, kUIScreenHeigth*1.2);
     scroll.backgroundColor = bgcolor;
@@ -148,19 +148,25 @@
         papersImg = [[UIButton alloc] initWithFrame:CGRectMake(20, 116+41*3+10+130*i+45, 120, 80)];
         [papersImg addTarget:self action:@selector(upImageView:) forControlEvents:UIControlEventTouchUpInside];
         
-        [papersImg setImage:[UIImage imageNamed:@"sn"] forState:UIControlStateNormal];
         [scroll addSubview:papersImg];
         
         if (i == 0) {
             papersImg.tag = 1000;
-            [papersImg setImage:idImage forState:UIControlStateNormal];
+            if (idImage == nil) {
+                [papersImg setImage:[UIImage imageNamed:@"sn"] forState:UIControlStateNormal];
+            }else{
+                [papersImg setImage:idImage forState:UIControlStateNormal];
+            }
 
             label.text = @"身份证照片：";
         }
         if (i == 1) {
             papersImg.tag = 1001;
-            [papersImg setImage:stuImage forState:UIControlStateNormal];
-
+            if (stuImage == nil) {
+                [papersImg setImage:[UIImage imageNamed:@"sn"] forState:UIControlStateNormal];
+            }else{
+                [papersImg setImage:stuImage forState:UIControlStateNormal];
+            }
             label.text = @"学生证照片：";
         }
     }
@@ -294,19 +300,43 @@
     for (int i = 0; i < 5; i++) {
         UITextField *tf = (UITextField *)[[self.view viewWithTag:10000] viewWithTag:100+i];
         if (i == 0) {
-            [params setObject:tf.text forKey:@"realName"];
+            if (tf.text.length) {
+                [params setObject:tf.text forKey:@"realName"];
+            }else{
+                [self alertView:@"请输入姓名"];
+                return;
+            }
+            
         }
         if (i == 1) {
-            [params setObject:tf.text forKey:@"mobilePhone"];
+            if (tf.text.length) {
+                [params setObject:tf.text forKey:@"mobilePhone"];
+            }else{
+                [self alertView:@"请输入手机号"];
+                return;
+            }
+            
         }
         if (i == 2) {
             [params setObject:[addressArray[major] objectForKey:@"id"] forKey:@"apartment.id"];
         }
         if (i == 3) {
-            [params setObject:tf.text forKey:@"studentIdCardNo"];
+            if (tf.text.length) {
+                [params setObject:tf.text forKey:@"studentIdCardNo"];
+            }else{
+                [self alertView:@"请输入学生证号"];
+                return;
+            }
+            
         }
         if (i == 4) {
-            [params setObject:tf.text forKey:@"idCardNo"];
+            if (tf.text.length) {
+                [params setObject:tf.text forKey:@"idCardNo"];
+            }else{
+                [self alertView:@"请输入身份证号"];
+                return;
+            }
+            
         }
     }
 
@@ -319,7 +349,7 @@
     [RedScarf_API requestWithURL:[NSString stringWithFormat:@"/user/2?token=%@",app.tocken] params:params httpMethod:@"POST" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
-           
+            [self alertView:@"添加成功"];
         }else
         {
             [self alertView:[result objectForKey:@"msg"]];
