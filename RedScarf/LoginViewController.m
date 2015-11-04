@@ -149,8 +149,8 @@
     }
     BOOL phoneNum = [UIUtils checkPhoneNumInput:nameField.text];
     if (!phoneNum) {
-//        [self alertView:@"输入的手机号有误"];
-//        return;
+        [self alertView:@"输入的手机号有误"];
+        return;
     }
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
@@ -172,9 +172,18 @@
                     app.tocken = [result objectForKey:@"msg"];
                     NSLog(@"token = %@",app.tocken);
                     
+                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                    NSString *string = [self uuid];
+                    NSString *uuid = [defaults objectForKey:@"uuid"];
+                    if (!uuid.length) {
+                        [defaults setObject:string forKey:@"uuid"];
+                        [defaults synchronize];
+                    }
+                    
                     app.tocken = [UIUtils replaceAdd:app.tocken];
 
                     [dic setObject:app.tocken forKey:@"token"];
+                    
                 [RedScarf_API requestWithURL:@"/resource/appMenu" params:dic httpMethod:@"GET" block:^(id result) {
                     NSLog(@"result = %@   %@",[result objectForKey:@"msg"],result);
                     
@@ -200,6 +209,15 @@
     
 }
 
+-(NSString*) uuid {
+    CFUUIDRef puuid = CFUUIDCreate( nil );
+    CFStringRef uuidString = CFUUIDCreateString( nil, puuid );
+    NSString * result = (NSString *)CFBridgingRelease(CFStringCreateCopy( NULL, uuidString));
+    CFRelease(puuid);
+    CFRelease(uuidString);
+    return result;
+}
+
 -(void)ForgetPassWord
 {
     ForgetPassViewController *forgetPassVC = [[ForgetPassViewController alloc] init];
@@ -208,7 +226,9 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    
     [textField resignFirstResponder];
+    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     return YES;
 }
 

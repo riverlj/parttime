@@ -7,6 +7,7 @@
 //
 
 #import "ModifyPWViewController.h"
+#import "LoginViewController.h"
 
 @interface ModifyPWViewController ()
 
@@ -172,7 +173,9 @@
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             [self alertView:@"修改成功"];
-            [self.navigationController popViewControllerAnimated:YES];
+            LoginViewController *login = [[LoginViewController alloc] init];
+            [app setRoorViewController:login];
+//            [self.navigationController popViewControllerAnimated:YES];
         }else{
             [self alertView:[result objectForKey:@"msg"]];
             return ;

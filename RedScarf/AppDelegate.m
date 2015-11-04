@@ -13,6 +13,7 @@
 #import "UMSocialQQHandler.h"
 #import "UMSocialWechatHandler.h"
 #import "Flurry.h"
+#import "BaiduMobStat.h"
 
 @interface AppDelegate ()
 
@@ -25,6 +26,7 @@
     // Override point for customization after application launch.
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [self BaiduMobStat];
     [UMSocialData setAppKey:AppKey];
     [UMSocialQQHandler setQQWithAppId:@"1104757597" appKey:@"5FWCaDeaGQs5JN5V" url:@"http://www.baidu.com"];
     [UMSocialWechatHandler setWXAppId:@"wxff361bf22a286ed2" appSecret:@"aa909ed684171b3af81e80a09b7c6541" url:@"http://www.baidu.com"];
@@ -103,9 +105,9 @@
                 CFShow((__bridge CFTypeRef)(infoDictionary));
                 NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
                 
-                if ([versionStr intValue] == [app_Version intValue]) {
-//                    UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-//                    [aler show];
+                if ([versionStr intValue] != [app_Version intValue]) {
+                    UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                    [aler show];
                 }
             }
             
@@ -115,10 +117,21 @@
     }
 }
 
+-(void)BaiduMobStat
+{
+    BaiduMobStat *statTracker = [BaiduMobStat defaultStat];
+    statTracker.enableExceptionLog = YES; //截获崩溃信息
+    statTracker.logStrategy = BaiduMobStatLogStrategyCustom;
+    statTracker.logSendInterval = 1;
+    statTracker.logSendWifiOnly = YES;
+    statTracker.sessionResumeInterval = 60;
+    [statTracker startWithAppId:@"89b848cd73"];
+}
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (buttonIndex==1) {
-//        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://jianzhi.honglingjinclub.com/app/RedScarf.ipa"]];
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"itms-services://?action=download-manifest&url=https://passport.honglingjinclub.com/downlod/RedScarf.plist"]];
     }
 }
 

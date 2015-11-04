@@ -63,7 +63,10 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    [params setObject:self.username forKey:@"username"];
+    if (self.username.length) {
+        [params setObject:self.username forKey:@"username"];
+    }
+    
     [RedScarf_API requestWithURL:@"/user/setting/addr" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {

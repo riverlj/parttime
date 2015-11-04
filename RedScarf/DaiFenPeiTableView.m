@@ -122,6 +122,8 @@
 
 -(void)didClickFenPeiBtn:(id)sender
 {
+    [[BaiduMobStat defaultStat] logEvent:@"分配" eventLabel:@"button4"];
+    
     UIButton *btn = (UIButton *)sender;
     NSLog(@"btn.tag = %ld",(long)btn.tag);
     //传aid

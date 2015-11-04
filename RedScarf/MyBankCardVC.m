@@ -72,9 +72,22 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
+    
     __block NSMutableArray *arr = [NSMutableArray array];
     [self showHUD:@"正在加载"];
+//    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+//    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/queryBankCard" params:params httpMethod:@"GET" block:^(id result) {
+//        NSLog(@"result = %@",result);
+//        
+//        if (![[result objectForKey:@"code"] boolValue]) {
+//            
+//        }else{
+//            [self alertView:[result objectForKey:@"body"]];
+//        }
+//        
+//    }];
+    [params setObject:app.tocken forKey:@"token"];
+
     [RedScarf_API requestWithURL:@"/user/bankCard" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
@@ -355,7 +368,13 @@
             [params setObject:app.tocken forKey:@"token"];
             
             NSString *name = nameTf.text;
-            name = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            
+            
+            if (!editOrSave) {
+                name = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            }else{
+               
+            }
             [params setObject:name forKey:@"accountName"];
 //            bankTf.text = [bankTf.text stringByReplacingOccurrencesOfString:@" " withString:@""];
             [params setObject:bankTf.text forKey:@"sn"];

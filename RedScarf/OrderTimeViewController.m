@@ -472,12 +472,12 @@
         NSString *urlString;
         NSData *teamData;
         if (self.username.length) {
-            urlString = [NSString stringWithFormat:@"http://121.42.58.92/team/user/setting/time?token=%@&&username=%@",app.tocken,self.username];
+            urlString = [NSString stringWithFormat:@"%@/team/user/setting/time?token=%@&&username=%@",REDSCARF_BASE_URL,app.tocken,self.username];
             
             NSMutableString *STR = [NSMutableString stringWithFormat:@"{\n\"ustList\":%@,\n\"username\":\"%@\"\n}",jsonString,self.username];
             teamData = [STR dataUsingEncoding:NSUTF8StringEncoding];
         }else{
-            urlString = [NSString stringWithFormat:@"http://121.42.58.92/user/setting/time?token=%@&&username=%@",app.tocken,self.username];
+            urlString = [NSString stringWithFormat:@"%@/user/setting/time?token=%@&&username=%@",REDSCARF_BASE_URL,app.tocken,self.username];
         }
         
         NSURL *url = [NSURL URLWithString:urlString];

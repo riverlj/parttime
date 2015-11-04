@@ -453,6 +453,10 @@
 
 -(void)didClickFenPeiBtn:(id)sender
 {
+    //统计
+    [[BaiduMobStat defaultStat] logEvent:@"分 配" eventLabel:@"button3"];
+
+    
     UIButton *btn = (UIButton *)sender;
     NSIndexPath *indexPath = objc_getAssociatedObject(btn, &UITableViewIndexSearch);
     Model *model = [[Model alloc] init];

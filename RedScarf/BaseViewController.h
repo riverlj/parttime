@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "UIUtils.h"
 #import "Reachability.h"
+#import "BaiduMobStat.h"
 
 @interface BaseViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate,UISearchDisplayDelegate,UIActionSheetDelegate,UISearchBarDelegate,UIAlertViewDelegate,UITextFieldDelegate,UIApplicationDelegate>
 {

@@ -39,7 +39,7 @@
 {
     self.title = @"我的工资";
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = color242;
     
     self.navigationController.navigationBar.hidden = NO;
     
@@ -78,7 +78,10 @@
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             [eveydayArray removeAllObjects];
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
+            self.salary = [NSString stringWithFormat:@"%@",[[result objectForKey:@"msg"] objectForKey:@"sum"]];
+            UILabel *money = (UILabel *)[self.view viewWithTag:6666];
+            money.text = self.salary;
+            for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
                 NSLog(@"dic = %@",dic);
                 [eveydayArray addObject:[dic objectForKey:@"date"]];
                 [salayArray addObject:[dic objectForKey:@"sum"]];
@@ -90,54 +93,95 @@
 
 -(void)initTableView
 {
-    UIImageView *roundView = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-60, 85, 120, 120)];
-    roundView.layer.cornerRadius = 60;
-    roundView.layer.masksToBounds = YES;
-    [self.view addSubview:roundView];
-    roundView.layer.borderColor = MakeColor(63, 196, 221).CGColor;
-    roundView.layer.borderWidth = 2.0;
+//    UIImageView *roundView = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-60, 85, 120, 120)];
+//    roundView.layer.cornerRadius = 60;
+//    roundView.layer.masksToBounds = YES;
+//    [self.view addSubview:roundView];
+//    roundView.layer.borderColor = MakeColor(63, 196, 221).CGColor;
+//    roundView.layer.borderWidth = 2.0;
+//    
+//    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(roundView.frame.origin.x+roundView.frame.size.width/2-20, roundView.frame.origin.y+30, 40, 20)];
+//    countLabel.text = [NSString stringWithFormat:@"月工资"];
+//    countLabel.textColor = MakeColor(87, 87, 87);
+//    countLabel.font = [UIFont systemFontOfSize:12];
+//    [self.view addSubview:countLabel];
+//    
+//    UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(roundView.frame.origin.x+10, roundView.frame.origin.y+50, 100, 40)];
+//    moneyLabel.textAlignment = NSTextAlignmentCenter;
+//    moneyLabel.tag = 6666;
+//    moneyLabel.text = [NSString stringWithFormat:@"%@",self.salary];
+//    moneyLabel.textColor = MakeColor(87, 87, 87);
+//    moneyLabel.font = [UIFont systemFontOfSize:18];
+//    [self.view addSubview:moneyLabel];
     
-    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(roundView.frame.origin.x+roundView.frame.size.width/2-20, roundView.frame.origin.y+30, 40, 20)];
-    countLabel.text = [NSString stringWithFormat:@"月工资"];
-    countLabel.textColor = MakeColor(87, 87, 87);
-    countLabel.font = [UIFont systemFontOfSize:12];
-    [self.view addSubview:countLabel];
+    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 54)];
+    bgView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:bgView];
     
-    UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(roundView.frame.origin.x+10, roundView.frame.origin.y+50, 100, 40)];
-    moneyLabel.textAlignment = NSTextAlignmentCenter;
-    moneyLabel.text = [NSString stringWithFormat:@"%@",self.salary];
-    moneyLabel.textColor = MakeColor(87, 87, 87);
-    moneyLabel.font = [UIFont systemFontOfSize:18];
-    [self.view addSubview:moneyLabel];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 53, kUIScreenWidth, 1)];
+    line.backgroundColor = color232;
+    [bgView addSubview:line];
     
-    dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-60, roundView.frame.origin.y+roundView.frame.size.height+5, 120, 40)];
+    dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-60, 0, 120, 54)];
     dateLabel.textAlignment = NSTextAlignmentCenter;
     dateLabel.text = string;
-    [self.view addSubview:dateLabel];
+    [bgView addSubview:dateLabel];
     dateLabel.textColor = colorblue;
     
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [leftBtn addTarget:self action:@selector(leftBtn) forControlEvents:UIControlEventTouchUpInside];
-    leftBtn.frame = CGRectMake(kUIScreenWidth/4-30, roundView.frame.origin.y+roundView.frame.size.height/2-10, 30, 30);
+    leftBtn.frame = CGRectMake(kUIScreenWidth/4-30, 12, 30, 30);
     [leftBtn setBackgroundImage:[UIImage imageNamed:@"zuo"] forState:UIControlStateNormal];
-    [self.view addSubview:leftBtn];
+    [bgView addSubview:leftBtn];
     
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [rightBtn addTarget:self action:@selector(rightBtn) forControlEvents:UIControlEventTouchUpInside];
-    rightBtn.frame = CGRectMake(kUIScreenWidth/4*3, roundView.frame.origin.y+roundView.frame.size.height/2-10, 30, 30);
+    rightBtn.frame = CGRectMake(kUIScreenWidth/4*3, 12, 30, 30);
     [rightBtn setBackgroundImage:[UIImage imageNamed:@"newyou"] forState:UIControlStateNormal];
-    [self.view addSubview:rightBtn];
+    [bgView addSubview:rightBtn];
+    
+    
+    UIView *midView = [[UIView alloc] initWithFrame:CGRectMake(15, bgView.frame.size.height+bgView.frame.origin.y+15, kUIScreenWidth-30, 54)];
+    midView.backgroundColor = [UIColor whiteColor];
+    midView.layer.cornerRadius = 5;
+    midView.layer.masksToBounds = YES;
+    midView.layer.borderColor = color232.CGColor;
+    midView.layer.borderWidth = 0.5;
+    [self.view addSubview:midView];
+    
+    UIView *midLineView = [[UIView alloc] initWithFrame:CGRectMake(midView.frame.size.width/2, 10, 1, 34)];
+    midLineView.backgroundColor = color232;
+    [midView addSubview:midLineView];
+    
+    UILabel *yijisuanLabel = [[UILabel alloc] initWithFrame:CGRectMake(midView.frame.size.width/4-50, 0, 100, 54)];
+    yijisuanLabel.textColor = colorblue;
+    yijisuanLabel.numberOfLines = 2;
+    yijisuanLabel.textAlignment = NSTextAlignmentCenter;
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"已结算金额\n100"];
+    [str addAttribute:NSForegroundColorAttributeName value:color155 range:NSMakeRange(0,5)];
+    yijisuanLabel.attributedText = str;
+    yijisuanLabel.font = textFont14;
+    [midView addSubview:yijisuanLabel];
+    
+    UILabel *weijisuanLabel = [[UILabel alloc] initWithFrame:CGRectMake(midView.frame.size.width/4*3-50, 0, 100, 54)];
+    weijisuanLabel.text = @"未结算金额\n500";
+    weijisuanLabel.numberOfLines = 2;
+    weijisuanLabel.textAlignment = NSTextAlignmentCenter;
+    weijisuanLabel.textColor = color155;
+    weijisuanLabel.font = textFont14;
+    [midView addSubview:weijisuanLabel];
     
     if (kUIScreenWidth == 320) {
-         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, dateLabel.frame.size.height+dateLabel.frame.origin.y+5, kUIScreenWidth-30, kUIScreenHeigth/2)];
+         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, midView.frame.size.height+midView.frame.origin.y+15, kUIScreenWidth-30, kUIScreenHeigth/2)];
     }else{
-         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, dateLabel.frame.size.height+dateLabel.frame.origin.y+5, kUIScreenWidth-30, kUIScreenHeigth/2+50)];
+         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, midView.frame.size.height+midView.frame.origin.y+15, kUIScreenWidth-30, kUIScreenHeigth/2+50)];
     }
    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.layer.borderWidth = 0.5;
     self.tableView.layer.borderColor = color242.CGColor;
+    self.tableView.backgroundColor = color242;
     [self.view addSubview:self.tableView];
 }
 
@@ -208,7 +252,7 @@
 
     
         UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,(kUIScreenWidth-30)/2 , 40)];
-        date.text = [eveydayArray objectAtIndex:indexPath.row];
+        date.text = [NSString stringWithFormat:@"%@",[eveydayArray objectAtIndex:indexPath.row]];
         date.font = [UIFont systemFontOfSize:13];
         date.textAlignment = NSTextAlignmentCenter;
         date.textColor = MakeColor(75, 75, 75);

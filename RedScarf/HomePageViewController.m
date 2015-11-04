@@ -39,6 +39,16 @@
 //    [self.tabBarController.view viewWithTag:11011].hidden = YES;
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"shouye"];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"shouye"];
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.tabBarController.view viewWithTag:22022].hidden = YES;
@@ -67,15 +77,18 @@
     //圆形
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-25, kUIScreenHeigth-80, 60, 60)];
     [btn setBackgroundColor:[UIColor redColor]];
+    [btn setTitle:@"qusongcan" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(pressChange:) forControlEvents:UIControlEventTouchUpInside];
     btn.layer.cornerRadius = 30;
     btn.tag = 11011;
     [btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
     btn.layer.masksToBounds = YES;
     [self.tabBarController.view addSubview:btn];
-    UIImage *image = [[UIImage imageNamed:@"lingdang"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
-    self.navigationItem.rightBarButtonItem = r;
+    
+//    UIImage *image = [[UIImage imageNamed:@"lingdang"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
+//    self.navigationItem.rightBarButtonItem = r;
     [self initHomeView];
 }
 
@@ -88,6 +101,7 @@
 -(void)pressChange:(id)sender
 {
     GoPeiSongViewController *goVC = [[GoPeiSongViewController alloc] init];
+    [[BaiduMobStat defaultStat] logEvent:@"qusongcan" eventLabel:@"button"];
     [self.navigationController pushViewController:goVC animated:YES];
     
 }
@@ -235,6 +249,7 @@
         case 0:
         {
             SeparateViewController *separateVC = [[SeparateViewController alloc] init];
+            separateVC.partTime = @"partTime";
             [self.navigationController pushViewController:separateVC animated:YES];
         }
             break;
@@ -262,8 +277,9 @@
             break;
         case 101:
         {
-            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
-            [self.navigationController pushViewController:promotionVC animated:YES];
+            [self alertView:@"即将上线"];
+//            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
+//            [self.navigationController pushViewController:promotionVC animated:YES];
         }
             break;
         case 102:
@@ -295,6 +311,7 @@
         case 1:
         {
             SeparateViewController *separateVC = [[SeparateViewController alloc] init];
+            separateVC.partTime = @"ceo";
             [self.navigationController pushViewController:separateVC animated:YES];
         }
             break;
@@ -320,8 +337,9 @@
             break;
         case 102:
         {
-            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
-            [self.navigationController pushViewController:promotionVC animated:YES];
+            [self alertView:@"即将上线"];
+//            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
+//            [self.navigationController pushViewController:promotionVC animated:YES];
         }
             break;
             

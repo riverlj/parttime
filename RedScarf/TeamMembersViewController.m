@@ -29,7 +29,7 @@
 {
     [self.tabBarController.view viewWithTag:22022].hidden = YES;
     [self.tabBarController.view viewWithTag:11011].hidden = YES;
-    [self getMessage];
+    
 }
 
 - (void)viewDidLoad {
@@ -78,7 +78,7 @@
             [self.tableView reloadData];
         }else
         {
-            [self alertView:[result objectForKey:@"msg"]];
+            [self alertView:[result objectForKey:@"加载失败"]];
         }
         [self hidHUD];
     }];
