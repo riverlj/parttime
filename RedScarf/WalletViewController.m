@@ -50,7 +50,7 @@
         NSLog(@"result = %@",result);
         if (![[result objectForKey:@"code"] boolValue]) {
 
-            NSMutableDictionary *dic = [[result objectForKey:@"body"] objectForKey:@"body"];
+            NSMutableDictionary *dic = [result objectForKey:@"body"];
             salary = [NSString stringWithFormat:@"%@",[dic objectForKey:@"money"]];
             pwdStatus = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pwdStatus"]];
             
@@ -144,12 +144,12 @@
             title.text = @"账户余额：";
             UILabel *salaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(title.frame.size.width+title.frame.origin.x, 0, 150, 50)];
             salaryLabel.font = textFont14;
-            salaryLabel.text = [NSString stringWithFormat:@"%d",[salary intValue]/100];
+            salaryLabel.text = [NSString stringWithFormat:@"¥%.2f",[salary floatValue]/100];
             salaryLabel.textColor = [UIColor greenColor];
             [cell.contentView addSubview:salaryLabel];
         }
         if (indexPath.row == 1) {
-            title.text = @"银行卡：";
+            title.text = @"银行卡";
         }
     }
     if (indexPath.section == 1) {

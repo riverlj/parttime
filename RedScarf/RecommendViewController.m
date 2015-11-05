@@ -36,8 +36,14 @@
     codeView.backgroundColor = [UIColor redColor];
     [self.view addSubview:codeView];
     
+    UILabel *code = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-70, codeView.frame.size.height+codeView.frame.origin.y+20, 140, 40)];
+    code.text = [NSString stringWithFormat:@"兑换码：%@",self.code];
+    code.textColor = color155;
+    [self.view addSubview:code];
+    code.font = textFont16;
+    
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    shareBtn.frame = CGRectMake(40, codeView.frame.size.height+codeView.frame.origin.y+40, kUIScreenWidth-80, 40);
+    shareBtn.frame = CGRectMake(40, code.frame.size.height+code.frame.origin.y+20, kUIScreenWidth-80, 40);
     [shareBtn setTitle:@"大方的分享" forState:UIControlStateNormal];
     [shareBtn addTarget:self action:@selector(didClickShareBtn) forControlEvents:UIControlEventTouchUpInside];
     [shareBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

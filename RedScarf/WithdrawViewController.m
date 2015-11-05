@@ -25,6 +25,7 @@
     UIView *bgBlackView;
     UIView *promptView;
     __block int passWordNum;
+    BOOL moreTimesOrNo;
 }
 
 - (void)viewDidLoad {
@@ -32,18 +33,7 @@
     // Do any additional setup after loading the view.
     [self comeBack:nil];
     self.title = @"提现";
-    
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    NSDate *nowDate = [NSDate date];
-//    if ([defaults objectForKey:@"nowDate"]) {
-//        
-//    }else{
-//        
-//    }
-//    [defaults setObject:nowDate forKey:@"nowDate"];
-//    [defaults setObject:[NSNumber numberWithInt:passWordNum] forKey:@"passWordNum"];
-//    [defaults synchronize];
-    
+    moreTimesOrNo = NO;
     passWordNum = 4;
     self.view.backgroundColor = color242;
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现纪录" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXianJILu)];
@@ -69,7 +59,7 @@
     [bgView addSubview:showLabel];
     
     UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width/2-40, 25, 80, 31)];
-    moneyLabel.text = [NSString stringWithFormat:@"%d",[self.salary intValue]/100];
+    moneyLabel.text = [NSString stringWithFormat:@"¥%.2f",[self.salary floatValue]/100];
     moneyLabel.textColor = [UIColor greenColor];
     moneyLabel.textAlignment = NSTextAlignmentCenter;
     moneyLabel.font = textFont14;
@@ -172,11 +162,15 @@
             break;
         case 1:
         {
-            if (passWordNum > 0) {
-                [self inputText];
-            }else{
-                [self alertView:@"输入已超过3次"];
-            }
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                NSDate *moreTimes = [defaults objectForKey:@"moreTimes"];
+                
+                if ([[self compareDate:moreTimes] isEqualToString:@"今天"]) {
+                    [self alertView:@"今天输入已超过4次"];
+                }else{
+                     [self inputText];
+                }
+            
         }
             break;
         default:
@@ -201,10 +195,6 @@
         blockSelf.str = [defaults objectForKey:@"passWord"];
         if ([passWord isEqualToString:blockSelf.str]) {
             NSLog(@"密码成功");
-            
-//            UILabel *shiji = (UILabel *)[self.view viewWithTag:200];
-//            NSString *shijiStr = [shiji.text stringByReplacingOccurrencesOfString:@"    实际提现金额：" withString:@""];
-//            shijiStr = [shijiStr stringByReplacingOccurrencesOfString:@"元" withString:@""];
             
             NSString *money = [NSString stringWithFormat:@"%d",[input.text intValue]*100];
             
@@ -235,8 +225,15 @@
             
         }else{
             if (passWordNum == 1) {
-                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码输入次数已超过三次" delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码输入次数已超过4次" delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [al show];
+                
+                NSDate *moreTimes = [NSDate date];
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:moreTimes forKey:@"moreTimes"];
+                [defaults synchronize];
+                [self compareDate:moreTimes];
+                
             }else{
                 UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"密码错误,还有%d次输入机会",passWordNum-1] delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:@"重试", nil];
                 passWordNum--;
@@ -319,6 +316,39 @@
 {
     [[self.view viewWithTag:10000] removeFromSuperview];
     [[self.view viewWithTag:20000] removeFromSuperview];
+}
+
+//判断日期是今天，昨天还是明天
+-(NSString *)compareDate:(NSDate *)date{
+    
+    NSTimeInterval secondsPerDay = 24 * 60 * 60;
+    NSDate *today = [[NSDate alloc] init];
+    NSDate *tomorrow, *yesterday;
+    
+    tomorrow = [today dateByAddingTimeInterval: secondsPerDay];
+    yesterday = [today dateByAddingTimeInterval: -secondsPerDay];
+    
+    // 10 first characters of description is the calendar date:
+    NSString * todayString = [[today description] substringToIndex:10];
+    NSString * yesterdayString = [[yesterday description] substringToIndex:10];
+    NSString * tomorrowString = [[tomorrow description] substringToIndex:10];
+    
+    NSString * dateString = [[date description] substringToIndex:10];
+    
+    if ([dateString isEqualToString:todayString])
+    {
+        return @"今天";
+    } else if ([dateString isEqualToString:yesterdayString])
+    {
+        return @"昨天";
+    }else if ([dateString isEqualToString:tomorrowString])
+    {
+        return @"明天";
+    }
+    else
+    {
+        return dateString;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

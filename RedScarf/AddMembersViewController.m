@@ -306,16 +306,24 @@
                 [self alertView:@"请输入姓名"];
                 return;
             }
-            
-        }
-        if (i == 1) {
-            if (tf.text.length) {
-                [params setObject:tf.text forKey:@"mobilePhone"];
-            }else{
-                [self alertView:@"请输入手机号"];
+            if (![UIUtils isValidateCharacter:tf.text]) {
+                [self alertView:@"名字为两个以上的汉字"];
                 return;
             }
-            
+
+        }
+        if (i == 1) {
+            if (tf.text.length && tf.text.length == 11) {
+                [params setObject:tf.text forKey:@"mobilePhone"];
+            }else{
+                [self alertView:@"请输入正确的手机号"];
+                return;
+            }
+            BOOL phoneNum = [UIUtils checkPhoneNumInput:tf.text];
+            if (!phoneNum) {
+                [self alertView:@"输入的手机号有误"];
+                return;
+            }
         }
         if (i == 2) {
             [params setObject:[addressArray[major] objectForKey:@"id"] forKey:@"apartment.id"];

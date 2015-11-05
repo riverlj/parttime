@@ -153,7 +153,7 @@
     bgView.backgroundColor = [UIColor whiteColor];
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44.5, kUIScreenWidth, 0.5)];
-    lineView.backgroundColor = color102;
+    lineView.backgroundColor = color155;
     [bgView addSubview:lineView];
     
     UIImageView *click = [[UIImageView alloc] initWithFrame:CGRectMake(20, 18, 8, 8)];

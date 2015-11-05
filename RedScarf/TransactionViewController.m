@@ -28,6 +28,9 @@
     if ([self.title isEqualToString:@"提现纪录"]) {
         [self getMessage];
     }
+    if ([self.title isEqualToString:@"余额明细"]) {
+        [self getSalaryMessage];
+    }
 }
 
 -(void)getMessage
@@ -38,6 +41,7 @@
     [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/pay/withdraw/record" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if (![[result objectForKey:@"code"] boolValue]) {
+            [bodyArray removeAllObjects];
             bodyArray = [result objectForKey:@"body"];
         }else{
             [self alertView:[result objectForKey:@"body"]];
@@ -45,6 +49,23 @@
         [self.tableView reloadData];
     }];
 
+}
+
+-(void)getSalaryMessage
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+    [params setObject:@"0" forKey:@"timestamp"];
+    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/moneyChangeRecord" params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if (![[result objectForKey:@"code"] boolValue]) {
+            [bodyArray removeAllObjects];
+            bodyArray = [result objectForKey:@"body"];
+        }else{
+            [self alertView:[result objectForKey:@"body"]];
+        }
+        [self.tableView reloadData];
+    }];
 }
 
 -(void)initTableView
@@ -98,10 +119,10 @@
     if ([self.title isEqualToString:@"交易密码"]) {
         return 1;
     }
-    if ([self.title isEqualToString:@"提现纪录"]) {
-        return bodyArray.count;
-    }
-    return 5;
+//    if ([self.title isEqualToString:@"提现纪录"]) {
+//        return bodyArray.count;
+//    }
+    return bodyArray.count;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForheaderInSection:(NSInteger)section
@@ -126,6 +147,7 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
+    
     if ([self.title isEqualToString:@"交易密码"]) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         UILabel *title = [[UILabel alloc] init];
@@ -161,10 +183,12 @@
         cell.dateLabel.text = [dic objectForKey:@"requestTime"];
         cell.changeLabel.text = [NSString stringWithFormat:@"-%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
     }else{
-        cell.detailLabel.text = @"提现";
-        cell.salaryLabel.text = [NSString stringWithFormat:@"审核中"];
-        cell.dateLabel.text = @"2015-09-09";
-        cell.changeLabel.text = @"100.00";
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        dic = [bodyArray objectAtIndex:indexPath.row];
+        cell.detailLabel.text = [dic objectForKey:@"attach"];
+        cell.salaryLabel.text = [NSString stringWithFormat:@"余额：%@",[dic objectForKey:@"accountMoney"]];
+        cell.dateLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"timePoint"]];
+        cell.changeLabel.text = [NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
     }
     
     return cell;

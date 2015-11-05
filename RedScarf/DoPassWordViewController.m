@@ -87,6 +87,7 @@
     passWord.layer.borderColor = color234.CGColor;
     passWord.layer.borderWidth = 0.5;
     passWord.placeholder = @" 新密码";
+    passWord.secureTextEntry = YES;
     passWord.delegate = self;
     passWord.layer.cornerRadius = 5;
     passWord.layer.masksToBounds = YES;
@@ -96,6 +97,7 @@
     newPassWord = [[UITextField alloc] initWithFrame:CGRectMake(15, passWord.frame.size.height+passWord.frame.origin.y+10, kUIScreenWidth-30, 45)];
     newPassWord.placeholder = @" 确认密码";
     newPassWord.delegate = self;
+    newPassWord.secureTextEntry = YES;
     newPassWord.layer.borderColor = color234.CGColor;
     newPassWord.layer.borderWidth = 0.5;
     newPassWord.layer.cornerRadius = 5;
@@ -167,7 +169,7 @@
         return;
     }
     if (![passWord.text isEqualToString:newPassWord.text]) {
-        [self alertView:@"密码不一致"];
+        [self alertView:@"两次输入的密码不一致"];
         return;
     }
     [params setObject:codeTextField.text forKey:@"verifyCode"];

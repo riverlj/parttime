@@ -277,9 +277,9 @@
             break;
         case 101:
         {
-            [self alertView:@"即将上线"];
-//            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
-//            [self.navigationController pushViewController:promotionVC animated:YES];
+//            [self alertView:@"即将上线"];
+            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
+            [self.navigationController pushViewController:promotionVC animated:YES];
         }
             break;
         case 102:
@@ -337,9 +337,9 @@
             break;
         case 102:
         {
-            [self alertView:@"即将上线"];
-//            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
-//            [self.navigationController pushViewController:promotionVC animated:YES];
+//            [self alertView:@"即将上线"];
+            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
+            [self.navigationController pushViewController:promotionVC animated:YES];
         }
             break;
             

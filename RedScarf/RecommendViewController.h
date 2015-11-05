@@ -10,4 +10,6 @@
 #import "UMSocial.h"
 @interface RecommendViewController : BaseViewController<UMSocialDataDelegate,UMSocialUIDelegate>
 
+@property(nonatomic,strong)NSString *code;
+
 @end

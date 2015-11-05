@@ -24,6 +24,7 @@
     NSMutableArray *countArray;
     NSMutableArray *photoArray;
     NSMutableArray *telArray;
+    NSString *code;
 
 
 }
@@ -86,6 +87,7 @@
                     [orderArray addObject:[dic1 objectForKey:@"otherUserYestdayOrder"]];
                     [countArray addObject:[dic1 objectForKey:@"otherUserTotalOrder"]];
                 }
+            code = [dic objectForKey:@"cdkey"];
                 for (int i = 0; i < 3; i++) {
                     UILabel *label = (UILabel *)[self.view viewWithTag:1000+i];
                     if (i==0) {
@@ -168,6 +170,7 @@
 -(void)didClickRecommend
 {
     RecommendViewController *recommendVC = [[RecommendViewController alloc] init];
+    recommendVC.code = code;
     [self.navigationController pushViewController:recommendVC animated:YES];
 }
 

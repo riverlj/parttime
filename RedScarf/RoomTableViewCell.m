@@ -32,8 +32,14 @@
         self.foodLabel.font = [UIFont systemFontOfSize:12];
         [self.groundImage addSubview:self.foodLabel];
         
-        self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 180, 30)];
+        if (kUIScreenWidth == 320) {
+            self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 180, 30)];
+        }else{
+            self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 220, 30)];
+        }
+        
         self.numberLabel.font = [UIFont systemFontOfSize:12];
+        self.numberLabel.numberOfLines = 3;
         self.numberLabel.textColor = MakeColor(187, 186, 193);
 
         [self.groundImage addSubview:self.numberLabel];

@@ -1,0 +1,24 @@
+dependencies: \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/MyViewController.m \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/MyViewController.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/BaseViewController.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/MBProgressHUD.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/Header.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/RedScarf_API.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/AppDelegate.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/BaseTabbarViewController.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/UIUtils.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/ios_api/universal-bin/Release-iphonesimulator/BaiduMobStat.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/PromotionViewController.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/MoneyOfMonth.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/MyBankCardsVC.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/MyProtocol.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/Model.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/MyBankCardVC.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/SuggestionViewController.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/OrderTimeViewController.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/OrderRangeViewController.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/PersonMsgViewController.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/ModifyPMViewController.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/GoPeiSongViewController.h \
+  /Users/zhangb/Desktop/zhanb-RedScarf-PartTime/parttime/RedScarf/WalletViewController.h
