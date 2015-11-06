@@ -14,6 +14,7 @@
 @implementation OpenAcountProvince
 {
     NSString *urlString;
+    NSArray *taskTypeArray;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -52,10 +53,14 @@
   
     self.dataArray = [NSMutableArray array];
     self.nameArray = [NSMutableArray array];
-    
-    [self getMessage];
-    [self navigationBar];
-    [self initTableView];
+    if ([self.title isEqualToString:@"业务类型"]) {
+        taskTypeArray = [NSArray arrayWithObjects:@"对公业务",@"对私业务", nil];
+        [self initTableView];
+    }else{
+        [self getMessage];
+        [self navigationBar];
+        [self initTableView];
+    }
 }
 
 -(void)navigationBar
@@ -84,12 +89,17 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
-        return self.filteredArray.count;
-        
+    if ([self.title isEqualToString:@"业务类型"]) {
+        return 2;
     }else{
-        return self.dataArray.count;
+        if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
+            return self.filteredArray.count;
+            
+        }else{
+            return self.dataArray.count;
+        }
     }
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -106,22 +116,26 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-    
-    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
-        //根据名字查找aid
-        NSString *name = self.filteredArray[indexPath.row];
-        NSString *aId = @"";
-        for (NSMutableDictionary *dic in self.dataArray) {
-            if ([[dic objectForKey:@"name"] isEqualToString:name]) {
-                aId = [dic objectForKey:@"aId"];
-            }
-        }
-        cell.textLabel.text = [NSString stringWithFormat:@"%@",self.filteredArray[indexPath.row]];
-        
+    if ([self.title isEqualToString:@"业务类型"]) {
+        cell.textLabel.text = taskTypeArray[indexPath.row];
     }else{
-        dic = [self.dataArray objectAtIndex:indexPath.row];
-       
-        cell.textLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]];
+        if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
+            //根据名字查找aid
+            NSString *name = self.filteredArray[indexPath.row];
+            NSString *aId = @"";
+            for (NSMutableDictionary *dic in self.dataArray) {
+                if ([[dic objectForKey:@"name"] isEqualToString:name]) {
+                    aId = [dic objectForKey:@"aId"];
+                }
+            }
+            cell.textLabel.text = [NSString stringWithFormat:@"%@",self.filteredArray[indexPath.row]];
+            
+        }else{
+            dic = [self.dataArray objectAtIndex:indexPath.row];
+            
+            cell.textLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]];
+        }
+
     }
     
     return cell;
@@ -129,22 +143,34 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    
-    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
-        NSString *name = self.filteredArray[indexPath.row];
-        NSString *aId = @"";
-        for (NSMutableDictionary *dic in self.dataArray) {
-            if ([[dic objectForKey:@"name"] isEqualToString:name]) {
-                aId = [dic objectForKey:@"aId"];
-            }
+    if ([self.title isEqualToString:@"业务类型"]) {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if ([cell.textLabel.text isEqualToString:@"对公业务"]) {
+            [self.delegate returnAddress:@"对公业务" aId:@"1"];
+        }
+        if ([cell.textLabel.text isEqualToString:@"对私业务"]) {
+            [self.delegate returnAddress:@"对私业务" aId:@"0"];
         }
         
-        [self.delegate returnAddress:[NSString stringWithFormat:@"%@ (%@)",name,aId] aId:aId];
     }else{
-        dic = [self.dataArray objectAtIndex:indexPath.row];
-        [self.delegate returnAddress:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]] aId:[dic objectForKey:@"id"]];
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         
+        if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
+            NSString *name = self.filteredArray[indexPath.row];
+            NSString *aId = @"";
+            for (NSMutableDictionary *dic in self.dataArray) {
+                if ([[dic objectForKey:@"name"] isEqualToString:name]) {
+                    aId = [dic objectForKey:@"aId"];
+                }
+            }
+            
+            [self.delegate returnAddress:[NSString stringWithFormat:@"%@ (%@)",name,aId] aId:aId];
+        }else{
+            dic = [self.dataArray objectAtIndex:indexPath.row];
+            [self.delegate returnAddress:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]] aId:[dic objectForKey:@"id"]];
+            
+        }
+
     }
     
     [self didClickLeft];
@@ -179,36 +205,37 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSString *url = @"/location/province";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
+    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
     if ([self.title isEqualToString:@"开户城市"]) {
+        url = @"/location/city";
         [params setObject:self.Id forKey:@"provinceId"];
     }
     if ([self.title isEqualToString:@"开户银行"]) {
-        [params setObject:@"1" forKey:@"pageNum"];
-        [params setObject:@"10" forKey:@"pageSize"];
+        url = @"/bank/getAllParentBank";
+        [params setObject:self.Id forKey:@"provinceId"];
     }
     if ([self.title isEqualToString:@"开户支行"]) {
+        url = @"/bank/queryBranchBank";
         [params setObject:@"1" forKey:@"pageNum"];
         [params setObject:@"10" forKey:@"pageSize"];
         [params setObject:self.idArr[0] forKey:@"provinceId"];
         [params setObject:self.idArr[1] forKey:@"cityId"];
-        [params setObject:self.idArr[2] forKey:@"bankId"];
+        [params setObject:self.idArr[2] forKey:@"parentId"];
     }
-    [RedScarf_API requestWithURL:urlString params:params httpMethod:@"GET" block:^(id result) {
+    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"https://paytest.honglingjinclub.com%@",url] params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
+        if (![[result objectForKey:@"code"] boolValue]) {
            
             if ([self.title isEqualToString:@"开户银行"]||[self.title isEqualToString:@"开户支行"]) {
-                for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
+                for (NSMutableDictionary *dic in [[result objectForKey:@"body"] objectForKey:@"list"]) {
                     NSLog(@"dic = %@",dic);
                     [self.dataArray addObject:dic];
                     [self.nameArray addObject:[dic objectForKey:@"name"]];
                 }
             }else{
-                for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
+                for (NSMutableDictionary *dic in [result objectForKey:@"body"]) {
                     NSLog(@"dic = %@",dic);
                     [self.dataArray addObject:dic];
                     [self.nameArray addObject:[dic objectForKey:@"name"]];
@@ -218,7 +245,7 @@
             [self.tableView reloadData];
             
         }else{
-            [self alertView:[result objectForKey:@"msg"]];
+            [self alertView:[result objectForKey:@"body"]];
             return ;
         }
     }];

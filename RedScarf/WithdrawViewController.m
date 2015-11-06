@@ -162,14 +162,7 @@
             break;
         case 1:
         {
-                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                NSDate *moreTimes = [defaults objectForKey:@"moreTimes"];
-                
-                if ([[self compareDate:moreTimes] isEqualToString:@"今天"]) {
-                    [self alertView:@"今天输入已超过4次"];
-                }else{
-                     [self inputText];
-                }
+            [self inputText];
             
         }
             break;
@@ -191,17 +184,13 @@
         NSLog(@"  passWord %@ ",passWord);
         
         [blockSelf.zctView hidenKeyboard];
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        blockSelf.str = [defaults objectForKey:@"passWord"];
-        if ([passWord isEqualToString:blockSelf.str]) {
-            NSLog(@"密码成功");
-            
+        
             NSString *money = [NSString stringWithFormat:@"%d",[input.text intValue]*100];
             
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
-            [params setObject:blockSelf.str forKey:@"payPwd"];
+            [params setObject:passWord forKey:@"payPwd"];
             [params setObject:money forKey:@"totalFee"];
             [params setObject:@"2" forKey:@"bankCardId"];
             if ([defaults objectForKey:@"uuid"]) {
@@ -211,36 +200,28 @@
             NSLog(@"resultParams = %@",params);
             [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/pay/withdraw" params:params httpMethod:@"GET" block:^(id result) {
                 NSLog(@"result = %@",result);
-                if (![[result objectForKey:@"code"] boolValue]) {
+                if (result &&![[result objectForKey:@"code"] boolValue]) {
                     [self alertView:@"提现成功"];
                     SubmitViewController *submitVC = [[SubmitViewController alloc] init];
                     submitVC.title = @"提交";
                     [self.navigationController pushViewController:submitVC animated:YES];
                     return ;
                 }else{
-                    [self alertView:[result objectForKey:@"body"]];
+                    if ([[NSString stringWithFormat:@"%@",[result objectForKey:@"body"]] isEqualToString:@"该账户已被锁定"] || [[NSString stringWithFormat:@"%@",[result objectForKey:@"body"]] isEqualToString:@"4"]) {
+                        [self alertView:@"该账户已被锁定"];
+                    }else if([[NSString stringWithFormat:@"%@",[result objectForKey:@"body"]] isEqualToString:@"余额不足"]){
+                        [self alertView:@"余额不足"];
+                    }else{
+//                        [self alertView:[NSString stringWithFormat:@"还有%d次输入机会",4-[[result objectForKey:@"body"] intValue]]];
+                        UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"还有%d次输入机会",4-[[result objectForKey:@"body"] intValue]] delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:@"重试", nil];
+                        passWordNum--;
+                        [al show];
+                    }
+                    
                 }
                 
             }];
             
-        }else{
-            if (passWordNum == 1) {
-                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码输入次数已超过4次" delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                [al show];
-                
-                NSDate *moreTimes = [NSDate date];
-                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                [defaults setObject:moreTimes forKey:@"moreTimes"];
-                [defaults synchronize];
-                [self compareDate:moreTimes];
-                
-            }else{
-                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"密码错误,还有%d次输入机会",passWordNum-1] delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:@"重试", nil];
-                passWordNum--;
-                [al show];
-                NSLog(@"密码错误");
-            }
-        }
     };
 }
 

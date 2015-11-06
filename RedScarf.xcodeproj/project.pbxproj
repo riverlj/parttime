@@ -170,7 +170,6 @@
 		1DD358351B8D9904009EF0A5 /* MoneyOfMonth.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD358341B8D9904009EF0A5 /* MoneyOfMonth.m */; };
 		1DD358381B8DA295009EF0A5 /* ThreeRowsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD358371B8DA295009EF0A5 /* ThreeRowsCell.m */; };
 		1DD3583B1B8DA5C9009EF0A5 /* FourRowsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD3583A1B8DA5C9009EF0A5 /* FourRowsCell.m */; };
-		1DD4446B1B90380200988732 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DD4446A1B90380200988732 /* Images-2.xcassets */; };
 		1DD48D351B83170E008A411C /* FinishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD48D341B83170E008A411C /* FinishViewController.m */; };
 		1DD52C791B9AC48A007FFCC7 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD52C771B9AC48A007FFCC7 /* logo.png */; };
 		1DD52C7A1B9AC48A007FFCC7 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD52C781B9AC48A007FFCC7 /* logo@2x.png */; };
@@ -587,7 +586,6 @@
 		1DD358371B8DA295009EF0A5 /* ThreeRowsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeRowsCell.m; sourceTree = "<group>"; };
 		1DD358391B8DA5C9009EF0A5 /* FourRowsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourRowsCell.h; sourceTree = "<group>"; };
 		1DD3583A1B8DA5C9009EF0A5 /* FourRowsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourRowsCell.m; sourceTree = "<group>"; };
-		1DD4446A1B90380200988732 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Images-2.xcassets"; sourceTree = "<group>"; };
 		1DD48D331B83170E008A411C /* FinishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishViewController.h; sourceTree = "<group>"; };
 		1DD48D341B83170E008A411C /* FinishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinishViewController.m; sourceTree = "<group>"; };
 		1DD52C771B9AC48A007FFCC7 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
@@ -964,7 +962,6 @@
 				1D72D6721B71D7FD00E80D15 /* Main.storyboard */,
 				1D72D6751B71D7FD00E80D15 /* Images.xcassets */,
 				1D72D6771B71D7FD00E80D15 /* LaunchScreen.xib */,
-				1DD4446A1B90380200988732 /* Images-2.xcassets */,
 				1D72D6681B71D7FD00E80D15 /* Supporting Files */,
 			);
 			path = RedScarf;
@@ -1733,7 +1730,6 @@
 				1DE0AE371B8C8D1E0092E87C /* juxing@2x.png in Resources */,
 				1DCC57911BD0D45800AED986 /* nv.png in Resources */,
 				1DE0AE171B8C5ADB0092E87C /* baohu.png in Resources */,
-				1DD4446B1B90380200988732 /* Images-2.xcassets in Resources */,
 				1D24D4661B748FF200FD39BC /* 提醒@2x.png in Resources */,
 				1DEA808F1B7DD1200071D956 /* xuanzhongkuang.png in Resources */,
 				1DEA80751B7DD0F20071D956 /* fenpei.png in Resources */,
@@ -2176,6 +2172,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: 兵 张 (UD8B5Z876T)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 兵 张 (UD8B5Z876T)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/RedScarf/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -2212,6 +2209,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: 兵 张 (UD8B5Z876T)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 兵 张 (UD8B5Z876T)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/RedScarf/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",

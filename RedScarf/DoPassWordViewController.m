@@ -178,7 +178,7 @@
         [params setObject:[defaults objectForKey:@"uuid"] forKey:@"macAddr"];
     }
     NSLog(@"resultParams = %@",params);
-    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/setPayPwd" params:params httpMethod:@"GET" block:^(id result) {
+    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/setPayPwd" params:params httpMethod:@"POST" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

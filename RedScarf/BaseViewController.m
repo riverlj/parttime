@@ -30,6 +30,24 @@
 {
 
 }
+//获取当前时间
+-(NSString *)date:(NSString *)type
+{
+    NSDate *date = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:type];
+    NSString *dateStr = [formatter stringFromDate:date];
+    return dateStr;
+}
+
+-(NSString *)timeIntersince1970:(double)date
+{
+    NSDate *date1 = [NSDate dateWithTimeIntervalSince1970:date/1000];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateStr = [formatter stringFromDate:date1];
+    return dateStr;
+}
 
 -(void)comeBack:(UIColor *)color
 {
