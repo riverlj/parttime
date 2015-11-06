@@ -119,9 +119,6 @@
     if ([self.title isEqualToString:@"交易密码"]) {
         return 1;
     }
-//    if ([self.title isEqualToString:@"提现纪录"]) {
-//        return bodyArray.count;
-//    }
     return bodyArray.count;
 }
 
@@ -179,15 +176,19 @@
         if ([[dic objectForKey:@"status"] intValue] == 3) {
             cell.salaryLabel.text = [NSString stringWithFormat:@"提现成功"];
         }
-        
-        cell.dateLabel.text = [dic objectForKey:@"requestTime"];
+        NSString *str = [self timeIntersince1970:[[dic objectForKey:@"requestTime"] doubleValue]];
+
+        cell.dateLabel.text = [NSString stringWithFormat:@"%@",str];
         cell.changeLabel.text = [NSString stringWithFormat:@"-%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
     }else{
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         dic = [bodyArray objectAtIndex:indexPath.row];
         cell.detailLabel.text = [dic objectForKey:@"attach"];
         cell.salaryLabel.text = [NSString stringWithFormat:@"余额：%@",[dic objectForKey:@"accountMoney"]];
-        cell.dateLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"timePoint"]];
+        //将时间戳转化为时间    13位的除1000  我擦
+        NSString *str = [self timeIntersince1970:[[dic objectForKey:@"timePoint"] doubleValue]];
+      
+        cell.dateLabel.text = [NSString stringWithFormat:@"%@",str];
         cell.changeLabel.text = [NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
     }
     

@@ -30,6 +30,10 @@
 
 @property(nonatomic,strong) UITableView *tableView;
 
+-(NSString *)date:(NSString *)type;
+
+-(NSString *)timeIntersince1970:(double)date;
+
 @property (nonatomic,strong)MBProgressHUD *hud;
 //加载提示
 - (void)showLoading:(BOOL)show;

@@ -18,8 +18,9 @@
     UITextField *bankTf;
     UITextField *nameTf;
     UITextField *telTf;
-    UITextField *emailTf;
-    UIButton *proBtn,*cityBtn,*bankBtn,*bankChildBtn;
+    UIButton *proBtn,*cityBtn,*bankBtn,*bankChildBtn,*taskTypeBtn;
+    NSString *branchBankId,*cardId;
+    NSString *idOne,*idTwo,*idThree;
 }
 
 @end
@@ -42,8 +43,8 @@
     editOrSave = YES;
 //    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     self.tabBarController.tabBar.hidden = YES;
-    indexArr = [NSMutableArray arrayWithObjects:@"",@"",@"",@"", nil];
-    idArr = [NSMutableArray arrayWithObjects:@"",@"",@"",@"", nil];
+    indexArr = [NSMutableArray arrayWithObjects:@"",@"",@"",@"",@"", nil];
+    idArr = [NSMutableArray arrayWithObjects:@"",@"",@"",@"",@"", nil];
     [self getMessage];
     [self navigationBar];
     [self initView];
@@ -63,67 +64,75 @@
     UIButton *barBtn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
     [barBtn removeFromSuperview];
     
-    
 }
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    app.tocken = [UIUtils replaceAdd:app.tocken];
     
     __block NSMutableArray *arr = [NSMutableArray array];
     [self showHUD:@"正在加载"];
-//    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
-//    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/queryBankCard" params:params httpMethod:@"GET" block:^(id result) {
-//        NSLog(@"result = %@",result);
-//        
-//        if (![[result objectForKey:@"code"] boolValue]) {
-//            
-//        }else{
-//            [self alertView:[result objectForKey:@"body"]];
-//        }
-//        
-//    }];
-    [params setObject:app.tocken forKey:@"token"];
-
-    [RedScarf_API requestWithURL:@"/user/bankCard" params:params httpMethod:@"GET" block:^(id result) {
+    
+    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/queryBankCard" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            arr = [result objectForKey:@"msg"];
+        if (![[result objectForKey:@"code"] boolValue]) {
+            arr = [result objectForKey:@"body"];
             if (arr.count) {
-                NSMutableDictionary *dic = [[result objectForKey:@"msg"] objectAtIndex:0];
+                NSMutableDictionary *dic = [[result objectForKey:@"body"] objectAtIndex:0];
                 NSLog(@"dic = %@",dic);
-                nameText = [dic objectForKey:@"accountName"];
+                nameText = [dic objectForKey:@"realName"];
                 if (nameText.length) {
                     editOrSave = NO;
                 }
-                telText = [dic objectForKey:@"mobilePhone"];
-                emailText = [dic objectForKey:@"email"];
-                bankText = [dic objectForKey:@"sn"];
-                bank = [dic objectForKey:@"id"];
-                
-                idArr[0] = [dic objectForKey:@"provinceId"];
-                idArr[1] = [dic objectForKey:@"cityId"];
-                idArr[2] = [dic objectForKey:@"bankId"];
-                idArr[3] = [dic objectForKey:@"branchBankId"];
-                
-                indexArr[0] = [dic objectForKey:@"provinceName"];
-                indexArr[1] = [dic objectForKey:@"cityName"];
+                telText = [dic objectForKey:@"phoneNumber"];
+                bankText = [dic objectForKey:@"cardNum"];
+                branchBankId = [dic objectForKey:@"branchBankId"];
+                [idArr replaceObjectAtIndex:3 withObject:[dic objectForKey:@"branchBankId"]];
+                cardId = [dic objectForKey:@"id"];
                 indexArr[2] = [dic objectForKey:@"bankName"];
                 indexArr[3] = [dic objectForKey:@"branchBankName"];
-                
+                indexArr[4] = [dic objectForKey:@"businessType"];
                 self.navigationItem.rightBarButtonItem.title = @"编辑";
-                
+                [self getMsgFromBranchBankId];
             }
+            
             [self hidHUD];
-            [self initView];
+           
+            
+        }else{
+            [self alertView:[result objectForKey:@"body"]];
         }
     }];
     
 }
 
+-(void)getMsgFromBranchBankId
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    [self showHUD:@"正在加载"];
+    [params setObject:branchBankId forKey:@"id"];
+    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/bank/getBranchBankById" params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if (![[result objectForKey:@"code"] boolValue]) {
+            NSMutableDictionary *dic = [result objectForKey:@"body"];
+            indexArr[0] = [dic objectForKey:@"provincename"];
+            indexArr[1] = [dic objectForKey:@"cityname"];
+//            [idArr replaceObjectAtIndex:0 withObject:[dic objectForKey:@"provinceid"]];
+//            [idArr replaceObjectAtIndex:1 withObject:[dic objectForKey:@"cityid"]];
+//            [idArr replaceObjectAtIndex:2 withObject:[dic objectForKey:@"parentid"]];
+
+
+        }else{
+            [self alertView:[result objectForKey:@"body"]];
+        }
+        [self initView];
+        [self.tableView reloadData];
+    }];
+
+}
 
 -(void)initView
 {
@@ -188,15 +197,7 @@
     telTf.font = [UIFont systemFontOfSize:13];
     [backgroungView addSubview:telTf];
     
-    emailTf = [[UITextField alloc] initWithFrame:CGRectMake(70, headView2.frame.size.height+headView2.frame.origin.y+90, kUIScreenWidth-60, 45)];
-    emailTf.delegate = self;
-    emailTf.textColor = MakeColor(75, 75, 75);
-    emailTf.userInteractionEnabled = NO;
-    emailTf.text = emailText;
-    emailTf.font = [UIFont systemFontOfSize:13];
-    [backgroungView addSubview:emailTf];
-    
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, headView2.frame.size.height+headView2.frame.origin.y+i*45, 60, 45)];
         label.textAlignment = NSTextAlignmentCenter;
         
@@ -211,12 +212,9 @@
         if (i == 1) {
             label.text = @"电话:";
         }
-        if (i == 2) {
-            label.text = @"邮箱:";
-        }
     }
     
-    UIView *headView3 = [[UIView alloc] initWithFrame:CGRectMake(0, emailTf.frame.size.height+emailTf.frame.origin.y, kUIScreenWidth, 35)];
+    UIView *headView3 = [[UIView alloc] initWithFrame:CGRectMake(0, telTf.frame.size.height+telTf.frame.origin.y, kUIScreenWidth, 35)];
     headView3.backgroundColor = MakeColor(244, 245, 246);
     [backgroungView addSubview:headView3];
     
@@ -230,7 +228,7 @@
     msgLabel.textColor = colorblue;
     [headView3 addSubview:msgLabel];
     
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, headView3.frame.size.height+headView3.frame.origin.y+i*45, 90, 45)];
         label.textAlignment = NSTextAlignmentCenter;
        
@@ -252,6 +250,9 @@
         if (i == 3) {
             label.text = @"开户支行:";
         }
+        if (i == 4) {
+            label.text = @"业务类型:";
+        }
         
     }
     proBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, headView3.frame.size.height+headView3.frame.origin.y, kUIScreenWidth-90, 45)];
@@ -269,7 +270,8 @@
     cityBtn.tag = 10001;
     cityBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     cityBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    cityBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);    [cityBtn setTitle:indexArr[1] forState:UIControlStateNormal];
+    cityBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    [cityBtn setTitle:indexArr[1] forState:UIControlStateNormal];
     [cityBtn setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
 
     cityBtn.userInteractionEnabled = NO;
@@ -279,7 +281,8 @@
     bankBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, headView3.frame.size.height+headView3.frame.origin.y+90, kUIScreenWidth-90, 45)];
     bankBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     bankBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    bankBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);    bankBtn.tag = 10002;
+    bankBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    bankBtn.tag = 10002;
     [bankBtn setTitle:indexArr[2] forState:UIControlStateNormal];
     [bankBtn setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
 
@@ -297,6 +300,26 @@
     bankChildBtn.userInteractionEnabled = NO;
     [bankChildBtn addTarget:self action:@selector(bankChildBtn:) forControlEvents:UIControlEventTouchUpInside];
     [backgroungView addSubview:bankChildBtn];
+    
+    taskTypeBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, headView3.frame.size.height+headView3.frame.origin.y+180, kUIScreenWidth-110, 45)];
+    if (indexArr[4]) {
+        if ([indexArr[4] intValue] == 0) {
+            [taskTypeBtn setTitle:@"对私业务" forState:UIControlStateNormal];
+            
+        }else{
+            [taskTypeBtn setTitle:@"对公业务" forState:UIControlStateNormal];
+            
+        }
+    }
+    
+    [taskTypeBtn setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
+    taskTypeBtn.tag = 10004;
+    taskTypeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    taskTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    taskTypeBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    taskTypeBtn.userInteractionEnabled = NO;
+    [taskTypeBtn addTarget:self action:@selector(taskTypeBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [backgroungView addSubview:taskTypeBtn];
 
 }
 
@@ -306,7 +329,7 @@
         bankTf.userInteractionEnabled = YES;
         nameTf.userInteractionEnabled = YES;
         telTf.userInteractionEnabled = YES;
-        emailTf.userInteractionEnabled = YES;
+        taskTypeBtn.userInteractionEnabled = YES;
         proBtn.userInteractionEnabled = YES;
         cityBtn.userInteractionEnabled = YES;
         bankBtn.userInteractionEnabled = YES;
@@ -318,33 +341,23 @@
         self.navigationItem.rightBarButtonItem.title = @"保存";
     }else{
         //点击保存
-        if (nameTf.text.length&&bankTf.text.length&&telTf.text.length&&emailTf.text.length) {
+        if (nameTf.text.length&&bankTf.text.length&&telTf.text.length) {
             
             for (NSString *str in indexArr) {
-                if (!str.length) {
+                if (str == nil) {
                     [self alertView:@"开户信息不能为空"];
                     return;
                 }
             }
             
-            AppDelegate *app = [UIApplication sharedApplication].delegate;
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            
-            app.tocken = [UIUtils replaceAdd:app.tocken];
-            
-            NSString *post = @"POST";
+            NSString *url = @"/account/bindBankCard";            
             if (!editOrSave) {
-                [params setObject:bank forKey:@"id"];
-                post = @"PUT";
-                nameText = [nameText stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                
-                for (int i = 0; i < indexArr.count; i++) {
-                    indexArr[i] = [indexArr[i] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                }
-            }
-            if (![UIUtils isValidateEmail:emailTf.text]) {
-                [self alertView:@"邮箱不正确"];
-                return;
+                url = @"/account/updateBankCard";
+                 [params setObject:cardId forKey:@"id"];
+//                for (int i = 0; i < indexArr.count; i++) {
+//                    indexArr[i] = [indexArr[i] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//                }
             }
             
             if (![UIUtils isValidateCharacter:nameTf.text]) {
@@ -363,35 +376,25 @@
                 [self alertView:@"卡号输入有误"];
                 return;
             }
-
-            
-            [params setObject:app.tocken forKey:@"token"];
             
             NSString *name = nameTf.text;
-            
-            
-            if (!editOrSave) {
-                name = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            }else{
-               
+            //不用转utf8
+//            name = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+          
+            [params setObject:name forKey:@"realName"];
+            [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+            [params setObject:bankTf.text forKey:@"cardNum"];
+            [params setObject:telTf.text forKey:@"phoneNumber"];
+            if ([taskTypeBtn.titleLabel.text isEqualToString:@"对公业务"]) {
+                [params setObject:@"1" forKey:@"businessType"];
             }
-            [params setObject:name forKey:@"accountName"];
-//            bankTf.text = [bankTf.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-            [params setObject:bankTf.text forKey:@"sn"];
-            [params setObject:telTf.text forKey:@"mobilePhone"];
-            [params setObject:emailTf.text forKey:@"email"];
+            if ([taskTypeBtn.titleLabel.text isEqualToString:@"对私业务"]) {
+                [params setObject:@"0" forKey:@"businessType"];
+            }
             
-            [params setObject:idArr[0] forKey:@"provinceId"];
-            [params setObject:idArr[1] forKey:@"cityId"];
-            [params setObject:idArr[2] forKey:@"bankId"];
             [params setObject:idArr[3] forKey:@"branchBankId"];
             
-            [params setObject:indexArr[0] forKey:@"provinceName"];
-            [params setObject:indexArr[1] forKey:@"cityName"];
-            [params setObject:indexArr[2] forKey:@"bankName"];
-            [params setObject:indexArr[3] forKey:@"branchBankName"];
-            
-            [RedScarf_API requestWithURL:@"/user/bankCard" params:params httpMethod:post block:^(id result) {
+            [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"https://paytest.honglingjinclub.com%@",url] params:params httpMethod:@"POST" block:^(id result) {
                 NSLog(@"result = %@",result);
                 if ([[result objectForKey:@"success"] boolValue]) {
                     for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
@@ -403,13 +406,13 @@
                     bankTf.userInteractionEnabled = NO;
                     nameTf.userInteractionEnabled = NO;
                     telTf.userInteractionEnabled = NO;
-                    emailTf.userInteractionEnabled = NO;
                     proBtn.userInteractionEnabled = NO;
+                    taskTypeBtn.userInteractionEnabled = NO;
                     cityBtn.userInteractionEnabled = NO;
                     bankBtn.userInteractionEnabled = NO;
                     bankChildBtn.userInteractionEnabled = NO;
                 }else{
-                    [self alertView:[result objectForKey:@"msg"]];
+                    [self alertView:[result objectForKey:@"body"]];
                 }
             }];
             
@@ -437,10 +440,12 @@
     if (tag == 10003) {
         [bankChildBtn setTitle:address forState:UIControlStateNormal];
     }
-    
-        [idArr replaceObjectAtIndex:tag-10000 withObject:aId];
- 
-        [indexArr replaceObjectAtIndex:tag-10000 withObject:address];
+    if (tag == 10004) {
+        [taskTypeBtn setTitle:address forState:UIControlStateNormal];
+    }
+    branchBankId = aId;
+    [idArr replaceObjectAtIndex:tag-10000 withObject:aId];
+    [indexArr replaceObjectAtIndex:tag-10000 withObject:address];
     
 }
 
@@ -457,6 +462,9 @@
     [cityBtn setTitle:@"" forState:UIControlStateNormal];
     [bankBtn setTitle:@"" forState:UIControlStateNormal];
     [bankChildBtn setTitle:@"" forState:UIControlStateNormal];
+    [idArr replaceObjectAtIndex:1 withObject:@""];
+    [idArr replaceObjectAtIndex:2 withObject:@""];
+    [idArr replaceObjectAtIndex:3 withObject:@""];
 
     [self.navigationController pushViewController:openAcount animated:YES];
 
@@ -468,20 +476,18 @@
     openAcount.delegate = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
-//    if (!cityId.length) {
-        openAcount.Id = idArr[0];
-//    }else{
-//        openAcount.Id = cityId;
-//    }
+    idOne = openAcount.Id = idArr[0];
     openAcount.titleString = @"开户城市";
-    if (!proBtn.titleLabel.text.length) {
-        [self alertView:@"请依次输入"];
+    if ([idOne isEqual:@""]) {
+        [self alertView:@"请从省份开始选择"];
         return;
     }
     [indexArr replaceObjectAtIndex:2 withObject:@""];
     [indexArr replaceObjectAtIndex:3 withObject:@""];
     [bankBtn setTitle:@"" forState:UIControlStateNormal];
     [bankChildBtn setTitle:@"" forState:UIControlStateNormal];
+    [idArr replaceObjectAtIndex:2 withObject:@""];
+    [idArr replaceObjectAtIndex:3 withObject:@""];
     [self.navigationController pushViewController:openAcount animated:YES];
     
 }
@@ -492,12 +498,17 @@
     openAcount.delegate = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
+    openAcount.Id = idArr[0];
     openAcount.titleString = @"开户银行";
-    if (!proBtn.titleLabel.text.length||!cityBtn.titleLabel.text.length) {
-        [self alertView:@"请依次输入"];
+    idOne = idArr[0];
+    idTwo = idArr[1];
+    if ([idOne isEqual:@""]||[idTwo isEqual:@""]) {
+        [self alertView:@"请从省份开始选择"];
         return;
     }
     [indexArr replaceObjectAtIndex:3 withObject:@""];
+    [bankChildBtn setTitle:@"" forState:UIControlStateNormal];
+    [idArr replaceObjectAtIndex:3 withObject:@""];
     [bankChildBtn setTitle:@"" forState:UIControlStateNormal];
     [self.navigationController pushViewController:openAcount animated:YES];
     
@@ -511,12 +522,25 @@
     tag = btn.tag;
     openAcount.idArr = idArr;
     openAcount.titleString = @"开户支行";
-    if (!proBtn.titleLabel.text.length||!cityBtn.titleLabel.text.length||!bankBtn.titleLabel.text.length) {
-        [self alertView:@"请依次输入"];
+    idOne = idArr[0];
+    idTwo = idArr[1];
+    idThree = idArr[2];
+    if ([idOne isEqual:@""]||[idTwo isEqual:@""]||[idThree isEqual:@""]) {
+        [self alertView:@"请从省份开始选择"];
         return;
     }
     [self.navigationController pushViewController:openAcount animated:YES];
     
+}
+
+-(void)taskTypeBtn:(id)sender
+{
+    OpenAcountProvince *openAcount = [[OpenAcountProvince alloc] init];
+    openAcount.titleString = @"业务类型";
+    openAcount.delegate = self;
+    UIButton *btn = (UIButton *)sender;
+    tag = btn.tag;
+    [self.navigationController pushViewController:openAcount animated:YES];
 }
 
 //格式化银行账号

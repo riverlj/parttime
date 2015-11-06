@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "567A2258C5B017AFDBB84D199FA659B6956AC276",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "567A2258C5B017AFDBB84D199FA659B6956AC276" : 0,
+    "A74DF23F7AFEB9CD11291B936ACA1AD1D14BC4F1" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "1A34D21B-8592-49D2-95A0-2826E72AD242",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "567A2258C5B017AFDBB84D199FA659B6956AC276" : "RedScarf-zhangb-0902",
+    "A74DF23F7AFEB9CD11291B936ACA1AD1D14BC4F1" : "RedScarf-zhangb-0902RedScarf"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "RedScarf",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "RedScarf.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git.honglingjinclub.com:pttms\/pttms-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "567A2258C5B017AFDBB84D199FA659B6956AC276"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git.honglingjinclub.com:pttms\/pttms-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A74DF23F7AFEB9CD11291B936ACA1AD1D14BC4F1"
+    }
+  ]
+}
