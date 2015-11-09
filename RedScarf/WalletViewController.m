@@ -37,8 +37,26 @@
     
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXian)];
     self.navigationItem.rightBarButtonItem = right;
+    [self getToken];
     [self getMessage];
     [self initTableView];
+}
+//获取支付系统需要的token
+-(void)getToken
+{
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    app.tocken = [UIUtils replaceAdd:app.tocken];
+    [params setObject:app.tocken forKey:@"token"];
+    [RedScarf_API requestWithURL:@"/finance/token" params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if ([[result objectForKey:@"success"] boolValue]) {
+            [self getMessage];
+        }else{
+            [self alertView:[result objectForKey:@"msg"]];
+        }
+    }];
+
 }
 
 -(void)getMessage

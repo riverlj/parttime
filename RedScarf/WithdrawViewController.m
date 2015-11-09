@@ -81,6 +81,8 @@
             input.delegate = self;
 //            input.keyboardType = UIKeyboardTypeNumberPad;
             input.placeholder = @"请输入提现金额";
+            input.textColor = color102;
+            input.font = textFont15;
             input.backgroundColor = [UIColor whiteColor];
             [self.view addSubview:input];
         }
@@ -139,6 +141,10 @@
             [self alertView:@"提现金额不能为空"];
             return;
         }
+        if ([input.text intValue] <= 1) {
+            [self alertView:@"提现金额不能小于1元"];
+            return;
+        }
         
         NSString *shijiStr = [shiji.text stringByReplacingOccurrencesOfString:@"    实际提现金额：" withString:@""];
         NSString *shouxuStr = [shouxu.text stringByReplacingOccurrencesOfString:@"    手续费：" withString:@""];
@@ -185,7 +191,7 @@
         
         [blockSelf.zctView hidenKeyboard];
         
-            NSString *money = [NSString stringWithFormat:@"%d",[input.text intValue]*100];
+            NSString *money = [NSString stringWithFormat:@"%.0f",[input.text floatValue]*100];
             
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -198,7 +204,7 @@
             }
             //提现接口
             NSLog(@"resultParams = %@",params);
-            [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/pay/withdraw" params:params httpMethod:@"GET" block:^(id result) {
+            [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/pay/withdraw" params:params httpMethod:@"POST" block:^(id result) {
                 NSLog(@"result = %@",result);
                 if (result &&![[result objectForKey:@"code"] boolValue]) {
                     [self alertView:@"提现成功"];
@@ -232,7 +238,7 @@
     UILabel *shouxu = (UILabel *)[self.view viewWithTag:100];
     if ([input.text intValue] < 100) {
         shouxu.text = @"    手续费：1元";
-        shiji.text = [NSString stringWithFormat:@"    实际提现金额：%d元",[input.text intValue] - 1];
+        shiji.text = [NSString stringWithFormat:@"    实际提现金额：%.2f元",[input.text floatValue] - 1.00];
     }else{
         shouxu.text = @"    手续费：0元";
         shiji.text = [NSString stringWithFormat:@"    实际提现金额：%@元",input.text];

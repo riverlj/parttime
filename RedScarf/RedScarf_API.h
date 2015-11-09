@@ -5,7 +5,7 @@
 //  Created by zhangb on 15/8/7.
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
-//#define  REDSCARF_BASE_URL @"http://192.168.1.95:8080"
+//#define  REDSCARF_BASE_URL @"http://192.168.1.160:8080"
 //#define  REDSCARF_BASE_URL @"https://paytest.honglingjinclub.com"
 //正式
 //#define  REDSCARF_BASE_URL @"http://jianzhi.honglingjinclub.com"

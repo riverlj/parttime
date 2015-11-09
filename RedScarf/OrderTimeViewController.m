@@ -506,6 +506,13 @@
     
     if ([dataString containsString:@"true"]) {
         [self alertView:@"修改成功"];
+        self.navigationItem.rightBarButtonItem.title = @"编辑";
+        UIScrollView *scroll = (UIScrollView *)[self.view viewWithTag:50000];
+        for (UIView *view in scroll.subviews) {
+            if ([[view class] isSubclassOfClass:[UIButton class]]) {
+                view.userInteractionEnabled = NO;
+            }
+        }
         return;
     }else{
         [self alertView:@"修改失败"];
