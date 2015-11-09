@@ -1,20 +1,28 @@
 {
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "460FF8C6B1DB385843A518D0594C1A2E4C33F4A9",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "567A2258C5B017AFDBB84D199FA659B6956AC276" : 0,
-    "A74DF23F7AFEB9CD11291B936ACA1AD1D14BC4F1" : 0
+    "A74DF23F7AFEB9CD11291B936ACA1AD1D14BC4F1" : 0,
+    "460FF8C6B1DB385843A518D0594C1A2E4C33F4A9" : 0,
+    "567A2258C5B017AFDBB84D199FA659B6956AC276" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "1A34D21B-8592-49D2-95A0-2826E72AD242",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "567A2258C5B017AFDBB84D199FA659B6956AC276" : "RedScarf-zhangb-0902",
-    "A74DF23F7AFEB9CD11291B936ACA1AD1D14BC4F1" : "RedScarf-zhangb-0902RedScarf"
+    "A74DF23F7AFEB9CD11291B936ACA1AD1D14BC4F1" : "RedScarf-zhangb-0902RedScarf",
+    "460FF8C6B1DB385843A518D0594C1A2E4C33F4A9" : "",
+    "567A2258C5B017AFDBB84D199FA659B6956AC276" : "RedScarf-zhangb-0902"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "RedScarf",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "RedScarf.xcworkspace",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git.honglingjinclub.com:zhangbing\/parttime.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "460FF8C6B1DB385843A518D0594C1A2E4C33F4A9"
+    },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git.honglingjinclub.com:pttms\/pttms-ios.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
