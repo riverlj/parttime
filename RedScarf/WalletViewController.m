@@ -48,8 +48,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    [RedScarf_API requestWithURL:@"/finance/token" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
+    [RedScarf_API requestWithURL:@"/user/token/finance" params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@" token result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             [self getMessage];
         }else{

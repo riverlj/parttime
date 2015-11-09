@@ -105,7 +105,7 @@
                 CFShow((__bridge CFTypeRef)(infoDictionary));
                 NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
                 
-                if ([versionStr intValue] != [app_Version intValue]) {
+                if (![versionStr isEqualToString:app_Version]) {
                     UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                     [aler show];
                 }
