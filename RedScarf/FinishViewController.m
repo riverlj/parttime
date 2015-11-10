@@ -189,13 +189,6 @@
     return 0;
 }
 
-//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-//{
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 10)];
-//    view.backgroundColor = MakeColor(241, 241, 241);
-//    return view;
-//}
-
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 15)];
@@ -228,24 +221,12 @@
     [cell.contentView addSubview:statusImage];
     
     Model *model = [[Model alloc] init];
-//    
-//    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
-//        
-//        NSString *tel = [self.telArray objectAtIndex:indexPath.section];
-//        for (Model *m in self.dataArr) {
-//            if ([m.telStr isEqualToString:tel]) {
-//                model = m;
-//            }
-//        }
-//        
-//    }else{
+
     if ([search isEqualToString:@"yes"]) {
          model = [self.searchDataArr objectAtIndex:indexPath.section];
     }else{
          model = [self.dataArr objectAtIndex:indexPath.section];
     }
-    
-//    }
     
     cell.nameLabel.text = [NSString stringWithFormat:@"配送人:%@",model.nameStr];
     cell.chuLiLabel.text = [NSString stringWithFormat:@"处理：%@",model.dateStr];

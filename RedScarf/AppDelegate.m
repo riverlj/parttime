@@ -105,15 +105,12 @@
                 CFShow((__bridge CFTypeRef)(infoDictionary));
                 NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
                 
-                if ([versionStr intValue] != [app_Version intValue]) {
+                if (![versionStr isEqualToString:app_Version]) {
                     UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                     [aler show];
                 }
             }
-            
         }];
-        
-
     }
 }
 
@@ -121,9 +118,11 @@
 {
     BaiduMobStat *statTracker = [BaiduMobStat defaultStat];
     statTracker.enableExceptionLog = YES; //截获崩溃信息
-    statTracker.logStrategy = BaiduMobStatLogStrategyCustom;
+    statTracker.logStrategy = BaiduMobStatLogStrategyAppLaunch;
     statTracker.logSendInterval = 1;
-    statTracker.logSendWifiOnly = YES;
+    statTracker.channelId = @"BaiduSDK";
+    statTracker.logSendWifiOnly = NO;
+    statTracker.enableDebugOn = YES;
     statTracker.sessionResumeInterval = 60;
     [statTracker startWithAppId:@"89b848cd73"];
 }

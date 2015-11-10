@@ -134,9 +134,9 @@
 
     }
     NSMutableDictionary *dic = dataArray[indexPath.row];
-    cell.date.text = [dic objectForKey:@"date"];
-    cell.funsCount.text = [dic objectForKey:@"fansNumAccumulate"];
-    cell.totalCount.text = [dic objectForKey:@"fansNumInOneDay"];
+    cell.date.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"date"]];
+    cell.funsCount.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"fansNumAccumulate"]];
+    cell.totalCount.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"fansNumInOneDay"]];
     
     return cell;
 }

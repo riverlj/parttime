@@ -37,15 +37,39 @@
     
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXian)];
     self.navigationItem.rightBarButtonItem = right;
-    [self getMessage];
+    [self getToken];
+//    [self getMessage];
     [self initTableView];
+}
+//获取支付系统需要的token
+-(void)getToken
+{
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    app.tocken = [UIUtils replaceAdd:app.tocken];
+    [params setObject:app.tocken forKey:@"token"];
+    [RedScarf_API requestWithURL:@"/user/token/finance" params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@" token result = %@",result);
+        if (![[result objectForKey:@"code"] boolValue]) {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:[result objectForKey:@"body"] forKey:@"withdrawToken"];
+            [defaults synchronize];
+            [self getMessage];
+        }else{
+            [self alertView:[result objectForKey:@"msg"]];
+        }
+    }];
+
 }
 
 -(void)getMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"withdrawToken"]) {
+        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+    }
     
-    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
     [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/accountInfo" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if (![[result objectForKey:@"code"] boolValue]) {

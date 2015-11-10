@@ -479,7 +479,7 @@
         }else{
             urlString = [NSString stringWithFormat:@"%@/user/setting/time?token=%@&&username=%@",REDSCARF_BASE_URL,app.tocken,self.username];
         }
-        
+        NSLog(@"urlString = %@",urlString);
         NSURL *url = [NSURL URLWithString:urlString];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"PUT"];
@@ -487,7 +487,7 @@
         NSMutableDictionary *content = [NSMutableDictionary dictionary];
         [content setObject:@"application/json; charset=UTF-8" forKey:@"Content-Type"];
         [request setAllHTTPHeaderFields:content];
-//        NSLog(@"[self toJsonData:array] = %@",[self toJsonData:array]);
+        
         NSData *DATA = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         if (self.username.length) {
             [request setHTTPBody:teamData];
@@ -504,8 +504,15 @@
 {
     NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
-    if ([dataString containsString:@"true"]) {
+    if ([dataString rangeOfString:@"true"].location != NSNotFound) {
         [self alertView:@"修改成功"];
+        self.navigationItem.rightBarButtonItem.title = @"编辑";
+        UIScrollView *scroll = (UIScrollView *)[self.view viewWithTag:50000];
+        for (UIView *view in scroll.subviews) {
+            if ([[view class] isSubclassOfClass:[UIButton class]]) {
+                view.userInteractionEnabled = NO;
+            }
+        }
         return;
     }else{
         [self alertView:@"修改失败"];

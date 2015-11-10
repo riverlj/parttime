@@ -125,25 +125,36 @@
         
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         
-        [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if ([defaults objectForKey:@"withdrawToken"]) {
+            [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+        }
+        [self showHUD:@"正在发送"];
         [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/verifyCode/shortMsg" params:params httpMethod:@"GET" block:^(id result) {
             NSLog(@"result = %@",result);
             if ([[result objectForKey:@"success"] boolValue]) {
                 [self alertView:[result objectForKey:@"body"]];
+                [self hidHUD];
                 [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
             }else{
                 [self alertView:[result objectForKey:@"body"]];
             }
             
         }];
+        
     }else{
         
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-       [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if ([defaults objectForKey:@"withdrawToken"]) {
+            [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+        }
+        [self showHUD:@"正在发送"];
         [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/verifyCode/shortMsg" params:params httpMethod:@"GET" block:^(id result) {
             NSLog(@"result = %@",result);
             if ([[result objectForKey:@"success"] boolValue]) {
                 [self alertView:[result objectForKey:@"body"]];
+                [self hidHUD];
                 [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
             }else{
                 [self alertView:[result objectForKey:@"body"]];
@@ -159,7 +170,9 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+    if ([defaults objectForKey:@"withdrawToken"]) {
+        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+    }
     if (!codeTextField.text.length) {
         [self alertView:@"请输入手机验证码"];
         return;

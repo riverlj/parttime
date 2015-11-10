@@ -201,55 +201,7 @@
     [[self.view viewWithTag:10000] setHidden:NO];
 
     [self didClickDaiFenPeiBtn];
-
 }
-
-//-(void)didClickPeiSong
-//{
-//    [self setBtnBackgroundColor:2];
-//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    btn = (UIButton *)[navigationView viewWithTag:102];
-//    [btn setBackgroundColor:MakeColor(21, 83, 177)];
-//
-//    NSArray *views = [self.view subviews];
-//    for (UITableView *table in views) {
-//        if ([table isKindOfClass:[UITableView class]]) {
-//            [table removeFromSuperview];
-//
-//        }
-//    }
-//
-//    [[self.view viewWithTag:10000] setHidden:YES];
-//    
-//    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(40, navigationView.frame.origin.y+navigationView.frame.size.height, kUIScreenWidth-80, kUIScreenHeigth/2-55)];
-//    [self.view addSubview:backgroundView];
-//    backgroundView.tag = 100006;
-////    backgroundView.contentMode = UIViewContentModeScaleAspectFit;
-//    backgroundView.image = [UIImage imageNamed:@"beijing@2x"];
-//    backgroundView.userInteractionEnabled = YES;
-//    
-//    HeadDisTableView *headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 0,backgroundView.frame.size.width-30, backgroundView.frame.size.height-50)];
-//    headTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    headTableView.tag = 100005;
-//    [backgroundView addSubview:headTableView];
-//    
-//    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(backgroundView.frame.size.width/2-80, headTableView.frame.size.height+headTableView.frame.origin.y+12, 160, 10)];
-//    countLabel.tag = 100008;
-//    countLabel.text = [NSString stringWithFormat:@"—总计:%d份—",countStr];
-//    countLabel.font = [UIFont systemFontOfSize:12];
-//    countLabel.textAlignment = UITextAlignmentCenter;
-//    [backgroundView addSubview:countLabel];
-//    
-//    
-//    disTableView = [[DistributionTableView alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth/2+10, kUIScreenWidth,kUIScreenHeigth/2-55)];
-//    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(10, 0, kUIScreenWidth-10, 0.5)];
-//    line.backgroundColor = MakeColor(187, 186, 193);
-//    UIView *footView = [[UIView alloc] init];
-//    disTableView.tableFooterView = footView;
-//    disTableView.tableHeaderView = line;
-//    [self.view addSubview:disTableView];
-//}
-//
 
 -(void)didClickDaiFenPeiBtn
 {
@@ -404,7 +356,7 @@
     NSString *str = [NSString stringWithFormat:@"%@",[addressDic objectForKey:@"apartmentName"]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    CGSize size = CGSizeMake(kUIScreenWidth-135, 30);
+    CGSize size = CGSizeMake(kUIScreenWidth-150, 30);
     CGSize labelSize = [str sizeWithFont:cell.addressLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     cell.addressLabel.frame = CGRectMake(20, 12, labelSize.width, labelSize.height);
     cell.addressLabel.text = str;

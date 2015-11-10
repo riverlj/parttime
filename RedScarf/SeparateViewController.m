@@ -34,7 +34,7 @@
     self.tabBarController.tabBar.hidden = YES;
     self.view.backgroundColor = color242;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
+    if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
         [self initSeparateBtn];
         [self initView];
     }else{
@@ -48,7 +48,7 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     headTableView.tag = 999;
-    if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
+    if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
          headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 124,kUIScreenWidth-20, kUIScreenHeigth-245)];
     }else{
          headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 20,kUIScreenWidth-20, kUIScreenHeigth-130)];

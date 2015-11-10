@@ -20,6 +20,7 @@
     NSMutableArray *salayArray;
     int tag;
     UILabel *dateLabel;
+    NSString *settledSum,*unsettledSum;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -74,45 +75,32 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:dateStr forKey:@"date"];
-    [RedScarf_API requestWithURL:@"/salary/month" params:params httpMethod:@"GET" block:^(id result) {
+    [RedScarf_API requestWithURL:@"/salary/month/v2" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             [eveydayArray removeAllObjects];
-            self.salary = [NSString stringWithFormat:@"%@",[[result objectForKey:@"msg"] objectForKey:@"sum"]];
+            settledSum = [NSString stringWithFormat:@"%@",[[result objectForKey:@"msg"] objectForKey:@"settledSum"]];
             UILabel *money = (UILabel *)[self.view viewWithTag:6666];
-            money.text = self.salary;
+            money.text = settledSum;
+            
+            unsettledSum = [NSString stringWithFormat:@"%@",[[result objectForKey:@"msg"] objectForKey:@"unsettledSum"]];
+            UILabel *money1 = (UILabel *)[self.view viewWithTag:7777];
+            money1.text = unsettledSum;
+            
             for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
                 NSLog(@"dic = %@",dic);
                 [eveydayArray addObject:[dic objectForKey:@"date"]];
                 [salayArray addObject:[dic objectForKey:@"sum"]];
             }
             [self.tableView reloadData];
+        }else{
+            [self alertView:[result objectForKey:@"msg"]];
         }
     }];
 }
 
 -(void)initTableView
 {
-//    UIImageView *roundView = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-60, 85, 120, 120)];
-//    roundView.layer.cornerRadius = 60;
-//    roundView.layer.masksToBounds = YES;
-//    [self.view addSubview:roundView];
-//    roundView.layer.borderColor = MakeColor(63, 196, 221).CGColor;
-//    roundView.layer.borderWidth = 2.0;
-//    
-//    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(roundView.frame.origin.x+roundView.frame.size.width/2-20, roundView.frame.origin.y+30, 40, 20)];
-//    countLabel.text = [NSString stringWithFormat:@"月工资"];
-//    countLabel.textColor = MakeColor(87, 87, 87);
-//    countLabel.font = [UIFont systemFontOfSize:12];
-//    [self.view addSubview:countLabel];
-//    
-//    UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(roundView.frame.origin.x+10, roundView.frame.origin.y+50, 100, 40)];
-//    moneyLabel.textAlignment = NSTextAlignmentCenter;
-//    moneyLabel.tag = 6666;
-//    moneyLabel.text = [NSString stringWithFormat:@"%@",self.salary];
-//    moneyLabel.textColor = MakeColor(87, 87, 87);
-//    moneyLabel.font = [UIFont systemFontOfSize:18];
-//    [self.view addSubview:moneyLabel];
     
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 54)];
     bgView.backgroundColor = [UIColor whiteColor];
@@ -156,16 +144,18 @@
     UILabel *yijisuanLabel = [[UILabel alloc] initWithFrame:CGRectMake(midView.frame.size.width/4-50, 0, 100, 54)];
     yijisuanLabel.textColor = colorblue;
     yijisuanLabel.numberOfLines = 2;
+    yijisuanLabel.tag = 6666;
     yijisuanLabel.textAlignment = NSTextAlignmentCenter;
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"已结算金额\n100"];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"已结算金额\n%@",settledSum]];
     [str addAttribute:NSForegroundColorAttributeName value:color155 range:NSMakeRange(0,5)];
     yijisuanLabel.attributedText = str;
     yijisuanLabel.font = textFont14;
     [midView addSubview:yijisuanLabel];
     
     UILabel *weijisuanLabel = [[UILabel alloc] initWithFrame:CGRectMake(midView.frame.size.width/4*3-50, 0, 100, 54)];
-    weijisuanLabel.text = @"未结算金额\n500";
+    weijisuanLabel.text = [NSString stringWithFormat:@"未结算金额\n%@",unsettledSum];
     weijisuanLabel.numberOfLines = 2;
+    weijisuanLabel.tag = 7777;
     weijisuanLabel.textAlignment = NSTextAlignmentCenter;
     weijisuanLabel.textColor = color155;
     weijisuanLabel.font = textFont14;
@@ -259,13 +249,13 @@
         [cell.contentView addSubview:date];
 
         UIButton *totalCount = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        totalCount.frame = CGRectMake((kUIScreenWidth-30)/2, 0, (kUIScreenWidth-30)/2-35, 40);
+        totalCount.frame = CGRectMake((kUIScreenWidth-30)/2+40, 0, (kUIScreenWidth-30)/2-80, 40);
         [totalCount setTitle:[NSString stringWithFormat:@"%@",salayArray[indexPath.row]] forState:UIControlStateNormal];
         [totalCount setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
     
         [cell.contentView addSubview:totalCount];
     
-    UIButton *detailBtn = [[UIButton alloc] initWithFrame:CGRectMake(totalCount.frame.origin.x+totalCount.frame.size.width, 12, 15, 15)];
+    UIButton *detailBtn = [[UIButton alloc] initWithFrame:CGRectMake(totalCount.frame.origin.x+totalCount.frame.size.width+5, 12, 15, 15)];
     [cell.contentView addSubview:detailBtn];
     [detailBtn setBackgroundImage:[UIImage imageNamed:@"xiangqin"] forState:UIControlStateNormal];
      detailBtn.tag = indexPath.row;

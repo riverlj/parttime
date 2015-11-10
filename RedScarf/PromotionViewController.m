@@ -327,10 +327,10 @@
         cell.sort.text = photoArray[indexPath.row];
 
     }
-    cell.name.text = nameArray[indexPath.row];
-    cell.telLabel.text = telArray[indexPath.row];
-    cell.order.text = orderArray[indexPath.row];
-    cell.totalCount.text = countArray[indexPath.row];
+    cell.name.text = [NSString stringWithFormat:@"%@",nameArray[indexPath.row]];
+    cell.telLabel.text = [NSString stringWithFormat:@"%@",telArray[indexPath.row]];
+    cell.order.text = [NSString stringWithFormat:@"%@",orderArray[indexPath.row]];
+    cell.totalCount.text = [NSString stringWithFormat:@"%@",countArray[indexPath.row]];
     
     return cell;
 }

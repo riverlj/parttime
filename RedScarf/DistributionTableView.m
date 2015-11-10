@@ -249,6 +249,7 @@
 //送达
 -(void)didClickBtn:(id)sender
 {
+    [[BaiduMobStat defaultStat] logEvent:@"送达" eventLabel:@"button10"];
     UIButton *btn = (UIButton *)sender;
     NSIndexPath *indexPath = objc_getAssociatedObject(btn, &UITableViewIndexSearch);
     NSLog(@"indexPath.row = %ld,indexPath.section = %ld",(long)indexPath.row,(long)indexPath.section);
