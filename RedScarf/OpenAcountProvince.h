@@ -8,8 +8,10 @@
 
 #import "BaseViewController.h"
 #import "MyProtocol.h"
+#import "MJRefreshFooterView.h"
+#import "MJRefreshHeaderView.h"
 
-@interface OpenAcountProvince : BaseViewController
+@interface OpenAcountProvince : BaseViewController<MJRefreshBaseViewDelegate>
 
 @property(nonatomic,strong)UISearchBar *searchBar;
 @property(nonatomic,strong)NSArray *array;
@@ -19,6 +21,8 @@
 @property(nonatomic,strong)NSMutableArray *nameArray;
 @property(nonatomic,strong)NSString *titleString;
 @property(nonatomic,assign)id<MyProtocol>delegate;
+
+@property(nonatomic,strong)UITableView *listView;
 
 @property(nonatomic,strong)NSString *Id;
 @property(nonatomic,strong)NSMutableArray *idArr;

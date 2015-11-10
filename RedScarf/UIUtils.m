@@ -37,7 +37,7 @@
 
 + (NSString *)replaceAdd:(NSString *)string
 {
-    if ([string containsString:@"+"]) {
+    if ([string rangeOfString:@"+"].location != NSNotFound) {
        string = [string stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"];
     }
     return string;

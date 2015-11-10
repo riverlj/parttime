@@ -15,6 +15,10 @@
 {
     NSString *urlString;
     NSArray *taskTypeArray;
+    MJRefreshFooterView *footView;
+    MJRefreshHeaderView *headView;
+
+    int pageNum;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -30,6 +34,7 @@
     self.tabBarController.tabBar.hidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = self.titleString;
+    pageNum = 1;
     if ([self.title isEqualToString:@"开户省份"]) {
         urlString = @"/user/bankCard/province";
     }
@@ -77,16 +82,38 @@
 
 -(void)initTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+    self.listView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
+    self.listView.delegate = self;
+    self.listView.dataSource = self;
+    [self.view addSubview:self.listView];
     if ([self.title isEqualToString:@"开户支行"]) {
-        self.tableView.tableHeaderView = self.searchBar;
-
+        self.listView.tableHeaderView = self.searchBar;
     }
-    [self.view addSubview:self.tableView];
+    footView = [[MJRefreshFooterView alloc] init];
+    footView.delegate = self;
+    footView.scrollView = self.listView;
+    
 }
 
+-(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+{
+    if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) {
+        
+    }else{
+        pageNum += 1;
+        [self getMessage];
+    }
+}
+
+- (void)beginRefreshing
+{
+    
+}
+// 结束刷新
+- (void)endRefreshing
+{
+    
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ([self.title isEqualToString:@"业务类型"]) {
@@ -168,9 +195,7 @@
         }else{
             dic = [self.dataArray objectAtIndex:indexPath.row];
             [self.delegate returnAddress:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]] aId:[dic objectForKey:@"id"]];
-            
         }
-
     }
     
     [self didClickLeft];
@@ -207,19 +232,24 @@
 {
     NSString *url = @"/location/province";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"withdrawToken"]) {
+        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+    }
     if ([self.title isEqualToString:@"开户城市"]) {
         url = @"/location/city";
         [params setObject:self.Id forKey:@"provinceId"];
     }
     if ([self.title isEqualToString:@"开户银行"]) {
         url = @"/bank/getAllParentBank";
+        [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
+        [params setObject:@"15" forKey:@"pageSize"];
         [params setObject:self.Id forKey:@"provinceId"];
     }
     if ([self.title isEqualToString:@"开户支行"]) {
         url = @"/bank/queryBranchBank";
-        [params setObject:@"1" forKey:@"pageNum"];
-        [params setObject:@"10" forKey:@"pageSize"];
+        [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
+        [params setObject:@"15" forKey:@"pageSize"];
         [params setObject:self.idArr[0] forKey:@"provinceId"];
         [params setObject:self.idArr[1] forKey:@"cityId"];
         [params setObject:self.idArr[2] forKey:@"parentId"];
@@ -242,12 +272,13 @@
                 }
             }
             
-            [self.tableView reloadData];
+            [self.listView reloadData];
             
         }else{
             [self alertView:[result objectForKey:@"body"]];
             return ;
         }
+        [footView endRefreshing];
     }];
 }
 

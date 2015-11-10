@@ -191,12 +191,14 @@
         
         [blockSelf.zctView hidenKeyboard];
         
-            NSString *money = [NSString stringWithFormat:@"%.0f",[input.text floatValue]*100];
+        NSString *money = [NSString stringWithFormat:@"%.0f",[input.text floatValue]*100];
             
-            NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
-            [params setObject:passWord forKey:@"payPwd"];
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if ([defaults objectForKey:@"withdrawToken"]) {
+            [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+        }
+        [params setObject:passWord forKey:@"payPwd"];
             [params setObject:money forKey:@"totalFee"];
             [params setObject:@"2" forKey:@"bankCardId"];
             if ([defaults objectForKey:@"uuid"]) {

@@ -249,13 +249,13 @@
         [cell.contentView addSubview:date];
 
         UIButton *totalCount = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        totalCount.frame = CGRectMake((kUIScreenWidth-30)/2, 0, (kUIScreenWidth-30)/2-35, 40);
+        totalCount.frame = CGRectMake((kUIScreenWidth-30)/2+40, 0, (kUIScreenWidth-30)/2-80, 40);
         [totalCount setTitle:[NSString stringWithFormat:@"%@",salayArray[indexPath.row]] forState:UIControlStateNormal];
         [totalCount setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
     
         [cell.contentView addSubview:totalCount];
     
-    UIButton *detailBtn = [[UIButton alloc] initWithFrame:CGRectMake(totalCount.frame.origin.x+totalCount.frame.size.width, 12, 15, 15)];
+    UIButton *detailBtn = [[UIButton alloc] initWithFrame:CGRectMake(totalCount.frame.origin.x+totalCount.frame.size.width+5, 12, 15, 15)];
     [cell.contentView addSubview:detailBtn];
     [detailBtn setBackgroundImage:[UIImage imageNamed:@"xiangqin"] forState:UIControlStateNormal];
      detailBtn.tag = indexPath.row;

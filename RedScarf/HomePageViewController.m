@@ -61,7 +61,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = color234;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
+    if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
         titleArray = [NSMutableArray arrayWithObjects:@"任务分配",@"分餐点",@"历史任务",@"管理成员",@"查看排班",@"我的推广", nil];
         imageArray = [NSArray arrayWithObjects:@"rwfp@2x",@"fencan@2x",@"lishi@2x",@"guanlichengyuan@2x",@"ckpaiban@2x",@"tuiguang2x", nil];
     }else{
@@ -182,7 +182,7 @@
             btn.layer.borderColor = MakeColor(220, 220, 220).CGColor;
             btn.layer.borderWidth = 0.5;
             btn.tag = 100*i+j;
-            if ([[defaults objectForKey:@"count"] containsString:@"8"]) {
+            if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
                 [btn addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
             }else{
                 [btn addTarget:self action:@selector(didClickPartTime:) forControlEvents:UIControlEventTouchUpInside];

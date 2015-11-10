@@ -110,10 +110,7 @@
                     [aler show];
                 }
             }
-            
         }];
-        
-
     }
 }
 
@@ -121,9 +118,11 @@
 {
     BaiduMobStat *statTracker = [BaiduMobStat defaultStat];
     statTracker.enableExceptionLog = YES; //截获崩溃信息
-    statTracker.logStrategy = BaiduMobStatLogStrategyCustom;
+    statTracker.logStrategy = BaiduMobStatLogStrategyAppLaunch;
     statTracker.logSendInterval = 1;
-    statTracker.logSendWifiOnly = YES;
+    statTracker.channelId = @"BaiduSDK";
+    statTracker.logSendWifiOnly = NO;
+    statTracker.enableDebugOn = YES;
     statTracker.sessionResumeInterval = 60;
     [statTracker startWithAppId:@"89b848cd73"];
 }

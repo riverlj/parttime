@@ -36,7 +36,10 @@
 -(void)getMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"withdrawToken"]) {
+        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+    }
     [params setObject:@"0" forKey:@"timestamp"];
     [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/pay/withdraw/record" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
@@ -54,7 +57,10 @@
 -(void)getSalaryMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"withdrawToken"]) {
+        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+    }
     [params setObject:@"0" forKey:@"timestamp"];
     [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/moneyChangeRecord" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
