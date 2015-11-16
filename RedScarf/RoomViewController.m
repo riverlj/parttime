@@ -119,7 +119,7 @@
     //content是个数组
     NSString *contentStr = @"";
     for (NSDictionary *content in [dic objectForKey:@"content"]) {
-        contentStr = [contentStr stringByAppendingFormat:@"%@  (%@份)",[content objectForKey:@"content"],[content objectForKey:@"count"]];
+        contentStr = [contentStr stringByAppendingFormat:@"%@  %@  (%@份)",[content objectForKey:@"tag"],[content objectForKey:@"content"],[content objectForKey:@"count"]];
     }
     cell.foodLabel.text = contentStr;
     cell.numberLabel.text = [NSString stringWithFormat:@"任务编号:%@",[dic objectForKey:@"sn"]];
@@ -156,6 +156,8 @@
             UIButton *btn1 = (UIButton *)[self.view viewWithTag:2234];
             [btn setTitleColor:color155 forState:UIControlStateNormal];
             [btn1 setTitleColor:color155 forState:UIControlStateNormal];
+            btn.userInteractionEnabled = NO;
+            btn1.userInteractionEnabled = NO;
             notBtn.userInteractionEnabled = NO;
             doBtn.userInteractionEnabled = NO;
         }
@@ -173,6 +175,7 @@
     for (int i = 0; i < 2; i++) {
         UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2*i, kUIScreenHeigth-45, kUIScreenWidth/2, 45)];
         [btn setTitleColor:color155 forState:UIControlStateNormal];
+        btn.userInteractionEnabled = NO;
         btn.backgroundColor = [UIColor whiteColor];
         btn.titleLabel.font = textFont14;
         [self.view addSubview:btn];
@@ -213,26 +216,31 @@
         case 0:
         {
             reason = @"餐品不够";
+            [[BaiduMobStat defaultStat] logEvent:@"餐品不够" eventLabel:@"button"];
         }
             break;
         case 1:
         {
             reason = @"送错或漏送";
+            [[BaiduMobStat defaultStat] logEvent:@"送错或漏送" eventLabel:@"button"];
         }
             break;
         case 2:
         {
             reason = @"餐品腐坏";
+            [[BaiduMobStat defaultStat] logEvent:@"餐品腐坏" eventLabel:@"button"];
         }
             break;
         case 3:
         {
             reason = @"餐品破损";
+            [[BaiduMobStat defaultStat] logEvent:@"餐品破损" eventLabel:@"button"];
         }
             break;
         case 4:
         {
             reason = @"其他";
+            [[BaiduMobStat defaultStat] logEvent:@"其他" eventLabel:@"button"];
         }
             break;
         default:

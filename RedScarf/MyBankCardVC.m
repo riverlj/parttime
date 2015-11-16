@@ -73,8 +73,11 @@
     __block NSMutableArray *arr = [NSMutableArray array];
     [self showHUD:@"正在加载"];
     
-    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
-    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/queryBankCard" params:params httpMethod:@"GET" block:^(id result) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"withdrawToken"]) {
+        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+    }
+    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/queryBankCard",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if (![[result objectForKey:@"code"] boolValue]) {
             arr = [result objectForKey:@"body"];
@@ -113,8 +116,11 @@
     
     [self showHUD:@"正在加载"];
     [params setObject:branchBankId forKey:@"id"];
-    [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
-    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/bank/getBranchBankById" params:params httpMethod:@"GET" block:^(id result) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"withdrawToken"]) {
+        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+    }
+    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/bank/getBranchBankById",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if (![[result objectForKey:@"code"] boolValue]) {
             NSMutableDictionary *dic = [result objectForKey:@"body"];
@@ -251,7 +257,7 @@
             label.text = @"开户支行:";
         }
         if (i == 4) {
-            label.text = @"业务类型:";
+            label.text = @"账号类型:";
         }
         
     }
@@ -382,7 +388,10 @@
 //            name = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
           
             [params setObject:name forKey:@"realName"];
-            [params setObject:@"1e6c0701241557fa375f9054ade19260742b22e718d84db1" forKey:@"token"];
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            if ([defaults objectForKey:@"withdrawToken"]) {
+                [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+            }
             [params setObject:bankTf.text forKey:@"cardNum"];
             [params setObject:telTf.text forKey:@"phoneNumber"];
             if ([taskTypeBtn.titleLabel.text isEqualToString:@"对公业务"]) {
@@ -394,7 +403,7 @@
             
             [params setObject:idArr[3] forKey:@"branchBankId"];
             
-            [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"https://paytest.honglingjinclub.com%@",url] params:params httpMethod:@"POST" block:^(id result) {
+            [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@%@",REDSCARF_PAY_URL,url] params:params httpMethod:@"POST" block:^(id result) {
                 NSLog(@"result = %@",result);
                 if ([[result objectForKey:@"success"] boolValue]) {
                     for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
@@ -536,7 +545,7 @@
 -(void)taskTypeBtn:(id)sender
 {
     OpenAcountProvince *openAcount = [[OpenAcountProvince alloc] init];
-    openAcount.titleString = @"业务类型";
+    openAcount.titleString = @"账号类型";
     openAcount.delegate = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;

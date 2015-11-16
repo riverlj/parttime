@@ -11,8 +11,10 @@
 #import "UIAlertView+Quick.h"
 #import "SubmitViewController.h"
 #import "TransactionViewController.h"
+#import "MyBankCardVC.h"
+#import "DoPassWordViewController.h"
 
-@interface WithdrawViewController ()<ZCTradeViewDelegate,UIAlertViewDelegate>
+@interface WithdrawViewController ()<ZCTradeViewDelegate,UIAlertViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic,strong)ZCTradeView *zctView;
 @property (nonatomic,copy)NSString *str;
@@ -26,6 +28,28 @@
     UIView *promptView;
     __block int passWordNum;
     BOOL moreTimesOrNo;
+    NSString *cardNum;
+    __block NSString *cardId;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"withdrawToken"]) {
+        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+    }
+    
+    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/accountInfo",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if (![[result objectForKey:@"code"] boolValue]) {
+            
+            NSMutableDictionary *dic = [result objectForKey:@"body"];
+            self.pwdStatus = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pwdStatus"]];
+        }else{
+            [self alertView:[result objectForKey:@"body"]];
+        }
+    }];
 }
 
 - (void)viewDidLoad {
@@ -39,7 +63,33 @@
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现纪录" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXianJILu)];
     right.tintColor = color155;
     self.navigationItem.rightBarButtonItem = right;
-    [self initView];
+    [self getCardMsg];
+}
+
+//获取银行卡信息
+-(void)getCardMsg
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    [self showHUD:@"正在加载"];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"withdrawToken"]) {
+        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
+    }
+    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/queryBankCard",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if (![[result objectForKey:@"code"] boolValue]) {
+            cardNum = [NSString stringWithFormat:@"%@",[[[result objectForKey:@"body"] objectAtIndex:0] objectForKey:@"cardNum"]];
+            cardId = [NSString stringWithFormat:@"%@",[[[result objectForKey:@"body"] objectAtIndex:0] objectForKey:@"id"]];
+
+            [self initView];
+            [self hidHUD];
+            
+        }else{
+            [self alertView:[result objectForKey:@"body"]];
+        }
+    }];
 }
 
 -(void)initView
@@ -66,18 +116,23 @@
     [bgView addSubview:moneyLabel];
     
     for (int i = 0; i < 4; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, (bgView.frame.size.height+bgView.frame.origin.y+18)+(i*50), kUIScreenWidth, 50)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, (bgView.frame.size.height+bgView.frame.origin.y+18)+(i*50), kUIScreenWidth, 50)];
+        view.backgroundColor = [UIColor whiteColor];
+        view.tag = 999999;
+        [self.view addSubview:view];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 50)];
         label.backgroundColor = [UIColor whiteColor];
         label.textAlignment = NSTextAlignmentLeft;
         label.font = textFont15;
         label.textColor = color102;
-        [self.view addSubview:label];
+        [view addSubview:label];
         
         if (i == 0) {
-            label.frame = CGRectMake(0, bgView.frame.size.height+bgView.frame.origin.y+18, 100, 50);
+            view.frame = CGRectMake(0, bgView.frame.size.height+bgView.frame.origin.y+18, 100, 50);
             label.text = @"    提现金额：";
             
-            input = [[UITextField alloc] initWithFrame:CGRectMake(label.frame.size.width+label.frame.origin.x, bgView.frame.size.height+bgView.frame.origin.y+18, kUIScreenWidth-100, 50)];
+            input = [[UITextField alloc] initWithFrame:CGRectMake(view.frame.size.width+view.frame.origin.x, bgView.frame.size.height+bgView.frame.origin.y+18, kUIScreenWidth-100, 50)];
             input.delegate = self;
 //            input.keyboardType = UIKeyboardTypeNumberPad;
             input.placeholder = @"请输入提现金额";
@@ -87,22 +142,56 @@
             [self.view addSubview:input];
         }
         if (i == 1) {
-            label.frame = CGRectMake(0, bgView.frame.size.height+bgView.frame.origin.y+18+(i*50), 120, 50);
-            label.text = @"    手续费：0元";
-            label.tag = 100;
-            UILabel *plainLabel = [[UILabel alloc] initWithFrame:CGRectMake(label.frame.size.width+label.frame.origin.x, bgView.frame.size.height+bgView.frame.origin.y+18+(i*50), kUIScreenWidth-120, 50)];
-            plainLabel.text = @"(提现金额少于100元，手续费1元)";
+            view.frame = CGRectMake(0, bgView.frame.size.height+bgView.frame.origin.y+18+(i*50), 75, 50);
+            label.text = @"    手续费：";
+            
+            UILabel *money = [[UILabel alloc] initWithFrame:CGRectMake(view.frame.size.width+view.frame.origin.x, bgView.frame.size.height+bgView.frame.origin.y+18+(i*50), 15, 50)];
+            money.text = @"0";
+            money.textAlignment = NSTextAlignmentCenter;
+            money.font = textFont15;
+            money.textColor = [UIColor redColor];
+            money.tag = 100;
+            [self.view addSubview:money];
+            
+            UILabel *plainLabel = [[UILabel alloc] initWithFrame:CGRectMake(money.frame.size.width+money.frame.origin.x, bgView.frame.size.height+bgView.frame.origin.y+18+(i*50), kUIScreenWidth-120, 50)];
+            plainLabel.text = @"元 (金额少于100元，手续费1元)";
             plainLabel.textColor = color102;
+            plainLabel.numberOfLines = 0;
             plainLabel.backgroundColor = [UIColor whiteColor];
-            plainLabel.font = textFont12;
+            plainLabel.font = textFont14;
             [self.view addSubview:plainLabel];
         }
         if (i == 2) {
-            label.text = @"    银行卡：6666666666666";
+            label.text = [NSString stringWithFormat:@"    银行卡：%@",cardNum];
+            label.userInteractionEnabled = YES;
+            label.backgroundColor = [UIColor whiteColor];
+            UIButton *btn = [[UIButton alloc] initWithFrame:view.bounds];
+            [btn setBackgroundColor:[UIColor clearColor]];
+            [btn addTarget:self action:@selector(selectBank) forControlEvents:UIControlEventTouchUpInside];
+            [view addSubview:btn];
+            
+            UIImageView *showImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-30, 20, 10, 15)];
+            showImage.image = [UIImage imageNamed:@"you2x"];
+            [view addSubview:showImage];
         }
         if (i == 3) {
-            label.tag = 200;
-            label.text = @"    实际提现金额：0元";
+            view.frame = CGRectMake(0, bgView.frame.size.height+bgView.frame.origin.y+18+(i*50), 105, 50);
+            label.text = @"    实际提现金额：";
+            UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(view.frame.size.width+view.frame.origin.x+10, bgView.frame.size.height+bgView.frame.origin.y+18+(i*50), 60, 50)];
+            moneyLabel.textAlignment = NSTextAlignmentCenter;
+            moneyLabel.textColor = [UIColor greenColor];
+            moneyLabel.tag = 200;
+            moneyLabel.font = textFont15;
+            moneyLabel.text = @"0.00";
+            [self.view addSubview:moneyLabel];
+            
+            UILabel *yuan = [[UILabel alloc] initWithFrame:CGRectMake(moneyLabel.frame.size.width+moneyLabel.frame.origin.x, bgView.frame.size.height+bgView.frame.origin.y+18+(i*50), 15, 50)];
+            yuan.textColor = color102;
+            yuan.text = @"元";
+            yuan.font = textFont15;
+            [self.view addSubview:yuan];
+
+            
         }
         
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, (bgView.frame.size.height+bgView.frame.origin.y+18)+(i*50), kUIScreenWidth, 0.5)];
@@ -120,6 +209,12 @@
     [saveBtn addTarget:self action:@selector(clickSaveBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:saveBtn];
     
+}
+
+-(void)selectBank
+{
+    MyBankCardVC *myBankVC = [[MyBankCardVC alloc] init];
+    [self.navigationController pushViewController:myBankVC animated:YES];
 }
 
 -(void)didClickTianXianJILu
@@ -141,7 +236,7 @@
             [self alertView:@"提现金额不能为空"];
             return;
         }
-        if ([input.text intValue] <= 1) {
+        if ([input.text floatValue] <= 1) {
             [self alertView:@"提现金额不能小于1元"];
             return;
         }
@@ -149,7 +244,7 @@
         NSString *shijiStr = [shiji.text stringByReplacingOccurrencesOfString:@"    实际提现金额：" withString:@""];
         NSString *shouxuStr = [shouxu.text stringByReplacingOccurrencesOfString:@"    手续费：" withString:@""];
         
-        NSString *str = [NSString stringWithFormat:@"确认提现%@元？含实际体现%@，手续费%@",input.text,shijiStr,shouxuStr];
+        NSString *str = [NSString stringWithFormat:@"确认提现%@元？含实际提现%@元，手续费%@元",input.text,shijiStr,shouxuStr];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:str delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alertView show];
         return;
@@ -199,14 +294,14 @@
             [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
         }
         [params setObject:passWord forKey:@"payPwd"];
-            [params setObject:money forKey:@"totalFee"];
-            [params setObject:@"2" forKey:@"bankCardId"];
-            if ([defaults objectForKey:@"uuid"]) {
-                [params setObject:[defaults objectForKey:@"uuid"] forKey:@"macAddr"];
-            }
+        [params setObject:money forKey:@"totalFee"];
+        [params setObject:cardId forKey:@"bankCardId"];
+        if ([defaults objectForKey:@"uuid"]) {
+            [params setObject:[defaults objectForKey:@"uuid"] forKey:@"macAddr"];
+        }
             //提现接口
             NSLog(@"resultParams = %@",params);
-            [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/pay/withdraw" params:params httpMethod:@"POST" block:^(id result) {
+        [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/pay/withdraw",REDSCARF_PAY_URL] params:params httpMethod:@"POST" block:^(id result) {
                 NSLog(@"result = %@",result);
                 if (result &&![[result objectForKey:@"code"] boolValue]) {
                     [self alertView:@"提现成功"];
@@ -229,27 +324,58 @@
                 }
                 
             }];
-            
     };
 }
-
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     UILabel *shiji = (UILabel *)[self.view viewWithTag:200];
     UILabel *shouxu = (UILabel *)[self.view viewWithTag:100];
-    if ([input.text intValue] < 100) {
-        shouxu.text = @"    手续费：1元";
-        shiji.text = [NSString stringWithFormat:@"    实际提现金额：%.2f元",[input.text floatValue] - 1.00];
+    float shuru = [input.text floatValue]*100;
+    float salary = [self.salary floatValue];
+    if (shuru > salary) {
+        input.text = @"";
+        shiji.text = @"0.00";
+        [self alertView:@"提现金额不能大于当前余额"];
     }else{
-        shouxu.text = @"    手续费：0元";
-        shiji.text = [NSString stringWithFormat:@"    实际提现金额：%@元",input.text];
+       
+        if ([input.text floatValue] > 1) {
+            if ([input.text intValue] < 100) {
+                shouxu.text = @"1";
+                shiji.text = [NSString stringWithFormat:@"%.2f",[input.text floatValue] - 1.00];
+            }else{
+                shouxu.text = @"0";
+                shiji.text = [NSString stringWithFormat:@"%.2f",[input.text floatValue]];
+            }
+        }
     }
     return YES;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    UILabel *shiji = (UILabel *)[self.view viewWithTag:200];
+    UILabel *shouxu = (UILabel *)[self.view viewWithTag:100];
+    float shuru = [input.text floatValue]*100;
+    float salary = [self.salary floatValue];
+    if (shuru > salary) {
+        input.text = @"";
+        shiji.text = @"0.00";
+        [self alertView:@"提现金额不能大于当前余额"];
+        
+    }else{
+        
+        if ([input.text floatValue] > 1) {
+            if ([input.text intValue] < 100) {
+                shouxu.text = @"1";
+                shiji.text = [NSString stringWithFormat:@"%.2f",[input.text floatValue] - 1.00];
+            }else{
+                shouxu.text = @"0";
+                shiji.text = [NSString stringWithFormat:@"%.2f",[input.text floatValue]];
+            }
+        }
+    }
+
     [textField resignFirstResponder];
     return YES;
 }
@@ -293,6 +419,7 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     btn.frame = CGRectMake(whiteView.frame.size.width/2-50, label.frame.size.height+label.frame.origin.y+7, 100, 30);
     [btn setTitle:@"去设置" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(settingPwdViewVC) forControlEvents:UIControlEventTouchUpInside];
     [btn setBackgroundColor:colorblue];
     btn.layer.cornerRadius = 5;
     btn.layer.masksToBounds = YES;
@@ -301,7 +428,20 @@
     
 }
 
+-(void)settingPwdViewVC
+{
+    DoPassWordViewController *passWordVC = [[DoPassWordViewController alloc] init];
+    passWordVC.telNum = self.telNum;
+    [self.navigationController pushViewController:passWordVC animated:YES];
+}
+
 -(void)cencel
+{
+    [[self.view viewWithTag:10000] removeFromSuperview];
+    [[self.view viewWithTag:20000] removeFromSuperview];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
 {
     [[self.view viewWithTag:10000] removeFromSuperview];
     [[self.view viewWithTag:20000] removeFromSuperview];

@@ -62,14 +62,14 @@
     self.view.backgroundColor = color234;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
-        titleArray = [NSMutableArray arrayWithObjects:@"任务分配",@"分餐点",@"历史任务",@"管理成员",@"查看排班",@"我的推广", nil];
-        imageArray = [NSArray arrayWithObjects:@"rwfp@2x",@"fencan@2x",@"lishi@2x",@"guanlichengyuan@2x",@"ckpaiban@2x",@"tuiguang2x", nil];
+        titleArray = [NSMutableArray arrayWithObjects:@"任务分配",@"分餐点",@"历史任务",@"管理成员",@"查看排班",@"我的推广",@"CEO群",@"帮助中心",@"敬请期待", nil];
+        imageArray = [NSArray arrayWithObjects:@"rwfp@2x",@"fencan@2x",@"lishi@2x",@"guanlichengyuan@2x",@"ckpaiban@2x",@"tuiguang2x",@"ceoqun",@"helpcenter",@"qidai2x", nil];
     }else{
         titleArray = [NSMutableArray arrayWithObjects:@"分餐点",@"历史任务",@"配送时间",@"配送范围",@"我的推广",@"敬请期待", nil];
         imageArray = [NSArray arrayWithObjects:@"fencan@2x",@"lishi@2x",@"shijian2x",@"fanwei2x",@"tuiguang2x",@"qidai2x", nil];
     }
 
-    array = [NSArray arrayWithObjects:@"newbanner", nil];
+    array = [NSArray arrayWithObjects:@"banner1", nil];
     self.title = @"首页";
     
     UIButton *button = (UIButton *)[self.tabBarController.view viewWithTag:11011];
@@ -109,6 +109,7 @@
 -(void)banner:(id)sender
 {
     BannerViewController *bannerVC = [[BannerViewController alloc] init];
+    bannerVC.title = @"详情";
     [self.navigationController pushViewController:bannerVC animated:YES];
 }
 
@@ -165,72 +166,85 @@
 
     UIScrollView *listScroll;
     if (kUIScreenWidth == 320) {
-        listScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 192, kUIScreenWidth, kUIScreenHeigth-214)];
+        listScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 192, kUIScreenWidth, kUIScreenHeigth-224)];
     }else{
         listScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 214, kUIScreenWidth, kUIScreenHeigth-214)];
     }
     
     listScroll.userInteractionEnabled = YES;
-//    listScroll.scrollEnabled = YES;
     listScroll.contentSize = CGSizeMake(0, (kUIScreenHeigth-214)*1.2);
     [self.view addSubview:listScroll];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 3; j++) {
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            btn.backgroundColor = color242;
-            btn.layer.borderColor = MakeColor(220, 220, 220).CGColor;
-            btn.layer.borderWidth = 0.5;
-            btn.tag = 100*i+j;
-            if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
-                [btn addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
-            }else{
-                [btn addTarget:self action:@selector(didClickPartTime:) forControlEvents:UIControlEventTouchUpInside];
-            }
-            
-            btn.frame = CGRectMake(kUIScreenWidth/3*j, i*wight, kUIScreenWidth/3+1, wight+1);
-
-            [listScroll addSubview:btn];
-            UIImageView *image;
-            if (kUIScreenWidth == 320) {
-                image = [[UIImageView alloc] initWithFrame:CGRectMake(btn.frame.size.width/2-15, imageY, 30, 30)];
-            }else{
-                image = [[UIImageView alloc] initWithFrame:CGRectMake(btn.frame.size.width/2-20, imageY, 40, 40)];
-            }
-            
-            [btn addSubview:image];
-            
-            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/3*j, btn.frame.size.height+btn.frame.origin.y-45, kUIScreenWidth/3, 35)];
-            if (i == 0) {
-                titleLabel.text = titleArray[j];
-                image.image = [UIImage imageNamed:imageArray[j]];
-            }
-            if (i == 1) {
-                titleLabel.text = titleArray[j+3];
-                image.image = [UIImage imageNamed:imageArray[j+3]];
-            }
-            titleLabel.font = textFont14;
-            titleLabel.textColor = color155;
-            titleLabel.textAlignment = NSTextAlignmentCenter;
-            [listScroll addSubview:titleLabel];
-        }
-        
+    int iNum,jNum;
+    if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
+        iNum = 3;
+        jNum = 3;
+    }else{
+        iNum = 2;
+        jNum = 3;
     }
     
+        for (int i = 0; i < iNum; i++) {
+            for (int j = 0; j < jNum; j++) {
+                UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                btn.backgroundColor = [UIColor whiteColor];
+                btn.layer.borderColor = MakeColor(220, 220, 220).CGColor;
+                btn.layer.borderWidth = 0.5;
+                btn.tag = 100*i+j;
+                if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
+                    [btn addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
+                }else{
+                    [btn addTarget:self action:@selector(didClickPartTime:) forControlEvents:UIControlEventTouchUpInside];
+                }
+                
+                btn.frame = CGRectMake(kUIScreenWidth/3*j, i*wight, kUIScreenWidth/3+1, wight+1);
+                
+                [listScroll addSubview:btn];
+                UIImageView *image;
+                if (kUIScreenWidth == 320) {
+                    image = [[UIImageView alloc] initWithFrame:CGRectMake(btn.frame.size.width/2-15, imageY, 30, 30)];
+                    if (i == 2 && j == 0) {
+                        image = [[UIImageView alloc] initWithFrame:CGRectMake(btn.frame.size.width/2-15, imageY+4, 30, 30)];
+                    }
+                }else{
+                    image = [[UIImageView alloc] initWithFrame:CGRectMake(btn.frame.size.width/2-20, imageY, 40, 40)];
+                    if (i == 2 && j == 0) {
+                        image = [[UIImageView alloc] initWithFrame:CGRectMake(btn.frame.size.width/2-15, imageY+4, 30, 30)];
+                    }
+                }
+                
+                [btn addSubview:image];
+                
+                UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/3*j, btn.frame.size.height+btn.frame.origin.y-45, kUIScreenWidth/3, 35)];
+                if (i == 0) {
+                    titleLabel.text = titleArray[j];
+                    image.image = [UIImage imageNamed:imageArray[j]];
+                }
+                if (i == 1) {
+                    titleLabel.text = titleArray[j+3];
+                    image.image = [UIImage imageNamed:imageArray[j+3]];
+                }
+                if (i == 2) {
+                    titleLabel.text = titleArray[j+6];
+                    image.image = [UIImage imageNamed:imageArray[j+6]];
+                }
+                titleLabel.font = textFont14;
+                titleLabel.textColor = color155;
+                titleLabel.textAlignment = NSTextAlignmentCenter;
+                [listScroll addSubview:titleLabel];
+            }
+            
+        }
 }
 
 -(void)timer
 {
     if (control.currentPage== array.count-1) {
         control.currentPage=0;
-        //        [UIView animateWithDuration:1.0 animations:^{
         CGPoint offset = CGPointMake(kUIScreenWidth*control.currentPage, -64);
         [scroll setContentOffset:offset animated:NO];
-        //        }];
         
-        
-        
-    }else{
+        }else{
         control.currentPage+=1;
         CGPoint offset = CGPointMake(kUIScreenWidth*control.currentPage, -64);
         [scroll setContentOffset:offset animated:NO];
@@ -261,7 +275,6 @@
             break;
         case 2:
         {
-            
             OrderTimeViewController *orderTimeVC = [[OrderTimeViewController alloc] init];
 //            NSMutableDictionary *userInfo = [infoDic objectForKey:@"userInfo"];
 //            orderTimeVC.username = [userInfo objectForKey:@"username"];
@@ -277,12 +290,12 @@
             break;
         case 101:
         {
-//            [self alertView:@"即将上线"];
-            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
-            [self.navigationController pushViewController:promotionVC animated:YES];
+            [self alertView:@"即将上线"];
+//            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
+//            [self.navigationController pushViewController:promotionVC animated:YES];
         }
             break;
-        case 102:
+        case 200:
         {
             
         }
@@ -337,12 +350,27 @@
             break;
         case 102:
         {
-//            [self alertView:@"即将上线"];
-            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
-            [self.navigationController pushViewController:promotionVC animated:YES];
+            [self alertView:@"即将上线"];
+//            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
+//            [self.navigationController pushViewController:promotionVC animated:YES];
         }
             break;
+        case 200:
+        {
+            BannerViewController *bannerVC = [[BannerViewController alloc] init];
+            bannerVC.title = @"CEO群";
+            [self.navigationController pushViewController:bannerVC animated:YES];
+
+        }
+            break;
+        case 201:
+        {
+            BannerViewController *bannerVC = [[BannerViewController alloc] init];
+            bannerVC.title = @"帮助中心";
+            [self.navigationController pushViewController:bannerVC animated:YES];
             
+        }
+            break;
         default:
             break;
     }

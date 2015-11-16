@@ -58,7 +58,7 @@
             break;
     }
 
-    
+    [self UpdateVersion];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults objectForKey:@"token"];
    
@@ -74,8 +74,6 @@
         self.window.rootViewController = login;
     }
     
-    [self UpdateVersion];
-    
     [self.window makeKeyAndVisible];
     
     return YES;
@@ -83,13 +81,11 @@
 
 -(void)UpdateVersion
 {
-    
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
-    app.tocken = [UIUtils replaceAdd:app.tocken];
-    if (app.tocken.length) {
-        [params setObject:app.tocken forKey:@"token"];
+    if ([defaults objectForKey:@"token"]) {
+        [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
         [params setObject:@"2" forKey:@"type"];
         
         [RedScarf_API requestWithURL:@"/user/version" params:params httpMethod:@"GET" block:^(id result) {
@@ -106,7 +102,7 @@
                 NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
                 
                 if (![versionStr isEqualToString:app_Version]) {
-                    UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                    UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
                     [aler show];
                 }
             }
@@ -129,7 +125,7 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    if (buttonIndex==1) {
+    if (buttonIndex==0) {
         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"itms-services://?action=download-manifest&url=https://passport.honglingjinclub.com/downlod/RedScarf.plist"]];
     }
 }

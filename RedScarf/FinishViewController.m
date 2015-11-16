@@ -144,6 +144,7 @@
                 model.dateStr = [dic objectForKey:@"endDate"];
                 model.numberStr = [dic objectForKey:@"sn"];
                 model.status = [dic objectForKey:@"status"];
+                model.room = [dic objectForKey:@"room"];
                 if (phone.length) {
                     [self.searchDataArr addObject:model];
                     search = @"yes";
@@ -232,7 +233,7 @@
     cell.chuLiLabel.text = [NSString stringWithFormat:@"处理：%@",model.dateStr];
     cell.buyerLabel.text = [NSString stringWithFormat:@"收货人：%@",model.buyerStr];
     cell.telLabel.text = [NSString stringWithFormat:@"%@",model.telStr];
-    cell.addressLabel.text = [NSString stringWithFormat:@"%@",model.addressStr];
+    cell.addressLabel.text = [NSString stringWithFormat:@"%@ - %@",model.addressStr,model.room];
     
     NSString *contentStr = @"";
     NSLog(@"food = %@",model.foodArr);

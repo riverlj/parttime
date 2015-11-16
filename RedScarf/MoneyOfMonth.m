@@ -18,6 +18,8 @@
     NSString *string;
     NSMutableArray *eveydayArray;
     NSMutableArray *salayArray;
+    NSMutableArray *settledDateArray;
+    NSMutableArray *settleArray;
     int tag;
     UILabel *dateLabel;
     NSString *settledSum,*unsettledSum;
@@ -39,11 +41,11 @@
 -(void)viewDidLoad
 {
     self.title = @"我的工资";
-    
     self.view.backgroundColor = color242;
     
     self.navigationController.navigationBar.hidden = NO;
-    
+    settleArray = [NSMutableArray array];
+    settledDateArray = [NSMutableArray array];
     eveydayArray = [NSMutableArray array];
     salayArray = [NSMutableArray array];
     tag = 0;
@@ -51,20 +53,19 @@
     
     NSDate *now = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM:"];
+    [formatter setDateFormat:@"yyyy-MM"];
     string = [formatter stringFromDate:now];
-    string = [string stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
-    string = [string stringByReplacingOccurrencesOfString:@":" withString:@"月"];
+//    string = [string stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
+//    string = [string stringByReplacingOccurrencesOfString:@":" withString:@"月"];
     
     dateStr = @"";
-    dateStr = [string stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
-    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
-    dateStr = [NSString stringWithFormat:@"%@01",dateStr];
+//    dateStr = [string stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
+//    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
+    dateStr = [NSString stringWithFormat:@"%@-01",string];
     [self getMessage];
     
     [self navigationBar];
     [self initTableView];
-    
 }
 
 -(void)getMessage
@@ -79,18 +80,27 @@
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             [eveydayArray removeAllObjects];
+            [settleArray removeAllObjects];
+            [salayArray removeAllObjects];
+            [settledDateArray removeAllObjects];
             settledSum = [NSString stringWithFormat:@"%@",[[result objectForKey:@"msg"] objectForKey:@"settledSum"]];
             UILabel *money = (UILabel *)[self.view viewWithTag:6666];
-            money.text = settledSum;
+            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"已结算金额\n%@",settledSum]];
+            [str addAttribute:NSForegroundColorAttributeName value:color155 range:NSMakeRange(0,5)];
+            money.attributedText = str;
+
+//            money.text = [NSString stringWithFormat:@"已结算金额\n%@",settledSum];
             
             unsettledSum = [NSString stringWithFormat:@"%@",[[result objectForKey:@"msg"] objectForKey:@"unsettledSum"]];
             UILabel *money1 = (UILabel *)[self.view viewWithTag:7777];
-            money1.text = unsettledSum;
+            money1.text = [NSString stringWithFormat:@"未结算金额\n%@",unsettledSum];
             
             for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
                 NSLog(@"dic = %@",dic);
                 [eveydayArray addObject:[dic objectForKey:@"date"]];
                 [salayArray addObject:[dic objectForKey:@"sum"]];
+                [settledDateArray addObject:[dic objectForKey:@"settledDate"]];
+                [settleArray addObject:[dic objectForKey:@"settled"]];
             }
             [self.tableView reloadData];
         }else{
@@ -101,8 +111,14 @@
 
 -(void)initTableView
 {
+    UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 40)];
+    hintLabel.text = @"工资提示：从10月26日，薪资以线上数据为准。";
+    [self.view addSubview:hintLabel];
+    hintLabel.font = textFont14;
+    hintLabel.textAlignment = NSTextAlignmentCenter;
+    hintLabel.textColor = [UIColor redColor];
     
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 54)];
+    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 104, kUIScreenWidth, 54)];
     bgView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:bgView];
     
@@ -142,7 +158,7 @@
     [midView addSubview:midLineView];
     
     UILabel *yijisuanLabel = [[UILabel alloc] initWithFrame:CGRectMake(midView.frame.size.width/4-50, 0, 100, 54)];
-    yijisuanLabel.textColor = colorblue;
+    yijisuanLabel.textColor = [UIColor greenColor];
     yijisuanLabel.numberOfLines = 2;
     yijisuanLabel.tag = 6666;
     yijisuanLabel.textAlignment = NSTextAlignmentCenter;
@@ -160,12 +176,7 @@
     weijisuanLabel.textColor = color155;
     weijisuanLabel.font = textFont14;
     [midView addSubview:weijisuanLabel];
-    
-    if (kUIScreenWidth == 320) {
-         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, midView.frame.size.height+midView.frame.origin.y+15, kUIScreenWidth-30, kUIScreenHeigth/2)];
-    }else{
-         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, midView.frame.size.height+midView.frame.origin.y+15, kUIScreenWidth-30, kUIScreenHeigth/2+50)];
-    }
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, midView.frame.size.height+midView.frame.origin.y+15, kUIScreenWidth-30, kUIScreenHeigth-202)];
    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -189,8 +200,9 @@
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(15, 0, kUIScreenWidth-30, 30)];
     view.backgroundColor = MakeColor(240, 240, 240);
-    for (int i = 0; i < 2; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(i*view.frame.size.width/2, 0, view.frame.size.width/2, 30)];
+    int wight = 20;
+    for (int i = 0; i < 3; i++) {
+        UILabel *label = [[UILabel alloc] init];
         [view addSubview:label];
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = MakeColor(87, 87, 87);
@@ -200,11 +212,18 @@
         line.backgroundColor = MakeColor(229, 229, 229);
         [view addSubview:line];
         if (i == 0) {
-            label.text = @"处理日期";
+            label.text = @"日期";
+            label.frame = CGRectMake(i*view.frame.size.width/3, 0, view.frame.size.width/3+wight, 30);
         }
         if (i == 1) {
             label.text = @"金额";
-            line.frame = CGRectMake(i*view.frame.size.width/2, 0, 1, 30);
+            line.frame = CGRectMake(i*view.frame.size.width/3+wight, 0, 1, 30);
+            label.frame = CGRectMake(i*view.frame.size.width/3+wight, 0, view.frame.size.width/3-wight*2, 30);
+        }
+        if (i == 2) {
+            label.text = @"结算日期";
+            line.frame = CGRectMake(i*view.frame.size.width/3-wight, 0, 1, 30);
+            label.frame = CGRectMake(i*view.frame.size.width/3-wight, 0, view.frame.size.width/3+wight, 30);
         }
     }
     
@@ -228,34 +247,51 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-    
-    for (int i = 1; i < 2; i++) {
+    int wight = 20;
+    for (int i = 1; i < 3; i++) {
         
         UIView *line = [[UIView alloc] init];
         line.backgroundColor = MakeColor(229, 229, 229);
-        line.frame = CGRectMake(i*((kUIScreenWidth-30)/2), 0, 1, 40);
+        if (i == 1) {
+            line.frame = CGRectMake(i*((kUIScreenWidth-30)/3)+wight, 0, 1, 40);
+        }
+        if (i == 2) {
+            line.frame = CGRectMake(i*((kUIScreenWidth-30)/3)-wight, 0, 1, 40);
+        }
+        
         [cell.contentView addSubview:line];
         
     }
     //点击没有选中效果
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
     
-        UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,(kUIScreenWidth-30)/2 , 40)];
-        date.text = [NSString stringWithFormat:@"%@",[eveydayArray objectAtIndex:indexPath.row]];
-        date.font = [UIFont systemFontOfSize:13];
-        date.textAlignment = NSTextAlignmentCenter;
-        date.textColor = MakeColor(75, 75, 75);
-        [cell.contentView addSubview:date];
+    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,(kUIScreenWidth-30)/3+wight , 40)];
+    date.text = [NSString stringWithFormat:@"%@",[eveydayArray objectAtIndex:indexPath.row]];
+    date.font = [UIFont systemFontOfSize:13];
+    date.textAlignment = NSTextAlignmentCenter;
+    date.textColor = MakeColor(75, 75, 75);
+    [cell.contentView addSubview:date];
 
-        UIButton *totalCount = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        totalCount.frame = CGRectMake((kUIScreenWidth-30)/2+40, 0, (kUIScreenWidth-30)/2-80, 40);
-        [totalCount setTitle:[NSString stringWithFormat:@"%@",salayArray[indexPath.row]] forState:UIControlStateNormal];
+    UIButton *totalCount = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    totalCount.frame = CGRectMake((kUIScreenWidth-30)/3+wight, 0, (kUIScreenWidth-30)/3-wight*2, 40);
+    [totalCount setTitle:[NSString stringWithFormat:@"%.2f",[salayArray[indexPath.row] floatValue]] forState:UIControlStateNormal];
+    [totalCount setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
+    [cell.contentView addSubview:totalCount];
+    
+    UILabel *jiesuanDate = [[UILabel alloc] initWithFrame:CGRectMake((kUIScreenWidth-30)/3*2-wight, 0,(kUIScreenWidth-30)/3-30+wight , 40)];
+    jiesuanDate.text = [NSString stringWithFormat:@"%@",[settledDateArray objectAtIndex:indexPath.row]];
+    jiesuanDate.font = [UIFont systemFontOfSize:13];
+    jiesuanDate.textAlignment = NSTextAlignmentCenter;
+    jiesuanDate.textColor = MakeColor(75, 75, 75);
+    [cell.contentView addSubview:jiesuanDate];
+    //判断是不是已结算
+    if ([[NSString stringWithFormat:@"%@",[settleArray objectAtIndex:indexPath.row]] isEqualToString:@"1"]) {
+        date.textColor = [UIColor greenColor];
         [totalCount setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+        jiesuanDate.textColor = [UIColor greenColor];
+    }
     
-        [cell.contentView addSubview:totalCount];
-    
-    UIButton *detailBtn = [[UIButton alloc] initWithFrame:CGRectMake(totalCount.frame.origin.x+totalCount.frame.size.width+5, 12, 15, 15)];
+    UIButton *detailBtn = [[UIButton alloc] initWithFrame:CGRectMake(jiesuanDate.frame.origin.x+jiesuanDate.frame.size.width+5, 12, 15, 15)];
     [cell.contentView addSubview:detailBtn];
     [detailBtn setBackgroundImage:[UIImage imageNamed:@"xiangqin"] forState:UIControlStateNormal];
      detailBtn.tag = indexPath.row;
@@ -273,14 +309,7 @@
     
     DetailMoneyOfMonth *detailVC = [[DetailMoneyOfMonth alloc] init];
     detailVC.deatilSalary = [eveydayArray objectAtIndex:btn.tag];
-    
-    
     [self.navigationController pushViewController:detailVC animated:YES];
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
 }
 
 -(void)didClickLeft
@@ -296,15 +325,11 @@
     NSDate *date1 = [date initWithTimeIntervalSinceNow:+interval];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM:"];
+    [formatter setDateFormat:@"yyyy-MM"];
     NSString *Str = [formatter stringFromDate:date1];
-    Str = [Str stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
-    Str = [Str stringByReplacingOccurrencesOfString:@":" withString:@"月"];
     
     dateLabel.text = Str;
-    dateStr = [Str stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
-    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
-    dateStr = [NSString stringWithFormat:@"%@01",dateStr];
+    dateStr = [NSString stringWithFormat:@"%@-01",Str];
     [self getMessage];
 }
 
@@ -316,27 +341,22 @@
     NSDate *date1 = [date initWithTimeIntervalSinceNow:+interval];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM:"];
+    [formatter setDateFormat:@"yyyy-MM"];
     NSString *Str = [formatter stringFromDate:date1];
-    Str = [Str stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
-    Str = [Str stringByReplacingOccurrencesOfString:@":" withString:@"月"];
-    
-    
-    dateStr = [Str stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
-    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
     
     //判断月份是否大于当前月
     NSString *dateString = dateStr;
+    string = [string stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    dateString = [dateString stringByReplacingOccurrencesOfString:@"-01" withString:@""];
     dateString = [dateString stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    string = [string stringByReplacingOccurrencesOfString:@"年" withString:@""];
-    string = [string stringByReplacingOccurrencesOfString:@"月" withString:@""];
-    if ([dateString intValue] > [string intValue]) {
+   
+    if ([dateString intValue] >= [string intValue]) {
         tag--;
         [self alertView:@"查询月份不能大于当前月"];
         return;
     }else{
         dateLabel.text = Str;
-        dateStr = [NSString stringWithFormat:@"%@01",dateStr];
+        dateStr = [NSString stringWithFormat:@"%@-01",Str];
         [self getMessage];
     }
     

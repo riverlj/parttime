@@ -58,7 +58,7 @@
   
     self.dataArray = [NSMutableArray array];
     self.nameArray = [NSMutableArray array];
-    if ([self.title isEqualToString:@"业务类型"]) {
+    if ([self.title isEqualToString:@"账号类型"]) {
         taskTypeArray = [NSArray arrayWithObjects:@"对公业务",@"对私业务", nil];
         [self initTableView];
     }else{
@@ -105,18 +105,9 @@
     }
 }
 
-- (void)beginRefreshing
-{
-    
-}
-// 结束刷新
-- (void)endRefreshing
-{
-    
-}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.title isEqualToString:@"业务类型"]) {
+    if ([self.title isEqualToString:@"账号类型"]) {
         return 2;
     }else{
         if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
@@ -126,7 +117,6 @@
             return self.dataArray.count;
         }
     }
-    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -143,7 +133,7 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-    if ([self.title isEqualToString:@"业务类型"]) {
+    if ([self.title isEqualToString:@"账号类型"]) {
         cell.textLabel.text = taskTypeArray[indexPath.row];
     }else{
         if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
@@ -170,7 +160,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.title isEqualToString:@"业务类型"]) {
+    if ([self.title isEqualToString:@"账号类型"]) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         if ([cell.textLabel.text isEqualToString:@"对公业务"]) {
             [self.delegate returnAddress:@"对公业务" aId:@"1"];
@@ -187,11 +177,11 @@
             NSString *aId = @"";
             for (NSMutableDictionary *dic in self.dataArray) {
                 if ([[dic objectForKey:@"name"] isEqualToString:name]) {
-                    aId = [dic objectForKey:@"aId"];
+                    aId = [dic objectForKey:@"id"];
                 }
             }
             
-            [self.delegate returnAddress:[NSString stringWithFormat:@"%@ (%@)",name,aId] aId:aId];
+            [self.delegate returnAddress:[NSString stringWithFormat:@"%@",name] aId:aId];
         }else{
             dic = [self.dataArray objectAtIndex:indexPath.row];
             [self.delegate returnAddress:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]] aId:[dic objectForKey:@"id"]];
@@ -249,12 +239,12 @@
     if ([self.title isEqualToString:@"开户支行"]) {
         url = @"/bank/queryBranchBank";
         [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
-        [params setObject:@"15" forKey:@"pageSize"];
+        [params setObject:@"50" forKey:@"pageSize"];
         [params setObject:self.idArr[0] forKey:@"provinceId"];
         [params setObject:self.idArr[1] forKey:@"cityId"];
         [params setObject:self.idArr[2] forKey:@"parentId"];
     }
-    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"https://paytest.honglingjinclub.com%@",url] params:params httpMethod:@"GET" block:^(id result) {
+    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@%@",REDSCARF_PAY_URL,url] params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if (![[result objectForKey:@"code"] boolValue]) {
            

@@ -13,5 +13,7 @@
 @property(nonatomic,strong)NSString *pwdStatus;
 
 @property(nonatomic,strong)NSString *salary;
+@property(nonatomic,strong)NSString *telNum;
+
 
 @end

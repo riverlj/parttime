@@ -41,7 +41,7 @@
         [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
     }
     [params setObject:@"0" forKey:@"timestamp"];
-    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/pay/withdraw/record" params:params httpMethod:@"GET" block:^(id result) {
+    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/pay/withdraw/record",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if (![[result objectForKey:@"code"] boolValue]) {
             [bodyArray removeAllObjects];
@@ -62,7 +62,7 @@
         [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
     }
     [params setObject:@"0" forKey:@"timestamp"];
-    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/moneyChangeRecord" params:params httpMethod:@"GET" block:^(id result) {
+    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/moneyChangeRecord",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if (![[result objectForKey:@"code"] boolValue]) {
             [bodyArray removeAllObjects];
@@ -96,10 +96,25 @@
         if (indexPath.section == 1) {
             doPassWordVC.title = @"重置交易密码";
         }
+        doPassWordVC.telNum = self.telNum;
         [self.navigationController pushViewController:doPassWordVC animated:YES];
     }
     if ([self.title isEqualToString:@"提现纪录"]) {
-        
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        dic = [bodyArray objectAtIndex:indexPath.row];
+        if ([[dic objectForKey:@"status"] intValue] == 0) {
+            [self alertView:@"提现申请正在审核中"];
+        }
+        if ([[dic objectForKey:@"status"] intValue] == 1) {
+            [self alertView:@"提现申请正在打款"];
+        }
+        if ([[dic objectForKey:@"status"] intValue] == 2) {
+            [self alertView:@"银行卡信息有误，请更改"];
+        }
+        if ([[dic objectForKey:@"status"] intValue] == 3) {
+            [self alertView:@"提现已成功"];
+        }
+
     }
     
 }
@@ -185,17 +200,23 @@
         NSString *str = [self timeIntersince1970:[[dic objectForKey:@"requestTime"] doubleValue]];
 
         cell.dateLabel.text = [NSString stringWithFormat:@"%@",str];
-        cell.changeLabel.text = [NSString stringWithFormat:@"-%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
+        cell.changeLabel.text = [NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
     }else{
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         dic = [bodyArray objectAtIndex:indexPath.row];
-        cell.detailLabel.text = [dic objectForKey:@"attach"];
-        cell.salaryLabel.text = [NSString stringWithFormat:@"余额：%@",[dic objectForKey:@"accountMoney"]];
+        cell.detailLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"attach"]];
+        cell.salaryLabel.text = [NSString stringWithFormat:@"余额：%.2f",[[dic objectForKey:@"accountMoney"] floatValue]/100];
         //将时间戳转化为时间    13位的除1000  我擦
         NSString *str = [self timeIntersince1970:[[dic objectForKey:@"timePoint"] doubleValue]];
       
         cell.dateLabel.text = [NSString stringWithFormat:@"%@",str];
-        cell.changeLabel.text = [NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
+        if ([[dic objectForKey:@"totalFee"] intValue] > 0) {
+            cell.changeLabel.textColor = [UIColor greenColor];
+            cell.changeLabel.text = [NSString stringWithFormat:@"+%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
+        }else{
+            cell.changeLabel.textColor = [UIColor redColor];
+            cell.changeLabel.text = [NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
+        }
     }
     
     return cell;
