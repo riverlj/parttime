@@ -8,6 +8,7 @@
 
 #import "BaseTableView.h"
 #import "JudgeTableViewName.h"
+#import "BaiduMobStat.h"
 
 @interface DistributionTableView : BaseTableView<JudgeTableViewName,NSURLConnectionDataDelegate>
 

@@ -28,16 +28,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"详情";
     [self comeBack:nil];
     [self initWebView];
 }
 
 -(void)initWebView
 {
+    NSURL *url;
     bannerView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth+64)];
     bannerView.delegate = self;
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://jianzhi.honglingjinclub.com/html/banner/20151026/QandA.html"]];
+    if ([self.title isEqualToString:@"详情"]) {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://weixin.honglingjinclub.com/activity/customactivity?id=3"]];
+    }else if ([self.title isEqualToString:@"CEO群"]){
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://jianzhi.honglingjinclub.com/html/banner/20151113/ceo.html"]];
+    }else{
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://jianzhi.honglingjinclub.com/html/banner/20151026/QandA.html"]];
+    }
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];
     [bannerView loadRequest:request];
     [self.view addSubview:bannerView];

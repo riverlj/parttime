@@ -10,4 +10,6 @@
 
 @interface TransactionViewController : BaseViewController
 
+@property(nonatomic,strong)NSString *telNum;
+
 @end

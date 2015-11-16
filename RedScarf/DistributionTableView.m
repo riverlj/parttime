@@ -222,7 +222,7 @@
         tag.text = [dic objectForKey:@"tag"];
         tag.textColor = colorblue;
         
-        str = [str stringByAppendingFormat:@"%@   %@ (%@)\n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
+        str = [str stringByAppendingFormat:@"%@   %@ (%@份)\n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
     }
     cell.addLabel.frame = CGRectMake(45, 0, 200, 50);
     cell.foodLabel.frame = CGRectMake(45, cell.addLabel.frame.size.height+cell.addLabel.frame.origin.y, kUIScreenWidth-30, 40);
@@ -233,6 +233,7 @@
     
     cell.btn.tag = indexPath.row;
     cell.detailBtn.tag = indexPath.row;
+    [cell.btn setTitle:@"送达" forState:UIControlStateNormal];
     objc_setAssociatedObject(cell.btn, &UITableViewIndexSearch, indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(cell.detailBtn, &UITableViewIndexSearch, indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [cell.btn addTarget:self action:@selector(didClickBtn:) forControlEvents:UIControlEventTouchUpInside];

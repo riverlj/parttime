@@ -10,4 +10,6 @@
 
 @interface DoPassWordViewController : BaseViewController
 
+@property(nonatomic,strong)NSString *telNum;
+
 @end

@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/MyBankCardVC.m"
-            timestampString = "468230744.661293"
+            timestampString = "469014222.140295"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "-getMsgFromBranchBankId"
             landmarkType = "5">
          </BreakpointContent>
@@ -36,43 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/MyBankCardVC.m"
-            timestampString = "468230744.661293"
+            timestampString = "469014222.140295"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "423"
-            endingLineNumber = "423"
-            landmarkName = "-didClickDone"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/MyBankCardVC.m"
-            timestampString = "468230744.661293"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
-            landmarkName = "-didClickDone"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/MyBankCardVC.m"
-            timestampString = "468230744.661293"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "394"
-            endingLineNumber = "394"
+            startingLineNumber = "432"
+            endingLineNumber = "432"
             landmarkName = "-didClickDone"
             landmarkType = "5">
          </BreakpointContent>
@@ -116,12 +84,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/SuggestionViewController.m"
-                  timestampString = "468842445.198533"
+                  timestampString = "469104426.353647"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "155"
                   endingLineNumber = "155"
-                  offsetFromSymbolStart = "969">
+                  offsetFromSymbolStart = "1230">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -131,12 +99,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/SuggestionViewController.m"
-                  timestampString = "468842445.198743"
+                  timestampString = "469104426.354403"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "155"
                   endingLineNumber = "155"
-                  offsetFromSymbolStart = "43">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -180,12 +148,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/TaskViewController.m"
-                  timestampString = "468842445.200638"
+                  timestampString = "469104426.358508"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "158"
                   endingLineNumber = "158"
-                  offsetFromSymbolStart = "706">
+                  offsetFromSymbolStart = "796">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -195,12 +163,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/TaskViewController.m"
-                  timestampString = "468842445.200851"
+                  timestampString = "469104426.358759"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "158"
                   endingLineNumber = "158"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -218,22 +186,6 @@
             startingLineNumber = "160"
             endingLineNumber = "160"
             landmarkName = "-searchBarSearchButtonClicked:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/MyBankCardVC.m"
-            timestampString = "468230744.661293"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "465"
-            endingLineNumber = "465"
-            landmarkName = "-proBtn:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -308,12 +260,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/OrderTimeViewController.m"
-                  timestampString = "468842445.20587"
+                  timestampString = "469104426.364019"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "81"
                   endingLineNumber = "81"
-                  offsetFromSymbolStart = "664">
+                  offsetFromSymbolStart = "780">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -323,12 +275,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/OrderTimeViewController.m"
-                  timestampString = "468842445.206086"
+                  timestampString = "469104426.36425"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "81"
                   endingLineNumber = "81"
-                  offsetFromSymbolStart = "46">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -484,12 +436,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ModifyPMViewController.m"
-                  timestampString = "468842445.213438"
+                  timestampString = "469104426.3743"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "121"
                   endingLineNumber = "121"
-                  offsetFromSymbolStart = "538">
+                  offsetFromSymbolStart = "680">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -499,12 +451,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ModifyPMViewController.m"
-                  timestampString = "468842445.213644"
+                  timestampString = "469104426.374678"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "121"
                   endingLineNumber = "121"
-                  offsetFromSymbolStart = "43">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -596,12 +548,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ModifyPMViewController.m"
-                  timestampString = "468842445.217855"
+                  timestampString = "469104426.380202"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "289"
                   endingLineNumber = "289"
-                  offsetFromSymbolStart = "1715">
+                  offsetFromSymbolStart = "2000">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -611,12 +563,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ModifyPMViewController.m"
-                  timestampString = "468842445.218056"
+                  timestampString = "469104426.380433"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "289"
                   endingLineNumber = "289"
-                  offsetFromSymbolStart = "46">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -660,12 +612,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ModifyPWViewController.m"
-                  timestampString = "468842445.219927"
+                  timestampString = "469104426.382604"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "172"
                   endingLineNumber = "172"
-                  offsetFromSymbolStart = "1127">
+                  offsetFromSymbolStart = "1266">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -675,12 +627,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ModifyPWViewController.m"
-                  timestampString = "468842445.220129"
+                  timestampString = "469104426.382868"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "172"
                   endingLineNumber = "172"
-                  offsetFromSymbolStart = "43">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -740,12 +692,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DetailMoneyOfMonth.m"
-                  timestampString = "468842445.222869"
+                  timestampString = "469104426.386139"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "461">
+                  offsetFromSymbolStart = "596">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -755,12 +707,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DetailMoneyOfMonth.m"
-                  timestampString = "468842445.223069"
+                  timestampString = "469104426.386476"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -804,12 +756,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/TaskViewController.m"
-                  timestampString = "468842445.225071"
+                  timestampString = "469104426.390872"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "252"
                   endingLineNumber = "252"
-                  offsetFromSymbolStart = "408">
+                  offsetFromSymbolStart = "556">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -819,12 +771,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/TaskViewController.m"
-                  timestampString = "468842445.225283"
+                  timestampString = "469104426.391129"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "252"
                   endingLineNumber = "252"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -900,12 +852,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/TeamMembersViewController.m"
-                  timestampString = "468842445.228702"
+                  timestampString = "469104426.39602"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "69"
                   endingLineNumber = "69"
-                  offsetFromSymbolStart = "403">
+                  offsetFromSymbolStart = "588">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -915,12 +867,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/TeamMembersViewController.m"
-                  timestampString = "468842445.228908"
+                  timestampString = "469104426.396295"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "69"
                   endingLineNumber = "69"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1060,12 +1012,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ModifyMemberViewController.m"
-                  timestampString = "468842445.235353"
+                  timestampString = "469104426.404218"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "198"
                   endingLineNumber = "198"
-                  offsetFromSymbolStart = "484">
+                  offsetFromSymbolStart = "616">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1075,12 +1027,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ModifyMemberViewController.m"
-                  timestampString = "468842445.235557"
+                  timestampString = "469104426.405"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "198"
                   endingLineNumber = "198"
-                  offsetFromSymbolStart = "43">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1140,12 +1092,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/AddMembersViewController.m"
-                  timestampString = "468842445.238171"
+                  timestampString = "469104426.409765"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "200"
                   endingLineNumber = "200"
-                  offsetFromSymbolStart = "372">
+                  offsetFromSymbolStart = "486">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1155,12 +1107,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/AddMembersViewController.m"
-                  timestampString = "468842445.238381"
+                  timestampString = "469104426.410006"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "200"
                   endingLineNumber = "200"
-                  offsetFromSymbolStart = "43">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1268,11 +1220,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/DistributionTableView.m"
-            timestampString = "467276389.699989"
+            timestampString = "468920382.202675"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "322"
-            endingLineNumber = "322"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "-detail:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1300,12 +1252,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/LoginViewController.m"
-                  timestampString = "468842445.244745"
+                  timestampString = "469104426.419696"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "187"
                   endingLineNumber = "187"
-                  offsetFromSymbolStart = "1145">
+                  offsetFromSymbolStart = "1408">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1315,12 +1267,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/LoginViewController.m"
-                  timestampString = "468842445.244943"
+                  timestampString = "469104426.419954"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "187"
                   endingLineNumber = "187"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "76">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1427,38 +1379,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RedScarf/MyBankCardVC.m"
-            timestampString = "468230744.661293"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "303"
-            endingLineNumber = "303"
-            landmarkName = "-initView"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/MyBankCardVC.m"
-            timestampString = "468230744.661293"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "335"
-            endingLineNumber = "335"
-            landmarkName = "-didClickDone"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "RedScarf/LoginViewController.m"
             timestampString = "468216557.939379"
             startingColumnNumber = "9223372036854775807"
@@ -1508,12 +1428,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ForgetPassViewController.m"
-                  timestampString = "468842445.253619"
+                  timestampString = "469104426.43028"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "148"
                   endingLineNumber = "148"
-                  offsetFromSymbolStart = "807">
+                  offsetFromSymbolStart = "938">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1523,12 +1443,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ForgetPassViewController.m"
-                  timestampString = "468842445.253831"
+                  timestampString = "469104426.430523"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "148"
                   endingLineNumber = "148"
-                  offsetFromSymbolStart = "43">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1587,22 +1507,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RedScarf/MoneyOfMonth.m"
-            timestampString = "468832716.439753"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "322"
-            endingLineNumber = "322"
-            landmarkName = "-rightBtn"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "RedScarf/MemberDetailViewController.m"
             timestampString = "467088706.043284"
             startingColumnNumber = "9223372036854775807"
@@ -1636,12 +1540,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MemberDetailViewController.m"
-                  timestampString = "468842445.258839"
+                  timestampString = "469104426.43615"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "49"
                   endingLineNumber = "49"
-                  offsetFromSymbolStart = "355">
+                  offsetFromSymbolStart = "438">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1651,12 +1555,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MemberDetailViewController.m"
-                  timestampString = "468842445.259048"
+                  timestampString = "469104426.436419"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "49"
                   endingLineNumber = "49"
-                  offsetFromSymbolStart = "43">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1748,12 +1652,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DistributionTableView.m"
-                  timestampString = "468842445.263188"
+                  timestampString = "469104426.441187"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "73"
                   endingLineNumber = "73"
-                  offsetFromSymbolStart = "401">
+                  offsetFromSymbolStart = "536">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1763,12 +1667,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DistributionTableView.m"
-                  timestampString = "468842445.263393"
+                  timestampString = "469104426.441433"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "73"
                   endingLineNumber = "73"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1796,12 +1700,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DistributionTableView.m"
-                  timestampString = "468842445.264508"
+                  timestampString = "469104426.442626"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "105"
                   endingLineNumber = "105"
-                  offsetFromSymbolStart = "494">
+                  offsetFromSymbolStart = "566">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1811,12 +1715,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DistributionTableView.m"
-                  timestampString = "468842445.264716"
+                  timestampString = "469104426.442866"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "105"
                   endingLineNumber = "105"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1892,12 +1796,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/HeadDisTableView.m"
-                  timestampString = "468842445.268092"
+                  timestampString = "469104426.446684"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "39"
                   endingLineNumber = "39"
-                  offsetFromSymbolStart = "372">
+                  offsetFromSymbolStart = "486">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1907,12 +1811,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/HeadDisTableView.m"
-                  timestampString = "468842445.268303"
+                  timestampString = "469104426.446919"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "39"
                   endingLineNumber = "39"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2068,12 +1972,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ModifyMemberViewController.m"
-                  timestampString = "468842445.278971"
+                  timestampString = "469104426.457445"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "160"
                   endingLineNumber = "160"
-                  offsetFromSymbolStart = "1752">
+                  offsetFromSymbolStart = "1928">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2083,12 +1987,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/ModifyMemberViewController.m"
-                  timestampString = "468842445.279231"
+                  timestampString = "469104426.457729"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "160"
                   endingLineNumber = "160"
-                  offsetFromSymbolStart = "1767">
+                  offsetFromSymbolStart = "1942">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2100,11 +2004,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/RoomViewController.m"
-            timestampString = "468136611.273352"
+            timestampString = "469021731.603303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2116,11 +2020,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/RoomViewController.m"
-            timestampString = "468136611.273352"
+            timestampString = "469021731.603303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "285"
-            endingLineNumber = "285"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
             <Locations>
@@ -2132,12 +2036,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/RoomViewController.m"
-                  timestampString = "468842445.281641"
+                  timestampString = "469104426.460443"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "285"
-                  endingLineNumber = "285"
-                  offsetFromSymbolStart = "671">
+                  startingLineNumber = "293"
+                  endingLineNumber = "293"
+                  offsetFromSymbolStart = "762">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2147,12 +2051,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/RoomViewController.m"
-                  timestampString = "468842445.281883"
+                  timestampString = "469104426.460742"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "285"
-                  endingLineNumber = "285"
-                  offsetFromSymbolStart = "47">
+                  startingLineNumber = "293"
+                  endingLineNumber = "293"
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2196,12 +2100,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/RoomViewController.m"
-                  timestampString = "468842445.28384"
+                  timestampString = "469104426.463034"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "69"
                   endingLineNumber = "69"
-                  offsetFromSymbolStart = "692">
+                  offsetFromSymbolStart = "848">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2211,12 +2115,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/RoomViewController.m"
-                  timestampString = "468842445.284056"
+                  timestampString = "469104426.463271"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "69"
                   endingLineNumber = "69"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2308,12 +2212,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/FinishViewController.m"
-                  timestampString = "468842445.288398"
+                  timestampString = "469104426.468456"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "129"
                   endingLineNumber = "129"
-                  offsetFromSymbolStart = "1012">
+                  offsetFromSymbolStart = "1078">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2323,12 +2227,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/FinishViewController.m"
-                  timestampString = "468842445.288611"
+                  timestampString = "469104426.468904"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "129"
                   endingLineNumber = "129"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "56">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2356,11 +2260,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/FinishViewController.m"
-            timestampString = "467536321.65552"
+            timestampString = "469002285.67617"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
             landmarkName = "-tableView:heightForHeaderInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2372,11 +2276,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/FinishViewController.m"
-            timestampString = "467536484.037179"
+            timestampString = "469002285.67617"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "-tableView:heightForFooterInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2388,11 +2292,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/FinishViewController.m"
-            timestampString = "468834997.572489"
+            timestampString = "469002285.67617"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2404,11 +2308,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/FinishViewController.m"
-            timestampString = "468834997.572489"
+            timestampString = "469002285.67617"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2484,12 +2388,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MsgViewController.m"
-                  timestampString = "468842445.296691"
+                  timestampString = "469104426.480594"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "51"
                   endingLineNumber = "51"
-                  offsetFromSymbolStart = "634">
+                  offsetFromSymbolStart = "738">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2499,12 +2403,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MsgViewController.m"
-                  timestampString = "468842445.296907"
+                  timestampString = "469104426.480842"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "51"
                   endingLineNumber = "51"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2612,12 +2516,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/AddMembersViewController.m"
-                  timestampString = "468842445.30226"
+                  timestampString = "469104426.487818"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "357"
                   endingLineNumber = "357"
-                  offsetFromSymbolStart = "2356">
+                  offsetFromSymbolStart = "2566">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2627,12 +2531,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/AddMembersViewController.m"
-                  timestampString = "468842445.302478"
+                  timestampString = "469104426.48814"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "357"
                   endingLineNumber = "357"
-                  offsetFromSymbolStart = "43">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2691,38 +2595,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RedScarf/MyBankCardVC.m"
-            timestampString = "468230744.661293"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "319"
-            endingLineNumber = "319"
-            landmarkName = "-initView"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/MoneyOfMonth.m"
-            timestampString = "467797820.481222"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "-getMessage"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "RedScarf/LoginViewController.m"
             timestampString = "468216557.939379"
             startingColumnNumber = "9223372036854775807"
@@ -2756,12 +2628,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/OrderRangeViewController.m"
-                  timestampString = "468842445.308288"
+                  timestampString = "469104426.49461"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "70"
                   endingLineNumber = "70"
-                  offsetFromSymbolStart = "588">
+                  offsetFromSymbolStart = "690">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2771,12 +2643,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/OrderRangeViewController.m"
-                  timestampString = "468842445.30848"
+                  timestampString = "469104426.494866"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "70"
                   endingLineNumber = "70"
-                  offsetFromSymbolStart = "46">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2835,92 +2707,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RedScarf/LoginViewController.m"
-            timestampString = "467805161.837381"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
-            landmarkName = "-didClickLoginBtn:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[LoginViewController didClickLoginBtn:]"
-                  moduleName = "RedScarf"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/LoginViewController.m"
-                  timestampString = "468842445.312139"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "163"
-                  endingLineNumber = "163"
-                  offsetFromSymbolStart = "1228">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__40-[LoginViewController didClickLoginBtn:]_block_invoke"
-                  moduleName = "RedScarf"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/LoginViewController.m"
-                  timestampString = "468842445.312343"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "163"
-                  endingLineNumber = "163"
-                  offsetFromSymbolStart = "46">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/LoginViewController.m"
-            timestampString = "467805162.720676"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
-            landmarkName = "-didClickLoginBtn:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/HomePageViewController.m"
-            timestampString = "468135956.00086"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "-pressChange:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "RedScarf/DoPassWordViewController.m"
-            timestampString = "468842556.131306"
+            timestampString = "469012148.155218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "-didClickCodeBtn"
             landmarkType = "5">
             <Locations>
@@ -2932,12 +2724,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DoPassWordViewController.m"
-                  timestampString = "468842445.315034"
+                  timestampString = "469104426.498851"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "143"
-                  endingLineNumber = "143"
-                  offsetFromSymbolStart = "760">
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "962">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2947,12 +2739,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DoPassWordViewController.m"
-                  timestampString = "468842445.315241"
+                  timestampString = "469104426.499143"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "143"
-                  endingLineNumber = "143"
-                  offsetFromSymbolStart = "811">
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "984">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2964,59 +2756,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/DoPassWordViewController.m"
-            timestampString = "468842556.131306"
+            timestampString = "469012148.155218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "-didClickCodeBtn"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[DoPassWordViewController didClickCodeBtn]"
-                  moduleName = "RedScarf"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DoPassWordViewController.m"
-                  timestampString = "468842445.316409"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "150"
-                  endingLineNumber = "150"
-                  offsetFromSymbolStart = "1110">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__43-[DoPassWordViewController didClickCodeBtn]_block_invoke154"
-                  moduleName = "RedScarf"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DoPassWordViewController.m"
-                  timestampString = "468842445.316611"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "150"
-                  endingLineNumber = "150"
-                  offsetFromSymbolStart = "43">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/DoPassWordViewController.m"
-            timestampString = "468842556.131306"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "-didClickCodeBtn"
             landmarkType = "5">
          </BreakpointContent>
@@ -3028,45 +2772,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/DoPassWordViewController.m"
-            timestampString = "468842556.131306"
+            timestampString = "469012148.155218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
-            landmarkName = "-SaveBtn"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "-didClickCodeBtn"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[DoPassWordViewController SaveBtn]"
-                  moduleName = "RedScarf"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DoPassWordViewController.m"
-                  timestampString = "468842445.318726"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
-                  offsetFromSymbolStart = "1206">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__35-[DoPassWordViewController SaveBtn]_block_invoke"
-                  moduleName = "RedScarf"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/DoPassWordViewController.m"
-                  timestampString = "468842445.318931"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
-                  offsetFromSymbolStart = "46">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3076,11 +2788,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/DoPassWordViewController.m"
-            timestampString = "468842556.131306"
+            timestampString = "469012148.155218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
+            landmarkName = "-SaveBtn"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/DoPassWordViewController.m"
+            timestampString = "469012148.155218"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
             landmarkName = "-SaveBtn"
             landmarkType = "5">
          </BreakpointContent>
@@ -3092,11 +2820,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/WithdrawViewController.m"
-            timestampString = "468834997.572489"
+            timestampString = "469015923.421729"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
             landmarkName = "-inputText"
             landmarkType = "5">
          </BreakpointContent>
@@ -3108,11 +2836,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/WithdrawViewController.m"
-            timestampString = "468834997.572489"
+            timestampString = "469015923.421729"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
             landmarkName = "-inputText"
             landmarkType = "5">
          </BreakpointContent>
@@ -3124,11 +2852,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/WithdrawViewController.m"
-            timestampString = "468834997.572489"
+            timestampString = "469015923.421729"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
             landmarkName = "-inputText"
             landmarkType = "5">
          </BreakpointContent>
@@ -3140,11 +2868,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/WithdrawViewController.m"
-            timestampString = "468399041.268448"
+            timestampString = "469015923.421729"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
             landmarkName = "-inputText"
             landmarkType = "5">
          </BreakpointContent>
@@ -3156,28 +2884,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/DoPassWordViewController.m"
-            timestampString = "468842556.131306"
+            timestampString = "469012148.155218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "-SaveBtn"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/MoneyOfMonth.m"
-            timestampString = "468832716.439753"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3198,11 +2910,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/MoneyOfMonth.m"
-            timestampString = "468314267.6846"
+            timestampString = "468924833.81271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "-getMessage"
             landmarkType = "5">
          </BreakpointContent>
@@ -3214,11 +2926,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/MoneyOfMonth.m"
-            timestampString = "468314268.41364"
+            timestampString = "468924833.81271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "-getMessage"
             landmarkType = "5">
             <Locations>
@@ -3230,12 +2942,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MoneyOfMonth.m"
-                  timestampString = "468842445.32773"
+                  timestampString = "469104426.528155"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "78"
-                  endingLineNumber = "78"
-                  offsetFromSymbolStart = "416">
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "562">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -3245,12 +2957,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MoneyOfMonth.m"
-                  timestampString = "468842445.327935"
+                  timestampString = "469104426.528387"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "78"
-                  endingLineNumber = "78"
-                  offsetFromSymbolStart = "72">
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3278,12 +2990,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/TransactionViewController.m"
-                  timestampString = "468842445.329098"
+                  timestampString = "469104426.53007"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "65"
                   endingLineNumber = "65"
-                  offsetFromSymbolStart = "324">
+                  offsetFromSymbolStart = "448">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -3293,12 +3005,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/TransactionViewController.m"
-                  timestampString = "468842445.329298"
+                  timestampString = "469104426.530298"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "65"
                   endingLineNumber = "65"
-                  offsetFromSymbolStart = "43">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3342,11 +3054,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/WithdrawViewController.m"
-            timestampString = "468834997.572489"
+            timestampString = "469015923.421729"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "324"
+            endingLineNumber = "324"
             landmarkName = "-inputText"
             landmarkType = "5">
             <Locations>
@@ -3358,42 +3070,42 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/WithdrawViewController.m"
-                  timestampString = "468842445.331989"
+                  timestampString = "469104426.534971"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "231"
-                  endingLineNumber = "231"
-                  offsetFromSymbolStart = "1559">
+                  startingLineNumber = "326"
+                  endingLineNumber = "326"
+                  offsetFromSymbolStart = "1812">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_"
+                  symbolName = "__copy_helper_block_289"
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/WithdrawViewController.m"
-                  timestampString = "468842445.332195"
+                  timestampString = "469104426.535476"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
                   endingLineNumber = "0"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "12">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_"
+                  symbolName = "__destroy_helper_block_290"
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/WithdrawViewController.m"
-                  timestampString = "468842445.332378"
+                  timestampString = "469104426.535913"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
                   endingLineNumber = "0"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "10">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3405,28 +3117,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/WithdrawViewController.m"
-            timestampString = "468834997.572489"
+            timestampString = "469096184.189302"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "324"
-            endingLineNumber = "324"
+            startingLineNumber = "464"
+            endingLineNumber = "464"
             landmarkName = "-compareDate:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/WithdrawViewController.m"
-            timestampString = "468397254.775083"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "-clickSaveBtn"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3469,12 +3165,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/PromotionViewController.m"
-                  timestampString = "468842445.336524"
+                  timestampString = "469104426.542209"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "77"
                   endingLineNumber = "77"
-                  offsetFromSymbolStart = "648">
+                  offsetFromSymbolStart = "738">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -3484,12 +3180,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/PromotionViewController.m"
-                  timestampString = "468842445.336741"
+                  timestampString = "469104426.542455"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "77"
                   endingLineNumber = "77"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "54">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3548,108 +3244,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RedScarf/AppDelegate.m"
-            timestampString = "468759626.700664"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "-UpdateVersion"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[AppDelegate UpdateVersion]"
-                  moduleName = "RedScarf"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/AppDelegate.m"
-                  timestampString = "468842445.3403"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "95"
-                  endingLineNumber = "95"
-                  offsetFromSymbolStart = "535">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__28-[AppDelegate UpdateVersion]_block_invoke"
-                  moduleName = "RedScarf"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/AppDelegate.m"
-                  timestampString = "468842445.340526"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "95"
-                  endingLineNumber = "95"
-                  offsetFromSymbolStart = "51">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/AppDelegate.m"
-            timestampString = "468759627.815349"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "-UpdateVersion"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/LoginViewController.m"
-            timestampString = "468761631.294902"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "-didClickLoginBtn:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/LoginViewController.m"
-            timestampString = "468761778.699029"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "-didClickLoginBtn:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "RedScarf/WalletViewController.m"
-            timestampString = "468764501.439563"
+            timestampString = "468999030.236213"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "-getToken"
             landmarkType = "5">
             <Locations>
@@ -3661,12 +3261,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/WalletViewController.m"
-                  timestampString = "468842445.345854"
+                  timestampString = "469104426.548776"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "372">
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "486">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -3676,12 +3276,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/WalletViewController.m"
-                  timestampString = "468842445.346077"
+                  timestampString = "469104426.549006"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "46">
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3693,11 +3293,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/WalletViewController.m"
-            timestampString = "468764502.156518"
+            timestampString = "468999030.236213"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "-getToken"
             landmarkType = "5">
          </BreakpointContent>
@@ -3725,11 +3325,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/WalletViewController.m"
-            timestampString = "468824756.805718"
+            timestampString = "468999030.236213"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "-getMessage"
             landmarkType = "5">
             <Locations>
@@ -3741,12 +3341,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/WalletViewController.m"
-                  timestampString = "468842445.350192"
+                  timestampString = "469104426.552121"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "288">
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "378">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -3756,12 +3356,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/WalletViewController.m"
-                  timestampString = "468842445.350462"
+                  timestampString = "469104426.552372"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "46">
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3773,11 +3373,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/WalletViewController.m"
-            timestampString = "468824756.805718"
+            timestampString = "468999030.236213"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "-getMessage"
             landmarkType = "5">
          </BreakpointContent>
@@ -3789,11 +3389,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/OpenAcountProvince.m"
-            timestampString = "468838107.017608"
+            timestampString = "468906267.205941"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "-getMessage"
             landmarkType = "5">
             <Locations>
@@ -3805,12 +3405,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/OpenAcountProvince.m"
-                  timestampString = "468842445.352667"
+                  timestampString = "469104426.556722"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "257"
-                  endingLineNumber = "257"
-                  offsetFromSymbolStart = "1734">
+                  startingLineNumber = "247"
+                  endingLineNumber = "247"
+                  offsetFromSymbolStart = "1946">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -3820,12 +3420,12 @@
                   moduleName = "RedScarf"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/OpenAcountProvince.m"
-                  timestampString = "468842445.352891"
+                  timestampString = "469104426.557036"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "257"
-                  endingLineNumber = "257"
-                  offsetFromSymbolStart = "72">
+                  startingLineNumber = "247"
+                  endingLineNumber = "247"
+                  offsetFromSymbolStart = "56">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3837,11 +3437,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/OpenAcountProvince.m"
-            timestampString = "468838107.017608"
+            timestampString = "468906267.205941"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
             landmarkName = "-getMessage"
             landmarkType = "5">
          </BreakpointContent>
@@ -3885,28 +3485,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/OpenAcountProvince.m"
-            timestampString = "468838107.017608"
+            timestampString = "468906267.205941"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "-getMessage"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RedScarf/RedScarf_API.m"
-            timestampString = "468838259.168318"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "+zhangbRequestWithURL:params:httpMethod:block:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3933,12 +3517,716 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RedScarf/DoPassWordViewController.m"
-            timestampString = "468842444.970791"
+            timestampString = "469012148.155218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "-didClickCodeBtn"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/TransactionViewController.m"
+            timestampString = "468923801.847022"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "-getSalaryMessage"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/TransactionViewController.m"
+            timestampString = "468923807.759026"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "-getMessage"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/TransactionViewController.m"
+            timestampString = "468923808.531166"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "-getMessage"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[TransactionViewController getMessage]"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/TransactionViewController.m"
+                  timestampString = "469104426.566775"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "448">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__39-[TransactionViewController getMessage]_block_invoke"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/TransactionViewController.m"
+                  timestampString = "469104426.567022"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/TransactionViewController.m"
+            timestampString = "468923810.593518"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "-getMessage"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/TransactionViewController.m"
+            timestampString = "469078461.01731"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/MoneyOfMonth.m"
+            timestampString = "469078461.01731"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
+            landmarkName = "-rightBtn"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/MoneyOfMonth.m"
+            timestampString = "469078461.01731"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "353"
+            endingLineNumber = "353"
+            landmarkName = "-rightBtn"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/WithdrawViewController.m"
+            timestampString = "469015923.421729"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "-getCardMsg"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[WithdrawViewController getCardMsg]"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/WithdrawViewController.m"
+                  timestampString = "469104426.579867"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "430">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__36-[WithdrawViewController getCardMsg]_block_invoke"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/WithdrawViewController.m"
+                  timestampString = "469104426.580203"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/WithdrawViewController.m"
+            timestampString = "469015923.421729"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "-getCardMsg"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/WithdrawViewController.m"
+            timestampString = "469015923.421729"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "-initView"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/WithdrawViewController.m"
+            timestampString = "469015923.421729"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "-selectBank"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/OpenAcountProvince.m"
+            timestampString = "468987529.243427"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/OpenAcountProvince.m"
+            timestampString = "468987607.555064"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/WithdrawViewController.m"
+            timestampString = "469095618.542764"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
+            landmarkName = "-textFieldShouldEndEditing:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/OrderTimeViewController.m"
+            timestampString = "468996470.769594"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "477"
+            endingLineNumber = "477"
+            landmarkName = "-didClickDone"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/OrderTimeViewController.m"
+            timestampString = "468996578.650036"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "468"
+            endingLineNumber = "468"
+            landmarkName = "-didClickDone"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/OrderTimeViewController.m"
+            timestampString = "468996583.26845"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "479"
+            endingLineNumber = "479"
+            landmarkName = "-didClickDone"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[OrderTimeViewController didClickDone]"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/OrderTimeViewController.m"
+                  timestampString = "469104426.590762"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "479"
+                  endingLineNumber = "479"
+                  offsetFromSymbolStart = "3792">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[OrderTimeViewController didClickDone]"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/OrderTimeViewController.m"
+                  timestampString = "469104426.590985"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "479"
+                  endingLineNumber = "479"
+                  offsetFromSymbolStart = "3796">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/TransactionViewController.m"
+            timestampString = "469078461.01731"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/AllocatingTaskVC.m"
+            timestampString = "469007993.6801"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/OpenAcountProvince.m"
+            timestampString = "469011658.924098"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/MyBankCardVC.m"
+            timestampString = "469014222.140295"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "406"
+            endingLineNumber = "406"
+            landmarkName = "-didClickDone"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MyBankCardVC didClickDone]"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MyBankCardVC.m"
+                  timestampString = "469104426.594968"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "406"
+                  endingLineNumber = "406"
+                  offsetFromSymbolStart = "4302">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__28-[MyBankCardVC didClickDone]_block_invoke"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MyBankCardVC.m"
+                  timestampString = "469104426.595216"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "406"
+                  endingLineNumber = "406"
+                  offsetFromSymbolStart = "54">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/MyBankCardVC.m"
+            timestampString = "469014222.140295"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
+            landmarkName = "-didClickDone"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/MyBankCardVC.m"
+            timestampString = "469013728.662138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "-getMessage"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MyBankCardVC getMessage]"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MyBankCardVC.m"
+                  timestampString = "469104426.597371"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "490">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__26-[MyBankCardVC getMessage]_block_invoke"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MyBankCardVC.m"
+                  timestampString = "469104426.597601"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/MyBankCardVC.m"
+            timestampString = "469013729.775446"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "-getMessage"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/MyBankCardVC.m"
+            timestampString = "469015145.652716"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "-getMsgFromBranchBankId"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MyBankCardVC getMsgFromBranchBankId]"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MyBankCardVC.m"
+                  timestampString = "469104426.600075"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "123"
+                  endingLineNumber = "123"
+                  offsetFromSymbolStart = "506">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__38-[MyBankCardVC getMsgFromBranchBankId]_block_invoke"
+                  moduleName = "RedScarf"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangb/Desktop/zhangb-RedScarf-PartTime/parttime/RedScarf/MyBankCardVC.m"
+                  timestampString = "469104426.600329"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "123"
+                  endingLineNumber = "123"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/MyBankCardVC.m"
+            timestampString = "469015161.320537"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "-getMsgFromBranchBankId"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/MyViewController.m"
+            timestampString = "469087618.849581"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "-getMessage"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/WithdrawViewController.m"
+            timestampString = "469096184.189302"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
+            landmarkName = "-textFieldShouldEndEditing:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/WithdrawViewController.m"
+            timestampString = "469096184.189302"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "340"
+            endingLineNumber = "340"
+            landmarkName = "-textFieldShouldEndEditing:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/WithdrawViewController.m"
+            timestampString = "469096184.189302"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
+            landmarkName = "-textFieldShouldReturn:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/HomePageViewController.m"
+            timestampString = "469104413.554809"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "-initHomeView"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RedScarf/HomePageViewController.m"
+            timestampString = "469104414.807968"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
+            landmarkName = "-initHomeView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

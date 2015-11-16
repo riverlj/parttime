@@ -19,6 +19,8 @@
 {
     NSString *salary;
     NSString *pwdStatus;
+    NSString *telNum;
+    NSString *showStr;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -70,15 +72,16 @@
         [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
     }
     
-    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/accountInfo" params:params httpMethod:@"GET" block:^(id result) {
+    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/accountInfo",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if (![[result objectForKey:@"code"] boolValue]) {
 
             NSMutableDictionary *dic = [result objectForKey:@"body"];
             salary = [NSString stringWithFormat:@"%@",[dic objectForKey:@"money"]];
             pwdStatus = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pwdStatus"]];
-            
+            telNum = [NSString stringWithFormat:@"%@",[dic objectForKey:@"phoneNumber"]];
         }else{
+            showStr = [NSString stringWithFormat:@"%@",[result objectForKey:@"body"]];
             [self alertView:[result objectForKey:@"body"]];
         }
         [self.tableView reloadData];
@@ -114,6 +117,7 @@
     if (indexPath.section == 1) {
         TransactionViewController *transactionVC = [[TransactionViewController alloc] init];
         transactionVC.title = @"交易密码";
+        transactionVC.telNum = telNum;
         [self.navigationController pushViewController:transactionVC animated:YES];
     }
 }
@@ -185,10 +189,17 @@
 
 -(void)didClickTianXian
 {
-    WithdrawViewController *withdrawVC = [[WithdrawViewController alloc] init];
-    withdrawVC.pwdStatus = pwdStatus;
-    withdrawVC.salary = salary;
-    [self.navigationController pushViewController:withdrawVC animated:YES];
+    if (showStr.length) {
+        [self alertView:showStr];
+        return;
+    }else{
+        WithdrawViewController *withdrawVC = [[WithdrawViewController alloc] init];
+        withdrawVC.pwdStatus = pwdStatus;
+        withdrawVC.telNum = telNum;
+        withdrawVC.salary = salary;
+        [self.navigationController pushViewController:withdrawVC animated:YES];
+
+    }
 }
 
 - (void)didReceiveMemoryWarning {

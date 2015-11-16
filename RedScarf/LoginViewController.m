@@ -103,7 +103,7 @@
         loginBtn.font = [UIFont systemFontOfSize:18];
 
     }
-    [loginBtn setTitle:@"登陆" forState:UIControlStateNormal];
+    [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn setBackgroundColor:MakeColor(32, 102, 208)];
     loginBtn.layer.masksToBounds = YES;
     loginBtn.layer.cornerRadius = 4;
@@ -158,7 +158,7 @@
     [dic setObject:nameField.text forKey:@"mobile"];
     
     NSString *str = [UIUtils getSha1String:passField.text];
-    [self showHUD:@"正在登陆"];
+    [self showHUD:@"正在登录"];
     [dic setObject:str forKey:@"password"];
     [RedScarf_API requestWithURL:@"/auth" params:dic httpMethod:@"POST" block:^(id result) {
                 NSLog(@"result = %@",[result objectForKey:@"msg"]);

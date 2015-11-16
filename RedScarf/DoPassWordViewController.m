@@ -7,6 +7,7 @@
 //
 
 #import "DoPassWordViewController.h"
+#import "UIUtils.h"
 
 @interface DoPassWordViewController ()
 
@@ -58,8 +59,8 @@
     lineView.backgroundColor = color232;
     [self.view addSubview:lineView];
     
-    UILabel *telLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, lineView.frame.origin.y+lineView.frame.size.height+7, 150, 40)];
-    telLabel.text = @"手机号：";
+    UILabel *telLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, lineView.frame.origin.y+lineView.frame.size.height+7, 250, 40)];
+    telLabel.text = [NSString stringWithFormat:@"手机号：%@",self.telNum];
     [self.view addSubview:telLabel];
     
     //验证码
@@ -130,14 +131,14 @@
             [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
         }
         [self showHUD:@"正在发送"];
-        [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/verifyCode/shortMsg" params:params httpMethod:@"GET" block:^(id result) {
+        [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/verifyCode/shortMsg",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
             NSLog(@"result = %@",result);
             if ([[result objectForKey:@"success"] boolValue]) {
-                [self alertView:[result objectForKey:@"body"]];
+                [self alertView:@"发送成功"];
                 [self hidHUD];
                 [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
             }else{
-                [self alertView:[result objectForKey:@"body"]];
+                [self alertView:@"发送失败"];
             }
             
         }];
@@ -150,14 +151,14 @@
             [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
         }
         [self showHUD:@"正在发送"];
-        [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/verifyCode/shortMsg" params:params httpMethod:@"GET" block:^(id result) {
+        [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/verifyCode/shortMsg",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
             NSLog(@"result = %@",result);
             if ([[result objectForKey:@"success"] boolValue]) {
-                [self alertView:[result objectForKey:@"body"]];
+                [self alertView:@"发送成功"];
                 [self hidHUD];
                 [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
             }else{
-                [self alertView:[result objectForKey:@"body"]];
+                [self alertView:@"发送失败"];
             }
             
         }];
@@ -177,6 +178,15 @@
         [self alertView:@"请输入手机验证码"];
         return;
     }
+    if (passWord.text.length != 6) {
+        [self alertView:@"密码必须为6位数字"];
+        return;
+    }
+    
+    if (![UIUtils isNumber:passWord.text]) {
+        [self alertView:@"密码必须为数字"];
+        return;
+    }
     if (!passWord.text.length) {
         [self alertView:@"请输入密码"];
         return;
@@ -191,18 +201,20 @@
         [params setObject:[defaults objectForKey:@"uuid"] forKey:@"macAddr"];
     }
     NSLog(@"resultParams = %@",params);
-    [RedScarf_API zhangbRequestWithURL:@"https://paytest.honglingjinclub.com/account/setPayPwd" params:params httpMethod:@"POST" block:^(id result) {
+    [self showHUD:@"正在设置"];
+    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/setPayPwd",REDSCARF_PAY_URL] params:params httpMethod:@"POST" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:passWord.text forKey:@"passWord"];
             [defaults synchronize];
             [self alertView:[result objectForKey:@"body"]];
-            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
+            [self.navigationController popViewControllerAnimated:YES];
+//            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
         }else{
             [self alertView:[result objectForKey:@"body"]];
         }
-        
+        [self hidHUD];
     }];
 }
 
