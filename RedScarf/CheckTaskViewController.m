@@ -64,6 +64,12 @@
     [RedScarf_API requestWithURL:@"/team/schedule/" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
+            
+            NSArray *arr = [NSArray arrayWithArray:[[result objectForKey:@"msg"] objectForKey:@"list"]];
+            if (![arr count]) {
+                [self.view addSubview:[self named:@"meiyoupaiban" text:@"排班"]];
+            }
+            
             [dateArray removeAllObjects];
             for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
                 TeamModel *model = [[TeamModel alloc] init];

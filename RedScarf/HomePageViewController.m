@@ -65,8 +65,8 @@
         titleArray = [NSMutableArray arrayWithObjects:@"任务分配",@"分餐点",@"历史任务",@"管理成员",@"查看排班",@"我的推广",@"CEO群",@"帮助中心",@"敬请期待", nil];
         imageArray = [NSArray arrayWithObjects:@"rwfp@2x",@"fencan@2x",@"lishi@2x",@"guanlichengyuan@2x",@"ckpaiban@2x",@"tuiguang2x",@"ceoqun",@"helpcenter",@"qidai2x", nil];
     }else{
-        titleArray = [NSMutableArray arrayWithObjects:@"分餐点",@"历史任务",@"配送时间",@"配送范围",@"我的推广",@"敬请期待", nil];
-        imageArray = [NSArray arrayWithObjects:@"fencan@2x",@"lishi@2x",@"shijian2x",@"fanwei2x",@"tuiguang2x",@"qidai2x", nil];
+        titleArray = [NSMutableArray arrayWithObjects:@"分餐点",@"历史任务",@"配送时间",@"配送范围",@"我的推广",@"帮助中心",@"敬请期待",@"",@"", nil];
+        imageArray = [NSArray arrayWithObjects:@"fencan@2x",@"lishi@2x",@"shijian2x",@"fanwei2x",@"tuiguang2x",@"helpcenter",@"qidai2x",@"",@"", nil];
     }
 
     array = [NSArray arrayWithObjects:@"banner1", nil];
@@ -180,7 +180,7 @@
         iNum = 3;
         jNum = 3;
     }else{
-        iNum = 2;
+        iNum = 3;
         jNum = 3;
     }
     
@@ -290,14 +290,16 @@
             break;
         case 101:
         {
-            [self alertView:@"即将上线"];
-//            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
-//            [self.navigationController pushViewController:promotionVC animated:YES];
+            //[self alertView:@"即将上线"];
+            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
+            [self.navigationController pushViewController:promotionVC animated:YES];
         }
             break;
-        case 200:
+        case 102:
         {
-            
+            BannerViewController *bannerVC = [[BannerViewController alloc] init];
+            bannerVC.title = @"帮助中心";
+            [self.navigationController pushViewController:bannerVC animated:YES];
         }
             break;
             
@@ -350,9 +352,9 @@
             break;
         case 102:
         {
-            [self alertView:@"即将上线"];
-//            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
-//            [self.navigationController pushViewController:promotionVC animated:YES];
+            //[self alertView:@"即将上线"];
+            PromotionViewController *promotionVC = [[PromotionViewController alloc] init];
+            [self.navigationController pushViewController:promotionVC animated:YES];
         }
             break;
         case 200:

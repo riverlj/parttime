@@ -123,12 +123,13 @@
 
 -(void)initView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 114,kUIScreenWidth-20, kUIScreenHeigth-130)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 104,kUIScreenWidth-20, kUIScreenHeigth-130)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = color242;
     self.dataArray = [NSMutableArray array];
+    UIView *foot = [[UIView alloc] init];
+    self.tableView.tableFooterView = foot;
     [self.view addSubview:self.tableView];
     [self getMessage];
 }
@@ -140,14 +141,19 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     
-    [RedScarf_API requestWithURL:@"/task/meals" params:params httpMethod:@"GET" block:^(id result) {
+    [RedScarf_API requestWithURL:@"/task/distPointMeals" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
+            
+            NSArray *arr = [NSArray arrayWithArray:[[result objectForKey:@"msg"] objectForKey:@"list"]];
+            if (![arr count]) {
+                [self.view addSubview:[self named:@"meiyoucanpin" text:@"餐品"]];
+            }
+            
             [self.dataArray removeAllObjects];
             for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
                 NSLog(@"dic = %@",dic);
                 [self.dataArray addObject:dic];
-                
             }
             [self.tableView reloadData];
         }
@@ -156,39 +162,50 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.dataArray.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArray.count;
+    NSMutableDictionary *dic = [self.dataArray objectAtIndex:section];
+    NSMutableArray *contentList = [dic objectForKey:@"contentList"];
+    return contentList.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30;
+    return 80;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth-20, 30)];
+    NSMutableDictionary *dic = [self.dataArray objectAtIndex:section];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth-20, 80)];
+    view.backgroundColor = color242;
+    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, kUIScreenWidth-20, 30)];
+    name.text = [dic objectForKey:@"name"];
+    name.textColor = color155;
+    name.font = textFont16;
+    [view addSubview:name];
+    
     for (int i = 0; i < 3; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*i, 0, (kUIScreenWidth-20)/3, 30)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*i, 30, (kUIScreenWidth-20)/3, 30)];
         [view addSubview:label];
         label.backgroundColor = color234;
         label.textColor = color155;
         label.font = textFont14;
         label.textAlignment = NSTextAlignmentCenter;
         if (i == 0) {
-            label.frame = CGRectMake(0, 0, (kUIScreenWidth-20)/5*2, 30);
+            label.frame = CGRectMake(0, 50, (kUIScreenWidth-20)/5*2, 30);
             label.text = @"套餐编号";
         }
         if (i == 1) {
-            label.frame = CGRectMake((kUIScreenWidth-20)/5*2, 0, (kUIScreenWidth-20)/5*2, 30);
+            label.frame = CGRectMake((kUIScreenWidth-20)/5*2, 50, (kUIScreenWidth-20)/5*2, 30);
             label.text = @"菜品名称";
         }
         if (i == 2) {
-            label.frame = CGRectMake((kUIScreenWidth-20)/5*4, 0, (kUIScreenWidth-20)/5, 30);
+            label.frame = CGRectMake((kUIScreenWidth-20)/5*4, 50, (kUIScreenWidth-20)/5, 30);
             label.text = @"数量";
         }
     }
@@ -209,22 +226,28 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
+    NSMutableDictionary *contentDic = [self.dataArray objectAtIndex:indexPath.section];
     
-    NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
+    NSMutableArray *contentList = [contentDic objectForKey:@"contentList"];
+    
+    if (contentList.count) {
+        NSMutableDictionary *dic = [contentList objectAtIndex:indexPath.row];
+        
+        cell.typeLabel.text = [dic objectForKey:@"tag"];
+        
+        NSString *str = [NSString stringWithFormat:@"%@",[dic objectForKey:@"content"]];
+        [cell setIntroductionText:str];
+        
+        cell.numLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"count"]];
+        
+        UIView *midLineView = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/5*2, 0, 0.5, cell.foodLabel.frame.size.height)];
+        midLineView.backgroundColor = color234;
+        [cell.contentView addSubview:midLineView];
+        UIView *midLineView1 = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/5*4, 0, 0.5, cell.foodLabel.frame.size.height)];
+        midLineView1.backgroundColor = color234;
+        [cell.contentView addSubview:midLineView1];
 
-    cell.typeLabel.text = [dic objectForKey:@"tag"];
-    
-    NSString *str = [NSString stringWithFormat:@"%@",[dic objectForKey:@"content"]];
-    [cell setIntroductionText:str];
-    
-    cell.numLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"count"]];
-    
-    UIView *midLineView = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/5*2, 0, 0.5, cell.foodLabel.frame.size.height)];
-    midLineView.backgroundColor = color234;
-    [cell.contentView addSubview:midLineView];
-    UIView *midLineView1 = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/5*4, 0, 0.5, cell.foodLabel.frame.size.height)];
-    midLineView1.backgroundColor = color234;
-    [cell.contentView addSubview:midLineView1];
+    }
     
     return cell;
 }

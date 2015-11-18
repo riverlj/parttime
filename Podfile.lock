@@ -16,18 +16,26 @@ PODS:
     - FlurrySDK/FlurrySDK (= 6.6.0)
   - FlurrySDK/FlurrySDK (6.6.0)
   - Reachability (3.0.0)
+  - SDCycleScrollView (1.3)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
   - UMengSocial (4.2.3)
 
 DEPENDENCIES:
   - ASIHTTPRequest
   - FlurrySDK (~> 6.6.0)
   - Reachability (~> 3.0.0)
+  - SDCycleScrollView (~> 1.3)
+  - SDWebImage
   - UMengSocial (~> 4.2.3)
 
 SPEC CHECKSUMS:
   ASIHTTPRequest: ec013992946676b7978dcbde6396d57312d21db4
-  FlurrySDK: 8478625434c06b323338f776758162756d92c3ed
+  FlurrySDK: b79d7125293904a572d7539e64cd9d887f46176b
   Reachability: 31e4272bd8378e094beaf6609dc182c85c4e6574
+  SDCycleScrollView: 90e43636fcc8e6a7f74e8b64d87418a8e96549b4
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   UMengSocial: 85882abe5b20aa38ad558ece71360e16b5d50909
 
 COCOAPODS: 0.38.2

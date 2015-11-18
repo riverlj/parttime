@@ -27,7 +27,7 @@
         self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 10, 250, 35)];
         [self.groundImage addSubview:self.nameLabel];
         self.nameLabel.font = [UIFont systemFontOfSize:16];
-        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, self.nameLabel.frame.size.height+self.nameLabel.frame.origin.y, kUIScreenWidth-90, 30)];
+        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, self.nameLabel.frame.size.height+self.nameLabel.frame.origin.y, kUIScreenWidth-80, 30)];
         self.foodLabel.numberOfLines = 0;
         self.foodLabel.font = [UIFont systemFontOfSize:12];
         [self.groundImage addSubview:self.foodLabel];

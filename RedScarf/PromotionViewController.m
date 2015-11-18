@@ -183,6 +183,7 @@
 -(void)didClickRuleOfActive
 {
     RuleOfActive *ruleOfActiveVC = [[RuleOfActive alloc] init];
+    ruleOfActiveVC.title = @"活动规则";
     [self.navigationController pushViewController:ruleOfActiveVC animated:YES];
 }
 

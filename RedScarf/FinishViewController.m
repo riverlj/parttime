@@ -129,6 +129,12 @@
     [RedScarf_API requestWithURL:@"/task/taskByStatus" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
+            
+            NSArray *arr = [NSArray arrayWithArray:[[result objectForKey:@"msg"] objectForKey:@"list"]];
+            if (![arr count]) {
+                [self.view addSubview:[self named:@"kongrenwu" text:@"历史任务"]];
+            }
+            
             [self.searchDataArr removeAllObjects];
             for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
                 NSLog(@"dic = %@",dic);
@@ -205,7 +211,8 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.view endEditing:YES];
-    return 180;
+    FinishTableViewCell *cell = (FinishTableViewCell *)[self tableView:self.finishTableView cellForRowAtIndexPath:indexPath];
+    return cell.frame.size.height+45 ;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -238,12 +245,12 @@
     NSString *contentStr = @"";
     NSLog(@"food = %@",model.foodArr);
     for (NSDictionary *dic in model.foodArr) {
-        contentStr = [contentStr stringByAppendingString:[dic objectForKey:@"content"]];
+        contentStr = [contentStr stringByAppendingFormat:@"%@  %@  (%@份)\n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
         NSLog(@"contentStr = %@",contentStr);
         NSLog(@"food = %@",[dic objectForKey:@"content"]);
     }
     NSLog(@"food = %@",contentStr);
-    cell.foodLabel.text = [NSString stringWithFormat:@"%@",contentStr];
+    [cell setIntroductionText:[NSString stringWithFormat:@"%@",contentStr]];
 //        cell.dateLabel.text = [NSString stringWithFormat:@"下单：%@",model.dateStr];
     cell.numberLabel.text = [NSString stringWithFormat:@"任务编号：%@",model.numberStr];
     if ([model.status isEqualToString:@"FINISHED"]) {

@@ -27,9 +27,6 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self BaiduMobStat];
-    [UMSocialData setAppKey:AppKey];
-    [UMSocialQQHandler setQQWithAppId:@"1104757597" appKey:@"5FWCaDeaGQs5JN5V" url:nil];
-    [UMSocialWechatHandler setWXAppId:@"wxff361bf22a286ed2" appSecret:@"aa909ed684171b3af81e80a09b7c6541" url:nil];
     [Flurry setCrashReportingEnabled:YES];
     [Flurry startSession:@"ZWVZ56TNDFHVQX48RMD2"];
     AppDelegate *myDelegate = [UIApplication sharedApplication].delegate;
@@ -141,6 +138,14 @@
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:rootVC];
     
     self.window.rootViewController = navi;
+}
+//强制用系统键盘
+- (BOOL)application:(UIApplication *)application shouldAllowExtensionPointIdentifier:(NSString *)extensionPointIdentifier
+{
+    if ([extensionPointIdentifier isEqualToString:@"com.apple.keyboard-service"]) {
+        return NO;
+    }
+    return YES;
 }
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url

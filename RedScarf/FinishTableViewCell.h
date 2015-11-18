@@ -23,5 +23,6 @@
 @property(nonatomic,strong)UIImageView *groundImage;
 @property(nonatomic,strong)UIImageView *lineImage;
 
+-(void)setIntroductionText:(NSString*)text;
 
 @end

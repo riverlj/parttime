@@ -10,6 +10,7 @@
 #import "FourRowsCell.h"
 #import "ThreeRowsCell.h"
 #import "DetailMoneyOfMonth.h"
+#import "RuleOfActive.h"
 
 @implementation MoneyOfMonth
 {
@@ -43,6 +44,9 @@
     self.title = @"我的工资";
     self.view.backgroundColor = color242;
     
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"说明" style:UIBarButtonItemStylePlain target:self action:@selector(clickShow)];
+    self.navigationItem.rightBarButtonItem = right;
+    
     self.navigationController.navigationBar.hidden = NO;
     settleArray = [NSMutableArray array];
     settledDateArray = [NSMutableArray array];
@@ -55,12 +59,9 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM"];
     string = [formatter stringFromDate:now];
-//    string = [string stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
-//    string = [string stringByReplacingOccurrencesOfString:@":" withString:@"月"];
     
     dateStr = @"";
-//    dateStr = [string stringByReplacingOccurrencesOfString:@"年" withString:@"-"];
-//    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"月" withString:@"-"];
+
     dateStr = [NSString stringWithFormat:@"%@-01",string];
     [self getMessage];
     
@@ -176,13 +177,16 @@
     weijisuanLabel.textColor = color155;
     weijisuanLabel.font = textFont14;
     [midView addSubview:weijisuanLabel];
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, midView.frame.size.height+midView.frame.origin.y+15, kUIScreenWidth-30, kUIScreenHeigth-202)];
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, midView.frame.size.height+midView.frame.origin.y+15, kUIScreenWidth-30, kUIScreenHeigth-242)];
    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.layer.borderWidth = 0.5;
     self.tableView.layer.borderColor = color242.CGColor;
     self.tableView.backgroundColor = color242;
+    UIView *foot = [[UIView alloc] init];
+    self.tableView.tableFooterView = foot;
     [self.view addSubview:self.tableView];
 }
 
@@ -362,5 +366,11 @@
     
 }
 
+-(void)clickShow
+{
+    RuleOfActive *ruleVC = [[RuleOfActive alloc] init];
+    ruleVC.title = @"工资说明";
+    [self.navigationController pushViewController:ruleVC animated:YES];
+}
 
 @end

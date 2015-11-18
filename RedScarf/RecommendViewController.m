@@ -7,7 +7,9 @@
 //
 
 #import "RecommendViewController.h"
-
+#import "UMSocial.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialWechatHandler.h"
 
 @implementation RecommendViewController
 
@@ -33,7 +35,8 @@
 -(void)initView
 {
     UIImageView *codeView = [[UIImageView alloc] initWithFrame:CGRectMake(60, 100, kUIScreenWidth-120, kUIScreenWidth-120)];
-    codeView.backgroundColor = [UIColor redColor];
+//    codeView.backgroundColor = [UIColor redColor];
+    codeView.image = [UIImage imageNamed:@"shareerweima"];
     [self.view addSubview:codeView];
     
     UILabel *code = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-70, codeView.frame.size.height+codeView.frame.origin.y+20, 140, 40)];
@@ -57,15 +60,21 @@
 
 -(void)didClickShareBtn
 {
+    [UMSocialData setAppKey:AppKey];
+    [UMSocialQQHandler setQQWithAppId:@"1104757597" appKey:@"5FWCaDeaGQs5JN5V" url:[NSString stringWithFormat:@"weixin.honglingjinclub.com/activity/pingtaituiguang?exchangecode=%@",self.code]];
+    [UMSocialWechatHandler setWXAppId:@"wxff361bf22a286ed2" appSecret:@"aa909ed684171b3af81e80a09b7c6541" url:[NSString stringWithFormat:@"weixin.honglingjinclub.com/activity/pingtaituiguang?exchangecode=%@",self.code]];
+
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:AppKey
-                                      shareText:@"红领巾正式上线"
-                                     shareImage:[UIImage imageNamed:nil]
+                                      shareText:@"点击查看兑换码"
+                                     shareImage:[UIImage imageNamed:@"shareerweima"]
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToQzone,UMShareToQQ,UMShareToWechatSession,UMShareToWechatTimeline,nil]
                                        delegate:self];
+    //微信只分享图片
+//    [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
     //qq空间需要的参数
-    [UMSocialData defaultData].extConfig.qzoneData.url = @"http://baidu.com";
-    [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:@"http://star.xiziwang.net/uploads/allimg/140930/19_140930101146_1.jpg"];
+    [UMSocialData defaultData].extConfig.qzoneData.url = @"http://relay.honglingjinclub.com/saoma.jpg";
+    [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeDefault url:[NSString stringWithFormat:@"weixin.honglingjinclub.com/activity/pingtaituiguang?exchangecode=%@",self.code]];
     
     [UMSocialData defaultData].extConfig.qzoneData.title = @"红领巾";
 }

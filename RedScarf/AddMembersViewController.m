@@ -293,10 +293,8 @@
 {
     AppDelegate *app = [UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    [params setObject:app.tocken forKey:@"token"];
 
     NSInteger major = [pickerView selectedRowInComponent:0];
-//    NSLog(@"major = %@",[addressArray[major] objectForKey:@"id"]);
     for (int i = 0; i < 5; i++) {
         UITextField *tf = (UITextField *)[[self.view viewWithTag:10000] viewWithTag:100+i];
         if (i == 0) {
@@ -326,7 +324,14 @@
             }
         }
         if (i == 2) {
-            [params setObject:[addressArray[major] objectForKey:@"id"] forKey:@"apartment.id"];
+            NSString *str = [addressArray[major] objectForKey:@"id"];
+            if (str) {
+                [params setObject:[addressArray[major] objectForKey:@"id"] forKey:@"apartment.id"];
+            }else{
+                [self alertView:@"地址不能为空"];
+                return;
+            }
+            
         }
         if (i == 3) {
             if (tf.text.length) {

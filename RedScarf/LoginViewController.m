@@ -279,6 +279,11 @@
     [self.view endEditing:YES];
 }
 
+-(void)keyboardWillHide:(NSNotification *)aNotification
+{
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
