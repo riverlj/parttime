@@ -208,6 +208,7 @@
 -(UIView *)named:(NSString *)imageNamed text:(NSString *)text
 {
     UIView *view;
+    view.tag = 666;
     UIImageView *kong;
     UILabel *label;
     if (kUIScreenWidth == 320) {

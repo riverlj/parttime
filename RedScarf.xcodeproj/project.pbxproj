@@ -1059,11 +1059,7 @@
 		1D72D6911B71ECA500E80D15 /* base */ = {
 			isa = PBXGroup;
 			children = (
-				1D9F36441BE4B96C008315CD /* ZCTradeView */,
-				1DF408DB1BE1B8EB000BACA8 /* ios_api */,
-				1DF3A1121BE0B6490095DE24 /* Base64 */,
-				1DE475231B9988EF00747F0C /* MJRefresh */,
-				1DCE3A531B8AFE5200513378 /* MBProgressHUD */,
+				1DA77BE51BFC265600A91EA5 /* small sdk */,
 				1D72D6921B71ECE500E80D15 /* BaseTabbarViewController.h */,
 				1D72D6931B71ECE500E80D15 /* BaseTabbarViewController.m */,
 				1D72D6951B71ED5800E80D15 /* BaseViewController.h */,
@@ -1139,6 +1135,18 @@
 				1D9F364F1BE4B96C008315CD /* ZCTradeView.m */,
 			);
 			path = ZCTradeView;
+			sourceTree = "<group>";
+		};
+		1DA77BE51BFC265600A91EA5 /* small sdk */ = {
+			isa = PBXGroup;
+			children = (
+				1DCE3A531B8AFE5200513378 /* MBProgressHUD */,
+				1DE475231B9988EF00747F0C /* MJRefresh */,
+				1DF3A1121BE0B6490095DE24 /* Base64 */,
+				1DF408DB1BE1B8EB000BACA8 /* ios_api */,
+				1D9F36441BE4B96C008315CD /* ZCTradeView */,
+			);
+			name = "small sdk";
 			sourceTree = "<group>";
 		};
 		1DC69D0F1BFB219E003F29BA /* 空数据 */ = {
