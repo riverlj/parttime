@@ -143,9 +143,9 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     dic = [dataArray objectAtIndex:indexPath.row];
     cell.date.text = [dic objectForKey:@"date"];
-    cell.funsCount.text = [dic objectForKey:@"orderNumAccumulate"];
+    cell.funsCount.text = [dic objectForKey:@"orderNumInOneDay"];
 //    cell.reimburseCounts.text = @"200";
-    cell.totalCount.text = [dic objectForKey:@"orderNumInOneDay"];
+    cell.totalCount.text = [dic objectForKey:@"orderNumAccumulate"];
     
     return cell;
 }

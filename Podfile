@@ -1,5 +1,7 @@
-platform:ios
+platform:ios,'7.0'
 pod 'Reachability','~>3.0.0'
 pod 'ASIHTTPRequest'
 pod 'UMengSocial', '~> 4.2.3'
 pod 'FlurrySDK', '~> 6.6.0'
+pod 'SDCycleScrollView', '~>1.3'
+pod 'SDWebImage'

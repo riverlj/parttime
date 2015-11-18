@@ -158,5 +158,34 @@
     
 }
 
+-(UIView *)named:(NSString *)imageNamed text:(NSString *)text
+{
+    
+    UIView *view;
+    UIImageView *kong;
+    UILabel *label;
+    if (kUIScreenWidth == 320) {
+        view = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width/2-55, self.frame.size.height/2-75, 110, 150)];
+        kong = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 110, 110)];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(0, kong.frame.size.height+kong.frame.origin.y+20, 110, 30)];
+        
+    }else{
+        view = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width/2-55, self.frame.size.height/2-115, 110, 150)];
+        kong = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 110, 110)];
 
+        label = [[UILabel alloc] initWithFrame:CGRectMake(0, kong.frame.size.height+kong.frame.origin.y+20, 110, 30)];
+    }
+
+    view.backgroundColor = color242;
+    
+    kong.image = [UIImage imageNamed:imageNamed];
+    [view addSubview:kong];
+    
+    label.text = [NSString stringWithFormat:@"暂时没有%@哟~",text];
+    label.textColor = color155;
+    label.font = textFont14;
+    [view addSubview:label];
+    
+    return view;
+}
 @end

@@ -69,6 +69,12 @@
     [RedScarf_API requestWithURL:@"/user/teamMembers/" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
+            
+            NSArray *arr = [NSArray arrayWithArray:[[result objectForKey:@"msg"] objectForKey:@"list"]];
+            if (![arr count]) {
+                [self.view addSubview:[self named:@"meiyouchengyuan" text:@"成员"]];
+            }
+            
             [listArray removeAllObjects];
             [nameArray removeAllObjects];
             for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {

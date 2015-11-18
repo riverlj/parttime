@@ -119,7 +119,7 @@
     //content是个数组
     NSString *contentStr = @"";
     for (NSDictionary *content in [dic objectForKey:@"content"]) {
-        contentStr = [contentStr stringByAppendingFormat:@"%@  %@  (%@份)",[content objectForKey:@"tag"],[content objectForKey:@"content"],[content objectForKey:@"count"]];
+        contentStr = [contentStr stringByAppendingFormat:@"%@  %@  (%@份)\n",[content objectForKey:@"tag"],[content objectForKey:@"content"],[content objectForKey:@"count"]];
     }
     cell.foodLabel.text = contentStr;
     cell.numberLabel.text = [NSString stringWithFormat:@"任务编号:%@",[dic objectForKey:@"sn"]];

@@ -19,6 +19,7 @@
 #import "PersonMsgViewController.h"
 #import "GoPeiSongViewController.h"
 #import "WalletViewController.h"
+#import "VersionViewController.h"
 
 @interface MyViewController ()
 {
@@ -129,7 +130,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -278,6 +279,18 @@
         cellLabel.font = [UIFont systemFontOfSize:16];
         [cell.contentView addSubview:cellLabel];
     }
+    else if (indexPath.section == 4){
+        
+        UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
+        photoView.image = [UIImage imageNamed:@"banbenguanli"];
+        [cell.contentView addSubview:photoView];
+        
+        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(47, 10, 280, 25)];
+        cellLabel.text = @"版本管理";
+        cellLabel.textColor = MakeColor(75, 75, 75);
+        cellLabel.font = [UIFont systemFontOfSize:16];
+        [cell.contentView addSubview:cellLabel];
+    }
 
     
     return cell;
@@ -357,6 +370,10 @@
             [self.navigationController pushViewController:orderRangeVC animated:YES];
         }
         
+    }
+    if (indexPath.section == 4) {
+        VersionViewController *versionVC = [[VersionViewController alloc] init];
+        [self.navigationController pushViewController:versionVC animated:YES];
     }
 }
 

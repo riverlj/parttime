@@ -150,7 +150,7 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:@"2" forKey:@"source"];
-    suggestionView.text = [suggestionView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    suggestionView.text = [suggestionView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:suggestionView.text forKey:@"content"];
     [RedScarf_API requestWithURL:@"/user/feedbackAdvice" params:params httpMethod:@"POST" block:^(id result) {
         NSLog(@"result = %@",result);

@@ -39,6 +39,12 @@
     [RedScarf_API requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
+            
+            NSArray *arr = [NSArray arrayWithArray:[result objectForKey:@"msg"]];
+            if (![arr count]) {
+                [self addSubview:[self named:@"meiyoucanpin" text:@"餐品"]];
+            }
+            
             [self.dataArray removeAllObjects];
             for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
                 NSLog(@"dic = %@",dic);

@@ -134,6 +134,8 @@
     self.YiFenPeiTableview.tag = 100002;
     self.YiFenPeiTableview.tableHeaderView = self.searchBar;
     self.YiFenPeiTableview.backgroundColor = color242;
+    UIView *foot = [[UIView alloc] init];
+    self.YiFenPeiTableview.tableFooterView = foot;
     self.YiFenPeiTableview.delegate = self;
     self.YiFenPeiTableview.dataSource = self;
     //去掉分割线
@@ -220,9 +222,11 @@
     [btn setTitleColor: MakeColor(79, 136, 251) forState:UIControlStateNormal];
     UIButton *btn1 = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:200];
     [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+     
     daiFenTableView = [[DaiFenPeiTableView alloc] initWithFrame:CGRectMake(0, 115, self.view.frame.size.width, self.view.frame.size.height-115)];
     daiFenTableView.tag = 100000;
 //    daiFenTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    daiFenTableView.backgroundColor = color242;
     UIView *foot = [[UIView alloc] init];
     daiFenTableView.tableFooterView = foot;
     [self.view addSubview:daiFenTableView];
@@ -252,18 +256,24 @@
     [RedScarf_API requestWithURL:@"/task/assignTask/user" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
-            [self.dataArr removeAllObjects];
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                Model *model = [[Model alloc] init];
-                model.username = [dic objectForKey:@"username"];
-                model.tasksArr = [dic objectForKey:@"tasks"];
-                model.mobile = [dic objectForKey:@"mobile"];
-                model.userId = [dic objectForKey:@"userId"];
-                [self.dataArr addObject:model];
-                
+            NSArray *arr = [NSArray arrayWithArray:[result objectForKey:@"msg"]];
+            if (!arr.count) {
+                [self.YiFenPeiTableview addSubview:[self named:@"kongrenwu" text:@"任务"]];
+            }else{
+                [self.dataArr removeAllObjects];
+                for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
+                    NSLog(@"dic = %@",dic);
+                    Model *model = [[Model alloc] init];
+                    model.username = [dic objectForKey:@"username"];
+                    model.tasksArr = [dic objectForKey:@"tasks"];
+                    model.mobile = [dic objectForKey:@"mobile"];
+                    model.userId = [dic objectForKey:@"userId"];
+                    [self.dataArr addObject:model];
+                    
+                }
+                [self.YiFenPeiTableview reloadData];
+
             }
-            [self.YiFenPeiTableview reloadData];
         }
         [self hidHUD];
     }];

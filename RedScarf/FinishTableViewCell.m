@@ -66,7 +66,7 @@
         self.addressLabel.textColor = textcolor;
         [self.contentView addSubview:self.addressLabel];
         
-        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.addressLabel.frame.origin.y+self.addressLabel.frame.size.height, kUIScreenWidth-70, 30)];
+        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.addressLabel.frame.origin.y+self.addressLabel.frame.size.height, kUIScreenWidth-70, 45)];
         self.foodLabel.numberOfLines = 0;
         self.foodLabel.font = textFont12;
         self.foodLabel.textColor = MakeColor(141, 173, 221);
@@ -90,5 +90,24 @@
     
     return self;
 }
+
+-(void)setIntroductionText:(NSString*)text
+{
+    CGRect frame = [self frame];
+    
+    self.foodLabel.text = text;
+    
+    self.foodLabel.numberOfLines = 10;
+    CGSize size = CGSizeMake(kUIScreenWidth-55, 1000);
+    
+    CGSize labelSize = [self.foodLabel.text sizeWithFont:self.foodLabel.font constrainedToSize:size lineBreakMode:NSLineBreakByClipping];
+    
+    self.foodLabel.frame = CGRectMake(self.foodLabel.frame.origin.x, self.foodLabel.frame.origin.y, labelSize.width, labelSize.height);
+    frame.size.height = labelSize.height+100;
+    self.lineImage.frame = CGRectMake(40, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+7, kUIScreenWidth-55, 0.5);
+    self.numberLabel.frame = CGRectMake(40, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+12, 200, 25);
+    self.frame = frame;
+}
+
 
 @end

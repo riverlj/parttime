@@ -51,4 +51,7 @@
 - (void)hidHUDWithLoadComplete:(NSString *)title;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+
+-(UIView *)named:(NSString *)imageNamed text:(NSString *)text;
+
 @end

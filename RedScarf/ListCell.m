@@ -27,8 +27,9 @@
     self.sort.textColor = [UIColor whiteColor];
     [self addSubview:self.sort];
     
-    self.name = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, (kUIScreenWidth-30)/4-10, 40)];
+    self.name = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, (kUIScreenWidth-30)/4-27, 40)];
     self.name.font = [UIFont systemFontOfSize:13];
+//    self.name.backgroundColor = [UIColor redColor];
     self.name.textColor = MakeColor(75, 75, 75);
     [self addSubview:self.name];
     

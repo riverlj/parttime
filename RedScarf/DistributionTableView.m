@@ -73,6 +73,10 @@
     [RedScarf_API requestWithURL:@"/task/assignedTask/apartmentAndCount" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
+            NSArray *arr = [NSArray arrayWithArray:[result objectForKey:@"msg"]];
+            if (![arr count]) {
+                [self addSubview:[self named:@"kongrenwu" text:@"任务"]];
+            }
             [self.addressArr removeAllObjects];
             for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
                 NSLog(@"dic = %@",dic);
