@@ -16,7 +16,7 @@
 
 @property(nonatomic,strong)UIImageView *groundImage;
 
--(void)setIntroductionText:(NSString*)text;
+-(void)setIntroductionText:(NSMutableAttributedString*)text;
 
 @property(nonatomic,strong)UIImageView *bgImageView;
 @end

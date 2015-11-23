@@ -17,5 +17,5 @@
 @property(nonatomic,strong)UILabel *dateLabel;
 @property(nonatomic,strong)UIImageView *groundImage;
 
-
+-(void)setIntroductionText:(NSMutableAttributedString*)text;
 @end

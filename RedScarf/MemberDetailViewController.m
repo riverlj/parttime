@@ -166,10 +166,14 @@
 {
     UIButton *btn = (UIButton *)sender;
     if (btn.tag == 10000) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"telprompt://"stringByAppendingString:[msgDictionary objectForKey:@"mobilePhone"]]]];
+        if ([msgDictionary objectForKey:@"mobilePhone"]) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"telprompt://"stringByAppendingString:[msgDictionary objectForKey:@"mobilePhone"]]]];
+        }
     }
     if (btn.tag == 10001) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"sms://" stringByAppendingString:[msgDictionary objectForKey:@"mobilePhone"]]]];
+        if ([msgDictionary objectForKey:@"mobilePhone"]) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"sms://" stringByAppendingString:[msgDictionary objectForKey:@"mobilePhone"]]]];
+        }
     }
 }
 

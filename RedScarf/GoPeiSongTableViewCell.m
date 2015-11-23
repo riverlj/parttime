@@ -31,7 +31,7 @@
         
         self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, self.addLabel.frame.size.height+self.addLabel.frame.origin.y, kUIScreenWidth-30, 40)];
         self.foodLabel.font = [UIFont systemFontOfSize:14];
-        self.foodLabel.textColor = MakeColor(75, 75, 75);
+        self.foodLabel.textColor = MakeColor(180, 180, 180);
         self.foodLabel.numberOfLines = 0;
         [self.contentView addSubview:self.foodLabel];
         
@@ -55,12 +55,12 @@
     return self;
 }
 
--(void)setIntroductionText:(NSString*)text
+-(void)setIntroductionText:(NSMutableAttributedString*)text
 {
     CGRect frame = [self frame];
     
-    self.foodLabel.text = text;
-    
+//    self.foodLabel.text = text;
+    [self.foodLabel setAttributedText:text];
     self.foodLabel.numberOfLines = 10;
     CGSize size = CGSizeMake(kUIScreenWidth-70, 1000);
     

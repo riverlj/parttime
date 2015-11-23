@@ -66,7 +66,7 @@
 
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:AppKey
-                                      shareText:@"点击查看兑换码"
+                                      shareText:[NSString stringWithFormat:@"看完你就懂了！兑换码：%@",self.code]
                                      shareImage:[UIImage imageNamed:@"shareerweima"]
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToQzone,UMShareToQQ,UMShareToWechatSession,UMShareToWechatTimeline,nil]
                                        delegate:self];
@@ -75,8 +75,8 @@
     //qq空间需要的参数
     [UMSocialData defaultData].extConfig.qzoneData.url = @"http://relay.honglingjinclub.com/saoma.jpg";
     [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeDefault url:[NSString stringWithFormat:@"weixin.honglingjinclub.com/activity/pingtaituiguang?exchangecode=%@",self.code]];
-    
-    [UMSocialData defaultData].extConfig.qzoneData.title = @"红领巾";
+    [UMSocialData defaultData].extConfig.title = @"姨妈枣凭啥刷爆朋友圈？";
+
 }
 
 -(void)didClickLeft

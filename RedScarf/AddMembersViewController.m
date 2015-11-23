@@ -24,11 +24,11 @@
     NSMutableArray *majorArray;
     NSMutableArray *addressArray;
     
-    NSString *idString;
-    NSString *studentIdString;
+    NSString *idString,*idString1;
+    NSString *studentIdString,*studentIdString1;
     
-    UIImage *idImage;
-    UIImage *stuImage;
+    UIImage *idImage,*idImage1;
+    UIImage *stuImage,*stuImage1;
     
     NSMutableDictionary *imageDic;
 
@@ -140,37 +140,55 @@
     }
    
     for (int i = 0; i < 2; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 116+41*3+10+130*i, kUIScreenWidth-40, 40)];
-        label.textColor = color155;
-        label.font = textFont16;
-        [scroll addSubview:label];
-        
-        papersImg = [[UIButton alloc] initWithFrame:CGRectMake(20, 116+41*3+10+130*i+45, 120, 80)];
-        [papersImg addTarget:self action:@selector(upImageView:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [scroll addSubview:papersImg];
-        
-        if (i == 0) {
-            papersImg.tag = 1000;
-            if (idImage == nil) {
-                [papersImg setImage:[UIImage imageNamed:@"sn"] forState:UIControlStateNormal];
-            }else{
-                [papersImg setImage:idImage forState:UIControlStateNormal];
+        for (int j = 0; j < 2; j++) {
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 116+41*3+10+130*i, kUIScreenWidth-40, 40)];
+            label.textColor = color155;
+            label.font = textFont16;
+            [scroll addSubview:label];
+            
+            papersImg = [[UIButton alloc] initWithFrame:CGRectMake((kUIScreenWidth-240)/3+j*((kUIScreenWidth-240)/3+120), 116+41*3+10+130*i+45, 120, 80)];
+            [papersImg addTarget:self action:@selector(upImageView:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [scroll addSubview:papersImg];
+            
+            if (i == 0 && j == 0) {
+                papersImg.tag = 1000;
+                if (idImage == nil) {
+                    [papersImg setImage:[UIImage imageNamed:@"sn"] forState:UIControlStateNormal];
+                }else{
+                    [papersImg setImage:idImage forState:UIControlStateNormal];
+                }
+                
+                label.text = @"身份证照片：";
             }
-
-            label.text = @"身份证照片：";
-        }
-        if (i == 1) {
-            papersImg.tag = 1001;
-            if (stuImage == nil) {
-                [papersImg setImage:[UIImage imageNamed:@"sn"] forState:UIControlStateNormal];
-            }else{
-                [papersImg setImage:stuImage forState:UIControlStateNormal];
+            if (i == 1 && j == 0) {
+                papersImg.tag = 1001;
+                if (stuImage == nil) {
+                    [papersImg setImage:[UIImage imageNamed:@"sn"] forState:UIControlStateNormal];
+                }else{
+                    [papersImg setImage:stuImage forState:UIControlStateNormal];
+                }
+                label.text = @"学生证照片：";
             }
-            label.text = @"学生证照片：";
+            if (i == 0 && j == 1) {
+                papersImg.tag = 1002;
+                if (idImage1 == nil) {
+                    [papersImg setImage:[UIImage imageNamed:@"sn"] forState:UIControlStateNormal];
+                }else{
+                    [papersImg setImage:idImage1 forState:UIControlStateNormal];
+                }
+            }
+            if (i == 1 && j == 1) {
+                papersImg.tag = 1003;
+                if (stuImage1 == nil) {
+                    [papersImg setImage:[UIImage imageNamed:@"sn"] forState:UIControlStateNormal];
+                }else{
+                    [papersImg setImage:stuImage1 forState:UIControlStateNormal];
+                }
+            }
         }
     }
-    
+        
     UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     saveBtn.frame = CGRectMake(20, 116+41*3+10+130*2+15, kUIScreenWidth-40, 50);
     [saveBtn setTitle:@"完成" forState:UIControlStateNormal];
@@ -193,7 +211,6 @@
 {
     AppDelegate *app = [UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     
@@ -272,7 +289,6 @@
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-   
     return addressArray.count;
 }
 
@@ -353,8 +369,8 @@
         }
     }
 
-    NSArray *idArray = [NSArray arrayWithObjects:idString, nil];
-    NSArray *stuArray = [NSArray arrayWithObjects:studentIdString, nil];
+    NSArray *idArray = [NSArray arrayWithObjects:idString,idString1, nil];
+    NSArray *stuArray = [NSArray arrayWithObjects:studentIdString,studentIdString1, nil];
     [params setObject:idArray forKey:@"idCardPics"];
     [params setObject:stuArray forKey:@"studentIdCardPics"];
     
@@ -369,7 +385,6 @@
         }
         [self hidHUD];
     }];
-
 }
 
 -(void)upImageView:(id)sender
@@ -383,7 +398,6 @@
 {
     switch (buttonIndex)
     {
-            
         case 0:
             [self didClickCamera:nil];
             break;
@@ -440,16 +454,14 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"你没有摄像头" delegate:nil cancelButtonTitle:@"Drat!" otherButtonTitles:nil];
         [alert show];
     }
-    
 }
 
 -(NSString *) image2String:(UIImage *)image{
+    
     NSData* pictureData = UIImageJPEGRepresentation(image,0.3);//进行图片压缩从0.0到1.0（0.0表示最大压缩，质量最低);
-    NSLog(@"调用了image@String方法");
-    NSLog(@"%@这个值是什么实现的？",pictureData);
+
     NSString* pictureDataString = [pictureData base64Encoding];//图片转码成为base64Encoding，
-    NSLog(@"%@++++是空值么？",pictureDataString);
-    NSLog(@"base64转码，的实验");
+
     return pictureDataString;
 }
 
@@ -467,13 +479,6 @@
 
     UIImage *image1 = [info objectForKey:UIImagePickerControllerEditedImage];
     
-//    if (imageDic.count == 2) {
-        if (btn.tag == 1000) {
-            [imageDic setObject:image1 forKey:@"idCardPics"];
-        }else{
-            [imageDic setObject:image1 forKey:@"studentIdCardPics"];
-        }
-    
     [btn setImage:image1 forState:UIControlStateNormal];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -481,11 +486,16 @@
     if (btn.tag == 1000) {
         idString = [self image2String:image1];
         idImage = image1;
-    }else{
+    }else if (btn.tag == 1001) {
         studentIdString = [self image2String:image1];
         stuImage = image1;
+    }else if (btn.tag == 1002) {
+        idString1 = [self image2String:image1];
+        idImage1 = image1;
+    }else if (btn.tag == 1003) {
+        studentIdString1 = [self image2String:image1];
+        stuImage1 = image1;
     }
-    
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

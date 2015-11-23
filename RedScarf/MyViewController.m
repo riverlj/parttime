@@ -322,11 +322,15 @@
             
             if ([info objectForKey:@"idCardUrl2"] != nil) {
                 [personVC.personMsgArray addObject:[info objectForKey:@"idCardUrl2"]];
+            }else{
+                [personVC.personMsgArray addObject:@""];
             }
            
             [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl1"]];
             if ([info objectForKey:@"studentIdCardUrl2"] != nil) {
                 [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl2"]];
+            }else{
+                [personVC.personMsgArray addObject:@""];
             }
             
             if (![[info objectForKey:@"position"] isEqualToString:@"校园兼职"]) {

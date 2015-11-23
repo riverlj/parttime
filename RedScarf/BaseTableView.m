@@ -183,7 +183,7 @@
     
     label.text = [NSString stringWithFormat:@"暂时没有%@哟~",text];
     label.textColor = color155;
-    label.font = textFont14;
+    label.font = textFont12;
     [view addSubview:label];
     
     return view;

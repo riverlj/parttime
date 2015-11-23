@@ -132,7 +132,7 @@
             
             NSArray *arr = [NSArray arrayWithArray:[[result objectForKey:@"msg"] objectForKey:@"list"]];
             if (![arr count]) {
-                [self.view addSubview:[self named:@"kongrenwu" text:@"历史任务"]];
+                [self.view addSubview:[self named:@"kongrenwu" text:@"任务"]];
             }else{
                 [[self.view viewWithTag:666] removeFromSuperview];
                 [self.searchDataArr removeAllObjects];

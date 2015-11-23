@@ -18,10 +18,10 @@
     self.photoView = [[UIImageView alloc] initWithFrame:CGRectMake(12, 15, 12, 12)];
     [self addSubview:self.photoView];
     
-    self.sort = [[UILabel alloc] initWithFrame:CGRectMake(12, 15, 12, 12)];
+    self.sort = [[UILabel alloc] initWithFrame:CGRectMake(12, 15, 14, 14)];
     self.sort.backgroundColor = MakeColor(135, 135, 135);
     self.sort.layer.masksToBounds = YES;
-    self.sort.layer.cornerRadius = 6;
+    self.sort.layer.cornerRadius = 7;
     self.sort.textAlignment = NSTextAlignmentCenter;
     self.sort.font = [UIFont systemFontOfSize:10];
     self.sort.textColor = [UIColor whiteColor];

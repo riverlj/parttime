@@ -215,7 +215,8 @@
     cell.backgroundColor = MakeColor(242, 242, 248);
     cell.bgImageView.backgroundColor = [UIColor whiteColor];
     NSString *str = @"";
-    
+    NSMutableArray *lengthArr = [NSMutableArray array];
+    NSMutableArray *tagArr = [NSMutableArray array];
     Model *mo = self.addressArr[indexPath.section];
     
     self.roomArr = mo.apartmentsArr;
@@ -226,14 +227,40 @@
         tag.text = [dic objectForKey:@"tag"];
         tag.textColor = colorblue;
         
-        str = [str stringByAppendingFormat:@"%@   %@ (%@份)\n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
+        NSString *tagStr = [NSString stringWithFormat:@"%@",[dic objectForKey:@"tag"] ];
+        [tagArr addObject:[NSNumber numberWithInt:tagStr.length]];
+        
+        str = [str stringByAppendingFormat:@"%@   %@ (%@份) \n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
+        [lengthArr addObject:[NSNumber numberWithInt:str.length]];
+        NSLog(@"str length = %lu",(unsigned long)str.length);
     }
+    //数量和餐品颜色
+    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:str];
+    for (int i = 0; i < lengthArr.count; i++) {
+        int num = [[lengthArr objectAtIndex:i] intValue];
+         NSRange redRange = NSMakeRange(num-6, 5);
+        //份数颜色
+//        [noteStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:redRange];
+        
+        int tagLength = [[tagArr objectAtIndex:i] intValue];
+        NSRange tagRange;
+        if (i == 0) {
+            tagRange = NSMakeRange(0, tagLength);
+        }else{
+            tagRange = NSMakeRange([[lengthArr objectAtIndex:i-1] intValue], tagLength);
+        }
+        
+        [noteStr addAttribute:NSForegroundColorAttributeName value:colorblue range:tagRange];
+
+    }
+//    [noteStr appendAttributedString:noteStr];
+    
     cell.addLabel.frame = CGRectMake(45, 0, 200, 50);
     cell.foodLabel.frame = CGRectMake(45, cell.addLabel.frame.size.height+cell.addLabel.frame.origin.y, kUIScreenWidth-30, 40);
     cell.addLabel.font = textFont15;
     cell.addLabel.text = [NSString stringWithFormat:@"%@(%@)",[model objectForKey:@"room"],[model objectForKey:@"taskNum"]];
     cell.foodLabel.font = [UIFont systemFontOfSize:12];
-    [cell setIntroductionText:[NSString stringWithFormat:@"%@",str]];
+    [cell setIntroductionText:noteStr];
     
     cell.btn.tag = indexPath.row;
     cell.detailBtn.tag = indexPath.row;
@@ -300,6 +327,7 @@
             [params setObject:app.tocken forKey:@"token"];
             [params setObject:self.aId forKey:@"aId"];
             [params setObject:self.roomNum forKey:@"room"];
+            [params setObject:@"2" forKey:@"source"];
             
             [RedScarf_API requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" block:^(id result) {
                 NSLog(@"result = %@",result);
