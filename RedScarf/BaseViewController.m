@@ -208,6 +208,7 @@
 -(UIView *)named:(NSString *)imageNamed text:(NSString *)text
 {
     UIView *view;
+    view.tag = 666;
     UIImageView *kong;
     UILabel *label;
     if (kUIScreenWidth == 320) {
@@ -232,7 +233,7 @@
     
     label.text = [NSString stringWithFormat:@"暂时没有%@哟~",text];
     label.textColor = color155;
-    label.font = textFont14;
+    label.font = textFont12;
     [view addSubview:label];
     
     return view;

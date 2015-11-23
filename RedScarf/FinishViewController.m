@@ -132,36 +132,37 @@
             
             NSArray *arr = [NSArray arrayWithArray:[[result objectForKey:@"msg"] objectForKey:@"list"]];
             if (![arr count]) {
-                [self.view addSubview:[self named:@"kongrenwu" text:@"历史任务"]];
-            }
-            
-            [self.searchDataArr removeAllObjects];
-            for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
-                NSLog(@"dic = %@",dic);
-                NSLog(@"[dic objectForKey:@conten] = %@",[dic objectForKey:@"content"]);
-                Model *model = [[Model alloc] init];
-                model.nameStr = [dic objectForKey:@"username"];
-                model.chuLiStr = [dic objectForKey:@"username"];
-                model.buyerStr = [dic objectForKey:@"customername"];
-                model.telStr = [dic objectForKey:@"mobile"];
-                [self.telArray addObject:model.telStr];
-                model.addressStr = [dic objectForKey:@"apartmentname"];
-                model.foodArr = [dic objectForKey:@"content"];
-                model.dateStr = [dic objectForKey:@"endDate"];
-                model.numberStr = [dic objectForKey:@"sn"];
-                model.status = [dic objectForKey:@"status"];
-                model.room = [dic objectForKey:@"room"];
-                if (phone.length) {
-                    [self.searchDataArr addObject:model];
-                    search = @"yes";
-                }else{
-                    search = @"no";
-                    [self.dataArr addObject:model];
+                [self.view addSubview:[self named:@"kongrenwu" text:@"任务"]];
+            }else{
+                [[self.view viewWithTag:666] removeFromSuperview];
+                [self.searchDataArr removeAllObjects];
+                for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
+                    NSLog(@"dic = %@",dic);
+                    NSLog(@"[dic objectForKey:@conten] = %@",[dic objectForKey:@"content"]);
+                    Model *model = [[Model alloc] init];
+                    model.nameStr = [dic objectForKey:@"username"];
+                    model.chuLiStr = [dic objectForKey:@"username"];
+                    model.buyerStr = [dic objectForKey:@"customername"];
+                    model.telStr = [dic objectForKey:@"mobile"];
+                    [self.telArray addObject:model.telStr];
+                    model.addressStr = [dic objectForKey:@"apartmentname"];
+                    model.foodArr = [dic objectForKey:@"content"];
+                    model.dateStr = [dic objectForKey:@"endDate"];
+                    model.numberStr = [dic objectForKey:@"sn"];
+                    model.status = [dic objectForKey:@"status"];
+                    model.room = [dic objectForKey:@"room"];
+                    if (phone.length) {
+                        [self.searchDataArr addObject:model];
+                        search = @"yes";
+                    }else{
+                        search = @"no";
+                        [self.dataArr addObject:model];
+                    }
                 }
                 
+                [self.finishTableView reloadData];
             }
             
-            [self.finishTableView reloadData];
         }else{
             [self alertView:[result objectForKey:@"msg"]];
         }

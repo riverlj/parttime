@@ -28,6 +28,7 @@
         [self.groundImage addSubview:self.nameLabel];
         self.nameLabel.font = [UIFont systemFontOfSize:16];
         self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, self.nameLabel.frame.size.height+self.nameLabel.frame.origin.y, kUIScreenWidth-80, 30)];
+        self.foodLabel.textColor = MakeColor(180, 180, 180);
         self.foodLabel.numberOfLines = 0;
         self.foodLabel.font = [UIFont systemFontOfSize:12];
         [self.groundImage addSubview:self.foodLabel];
@@ -41,7 +42,6 @@
         self.numberLabel.font = [UIFont systemFontOfSize:12];
         self.numberLabel.numberOfLines = 3;
         self.numberLabel.textColor = MakeColor(187, 186, 193);
-
         [self.groundImage addSubview:self.numberLabel];
         self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-120, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 110, 30)];
         self.dateLabel.textColor = MakeColor(187, 186, 193);
@@ -54,11 +54,31 @@
         self.roundBtn.layer.borderWidth = 1.0;
         self.roundBtn.layer.cornerRadius = 10;
         self.roundBtn.layer.masksToBounds = YES;
-        
         [self.groundImage addSubview:self.roundBtn];
     }
     
     return self;
 }
+
+-(void)setIntroductionText:(NSMutableAttributedString*)text
+{
+    CGRect frame = [self frame];
+    
+//    self.foodLabel.text = text;
+    [self.foodLabel setAttributedText:text];
+    
+    self.foodLabel.numberOfLines = 10;
+    CGSize size = CGSizeMake(kUIScreenWidth-75, 1000);
+    
+    CGSize labelSize = [self.foodLabel.text sizeWithFont:self.foodLabel.font constrainedToSize:size lineBreakMode:NSLineBreakByClipping];
+    
+    self.foodLabel.frame = CGRectMake(self.foodLabel.frame.origin.x, self.foodLabel.frame.origin.y, labelSize.width, labelSize.height);
+    frame.size.height = labelSize.height+100;
+    self.dateLabel.frame = CGRectMake(kUIScreenWidth-120, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 110, 30);
+    self.numberLabel.frame = CGRectMake(45, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 180, 30);
+    self.groundImage.frame = CGRectMake(15, 10, kUIScreenWidth-30, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+40);
+    self.frame = frame;
+}
+
 
 @end

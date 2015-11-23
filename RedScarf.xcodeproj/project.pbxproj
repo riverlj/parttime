@@ -960,7 +960,6 @@
 			isa = PBXGroup;
 			children = (
 				1D72D6671B71D7FD00E80D15 /* RedScarf */,
-				1D72D6811B71D7FD00E80D15 /* RedScarfTests */,
 				1D72D6661B71D7FD00E80D15 /* Products */,
 				8E8DF5073854E2DA91BAFFED /* Pods */,
 				E4E0D69113B98B9D1B99DC68 /* Frameworks */,
@@ -990,6 +989,7 @@
 				1D72D68E1B71EBDF00E80D15 /* 任务 */,
 				1D72D68F1B71EC1800E80D15 /* 团队 */,
 				1D72D6751B71D7FD00E80D15 /* Images.xcassets */,
+				1D72D6811B71D7FD00E80D15 /* RedScarfTests */,
 				1DC69C611BFAC866003F29BA /* Main.storyboard */,
 				1D72D6771B71D7FD00E80D15 /* LaunchScreen.xib */,
 				1D72D6681B71D7FD00E80D15 /* Supporting Files */,
@@ -1014,7 +1014,7 @@
 				1D72D6821B71D7FD00E80D15 /* Supporting Files */,
 			);
 			path = RedScarfTests;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		1D72D6821B71D7FD00E80D15 /* Supporting Files */ = {
 			isa = PBXGroup;
@@ -1059,11 +1059,7 @@
 		1D72D6911B71ECA500E80D15 /* base */ = {
 			isa = PBXGroup;
 			children = (
-				1D9F36441BE4B96C008315CD /* ZCTradeView */,
-				1DF408DB1BE1B8EB000BACA8 /* ios_api */,
-				1DF3A1121BE0B6490095DE24 /* Base64 */,
-				1DE475231B9988EF00747F0C /* MJRefresh */,
-				1DCE3A531B8AFE5200513378 /* MBProgressHUD */,
+				1DA77BE51BFC265600A91EA5 /* small sdk */,
 				1D72D6921B71ECE500E80D15 /* BaseTabbarViewController.h */,
 				1D72D6931B71ECE500E80D15 /* BaseTabbarViewController.m */,
 				1D72D6951B71ED5800E80D15 /* BaseViewController.h */,
@@ -1139,6 +1135,18 @@
 				1D9F364F1BE4B96C008315CD /* ZCTradeView.m */,
 			);
 			path = ZCTradeView;
+			sourceTree = "<group>";
+		};
+		1DA77BE51BFC265600A91EA5 /* small sdk */ = {
+			isa = PBXGroup;
+			children = (
+				1DCE3A531B8AFE5200513378 /* MBProgressHUD */,
+				1DE475231B9988EF00747F0C /* MJRefresh */,
+				1DF3A1121BE0B6490095DE24 /* Base64 */,
+				1DF408DB1BE1B8EB000BACA8 /* ios_api */,
+				1D9F36441BE4B96C008315CD /* ZCTradeView */,
+			);
+			name = "small sdk";
 			sourceTree = "<group>";
 		};
 		1DC69D0F1BFB219E003F29BA /* 空数据 */ = {
@@ -2165,8 +2173,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 兵 张 (UD8B5Z876T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 兵 张 (UD8B5Z876T)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Big brother Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2186,7 +2194,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "cdc5c58e-2885-4ae3-9407-c9777b9b9966";
+				PROVISIONING_PROFILE = "4c92a2ac-6719-46f1-9a89-580eeb7163f6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2209,8 +2217,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 兵 张 (UD8B5Z876T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 兵 张 (UD8B5Z876T)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Big brother Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2223,7 +2231,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "cdc5c58e-2885-4ae3-9407-c9777b9b9966";
+				PROVISIONING_PROFILE = "4c92a2ac-6719-46f1-9a89-580eeb7163f6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2236,8 +2244,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 兵 张 (UD8B5Z876T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 兵 张 (UD8B5Z876T)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Big brother Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2261,9 +2269,9 @@
 					"$(PROJECT_DIR)/RedScarf/ios_api/universal-bin",
 					"$(PROJECT_DIR)/RedScarf/ios_api/universal-bin/Release-iphonesimulator",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.RedScarf.PartTime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RedScarf.PartTimeInhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cdc5c58e-2885-4ae3-9407-c9777b9b9966";
+				PROVISIONING_PROFILE = "4c92a2ac-6719-46f1-9a89-580eeb7163f6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2274,8 +2282,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 兵 张 (UD8B5Z876T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 兵 张 (UD8B5Z876T)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Big brother Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2299,9 +2307,9 @@
 					"$(PROJECT_DIR)/RedScarf/ios_api/universal-bin",
 					"$(PROJECT_DIR)/RedScarf/ios_api/universal-bin/Release-iphonesimulator",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.RedScarf.PartTime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RedScarf.PartTimeInhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cdc5c58e-2885-4ae3-9407-c9777b9b9966";
+				PROVISIONING_PROFILE = "4c92a2ac-6719-46f1-9a89-580eeb7163f6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -65,7 +65,7 @@
     [params setObject:self.aId forKey:@"aId"];
     self.room = [self.room stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:self.room forKey:@"room"];
-    
+    [params setObject:@"2" forKey:@"source"];
     [RedScarf_API requestWithURL:@"/task/assignedTask/customerDetail" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
@@ -102,7 +102,8 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 120;
+    RoomTableViewCell *cell = (RoomTableViewCell *)[self tableView:self.detailTableView cellForRowAtIndexPath:indexPath];
+    return cell.frame.size.height;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -118,10 +119,38 @@
     cell.nameLabel.text = [NSString stringWithFormat:@"%@:%@",[dic objectForKey:@"customerName"],[dic objectForKey:@"mobile"]];
     //content是个数组
     NSString *contentStr = @"";
+    NSMutableArray *lengthArr = [NSMutableArray array];
+    NSMutableArray *tagArr = [NSMutableArray array];
     for (NSDictionary *content in [dic objectForKey:@"content"]) {
         contentStr = [contentStr stringByAppendingFormat:@"%@  %@  (%@份)\n",[content objectForKey:@"tag"],[content objectForKey:@"content"],[content objectForKey:@"count"]];
+        
+        NSString *tagStr = [NSString stringWithFormat:@"%@",[content objectForKey:@"tag"] ];
+        [tagArr addObject:[NSNumber numberWithInt:tagStr.length]];
+        
+        [lengthArr addObject:[NSNumber numberWithInt:contentStr.length]];
+        NSLog(@"str length = %lu",(unsigned long)contentStr.length);
     }
-    cell.foodLabel.text = contentStr;
+    //数量和餐品颜色
+    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:contentStr];
+    for (int i = 0; i < lengthArr.count; i++) {
+        int num = [[lengthArr objectAtIndex:i] intValue];
+        NSRange redRange = NSMakeRange(num-6, 5);
+        //份数颜色
+        //        [noteStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:redRange];
+        
+        int tagLength = [[tagArr objectAtIndex:i] intValue];
+        NSRange tagRange;
+        if (i == 0) {
+            tagRange = NSMakeRange(0, tagLength);
+        }else{
+            tagRange = NSMakeRange([[lengthArr objectAtIndex:i-1] intValue], tagLength);
+        }
+        
+        [noteStr addAttribute:NSForegroundColorAttributeName value:colorblue range:tagRange];
+        
+    }
+    
+    [cell setIntroductionText:noteStr];
     cell.numberLabel.text = [NSString stringWithFormat:@"任务编号:%@",[dic objectForKey:@"sn"]];
     cell.dateLabel.text = [dic objectForKey:@"date"];
     

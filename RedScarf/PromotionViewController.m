@@ -77,7 +77,6 @@
     [RedScarf_API requestWithURL:@"/promotionActivity/index" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
-//            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
             NSMutableDictionary *dic = [result objectForKey:@"msg"];
                 NSLog(@"dic = %@",dic);
                 dataArray = [dic objectForKey:@"otherUsers"];
@@ -101,9 +100,7 @@
                     }
                 }
             [self initArray];
-
-//            }
-            
+            [self.listTableView reloadData];
         }
     }];
 }
@@ -199,21 +196,16 @@
     UIImageView *headView = [[UIImageView alloc] initWithFrame:CGRectMake(label.frame.origin.x+5, 250, 5, 10)];
     headView.image = [UIImage imageNamed:@"juxing@2x"];
     [self.view addSubview:headView];
-    
-    if (kUIScreenHeigth == 480) {
-        self.listTableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 275, kUIScreenWidth-30, kUIScreenHeigth-275)];
 
-    }else{
-        self.listTableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 275, kUIScreenWidth-30, kUIScreenHeigth-150)];
+    self.listTableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 275, kUIScreenWidth-30, kUIScreenHeigth-275)];
 
-    }
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     UIView *view = [[UIView alloc] init];
     self.listTableView.tableFooterView = view;
     [self.view addSubview:self.listTableView];
-    
-    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(LoopPlayback) userInfo:nil repeats:YES];
+    //轮播
+//    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(LoopPlayback) userInfo:nil repeats:YES];
 }
 
 -(void)initArray

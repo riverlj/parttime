@@ -370,14 +370,18 @@
                 modifyPW.titleString = @"查看身份证";
                 modifyPW.idString = self.personMsgArray[4];
                 modifyPW.idUrl1 = self.personMsgArray[8];
-//                modifyPW.idUrl2 = self.personMsgArray[9];
+                if (self.personMsgArray[9]) {
+                    modifyPW.idUrl2 = self.personMsgArray[9];
+                }
 
             }
             if (indexPath.row == 1) {
                 modifyPW.titleString = @"查看学生证";
                 modifyPW.idString = self.personMsgArray[5];
-                modifyPW.studentUrl1 = self.personMsgArray[9];
-//                modifyPW.studentUrl2 = self.personMsgArray[11];
+                modifyPW.studentUrl1 = self.personMsgArray[10];
+                if (self.personMsgArray[11]) {
+                    modifyPW.studentUrl2 = self.personMsgArray[11];
+                }
 
             }
             [self.navigationController pushViewController:modifyPW animated:YES];
