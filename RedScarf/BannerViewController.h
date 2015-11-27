@@ -10,4 +10,6 @@
 
 @interface BannerViewController : BaseViewController<UIWebViewDelegate>
 
+@property(nonatomic,strong)NSString *url;
+
 @end

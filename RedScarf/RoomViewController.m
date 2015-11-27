@@ -318,7 +318,7 @@
                 app.tocken = [UIUtils replaceAdd:app.tocken];
                 [params setObject:app.tocken forKey:@"token"];
                 [params setObject:self.sn forKey:@"sn"];
-                
+                [params setObject:@"2" forKey:@"source"];
                 [RedScarf_API requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" block:^(id result) {
                     NSLog(@"result = %@",result);
                     if ([[result objectForKey:@"success"] boolValue]) {

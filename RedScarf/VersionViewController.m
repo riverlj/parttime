@@ -15,7 +15,6 @@
 @implementation VersionViewController
 {
     NSString *app_Version;
-    BOOL update;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -30,7 +29,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"版本管理";
-    update = NO;
     [self initView];
 }
 
@@ -116,11 +114,9 @@
                 NSString *versionStr = [dic objectForKey:@"version"];
                 
                 if (![versionStr isEqualToString:app_Version]) {
-                    update = YES;
-                    UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
+                    UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
                     [aler show];
                 }else{
-                    update = NO;
                     [self alertView:@"当前为最新版本"];
                 }
             }
@@ -131,10 +127,8 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    if (buttonIndex==0) {
-        if (update) {
-            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"itms-services://?action=download-manifest&url=https://passport.honglingjinclub.com/downlod/RedScarf.plist"]];
-        }
+    if (buttonIndex==1) {
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"itms-services://?action=download-manifest&url=https://passport.honglingjinclub.com/downlod/RedScarf.plist"]];
     }
 }
 

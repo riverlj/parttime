@@ -198,6 +198,7 @@
                     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                     [defaults setObject:app.tocken forKey:@"token"];
                     [defaults setObject:app.count forKey:@"count"];
+                    [defaults setObject:nameField.text forKey:@"username"];
                     [defaults synchronize];
                     baseTabVC = [[BaseTabbarViewController alloc] init];
                     [app setRoorViewController:baseTabVC];

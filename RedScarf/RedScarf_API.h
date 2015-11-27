@@ -14,6 +14,7 @@
 //#define  REDSCARF_BASE_URL @"http://192.168.1.11:8080"
 
 #define  REDSCARF_PAY_URL @"https://pay.honglingjinclub.com"
+//#define  REDSCARF_PAY_URL @"https://paytest.honglingjinclub.com"
 
 
 #import <Foundation/Foundation.h>

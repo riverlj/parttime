@@ -14,8 +14,10 @@
 #import "UIUtils.h"
 #import "Reachability.h"
 #import "BaiduMobStat.h"
+#import "MJRefreshFooterView.h"
+#import "MJRefreshHeaderView.h"
 
-@interface BaseViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate,UISearchDisplayDelegate,UIActionSheetDelegate,UISearchBarDelegate,UIAlertViewDelegate,UITextFieldDelegate,UIApplicationDelegate>
+@interface BaseViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate,UISearchDisplayDelegate,UIActionSheetDelegate,UISearchBarDelegate,UIAlertViewDelegate,UITextFieldDelegate,UIApplicationDelegate,MJRefreshBaseViewDelegate>
 {
     UIView *_tipView;
 }

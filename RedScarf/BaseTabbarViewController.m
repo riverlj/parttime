@@ -61,24 +61,7 @@
     [homeNAVI.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:MakeColor(133, 133, 133),NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
     homeNAVI.tabBarItem.image = [[UIImage imageNamed:@"newwshouye"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     homeNAVI.tabBarItem.selectedImage = [[UIImage imageNamed:@"newshouye"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
-//    AppDelegate *app = [[UIApplication sharedApplication] delegate];
-//    NSLog(@"app.count = %d",app.count);
-//    if (app.count == 3) {
-        self.viewControllers = @[homeNAVI,myNAVI];
-//
-//    }else{
-//        Part_timeTaskVC *taskVC = [[Part_timeTaskVC alloc] init];
-//        UINavigationController *taskNAVI = [[UINavigationController alloc] initWithRootViewController:taskVC];
-//        taskNAVI.tabBarItem.title = @"任务";
-//        
-//        [taskNAVI.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
-//        taskNAVI.tabBarItem.image = [[UIImage imageNamed:@"任务"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-//        taskNAVI.tabBarItem.selectedImage = [[UIImage imageNamed:@"renwu"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-//
-//        self.viewControllers = @[homeNAVI,myNAVI];
-//
-//    }
+    self.viewControllers = @[homeNAVI,myNAVI];
 
 }
 
