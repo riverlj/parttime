@@ -23,7 +23,8 @@
 #define colorblue [UIColor colorWithRed:(79/255.0f) green:(136/255.0f) blue:(251/255.0f) alpha:1.0f]
 
 #define color232 [UIColor colorWithRed:(232/255.0f) green:(232/255.0f) blue:(232/255.0f) alpha:1.0f]
-
+#define textFont8 [UIFont systemFontOfSize:8]
+#define textFont10 [UIFont systemFontOfSize:10]
 #define textFont12 [UIFont systemFontOfSize:12]
 #define textFont14 [UIFont systemFontOfSize:14]
 #define textFont15 [UIFont systemFontOfSize:15]

@@ -20,6 +20,7 @@
 #import "GoPeiSongViewController.h"
 #import "WalletViewController.h"
 #import "VersionViewController.h"
+#import "LevelViewController.h"
 
 @interface MyViewController ()
 {
@@ -80,7 +81,6 @@
     
     [self.tabBarController.view addSubview:btn];
 
-
     cellArr = [NSArray arrayWithObjects:@"配送时间",@"配送范围", nil];
     imageArr = [NSArray arrayWithObjects:@"time",@"anwei", nil];
     [self getMessage];
@@ -93,7 +93,6 @@
     [self.navigationController pushViewController:goVC animated:YES];
     
 }
-
 
 -(void)getMessage
 {
@@ -148,7 +147,7 @@
         return 2;
     }
     if (section == 4) {
-        return 1;
+        return 2;
     }
     
     return 1;
@@ -187,15 +186,15 @@
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    NSMutableDictionary *userInfo = [infoDic objectForKey:@"userInfo"];
+
     if (indexPath.section == 0) {
         cell.backgroundColor = MakeColor(55, 57, 63);
         headImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-40, 15, 80, 80)];
         headImage.layer.cornerRadius = 35;
         headImage.layer.masksToBounds = YES;
 
-            NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
-            NSData *imageData = [[NSData alloc] initWithContentsOfFile:imageFile];
-            UIImage *image = [[UIImage alloc] initWithData:imageData];
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[userInfo objectForKey:@"url"]]]];
             if (image != nil)
             {
                 headImage.image = image;
@@ -205,8 +204,6 @@
 
        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.contentView addSubview:headImage];
-        
-        NSMutableDictionary *userInfo = [infoDic objectForKey:@"userInfo"];
         
         if (![[userInfo objectForKey:@"position"] isEqualToString:@"校园兼职"]) {
             UIImageView *ceoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(headImage.frame.origin.x+headImage.frame.size.width/2-10, headImage.frame.origin.y+headImage.frame.size.height-8, 20, 10)];
@@ -248,7 +245,6 @@
                 photoView.image = [UIImage imageNamed:@"yinhang2x"];
                 [cell.contentView addSubview:photoView];
                 label.text = @"红领巾钱包";
-//                label.text = @"我的银行卡";
             }
             label.font = [UIFont systemFontOfSize:16];
 
@@ -282,29 +278,37 @@
     else if (indexPath.section == 4){
         
         UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
-        photoView.image = [UIImage imageNamed:@"banbenguanli"];
         [cell.contentView addSubview:photoView];
-        
         UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(47, 10, 280, 25)];
-        cellLabel.text = @"版本管理";
         cellLabel.textColor = MakeColor(75, 75, 75);
         cellLabel.font = [UIFont systemFontOfSize:16];
         [cell.contentView addSubview:cellLabel];
-    }
+        if (indexPath.row == 0) {
+            photoView.image = [UIImage imageNamed:@"banbenguanli"];
+            cellLabel.text = @"版本管理";
 
-    
+        }
+        if (indexPath.row == 1) {
+            photoView.image = [UIImage imageNamed:@"rank"];
+            cellLabel.text = @"等级";
+        }
+    }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    NSMutableDictionary *info = [infoDic objectForKey:@"userInfo"];
+
     if (indexPath.section == 0) {
         PersonMsgViewController *personVC = [[PersonMsgViewController alloc] init];
         personVC.personMsgArray = [NSMutableArray array];
-        NSMutableDictionary *info = [infoDic objectForKey:@"userInfo"];
         
         if (info) {
+            
+            personVC.headUrl = [info objectForKey:@"url"];
+            
             [personVC.personMsgArray addObject:[info objectForKey:@"realName"]];
             NSMutableDictionary *apartmentDic = [info objectForKey:@"apartment"];
              //地址
@@ -376,8 +380,17 @@
         
     }
     if (indexPath.section == 4) {
-        VersionViewController *versionVC = [[VersionViewController alloc] init];
-        [self.navigationController pushViewController:versionVC animated:YES];
+        if (indexPath.row == 0) {
+            VersionViewController *versionVC = [[VersionViewController alloc] init];
+            [self.navigationController pushViewController:versionVC animated:YES];
+        }else{
+            LevelViewController *levelVC = [[LevelViewController alloc] init];
+            if (![[info objectForKey:@"position"] isEqualToString:@"校园兼职"]) {
+                levelVC.position = @"ceo";
+            }
+            levelVC.headUrl = [info objectForKey:@"url"];
+            [self.navigationController pushViewController:levelVC animated:YES];
+        }
     }
 }
 

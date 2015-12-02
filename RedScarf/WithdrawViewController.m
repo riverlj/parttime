@@ -278,6 +278,7 @@
 //弹框
 -(void)inputText
 {
+    [input resignFirstResponder];
     __block WithdrawViewController *blockSelf = self;
     __weak typeof(self) weakSelf=self;
 
@@ -380,7 +381,9 @@
             }
         }
     }
-
+    //个别手机的提现密码会输入到这个里面
+    [input resignFirstResponder];
+    
     [textField resignFirstResponder];
     return YES;
 }

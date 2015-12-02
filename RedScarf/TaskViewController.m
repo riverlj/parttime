@@ -51,7 +51,6 @@
 //    self.navigationController.navigationBar.hidden = YES;
     
     if (disTableView.nameTableView.length) {
-//        [self didClickPeiSong];
         disTableView.nameTableView = @"";
     }
     if (self.yiOrDaifenpei.length) {
@@ -217,7 +216,10 @@
     [self.view addSubview:[self.view viewWithTag:10000]];
     
     UIView *footView = [[self.view viewWithTag:10000] viewWithTag:10001];
-    footView.frame = CGRectMake(0, 47, kUIScreenWidth/2, 3);
+    [UIView animateWithDuration:0.2 animations:^{
+        footView.frame = CGRectMake(0, 47, kUIScreenWidth/2, 3);
+    }];
+    
     UIButton *btn = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:100];
     [btn setTitleColor: MakeColor(79, 136, 251) forState:UIControlStateNormal];
     UIButton *btn1 = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:200];
@@ -235,7 +237,10 @@
 -(void)didClickYiFenPei
 {
     UIView *footView = [[self.view viewWithTag:10000] viewWithTag:10001];
-    footView.frame = CGRectMake(kUIScreenWidth/2, 47, kUIScreenWidth/2, 3);
+    [UIView animateWithDuration:0.2 animations:^{
+        footView.frame = CGRectMake(kUIScreenWidth/2, 47, kUIScreenWidth/2, 3);
+    }];
+    
     UIButton *btn = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:100];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     UIButton *btn1 = (UIButton *)[[self.view viewWithTag:10000] viewWithTag:200];

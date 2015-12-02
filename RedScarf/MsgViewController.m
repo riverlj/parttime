@@ -192,11 +192,10 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
      NSDictionary *dic = msgArray[indexPath.row];
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
     [params setObject:[NSString stringWithFormat:@"%@",idArray[indexPath.row]] forKey:@"messageId"];
     
     [RedScarf_API requestWithURL:@"/user/message/status" params:params httpMethod:@"POST" block:^(id result) {
