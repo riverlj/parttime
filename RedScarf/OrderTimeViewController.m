@@ -144,7 +144,15 @@
     NSString *weekday = [self getWeekDay:@"first"];
     ////////////////////////////////////
     moreMonthLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-50, 320, 100, 30)];
-    moreMonthLabel.text = [NSString stringWithFormat:@"%@年%d月",yearStr,[monthStr intValue]+1];
+    if ([monthStr intValue] == 12) {
+        NSString *month = [NSString stringWithFormat:@"%d",1];
+        NSString *year = [NSString stringWithFormat:@"%d",[yearStr intValue]+1];
+        moreMonthLabel.text = [NSString stringWithFormat:@"%@年%d月",year,[month intValue]];
+
+    }else{
+        moreMonthLabel.text = [NSString stringWithFormat:@"%@年%d月",yearStr,[monthStr intValue]+1];
+
+    }
     moreMonthLabel.textAlignment = NSTextAlignmentCenter;
     [bgView addSubview:moreMonthLabel];
     
@@ -370,7 +378,13 @@
         [_comps setMonth:[monthString integerValue]];
     }else
     {
-        [_comps setMonth:[monthString integerValue]+1];
+        if ([monthString intValue] == 12) {
+            monthString = [NSString stringWithFormat:@"%d",1];
+            yearString = [NSString stringWithFormat:@"%d",[yearString intValue]+1];
+        }else{
+            [_comps setMonth:[monthString integerValue]+1];
+        }
+        
     }
     
     [_comps setYear:[yearString integerValue]];
@@ -380,8 +394,10 @@
     NSDate *_date = [gregorian dateFromComponents:_comps];
     NSDateComponents *weekdayComponents = [gregorian components:NSWeekdayCalendarUnit fromDate:_date];
     int _weekday = [weekdayComponents weekday];
-    NSLog(@" _weekday::%d  %@ %@",_weekday,arrWeek[_weekday],_date);
-
+//    NSLog(@" _weekday::%d  %@ %@",_weekday,arrWeek[_weekday],_date);
+    if ([yearString intValue] == 2016 && [monthString intValue] == 1) {
+        return arrWeek[1];
+    }
     return arrWeek[_weekday];
 }
 

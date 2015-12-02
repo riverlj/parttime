@@ -8,12 +8,13 @@
 //#define  REDSCARF_BASE_URL @"http://192.168.1.95:8080"
 //#define  REDSCARF_BASE_URL @"http://test.jianzhi.honglingjinclub.com"
 //正式
-#define  REDSCARF_BASE_URL @"http://jianzhi.honglingjinclub.com"
+//#define  REDSCARF_BASE_URL @"http://jianzhi.honglingjinclub.com"
 //测试
-//#define  REDSCARF_BASE_URL @"http://121.42.58.92"
-//#define  REDSCARF_BASE_URL @"http://192.168.1.11:8080"
+#define  REDSCARF_BASE_URL @"http://121.42.58.92"
+//#define  REDSCARF_BASE_URL @"http://192.168.1.14:9080"
 
 #define  REDSCARF_PAY_URL @"https://pay.honglingjinclub.com"
+//#define  REDSCARF_PAY_URL @"https://paytest.honglingjinclub.com"
 
 
 #import <Foundation/Foundation.h>

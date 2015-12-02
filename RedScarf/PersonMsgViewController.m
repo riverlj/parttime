@@ -10,6 +10,7 @@
 #import "LoginViewController.h"
 #import "ModifyPMViewController.h"
 #import "ModifyPWViewController.h"
+#import "Base64ForImage.h"
 
 @interface PersonMsgViewController ()
 
@@ -18,7 +19,7 @@
 @implementation PersonMsgViewController
 {
     UIImageView *headView;
-    NSString *judgeGender;
+    NSString *judgeGender,*headString;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -74,7 +75,13 @@
     [bgView addSubview:nameLabel];
     
     headView = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 5, 70, 70)];
-    headView.image = [UIImage imageNamed:@"touxiang"];
+    if ([self.headUrl rangeOfString:@"http"].location != NSNotFound) {
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.headUrl]]];
+        headView.image = image;
+    }else{
+        headView.image = [UIImage imageNamed:@"touxiang"];
+    }
+    
     headView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHead:)];
     tap.numberOfTapsRequired = 1;
@@ -113,7 +120,6 @@
 {
     switch (buttonIndex)
     {
-            
         case 0:
             [self didClickCamera:nil];
             break;
@@ -129,14 +135,14 @@
 {
     [super viewDidAppear:animated];
     
-    NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
-    NSData *imageData = [[NSData alloc] initWithContentsOfFile:imageFile];
-    UIImage *image = [[UIImage alloc] initWithData:imageData];
-    if (image != nil)
-    {
-        headView.image = image;
-    }
-    [self.navigationController setNavigationBarHidden:NO];
+//    NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
+//    NSData *imageData = [[NSData alloc] initWithContentsOfFile:imageFile];
+//    UIImage *image = [[UIImage alloc] initWithData:imageData];
+//    if (image != nil)
+//    {
+//        headView.image = image;
+//    }
+//    [self.navigationController setNavigationBarHidden:NO];
 }
 
 //调用相机
@@ -152,13 +158,11 @@
         pichker.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self presentViewController:pichker animated:YES completion:nil];
         
-        
     } else{
         //
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"你没有摄像头" delegate:self cancelButtonTitle:@"Drat!" otherButtonTitles:@"取消", nil];
         [alert show];
     }
-    
 }
 
 //点击Cancel按钮后执行方法
@@ -195,20 +199,50 @@
 //拍摄完成后要执行的方法
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    
     //更换头像
     UIImage *image1 = [info objectForKey:UIImagePickerControllerEditedImage];
     
     headView.image = image1;
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    headString = [self image2String:image1];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:headString forKey:@"picture"];
+    [dic setObject:[defaults objectForKey:@"token"] forKey:@"token"];
+    [RedScarf_API requestWithURL:@"/user/picBase64" params:dic httpMethod:@"POST" block:^(id result) {
+        NSLog(@"result = %@   %@",[result objectForKey:@"msg"],result);
+        if ([[result objectForKey:@"success"] boolValue]) {
+            NSMutableDictionary *params = [NSMutableDictionary dictionary];
+            [params setObject:[result objectForKey:@"msg"] forKey:@"url"];
+            [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
+            [RedScarf_API requestWithURL:@"/user/portrait" params:params httpMethod:@"POST" block:^(id result) {
+                NSLog(@"result = %@",result);
+                if ([[result objectForKey:@"success"] boolValue]) {
+                    [self alertView:@"设置成功"];
+                    [picker dismissViewControllerAnimated:YES completion:nil];
+                }
+                
+            }];
+        }
+        
+    }];
+
     
-    NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
+    //存本地
+//    NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
+//
+//    NSData *imageData = UIImageJPEGRepresentation(image1, 0.5);
+//
+//    [imageData writeToFile:imageFile atomically:YES];
     
-    NSData *imageData = UIImageJPEGRepresentation(image1, 0.5);
+}
+-(NSString *) image2String:(UIImage *)image{
     
-    [imageData writeToFile:imageFile atomically:YES];
+    NSData* pictureData = UIImageJPEGRepresentation(image,0.3);//进行图片压缩从0.0到1.0（0.0表示最大压缩，质量最低);
     
+    NSString* pictureDataString = [pictureData base64Encoding];//图片转码成为base64Encoding，
+    
+    return pictureDataString;
 }
 
 #pragma mark -- tableViewDelegate
@@ -407,7 +441,7 @@
     [self.tableView reloadData];
 }
 
-//推出登陆
+//退出登陆
 -(void)loginOut
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

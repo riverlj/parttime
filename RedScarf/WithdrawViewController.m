@@ -18,6 +18,8 @@
 
 @property (nonatomic,strong)ZCTradeView *zctView;
 @property (nonatomic,copy)NSString *str;
+@property (nonatomic,copy)NSString *cardId;
+@property (nonatomic,assign) int passWordNum;
 
 @end
 
@@ -26,10 +28,10 @@
     UITextField *input;
     UIView *bgBlackView;
     UIView *promptView;
-    __block int passWordNum;
+//    __block int passWordNum;
     BOOL moreTimesOrNo;
     NSString *cardNum;
-    __block NSString *cardId;
+//    __block NSString *cardId;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -58,7 +60,7 @@
     [self comeBack:nil];
     self.title = @"提现";
     moreTimesOrNo = NO;
-    passWordNum = 4;
+    self.passWordNum = 4;
     self.view.backgroundColor = color242;
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现纪录" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXianJILu)];
     right.tintColor = color155;
@@ -80,12 +82,13 @@
     [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/queryBankCard",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if (![[result objectForKey:@"code"] boolValue]) {
-            cardNum = [NSString stringWithFormat:@"%@",[[[result objectForKey:@"body"] objectAtIndex:0] objectForKey:@"cardNum"]];
-            cardId = [NSString stringWithFormat:@"%@",[[[result objectForKey:@"body"] objectAtIndex:0] objectForKey:@"id"]];
-
+            NSArray *arr = [result objectForKey:@"body"];
+            if (arr.count) {
+                cardNum = [NSString stringWithFormat:@"%@",[[[result objectForKey:@"body"] objectAtIndex:0] objectForKey:@"cardNum"]];
+                self.cardId = [NSString stringWithFormat:@"%@",[[[result objectForKey:@"body"] objectAtIndex:0] objectForKey:@"id"]];
+            }
             [self initView];
             [self hidHUD];
-            
         }else{
             [self alertView:[result objectForKey:@"body"]];
         }
@@ -275,7 +278,10 @@
 //弹框
 -(void)inputText
 {
+    [input resignFirstResponder];
     __block WithdrawViewController *blockSelf = self;
+    __weak typeof(self) weakSelf=self;
+
     self.zctView = [ZCTradeView tradeView];
     
     [self.zctView showInView:self.view.window];
@@ -295,7 +301,7 @@
         }
         [params setObject:passWord forKey:@"payPwd"];
         [params setObject:money forKey:@"totalFee"];
-        [params setObject:cardId forKey:@"bankCardId"];
+        [params setObject:weakSelf.cardId forKey:@"bankCardId"];
         if ([defaults objectForKey:@"uuid"]) {
             [params setObject:[defaults objectForKey:@"uuid"] forKey:@"macAddr"];
         }
@@ -304,20 +310,20 @@
         [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/pay/withdraw",REDSCARF_PAY_URL] params:params httpMethod:@"POST" block:^(id result) {
                 NSLog(@"result = %@",result);
                 if (result &&![[result objectForKey:@"code"] boolValue]) {
-                    [self alertView:@"提现成功"];
+                    [weakSelf alertView:@"提现成功"];
                     SubmitViewController *submitVC = [[SubmitViewController alloc] init];
                     submitVC.title = @"提交";
-                    [self.navigationController pushViewController:submitVC animated:YES];
+                    [weakSelf.navigationController pushViewController:submitVC animated:YES];
                     return ;
                 }else{
                     if ([[NSString stringWithFormat:@"%@",[result objectForKey:@"body"]] isEqualToString:@"该账户已被锁定"] || [[NSString stringWithFormat:@"%@",[result objectForKey:@"body"]] isEqualToString:@"4"]) {
-                        [self alertView:@"该账户已被锁定"];
+                        [weakSelf alertView:@"该账户已被锁定"];
                     }else if([[NSString stringWithFormat:@"%@",[result objectForKey:@"body"]] isEqualToString:@"余额不足"]){
-                        [self alertView:@"余额不足"];
+                        [weakSelf alertView:@"余额不足"];
                     }else{
 //                        [self alertView:[NSString stringWithFormat:@"还有%d次输入机会",4-[[result objectForKey:@"body"] intValue]]];
                         UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"还有%d次输入机会",4-[[result objectForKey:@"body"] intValue]] delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:@"重试", nil];
-                        passWordNum--;
+                        weakSelf.passWordNum--;
                         [al show];
                     }
                     
@@ -375,7 +381,9 @@
             }
         }
     }
-
+    //个别手机的提现密码会输入到这个里面
+    [input resignFirstResponder];
+    
     [textField resignFirstResponder];
     return YES;
 }

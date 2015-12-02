@@ -38,7 +38,7 @@
     bannerView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth+64)];
     bannerView.delegate = self;
     if ([self.title isEqualToString:@"详情"]) {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://weixin.honglingjinclub.com/activity/customactivity?id=3"]];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.url]];
     }else if ([self.title isEqualToString:@"CEO群"]){
         url = [NSURL URLWithString:[NSString stringWithFormat:@"http://jianzhi.honglingjinclub.com/html/banner/20151113/ceo.html"]];
     }else{

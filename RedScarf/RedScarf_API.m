@@ -66,22 +66,6 @@
 //            request setda
         }
     }
-//    //.判断是否为PUT请求，向请求体中添加参数
-//    if ([httpMethod isEqualToString:@"PUT"]) {
-//        if (params != nil) {//如果请求参数不为空
-//            //向请求体内添加参数
-//            for (NSString *key in params) {
-//                id value = [params objectForKey:key];
-//                //判断是否为文件数据
-//                if ([value isKindOfClass:[NSData class]]) {
-//                    [request setData:value forKey:key];
-//                } else {
-//                    [request addPostValue:value forKey:key];
-//                }
-//            }
-//        }
-//    }
-
     
     //4.数据返回的处理
     [request setCompletionBlock:^{
@@ -164,25 +148,8 @@
                     [request addPostValue:value forKey:key];
                 }
             }
-            //            request setda
         }
     }
-    //    //.判断是否为PUT请求，向请求体中添加参数
-    //    if ([httpMethod isEqualToString:@"PUT"]) {
-    //        if (params != nil) {//如果请求参数不为空
-    //            //向请求体内添加参数
-    //            for (NSString *key in params) {
-    //                id value = [params objectForKey:key];
-    //                //判断是否为文件数据
-    //                if ([value isKindOfClass:[NSData class]]) {
-    //                    [request setData:value forKey:key];
-    //                } else {
-    //                    [request addPostValue:value forKey:key];
-    //                }
-    //            }
-    //        }
-    //    }
-    
     
     //4.数据返回的处理
     [request setCompletionBlock:^{
@@ -202,8 +169,6 @@
         //            block(@"");
         //        }
     }];
-    
-    
     
     //6.发送异步请求
     [request startAsynchronous];

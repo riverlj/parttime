@@ -8,6 +8,7 @@
 
 #import "ModifyMemberViewController.h"
 #import "ListCell.h"
+#import "LoginViewController.h"
 
 @interface ModifyMemberViewController ()
 
@@ -199,6 +200,15 @@
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             [self alertView:@"修改成功"];
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            if ([[defaults objectForKey:@"username"] isEqualToString:self.phoneString]) {
+                [defaults removeObjectForKey:@"token"];
+                [defaults synchronize];
+                
+                LoginViewController *loginVC = [[LoginViewController alloc] init];
+                [app setRoorViewController:loginVC];
+            }
+            
             [self.delegate returnNumber:modifyTf.text];
             [self.navigationController popViewControllerAnimated:YES];
             

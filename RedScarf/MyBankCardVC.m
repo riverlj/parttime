@@ -366,8 +366,8 @@
 //                }
             }
             
-            if (![UIUtils isValidateCharacter:nameTf.text]) {
-                [self alertView:@"名字为两个以上的汉字"];
+            if ([nameTf.text rangeOfString:@" "].location != NSNotFound) {
+                [self alertView:@"姓名不合法"];
                 return;
             }
             

@@ -21,6 +21,7 @@
 #import "BannerViewController.h"
 #import "MsgViewController.h"
 #import "SDCycleScrollView.h"
+#import "LoginViewController.h"
 
 @interface HomePageViewController ()<SDCycleScrollViewDelegate>
 
@@ -35,6 +36,7 @@
     UIScrollView *scroll;
     
     NSArray *taskArray,*separateArray;
+    NSMutableArray *imagesURLStrings,*imageUrlArray;
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -60,6 +62,7 @@
     [self getHomeMsg];
     [self getTaskMessage];
     [self getSeparateMessage];
+    [self getStatus];
 }
 
 -(void)getTaskMessage
@@ -68,7 +71,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    [self showHUD:@"正在加载"];
+//    [self showHUD:@"正在加载"];
     [RedScarf_API requestWithURL:@"/task/waitAssignTask" params:params httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
@@ -101,17 +104,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = color234;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     titleArray = [NSMutableArray array];
     idArray = [NSMutableArray array];
     imageArray = [NSMutableArray array];
-//    if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
-//        titleArray = [NSMutableArray arrayWithObjects:@"任务分配",@"分餐点",@"历史任务",@"管理成员",@"查看排班",@"我的推广",@"CEO群",@"帮助中心",@"敬请期待", nil];
-//        imageArray = [NSArray arrayWithObjects:@"rwfp@2x",@"fencan@2x",@"lishi@2x",@"guanlichengyuan@2x",@"ckpaiban@2x",@"tuiguang2x",@"ceoqun",@"helpcenter",@"qidai2x", nil];
-//    }else{
-//        titleArray = [NSMutableArray arrayWithObjects:@"分餐点",@"历史任务",@"配送时间",@"配送范围",@"我的推广",@"帮助中心",@"敬请期待",@"",@"", nil];
-//        imageArray = [NSArray arrayWithObjects:@"fencan@2x",@"lishi@2x",@"shijian2x",@"fanwei2x",@"tuiguang2x",@"helpcenter", nil];
-//    }
+    imagesURLStrings = [NSMutableArray array];
+    imageUrlArray = [NSMutableArray array];
 
     array = [NSArray arrayWithObjects:@"banner1", nil];
     self.title = @"首页";
@@ -129,11 +126,34 @@
     [btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
     btn.layer.masksToBounds = YES;
     [self.tabBarController.view addSubview:btn];
-//    [self initBannerView];
-//    UIImage *image = [[UIImage imageNamed:@"lingdang"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-//    UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
-//    self.navigationItem.rightBarButtonItem = r;
+    [self getBannerView];
+}
+
+-(void)getStatus
+{
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
+    app.tocken = [UIUtils replaceAdd:app.tocken];
+    [params setObject:app.tocken forKey:@"token"];
+    [params setObject:[NSNumber numberWithInt:1] forKey:@"pageNum"];
+    [params setObject:[NSNumber numberWithInt:10] forKey:@"pageSize"];
+    
+    [RedScarf_API requestWithURL:@"/user/message" params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if (![[result objectForKey:@"code"] boolValue]) {
+            UIImage *image;
+            if ([[NSString stringWithFormat:@"%@",[[result objectForKey:@"body"] objectForKey:@"unReadTotal"]] isEqualToString:@"0"]) {
+                //消息提示
+                image = [[UIImage imageNamed:@"konglingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            }else
+            {
+                image = [[UIImage imageNamed:@"lingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            }
+            UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
+            self.navigationItem.rightBarButtonItem = r;
+        }
+    }];
 }
 
 -(void)getHomeMsg
@@ -146,62 +166,77 @@
     }
     [RedScarf_API requestWithURL:@"/resource/appMenu" params:dic httpMethod:@"GET" block:^(id result) {
         NSLog(@"result = %@",[result objectForKey:@"msg"]);
-        [imageArray removeAllObjects];
-        [titleArray removeAllObjects];
-        for (NSDictionary *dic in [result objectForKey:@"msg"]) {
-            [titleArray addObject:[dic objectForKey:@"menu"]];
-            [idArray addObject:[dic objectForKey:@"id"]];
-        }
-        
-        for (int i = 0; i < idArray.count; i++) {
-            if ([idArray[i] intValue] == 801) {
-                [imageArray addObject:@"rwfp@2x"];
-            }
-            if ([idArray[i] intValue] == 802) {
-                [imageArray addObject:@"fencan@2x"];
-            }
-            if ([idArray[i] intValue] == 803) {
-                [imageArray addObject:@"lishi@2x"];
-            }
-            if ([idArray[i] intValue] == 804) {
-                [imageArray addObject:@"guanlichengyuan@2x"];
-            }
-            if ([idArray[i] intValue] == 805) {
-                [imageArray addObject:@"ckpaiban@2x"];
-            }
-            if ([idArray[i] intValue] == 806) {
-                [imageArray addObject:@"tuiguang2x"];
-            }
-            if ([idArray[i] intValue] == 807) {
-                [imageArray addObject:@"ceoqun"];
-            }
-            if ([idArray[i] intValue] == 808) {
-                [imageArray addObject:@"helpcenter"];
-            }
-            if ([idArray[i] intValue] == 809) {
-                [imageArray addObject:@"qidai2x"];
+        if ([[result objectForKey:@"success"] boolValue]) {
+            [imageArray removeAllObjects];
+            [titleArray removeAllObjects];
+            for (NSDictionary *dic in [result objectForKey:@"msg"]) {
+                [titleArray addObject:[dic objectForKey:@"menu"]];
+                [idArray addObject:[dic objectForKey:@"id"]];
             }
             
-            if ([idArray[i] intValue] == 901) {
-                [imageArray addObject:@"fencan@2x"];
+            for (int i = 0; i < idArray.count; i++) {
+                if ([idArray[i] intValue] == 801) {
+                    [imageArray addObject:@"rwfp@2x"];
+                }
+                if ([idArray[i] intValue] == 802) {
+                    [imageArray addObject:@"fencan@2x"];
+                }
+                if ([idArray[i] intValue] == 803) {
+                    [imageArray addObject:@"lishi@2x"];
+                }
+                if ([idArray[i] intValue] == 804) {
+                    [imageArray addObject:@"guanlichengyuan@2x"];
+                }
+                if ([idArray[i] intValue] == 805) {
+                    [imageArray addObject:@"ckpaiban@2x"];
+                }
+                if ([idArray[i] intValue] == 806) {
+                    [imageArray addObject:@"tuiguang2x"];
+                }
+                if ([idArray[i] intValue] == 807) {
+                    [imageArray addObject:@"ceoqun"];
+                }
+                if ([idArray[i] intValue] == 808) {
+                    [imageArray addObject:@"helpcenter"];
+                }
+                if ([idArray[i] intValue] == 809) {
+                    [imageArray addObject:@"qidai2x"];
+                }
+                
+                if ([idArray[i] intValue] == 901) {
+                    [imageArray addObject:@"fencan@2x"];
+                }
+                if ([idArray[i] intValue] == 902) {
+                    [imageArray addObject:@"lishi@2x"];
+                }
+                if ([idArray[i] intValue] == 903) {
+                    [imageArray addObject:@"shijian2x"];
+                }
+                if ([idArray[i] intValue] == 904) {
+                    [imageArray addObject:@"fanwei2x"];
+                }
+                if ([idArray[i] intValue] == 907) {
+                    [imageArray addObject:@"tuiguang2x"];
+                }
+                if ([idArray[i] intValue] == 906) {
+                    [imageArray addObject:@"helpcenter"];
+                }
+                if ([idArray[i] intValue] == 908) {
+                    [imageArray addObject:@"rwfp@2x"];
+                }
             }
-            if ([idArray[i] intValue] == 902) {
-                [imageArray addObject:@"lishi@2x"];
-            }
-            if ([idArray[i] intValue] == 903) {
-                [imageArray addObject:@"shijian2x"];
-            }
-            if ([idArray[i] intValue] == 904) {
-                [imageArray addObject:@"fanwei2x"];
-            }
-            if ([idArray[i] intValue] == 907) {
-                [imageArray addObject:@"tuiguang2x"];
-            }
-            if ([idArray[i] intValue] == 906) {
-                [imageArray addObject:@"helpcenter"];
-            }
-            if ([idArray[i] intValue] == 908) {
-                [imageArray addObject:@"rwfp@2x"];
+
+            [[self.view viewWithTag:3434] removeFromSuperview];
+            [self initHomeView];
+        }else{
+            if ([[result objectForKey:@"msg"] isEqualToString:@"无效的Token"]) {
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults removeObjectForKey:@"token"];
+                [defaults synchronize];
+                
+                AppDelegate *app = [UIApplication sharedApplication].delegate;
+                LoginViewController *loginVC = [[LoginViewController alloc] init];
+                [app setRoorViewController:loginVC];
             }
         }
     }];
@@ -223,22 +258,43 @@
 -(void)banner:(id)sender
 {
     BannerViewController *bannerVC = [[BannerViewController alloc] init];
-    bannerVC.title = @"详情";
     [self.navigationController pushViewController:bannerVC animated:YES];
 }
 
 -(void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
+    BannerViewController *bannerVC = [[BannerViewController alloc] init];
+    bannerVC.title = @"详情";
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    app.tocken = [UIUtils replaceAdd:app.tocken];
+    bannerVC.url = [NSString stringWithFormat:@"%@?token=%@",imageUrlArray[index],app.tocken];
+    [self.navigationController pushViewController:bannerVC animated:YES];
+}
+
+-(void)getBannerView
+{
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    app.tocken = [UIUtils replaceAdd:app.tocken];
+    [params setObject:app.tocken forKey:@"token"];
+    [params setObject:@"1" forKey:@"pageNum"];
+    [params setObject:@"3" forKey:@"pageSize"];
     
+    [RedScarf_API requestWithURL:@"/user/banners" params:params httpMethod:@"GET" block:^(id result) {
+        NSLog(@"result = %@",result);
+        if ([[result objectForKey:@"success"] boolValue]) {
+            for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
+                [imagesURLStrings addObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"url"]]];
+                [imageUrlArray addObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"linkUrl"]]];
+            }
+            [self initBannerView];
+        }
+    }];
+
 }
 
 -(void)initBannerView
 {
-    NSArray *imagesURLStrings = @[
-                                  @"https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a4b3d7085dee3d6d2293d48b252b5910/0e2442a7d933c89524cd5cd4d51373f0830200ea.jpg",
-                                  @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
-                                  @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
-                                  ];
     
     //网络加载 --- 创建带标题的图片轮播器
     SDCycleScrollView *cycleScrollView2 = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 62, kUIScreenWidth, 160) imageURLStringsGroup:nil]; // 模拟网络延时情景
@@ -249,6 +305,13 @@
     }
     cycleScrollView2.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     cycleScrollView2.delegate = self;
+    if (imagesURLStrings.count == 1) {
+        cycleScrollView2.infiniteLoop = NO;
+        cycleScrollView2.autoScroll = NO;
+    }else {
+        cycleScrollView2.infiniteLoop = YES;
+        cycleScrollView2.autoScroll = YES;
+    }
     //    cycleScrollView2.titlesGroup = titles;
     cycleScrollView2.dotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
     cycleScrollView2.placeholderImage = [UIImage imageNamed:@"placeholder"];
@@ -262,46 +325,6 @@
 
 -(void)initHomeView
 {
-   
-    if (kUIScreenWidth == 320) {
-        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 128)];
-    }else{
-        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 150)];
-    }
-    
-    scroll.scrollEnabled = YES;
-    scroll.userInteractionEnabled = YES;
-    scroll.contentSize = CGSizeMake(kUIScreenWidth*array.count, 100);
-//    self.edgesForExtendedLayout=UIRectEdgeNone;
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    //循环  一张图片先不放
-    control = [[UIPageControl alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-50, 110, 100, 30)];
-    [self.view addSubview:control];
-    control.backgroundColor = [UIColor redColor];
-    control.currentPage=0;
-    control.numberOfPages = array.count;
-//    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timer) userInfo:nil repeats:YES];
-
-//    scroll.backgroundColor = [UIColor greenColor];
-    [self.view addSubview:scroll];
-    for (int i = 0; i<[array count]; i++) {
-        CGRect frame;
-        frame.origin.x = scroll.frame.size.width*i;
-        frame.origin.y = 0;
-        frame.size = scroll.frame.size;
-        
-        UIImageView *view = [[UIImageView alloc] initWithFrame:frame];
-        view.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(banner:)];
-        tap.numberOfTapsRequired = 1;
-        [view addGestureRecognizer:tap];
-        view.image = [UIImage imageNamed:array[i]];
-        [scroll addSubview:view];
-        //        controll.currentPage = i;
-        //        [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
-        
-    }
-    
     int wight;
     int imageY;
     if (kUIScreenWidth == 320) {
@@ -419,7 +442,6 @@
                     }
                 }
                 
-
             }
             
         }

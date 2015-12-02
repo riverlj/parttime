@@ -302,7 +302,6 @@
     NSMutableDictionary *dic = addressArray[row];
         
     return [dic objectForKey:@"name"];
-    
 }
 
 -(void)save
@@ -365,7 +364,6 @@
                 [self alertView:@"请输入身份证号"];
                 return;
             }
-            
         }
     }
 
@@ -379,6 +377,7 @@
         NSLog(@"result = %@",result);
         if ([[result objectForKey:@"success"] boolValue]) {
             [self alertView:@"添加成功"];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }else
         {
             [self alertView:[result objectForKey:@"msg"]];
@@ -516,12 +515,6 @@
     self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     
     [self.view endEditing:YES];
-}
-
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

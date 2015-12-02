@@ -30,14 +30,6 @@
     [Flurry setCrashReportingEnabled:YES];
     [Flurry startSession:@"ZWVZ56TNDFHVQX48RMD2"];
     AppDelegate *myDelegate = [UIApplication sharedApplication].delegate;
-    myDelegate.count = @"";
-    if (kUIScreenHeigth>480) {
-        myDelegate.autoSizeScaleX = kUIScreenWidth/320;
-        myDelegate.autoSizeScaleY = kUIScreenHeigth/568;
-    }else{
-        myDelegate.autoSizeScaleX = 1.0;
-        myDelegate.autoSizeScaleY = 1.0;
-    }
     
     Reachability *reach = [Reachability reachabilityForInternetConnection];
     NetworkStatus status = [reach currentReachabilityStatus];
@@ -59,7 +51,6 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults objectForKey:@"token"];
    
-    myDelegate.count = [defaults objectForKey:@"count"];
     if (token.length) {
         BaseTabbarViewController *baseVC = [[BaseTabbarViewController alloc] init];
     

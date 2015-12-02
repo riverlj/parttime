@@ -22,6 +22,9 @@
 
 @property(nonatomic,strong) NSString *position;
 
+@property(nonatomic,strong) NSString *headUrl;
+
+
 //调用相机
 - (void)didClickCamera:(id)sender;
 //调用图片库
