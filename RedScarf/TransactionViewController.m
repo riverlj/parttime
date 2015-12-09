@@ -41,15 +41,19 @@
         [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
     }
     [params setObject:@"0" forKey:@"timestamp"];
-    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/pay/withdraw/record",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-            [bodyArray removeAllObjects];
-            bodyArray = [result objectForKey:@"body"];
-        }else{
-            [self alertView:[result objectForKey:@"body"]];
-        }
+    [RSHttp payRequestWithURL:@"/pay/withdraw/record" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [bodyArray removeAllObjects];
+        bodyArray = [data objectForKey:@"body"];
         [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
+    }];
+    [RSHttp payRequestWithURL:@"/pay/withdraw/record" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [bodyArray removeAllObjects];
+        bodyArray = [data objectForKey:@"body"];
+        [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
 
 }
@@ -62,15 +66,12 @@
         [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
     }
     [params setObject:@"0" forKey:@"timestamp"];
-    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/moneyChangeRecord",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-            [bodyArray removeAllObjects];
-            bodyArray = [result objectForKey:@"body"];
-        }else{
-            [self alertView:[result objectForKey:@"body"]];
-        }
+    [RSHttp payRequestWithURL:@"/account/moneyChangeRecord" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [bodyArray removeAllObjects];
+        bodyArray = [data objectForKey:@"body"];
         [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
 }
 
@@ -206,7 +207,7 @@
         dic = [bodyArray objectAtIndex:indexPath.row];
         cell.detailLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"attach"]];
         cell.salaryLabel.text = [NSString stringWithFormat:@"余额：%.2f",[[dic objectForKey:@"accountMoney"] floatValue]/100];
-        //将时间戳转化为时间    13位的除1000  我擦
+        //将时间戳转化为时间13位的除1000  我擦
         NSString *str = [self timeIntersince1970:[[dic objectForKey:@"timePoint"] doubleValue]];
       
         cell.dateLabel.text = [NSString stringWithFormat:@"%@",str];

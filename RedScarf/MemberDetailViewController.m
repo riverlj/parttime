@@ -22,15 +22,13 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self initView];
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSLog(@"memberId = %@",self.memberId);
     self.view.backgroundColor = bgcolor;
     msgDictionary = [NSMutableDictionary dictionary];
     self.title = @"详细信息";
@@ -41,24 +39,19 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:app.tocken forKey:@"token"];
     [params setValue:self.memberId forKey:@"id"];
-//    [self showHUD:@"正在加载"];
-    [RedScarf_API requestWithURL:@"/team/user/" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            msgDictionary = [result objectForKey:@"msg"];
-            [self initView];
-        }else
-        {
-            [self alertView:[result objectForKey:@"msg"]];
-        }
-//        [self hidHUD];
+    [self showHUD:@"正在加载"];
+    [RSHttp requestWithURL:@"/team/user/" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        msgDictionary = [data objectForKey:@"msg"];
+        [self initView];
+        [self hidHUD];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
+        [self hidHUD];
     }];
-    
-
 }
 
 -(void)initView
@@ -75,7 +68,7 @@
     [bgView addSubview:nameLabel];
 
     UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(170, 43, 12, 15)];
-    if ([msgDictionary objectForKey:@"sex"] == 1) {
+    if ((NSInteger)[msgDictionary objectForKey:@"sex"] == 1) {
         genderView.image = [UIImage imageNamed:@"nan2x"];
     }else{
         genderView.image = [UIImage imageNamed:@"nv2x"];

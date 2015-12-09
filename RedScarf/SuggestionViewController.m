@@ -20,8 +20,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -144,7 +143,7 @@
         [self alertView:@"请输入内容"];
         return;
     }
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
@@ -152,17 +151,12 @@
     [params setObject:@"2" forKey:@"source"];
 //    suggestionView.text = [suggestionView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:suggestionView.text forKey:@"content"];
-    [RedScarf_API requestWithURL:@"/user/feedbackAdvice" params:params httpMethod:@"POST" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self alertView:@"提交成功"];
-            suggestionView.text = @"";
-        }else
-        {
-            [self alertView:[result objectForKey:@"msg"]];
-        }
+    [RSHttp requestWithURL:@"/user/feedbackAdvice" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
+        [self alertView:@"提交成功"];
+        suggestionView.text = @"";
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
-
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text

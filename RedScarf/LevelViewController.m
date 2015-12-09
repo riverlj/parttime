@@ -22,8 +22,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.tabBarController.tabBar.hidden = YES;
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -63,30 +62,27 @@
             if (i == 3) {
                 url = @"/user/growth/log";
             }
-            
-            [RedScarf_API requestWithURL:@"/user/growth" params:params httpMethod:@"GET" block:^(id result) {
-                NSLog(@"result = %@",result);
-                if ([[result objectForKey:@"success"] boolValue]) {
-                    [self hidHUD];
-                    if (i == 0) {
-                        currentGrow = [NSString stringWithFormat:@"%@",[result objectForKey:@"msg"]];
-                    }
-                    if (i == 1) {
-                        todayGrow = [NSString stringWithFormat:@"%@",[result objectForKey:@"msg"]];
-                    }
-                    if (i == 2) {
-                        rankGrow = [NSString stringWithFormat:@"%@",[result objectForKey:@"msg"]];
-                    }
-                    if (i == 3) {
-                        
-                    }
+            [RSHttp requestWithURL:@"/user/growth" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+                if (i == 0) {
+                    currentGrow = [NSString stringWithFormat:@"%@",[data objectForKey:@"msg"]];
+                }
+                if (i == 1) {
+                    todayGrow = [NSString stringWithFormat:@"%@",[data objectForKey:@"msg"]];
+                }
+                if (i == 2) {
+                    rankGrow = [NSString stringWithFormat:@"%@",[data objectForKey:@"msg"]];
+                }
+                if (i == 3) {
+                    
                 }
                 [self hidHUD];
                 [[self.view viewWithTag:1000] removeFromSuperview];
-                
                 [self initView];
-            }];
-            
+            } failure:^(NSInteger code, NSString *errmsg) {
+                [self hidHUD];
+                [[self.view viewWithTag:1000] removeFromSuperview];
+                [self initView];
+            }];            
         }
         
     }
@@ -273,10 +269,10 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    static NSString *identifier = @"Level_identifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        cell = [[UITableViewCell alloc] init];
     }
     cell.userInteractionEnabled = NO;
     for (int i = 0; i < 3; i++) {

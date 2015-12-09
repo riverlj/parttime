@@ -56,47 +56,42 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = NO;
-    self.tabBarController.tabBar.hidden = NO;
     [self getHomeMsg];
     [self getTaskMessage];
     [self getSeparateMessage];
     [self getStatus];
+    [super viewWillAppear:animated];
 }
 
 -(void)getTaskMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-//    [self showHUD:@"正在加载"];
-    [RedScarf_API requestWithURL:@"/task/waitAssignTask" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self hidHUD];
-            taskArray = [result objectForKey:@"msg"];
-            [[self.view viewWithTag:3434] removeFromSuperview];
-            [self initHomeView];
-        }
+    [self showHUD:@"正在加载"];
+    [RSHttp requestWithURL:@"/task/waitAssignTask" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self hidHUD];
+        taskArray = [data objectForKey:@"msg"];
+        [[self.view viewWithTag:3434] removeFromSuperview];
+        [self initHomeView];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 
 -(void)getSeparateMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    
-    [RedScarf_API requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            separateArray = [result objectForKey:@"msg"];
+    [RSHttp requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        if ([[data objectForKey:@"success"] boolValue]) {
+            separateArray = [data objectForKey:@"msg"];
             [[self.view viewWithTag:3434] removeFromSuperview];
             [self initHomeView];
         }
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 
@@ -113,25 +108,13 @@
     array = [NSArray arrayWithObjects:@"banner1", nil];
     self.title = @"首页";
     
-    UIButton *button = (UIButton *)[self.tabBarController.view viewWithTag:11011];
-    [button removeFromSuperview];
-    //圆形
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-25, kUIScreenHeigth-80, 60, 60)];
-    [btn setBackgroundColor:[UIColor redColor]];
-    [btn setTitle:@"qusongcan" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(pressChange:) forControlEvents:UIControlEventTouchUpInside];
-    btn.layer.cornerRadius = 30;
-    btn.tag = 11011;
-    [btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
-    btn.layer.masksToBounds = YES;
-    [self.tabBarController.view addSubview:btn];
+
     [self getBannerView];
 }
 
 -(void)getStatus
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
@@ -139,20 +122,18 @@
     [params setObject:[NSNumber numberWithInt:1] forKey:@"pageNum"];
     [params setObject:[NSNumber numberWithInt:10] forKey:@"pageSize"];
     
-    [RedScarf_API requestWithURL:@"/user/message" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-            UIImage *image;
-            if ([[NSString stringWithFormat:@"%@",[[result objectForKey:@"body"] objectForKey:@"unReadTotal"]] isEqualToString:@"0"]) {
-                //消息提示
-                image = [[UIImage imageNamed:@"konglingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-            }else
-            {
-                image = [[UIImage imageNamed:@"lingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-            }
-            UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
-            self.navigationItem.rightBarButtonItem = r;
+    [RSHttp requestWithURL:@"/user/message" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        UIImage *image;
+        if ([[NSString stringWithFormat:@"%@",[[data objectForKey:@"body"] objectForKey:@"unReadTotal"]] isEqualToString:@"0"]) {
+            //消息提示
+            image = [[UIImage imageNamed:@"konglingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        }else
+        {
+            image = [[UIImage imageNamed:@"lingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         }
+        UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
+        self.navigationItem.rightBarButtonItem = r;
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 
@@ -164,12 +145,11 @@
     if (token.length) {
         [dic setObject:token forKey:@"token"];
     }
-    [RedScarf_API requestWithURL:@"/resource/appMenu" params:dic httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",[result objectForKey:@"msg"]);
-        if ([[result objectForKey:@"success"] boolValue]) {
+    [RSHttp requestWithURL:@"/resource/appMenu" params:dic httpMethod:@"GET" success:^(NSDictionary *data) {
+        if ([[data objectForKey:@"success"] boolValue]) {
             [imageArray removeAllObjects];
             [titleArray removeAllObjects];
-            for (NSDictionary *dic in [result objectForKey:@"msg"]) {
+            for (NSDictionary *dic in [data objectForKey:@"msg"]) {
                 [titleArray addObject:[dic objectForKey:@"menu"]];
                 [idArray addObject:[dic objectForKey:@"id"]];
             }
@@ -225,20 +205,21 @@
                     [imageArray addObject:@"rwfp@2x"];
                 }
             }
-
             [[self.view viewWithTag:3434] removeFromSuperview];
             [self initHomeView];
         }else{
-            if ([[result objectForKey:@"msg"] isEqualToString:@"无效的Token"]) {
+            if ([[data objectForKey:@"msg"] isEqualToString:@"无效的Token"]) {
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults removeObjectForKey:@"token"];
                 [defaults synchronize];
                 
-                AppDelegate *app = [UIApplication sharedApplication].delegate;
+                AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
                 LoginViewController *loginVC = [[LoginViewController alloc] init];
                 [app setRoorViewController:loginVC];
             }
         }
+    } failure:^(NSInteger code, NSString *errmsg) {
+        
     }];
 }
 
@@ -248,12 +229,7 @@
     [self.navigationController pushViewController:msgVC animated:YES];
 }
 
--(void)pressChange:(id)sender
-{
-    GoPeiSongViewController *goVC = [[GoPeiSongViewController alloc] init];
-    [[BaiduMobStat defaultStat] logEvent:@"qusongcan" eventLabel:@"button"];
-    [self.navigationController pushViewController:goVC animated:YES];
-}
+
 
 -(void)banner:(id)sender
 {
@@ -261,11 +237,14 @@
     [self.navigationController pushViewController:bannerVC animated:YES];
 }
 
+
+
+
 -(void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
     BannerViewController *bannerVC = [[BannerViewController alloc] init];
     bannerVC.title = @"详情";
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     app.tocken = [UIUtils replaceAdd:app.tocken];
     bannerVC.url = [NSString stringWithFormat:@"%@?token=%@",imageUrlArray[index],app.tocken];
     [self.navigationController pushViewController:bannerVC animated:YES];
@@ -273,24 +252,21 @@
 
 -(void)getBannerView
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:@"1" forKey:@"pageNum"];
     [params setObject:@"3" forKey:@"pageSize"];
-    
-    [RedScarf_API requestWithURL:@"/user/banners" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
-                [imagesURLStrings addObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"url"]]];
-                [imageUrlArray addObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"linkUrl"]]];
-            }
-            [self initBannerView];
+    [RSHttp requestWithURL:@"/user/banners" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+            [imagesURLStrings addObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"url"]]];
+            [imageUrlArray addObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"linkUrl"]]];
         }
+        [self initBannerView];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        
     }];
-
 }
 
 -(void)initBannerView
@@ -573,21 +549,4 @@
     }
     
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

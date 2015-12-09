@@ -41,17 +41,13 @@
     if ([defaults objectForKey:@"withdrawToken"]) {
         [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
     }
-    
-    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/accountInfo",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-            
-            NSMutableDictionary *dic = [result objectForKey:@"body"];
-            self.pwdStatus = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pwdStatus"]];
-        }else{
-            [self alertView:[result objectForKey:@"body"]];
-        }
+    [RSHttp payRequestWithURL:@"/account/accountInfo" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSMutableDictionary *dic = [data objectForKey:@"body"];
+        self.pwdStatus = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pwdStatus"]];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -79,19 +75,17 @@
     if ([defaults objectForKey:@"withdrawToken"]) {
         [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
     }
-    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/queryBankCard",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-            NSArray *arr = [result objectForKey:@"body"];
-            if (arr.count) {
-                cardNum = [NSString stringWithFormat:@"%@",[[[result objectForKey:@"body"] objectAtIndex:0] objectForKey:@"cardNum"]];
-                self.cardId = [NSString stringWithFormat:@"%@",[[[result objectForKey:@"body"] objectAtIndex:0] objectForKey:@"id"]];
-            }
-            [self initView];
-            [self hidHUD];
-        }else{
-            [self alertView:[result objectForKey:@"body"]];
+    [RSHttp payRequestWithURL:@"/account/queryBankCard" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSArray *arr = [data objectForKey:@"body"];
+        if (arr.count) {
+            cardNum = [NSString stringWithFormat:@"%@",[[[data objectForKey:@"body"] objectAtIndex:0] objectForKey:@"cardNum"]];
+            self.cardId = [NSString stringWithFormat:@"%@",[[[data objectForKey:@"body"] objectAtIndex:0] objectForKey:@"id"]];
         }
+        [self initView];
+        [self hidHUD];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
+        [self alertView:errmsg];
     }];
 }
 
@@ -307,29 +301,24 @@
         }
             //提现接口
             NSLog(@"resultParams = %@",params);
-        [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/pay/withdraw",REDSCARF_PAY_URL] params:params httpMethod:@"POST" block:^(id result) {
-                NSLog(@"result = %@",result);
-                if (result &&![[result objectForKey:@"code"] boolValue]) {
-                    [weakSelf alertView:@"提现成功"];
-                    SubmitViewController *submitVC = [[SubmitViewController alloc] init];
-                    submitVC.title = @"提交";
-                    [weakSelf.navigationController pushViewController:submitVC animated:YES];
-                    return ;
-                }else{
-                    if ([[NSString stringWithFormat:@"%@",[result objectForKey:@"body"]] isEqualToString:@"该账户已被锁定"] || [[NSString stringWithFormat:@"%@",[result objectForKey:@"body"]] isEqualToString:@"4"]) {
-                        [weakSelf alertView:@"该账户已被锁定"];
-                    }else if([[NSString stringWithFormat:@"%@",[result objectForKey:@"body"]] isEqualToString:@"余额不足"]){
-                        [weakSelf alertView:@"余额不足"];
-                    }else{
-//                        [self alertView:[NSString stringWithFormat:@"还有%d次输入机会",4-[[result objectForKey:@"body"] intValue]]];
-                        UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"还有%d次输入机会",4-[[result objectForKey:@"body"] intValue]] delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:@"重试", nil];
-                        weakSelf.passWordNum--;
-                        [al show];
-                    }
-                    
-                }
-                
-            }];
+        [RSHttp payRequestWithURL:@"/pay/withdraw" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
+            [weakSelf alertView:@"提现成功"];
+            SubmitViewController *submitVC = [[SubmitViewController alloc] init];
+            submitVC.title = @"提交";
+            [weakSelf.navigationController pushViewController:submitVC animated:YES];
+        } failure:^(NSInteger code, NSString *errmsg) {
+            if ([[NSString stringWithFormat:@"%@",errmsg] isEqualToString:@"该账户已被锁定"] || [[NSString stringWithFormat:@"%@",errmsg] isEqualToString:@"4"]) {
+                [weakSelf alertView:@"该账户已被锁定"];
+            }else if([[NSString stringWithFormat:@"%@",errmsg] isEqualToString:@"余额不足"]){
+                [weakSelf alertView:@"余额不足"];
+            }else{
+                //                        [self alertView:[NSString stringWithFormat:@"还有%d次输入机会",4-[[result objectForKey:@"body"] intValue]]];
+                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"还有%d次输入机会",4-[errmsg intValue]] delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:@"重试", nil];
+                weakSelf.passWordNum--;
+                [al show];
+            }
+
+        }];
     };
 }
 
@@ -453,6 +442,7 @@
 {
     [[self.view viewWithTag:10000] removeFromSuperview];
     [[self.view viewWithTag:20000] removeFromSuperview];
+    [super viewWillDisappear:animated];
 }
 
 //判断日期是今天，昨天还是明天
@@ -487,20 +477,5 @@
         return dateString;
     }
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

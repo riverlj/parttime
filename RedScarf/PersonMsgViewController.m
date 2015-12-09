@@ -24,9 +24,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -209,21 +208,16 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:headString forKey:@"picture"];
     [dic setObject:[defaults objectForKey:@"token"] forKey:@"token"];
-    [RedScarf_API requestWithURL:@"/user/picBase64" params:dic httpMethod:@"POST" block:^(id result) {
-        NSLog(@"result = %@   %@",[result objectForKey:@"msg"],result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            [params setObject:[result objectForKey:@"msg"] forKey:@"url"];
-            [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
-            [RedScarf_API requestWithURL:@"/user/portrait" params:params httpMethod:@"POST" block:^(id result) {
-                NSLog(@"result = %@",result);
-                if ([[result objectForKey:@"success"] boolValue]) {
-                    [self alertView:@"设置成功"];
-                    [picker dismissViewControllerAnimated:YES completion:nil];
-                }
-                
-            }];
-        }
+    [RSHttp requestWithURL:@"/user/picBase64" params:dic httpMethod:@"POST" success:^(NSDictionary *data) {
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        [params setObject:[data objectForKey:@"msg"] forKey:@"url"];
+        [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
+        [RSHttp requestWithURL:@"/user/portrait" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
+            [self alertView:@"设置成功"];
+            [picker dismissViewControllerAnimated:YES completion:nil];
+        } failure:^(NSInteger code, NSString *errmsg) {
+        }];
+    } failure:^(NSInteger code, NSString *errmsg) {
         
     }];
 
@@ -448,7 +442,7 @@
     [defaults removeObjectForKey:@"token"];
     [defaults synchronize];
     
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     LoginViewController *loginVC = [[LoginViewController alloc] init];
     [app setRoorViewController:loginVC];
     

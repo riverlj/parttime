@@ -12,7 +12,6 @@
 #import "AddressEditingCell.h"
 #import "AllocatingTaskVC.h"
 #import "UIView+ViewController.h"
-#import "RedScarf_API.h"
 #import "AppDelegate.h"
 #import "UIUtils.h"
 
@@ -30,15 +29,8 @@
     [barBtn removeFromSuperview];
     [self comeBack:nil];
     [self getMessage];
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = NO;
-    [self.tabBarController.view viewWithTag:11011].hidden = NO;
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidLoad
@@ -112,7 +104,7 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     NSString *url = nil;
@@ -124,22 +116,15 @@
     }else{
         url = @"/task/waitAssignTaskByRoom";
     }
-    
-    [RedScarf_API requestWithURL:url params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self.dataArray removeAllObjects];
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-            
-                [self.dataArray addObject:dic];
-                
-            }
-            [self.addressTableView reloadData];
+    [RSHttp requestWithURL:url params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self.dataArray removeAllObjects];
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            NSLog(@"dic = %@",dic);
+            [self.dataArray addObject:dic];
         }
+        [self.addressTableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
-
-    
 }
 
 

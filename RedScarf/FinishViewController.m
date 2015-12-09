@@ -11,7 +11,6 @@
 #import "AppDelegate.h"
 #import "FinishTableViewCell.h"
 #import "UIUtils.h"
-#import "RedScarf_API.h"
 #import "Model.h"
 
 @implementation FinishViewController
@@ -112,7 +111,7 @@
 
 -(void)getMessage:(NSString *)phone
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
@@ -126,49 +125,47 @@
     if (phone.length) {
         [params setObject:phone forKey:@"phoneKey"];
     }
-    [RedScarf_API requestWithURL:@"/task/taskByStatus" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            
-            NSArray *arr = [NSArray arrayWithArray:[[result objectForKey:@"msg"] objectForKey:@"list"]];
-            if (![arr count]) {
-                [self.view addSubview:[self named:@"kongrenwu" text:@"任务"]];
-            }else{
-                [[self.view viewWithTag:666] removeFromSuperview];
-                [self.searchDataArr removeAllObjects];
-                for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
-                    NSLog(@"dic = %@",dic);
-                    NSLog(@"[dic objectForKey:@conten] = %@",[dic objectForKey:@"content"]);
-                    Model *model = [[Model alloc] init];
-                    model.nameStr = [dic objectForKey:@"username"];
-                    model.chuLiStr = [dic objectForKey:@"username"];
-                    model.buyerStr = [dic objectForKey:@"customername"];
-                    model.telStr = [dic objectForKey:@"mobile"];
-                    [self.telArray addObject:model.telStr];
-                    model.addressStr = [dic objectForKey:@"apartmentname"];
-                    model.foodArr = [dic objectForKey:@"content"];
-                    model.dateStr = [dic objectForKey:@"endDate"];
-                    model.numberStr = [dic objectForKey:@"sn"];
-                    model.status = [dic objectForKey:@"status"];
-                    model.room = [dic objectForKey:@"room"];
-                    if (phone.length) {
-                        [self.searchDataArr addObject:model];
-                        search = @"yes";
-                    }else{
-                        search = @"no";
-                        [self.dataArr addObject:model];
-                    }
+    [RSHttp requestWithURL:@"/task/taskByStatus" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
+        if (![arr count]) {
+            [self.view addSubview:[self named:@"kongrenwu" text:@"任务"]];
+        }else{
+            [[self.view viewWithTag:666] removeFromSuperview];
+            [self.searchDataArr removeAllObjects];
+            for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+                NSLog(@"dic = %@",dic);
+                NSLog(@"[dic objectForKey:@conten] = %@",[dic objectForKey:@"content"]);
+                Model *model = [[Model alloc] init];
+                model.nameStr = [dic objectForKey:@"username"];
+                model.chuLiStr = [dic objectForKey:@"username"];
+                model.buyerStr = [dic objectForKey:@"customername"];
+                model.telStr = [dic objectForKey:@"mobile"];
+                [self.telArray addObject:model.telStr];
+                model.addressStr = [dic objectForKey:@"apartmentname"];
+                model.foodArr = [dic objectForKey:@"content"];
+                model.dateStr = [dic objectForKey:@"endDate"];
+                model.numberStr = [dic objectForKey:@"sn"];
+                model.status = [dic objectForKey:@"status"];
+                model.room = [dic objectForKey:@"room"];
+                if (phone.length) {
+                    [self.searchDataArr addObject:model];
+                    search = @"yes";
+                }else{
+                    search = @"no";
+                    [self.dataArr addObject:model];
                 }
-                
-                [self.finishTableView reloadData];
             }
             
-        }else{
-            [self alertView:[result objectForKey:@"msg"]];
+            [self.finishTableView reloadData];
         }
         [footView endRefreshing];
         [headView endRefreshing];
         [self hidHUD];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [footView endRefreshing];
+        [headView endRefreshing];
+        [self hidHUD];
+        [self alertView:errmsg];
     }];
 }
 
@@ -372,17 +369,8 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [[self.navigationController.navigationBar viewWithTag:11111] removeFromSuperview];
-    [self.tabBarController.view viewWithTag:11011].hidden = NO;
-    [self.tabBarController.view viewWithTag:22022].hidden = NO;
     [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
-
-
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillDisappear:animated];
 }
 
 -(void)didClickLeft

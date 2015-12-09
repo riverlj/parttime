@@ -24,15 +24,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidLoad
 {
-    self.navigationController.navigationBar.hidden = NO;
-    self.tabBarController.tabBar.hidden = YES;
-    self.view.backgroundColor = [UIColor whiteColor];
     self.title = self.titleString;
     pageNum = 1;
     if ([self.title isEqualToString:@"开户省份"]) {
@@ -75,11 +71,6 @@
     self.navigationItem.leftBarButtonItem = left;
 }
 
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 -(void)initTableView
 {
     self.listView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
@@ -98,7 +89,6 @@
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
 {
     if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) {
-        
     }else{
         pageNum += 1;
         [self getMessage];
@@ -158,6 +148,22 @@
     return cell;
 }
 
+/*-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if([self.title isEqualToString:@"开户支行"]) {
+        return self.searchBar.frame.size.height;
+    }
+    return 0;
+}
+
+-(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if ([self.title isEqualToString:@"开户支行"]) {
+        return self.searchBar;
+    }
+    return nil;
+}*/
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.title isEqualToString:@"账号类型"]) {
@@ -199,7 +205,6 @@
     NSArray *tempArray = [self.nameArray filteredArrayUsingPredicate:pred];
     //只把名字加到数组里面，
     self.filteredArray = [NSMutableArray arrayWithArray:tempArray];
-    
 }
 
 
@@ -244,32 +249,25 @@
         [params setObject:self.idArr[1] forKey:@"cityId"];
         [params setObject:self.idArr[2] forKey:@"parentId"];
     }
-    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@%@",REDSCARF_PAY_URL,url] params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-           
-            if ([self.title isEqualToString:@"开户银行"]||[self.title isEqualToString:@"开户支行"]) {
-                for (NSMutableDictionary *dic in [[result objectForKey:@"body"] objectForKey:@"list"]) {
-                    NSLog(@"dic = %@",dic);
-                    [self.dataArray addObject:dic];
-                    [self.nameArray addObject:[dic objectForKey:@"name"]];
-                }
-            }else{
-                for (NSMutableDictionary *dic in [result objectForKey:@"body"]) {
-                    NSLog(@"dic = %@",dic);
-                    [self.dataArray addObject:dic];
-                    [self.nameArray addObject:[dic objectForKey:@"name"]];
-                }
+    [RSHttp payRequestWithURL:url params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        if ([self.title isEqualToString:@"开户银行"]||[self.title isEqualToString:@"开户支行"]) {
+            for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
+                NSLog(@"dic = %@",dic);
+                [self.dataArray addObject:dic];
+                [self.nameArray addObject:[dic objectForKey:@"name"]];
             }
-            
-            [self.listView reloadData];
-            
         }else{
-            [self alertView:[result objectForKey:@"body"]];
-            return ;
+            for (NSMutableDictionary *dic in [data objectForKey:@"body"]) {
+                NSLog(@"dic = %@",dic);
+                [self.dataArray addObject:dic];
+                [self.nameArray addObject:[dic objectForKey:@"name"]];
+            }
         }
-        [footView endRefreshing];
+        [self.listView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
+
 }
 
 

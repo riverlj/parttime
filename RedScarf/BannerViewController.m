@@ -7,6 +7,7 @@
 //
 
 #import "BannerViewController.h"
+#import "UIWebView+AFNetworking.h"
 
 @interface BannerViewController ()
 
@@ -15,13 +16,6 @@
 @implementation BannerViewController
 {
     UIWebView *bannerView;
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
-    self.tabBarController.tabBar.hidden = YES;
 }
 
 - (void)viewDidLoad {
@@ -35,7 +29,7 @@
 -(void)initWebView
 {
     NSURL *url;
-    bannerView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth+64)];
+    bannerView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth+kUITabBarHeight)];
     bannerView.delegate = self;
     if ([self.title isEqualToString:@"详情"]) {
         url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.url]];
@@ -44,25 +38,26 @@
     }else{
         url = [NSURL URLWithString:[NSString stringWithFormat:@"http://jianzhi.honglingjinclub.com/html/banner/20151026/QandA.html"]];
     }
-    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];
+    request.timeoutInterval = 5;
     [bannerView loadRequest:request];
     [self.view addSubview:bannerView];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [self showHUD:@"加载中"];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [self hidHUD];
 }
-*/
 
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error
+{
+    [self hidHUD];
+    NSString *errmsg = [error.userInfo valueForKey:@"NSLocalizedDescription"];
+    [self alertView:errmsg];
+}
 @end

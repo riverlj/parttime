@@ -19,9 +19,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidLoad
@@ -40,7 +39,7 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
@@ -48,22 +47,18 @@
     [params setObject:[NSNumber numberWithInt:10] forKey:@"pageSize"];
     [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
     
-    [RedScarf_API requestWithURL:@"/promotionActivity/index/fansDetial" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-
-            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-            dic = [result objectForKey:@"msg"];
-           
-            dataArray = [dic objectForKey:@"fansDetail"];
-
-            UILabel *label = (UILabel *)[self.view viewWithTag:201];
-            label.text = [NSString stringWithFormat:@"粉丝下单累计总金额:%@",[dic objectForKey:@"fansOrderTotalAccount"]];
-            [footView endRefreshing];
-            [self.tableView reloadData];
-        }
+    [RSHttp requestWithURL:@"/promotionActivity/index/fansDetial" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        dic = [data objectForKey:@"msg"];
+        
+        dataArray = [dic objectForKey:@"fansDetail"];
+        
+        UILabel *label = (UILabel *)[self.view viewWithTag:201];
+        label.text = [NSString stringWithFormat:@"粉丝下单累计总金额:%@",[dic objectForKey:@"fansOrderTotalAccount"]];
+        [footView endRefreshing];
+        [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
-    
 }
 //上拉刷新
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView

@@ -15,7 +15,6 @@
 #import "DaiFenPeiVC.h"
 #import "HeadDisTableView.h"
 #import "UIUtils.h"
-#import "RedScarf_API.h"
 #import "AppDelegate.h"
 #import "AllocatingTaskVC.h"
 #import "FinishViewController.h"
@@ -44,11 +43,8 @@
 {
     [super viewWillAppear:animated];
     [self comeBack:nil];
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
 
     self.tabBarController.tabBar.hidden = YES;
-//    self.navigationController.navigationBar.hidden = YES;
     
     if (disTableView.nameTableView.length) {
         disTableView.nameTableView = @"";
@@ -64,11 +60,6 @@
 
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = NO;
-    [self.tabBarController.view viewWithTag:11011].hidden = NO;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -100,14 +91,14 @@
     waitBtn.tag = 100;
     [waitBtn setTitle:@"待分配" forState:UIControlStateNormal];
     [waitBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    waitBtn.font = [UIFont systemFontOfSize:18];
+    waitBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     [waitBtn addTarget:self action:@selector(didClickDaiFenPeiBtn) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:waitBtn];
     UIButton *OverBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     OverBtn.frame = CGRectMake(view.frame.size.width/2, 0, view.frame.size.width/2, 45);
     [OverBtn setTitle:@"已分配" forState:UIControlStateNormal];
     [OverBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    OverBtn.font = [UIFont systemFontOfSize:18];
+    OverBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     OverBtn.tag = 200;
     [OverBtn addTarget:self action:@selector(didClickYiFenPei) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:OverBtn];
@@ -146,7 +137,7 @@
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
@@ -156,25 +147,20 @@
 
     [params setObject:nameStr forKey:@"name"];
     
-    [RedScarf_API requestWithURL:@"/task/assignTask/user" params:params httpMethod:@"GET" block:^(id result) {
-
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self.dataArr removeAllObjects];
-            searchOrAll = @"search";
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                Model *model = [[Model alloc] init];
-                model.username = [dic objectForKey:@"username"];
-                model.apartmentsArr = [dic objectForKey:@"tasks"];
-                model.mobile = [dic objectForKey:@"mobile"];
-                model.userId = [dic objectForKey:@"userId"];
-                [self.dataArr addObject:model];
-            }
-//            self.searchBar.text = [NSString stringWithString:[self.searchBar.text stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-            [self.YiFenPeiTableview reloadData];
-
+    [RSHttp requestWithURL:@"/task/assignTask/user" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self.dataArr removeAllObjects];
+        searchOrAll = @"search";
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            Model *model = [[Model alloc] init];
+            model.username = [dic objectForKey:@"username"];
+            model.apartmentsArr = [dic objectForKey:@"tasks"];
+            model.mobile = [dic objectForKey:@"mobile"];
+            model.userId = [dic objectForKey:@"userId"];
+            [self.dataArr addObject:model];
         }
+        //            self.searchBar.text = [NSString stringWithString:[self.searchBar.text stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self.YiFenPeiTableview reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 
     [self.view endEditing:YES];
@@ -253,36 +239,33 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setValue:@"" forKey:@"name"];
-    [RedScarf_API requestWithURL:@"/task/assignTask/user" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            NSArray *arr = [NSArray arrayWithArray:[result objectForKey:@"msg"]];
-            if (!arr.count) {
-                [self.YiFenPeiTableview addSubview:[self named:@"kongrenwu" text:@"任务"]];
-            }else{
-                [self.dataArr removeAllObjects];
-                for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                    NSLog(@"dic = %@",dic);
-                    Model *model = [[Model alloc] init];
-                    model.username = [dic objectForKey:@"username"];
-                    model.tasksArr = [dic objectForKey:@"tasks"];
-                    model.mobile = [dic objectForKey:@"mobile"];
-                    model.userId = [dic objectForKey:@"userId"];
-                    [self.dataArr addObject:model];
-                    
-                }
-                [self.YiFenPeiTableview reloadData];
-
+    [RSHttp requestWithURL:@"/task/assignTask/user" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self hidHUD];
+        NSArray *arr = [NSArray arrayWithArray:[data objectForKey:@"msg"]];
+        if (!arr.count) {
+            [self.YiFenPeiTableview addSubview:[self named:@"kongrenwu" text:@"任务"]];
+        }else{
+            [self.dataArr removeAllObjects];
+            for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+                NSLog(@"dic = %@",dic);
+                Model *model = [[Model alloc] init];
+                model.username = [dic objectForKey:@"username"];
+                model.tasksArr = [dic objectForKey:@"tasks"];
+                model.mobile = [dic objectForKey:@"mobile"];
+                model.userId = [dic objectForKey:@"userId"];
+                [self.dataArr addObject:model];
+                
             }
+            [self.YiFenPeiTableview reloadData];
         }
+    } failure:^(NSInteger code, NSString *errmsg) {
         [self hidHUD];
     }];
-
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -372,7 +355,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     CGSize size = CGSizeMake(kUIScreenWidth-150, 30);
-    CGSize labelSize = [str sizeWithFont:cell.addressLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+    CGSize labelSize = [str sizeWithFont:cell.addressLabel.font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
     cell.addressLabel.frame = CGRectMake(20, 12, labelSize.width, labelSize.height);
     cell.addressLabel.text = str;
     
@@ -477,20 +460,4 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BaseTabbarViewController.h"
 
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

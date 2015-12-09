@@ -59,41 +59,37 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     __block NSMutableArray *arr = [NSMutableArray array];
-    [RedScarf_API requestWithURL:@"/user/bankCard" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            arr = [result objectForKey:@"msg"];
-            if (arr.count) {
-                NSMutableDictionary *dic = [[result objectForKey:@"msg"] objectAtIndex:0];
-                NSLog(@"dic = %@",dic);
-                name = [dic objectForKey:@"accountName"];
-                if (name.length) {
-                    editOrSave = NO;
-                }
-                tel = [dic objectForKey:@"mobilePhone"];
-                email = [dic objectForKey:@"email"];
-                bankAcount = [dic objectForKey:@"sn"];
-                bank = [dic objectForKey:@"id"];
-                
-                indexArr[0] = [dic objectForKey:@"provinceName"];
-                indexArr[1] = [dic objectForKey:@"cityName"];
-                indexArr[2] = [dic objectForKey:@"bankName"];
-                indexArr[3] = [dic objectForKey:@"branchBankName"];
-                
-                self.navigationItem.rightBarButtonItem.title = @"编辑";
-                self.tableView.userInteractionEnabled = NO;
-                [self.tableView reloadData];
+    [RSHttp requestWithURL:@"/user/bankCard" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        arr = [data objectForKey:@"msg"];
+        if (arr.count) {
+            NSMutableDictionary *dic = [[data objectForKey:@"msg"] objectAtIndex:0];
+            NSLog(@"dic = %@",dic);
+            name = [dic objectForKey:@"accountName"];
+            if (name.length) {
+                editOrSave = NO;
             }
-           
+            tel = [dic objectForKey:@"mobilePhone"];
+            email = [dic objectForKey:@"email"];
+            bankAcount = [dic objectForKey:@"sn"];
+            bank = [dic objectForKey:@"id"];
+            
+            indexArr[0] = [dic objectForKey:@"provinceName"];
+            indexArr[1] = [dic objectForKey:@"cityName"];
+            indexArr[2] = [dic objectForKey:@"bankName"];
+            indexArr[3] = [dic objectForKey:@"branchBankName"];
+            
+            self.navigationItem.rightBarButtonItem.title = @"编辑";
+            self.tableView.userInteractionEnabled = NO;
+            [self.tableView reloadData];
         }
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
-
 }
 
 -(void)initTableView
@@ -231,7 +227,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     OpenAcountProvince *openAcount = [[OpenAcountProvince alloc] init];
     openAcount.delegate = self;
     index = indexPath;
@@ -325,7 +320,7 @@
                 }
             }
             
-            AppDelegate *app = [UIApplication sharedApplication].delegate;
+            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             
             app.tocken = [UIUtils replaceAdd:app.tocken];
@@ -362,22 +357,18 @@
             [params setObject:indexArr[2] forKey:@"bankName"];
             [params setObject:indexArr[3] forKey:@"branchBankName"];
             
-            [RedScarf_API requestWithURL:@"/user/bankCard" params:params httpMethod:post block:^(id result) {
-                NSLog(@"result = %@",result);
-                if ([[result objectForKey:@"success"] boolValue]) {
-                    for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                        NSLog(@"dic = %@",dic);
-                        
-                    }
-                    [self alertView:@"保存成功"];
-                    self.navigationItem.rightBarButtonItem.title = @"编辑";
-                    self.tableView.userInteractionEnabled = NO;
-                }else{
-                    [self alertView:[result objectForKey:@"msg"]];
+            [RSHttp requestWithURL:@"/user/bankCard" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
+                for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+                    NSLog(@"dic = %@",dic);
+                    
                 }
+                [self alertView:@"保存成功"];
+                self.navigationItem.rightBarButtonItem.title = @"编辑";
+                self.tableView.userInteractionEnabled = NO;
+            } failure:^(NSInteger code, NSString *errmsg) {
+                [self alertView:errmsg];
             }];
-            
-        }else{
+         }else{
             [self alertView:@"用户信息不能为空"];
         }
         
@@ -386,9 +377,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self.tableView reloadData];
+    [super viewWillAppear:animated];
 }
 
 -(void)didClickLeft

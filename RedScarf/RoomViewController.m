@@ -9,7 +9,6 @@
 #import "RoomViewController.h"
 #import "Header.h"
 #import "RoomTableViewCell.h"
-#import "RedScarf_API.h"
 #import "Header.h"
 #import "UIUtils.h"
 #import "AppDelegate.h"
@@ -27,8 +26,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidLoad
@@ -58,7 +56,7 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
@@ -66,17 +64,14 @@
     self.room = [self.room stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:self.room forKey:@"room"];
     [params setObject:@"2" forKey:@"source"];
-    [RedScarf_API requestWithURL:@"/task/assignedTask/customerDetail" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self.dataArray removeAllObjects];
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                [self.dataArray addObject:dic];
-                
-            }
-            [self.detailTableView reloadData];
+    [RSHttp requestWithURL:@"/task/assignedTask/customerDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self.dataArray removeAllObjects];
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            NSLog(@"dic = %@",dic);
+            [self.dataArray addObject:dic];
         }
+        [self.detailTableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 
@@ -125,16 +120,14 @@
         contentStr = [contentStr stringByAppendingFormat:@"%@  %@  (%@份)\n",[content objectForKey:@"tag"],[content objectForKey:@"content"],[content objectForKey:@"count"]];
         
         NSString *tagStr = [NSString stringWithFormat:@"%@",[content objectForKey:@"tag"] ];
-        [tagArr addObject:[NSNumber numberWithInt:tagStr.length]];
+        [tagArr addObject:[NSNumber numberWithUnsignedInteger:tagStr.length]];
         
-        [lengthArr addObject:[NSNumber numberWithInt:contentStr.length]];
+        [lengthArr addObject:[NSNumber numberWithUnsignedInteger:contentStr.length]];
         NSLog(@"str length = %lu",(unsigned long)contentStr.length);
     }
     //数量和餐品颜色
     NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:contentStr];
     for (int i = 0; i < lengthArr.count; i++) {
-        int num = [[lengthArr objectAtIndex:i] intValue];
-        NSRange redRange = NSMakeRange(num-6, 5);
         //份数颜色
         //        [noteStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:redRange];
         
@@ -277,25 +270,19 @@
     }
     reason = [reason stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.sn forKey:@"sn"];
     if (reason.length) {
         [params setObject:reason forKey:@"reason"];
-        [RedScarf_API requestWithURL:@"/task/assignedTask/undelivereReason" params:params httpMethod:@"PUT" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if ([[result objectForKey:@"success"] boolValue]) {
-                [self alertView:@"提交成功"];
-                judgeAlterView = @"no";
-                return ;
-            }else{
-                [self alertView:[result objectForKey:@"msg"]];
-                return;
-            }
+        [RSHttp requestWithURL:@"/task/assignedTask/undelivereReason" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+            [self alertView:@"提交成功"];
+            judgeAlterView = @"no";
+        } failure:^(NSInteger code, NSString *errmsg) {
+            [self alertView:errmsg];
         }];
-
     }
     
 }
@@ -313,25 +300,20 @@
         {
             if ([judgeAlterView isEqualToString:@"yes"]) {
                 judgeAlterView = @"no";
-                AppDelegate *app = [UIApplication sharedApplication].delegate;
+                AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
                 NSMutableDictionary *params = [NSMutableDictionary dictionary];
                 app.tocken = [UIUtils replaceAdd:app.tocken];
                 [params setObject:app.tocken forKey:@"token"];
                 [params setObject:self.sn forKey:@"sn"];
                 [params setObject:@"2" forKey:@"source"];
-                [RedScarf_API requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" block:^(id result) {
-                    NSLog(@"result = %@",result);
-                    if ([[result objectForKey:@"success"] boolValue]) {
-                        yesOrNo = @"yes";
-                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"成功送达" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                        [alertView show];
-                        
-                    }else{
-                        yesOrNo = @"yes";
-                        [self alertView:[result objectForKey:@"msg"]];
-                    }
+                [RSHttp requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+                    yesOrNo = @"yes";
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"成功送达" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alertView show];
+                } failure:^(NSInteger code, NSString *errmsg) {
+                    yesOrNo = @"yes";
+                    [self alertView:errmsg];
                 }];
-
             }else{
                 [self.navigationController popViewControllerAnimated:YES];
             }

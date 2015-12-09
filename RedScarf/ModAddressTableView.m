@@ -10,7 +10,6 @@
 #import "AddressViewVontroller.h"
 #import "UIView+ViewController.h"
 #import "ModTableViewCell.h"
-#import "RedScarf_API.h"
 #import "AppDelegate.h"
 #import "UIUtils.h"
 
@@ -78,30 +77,25 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     self.num = indexPath.row;
-    NSLog(@"indexPath.row = %d",self.num);
+    NSLog(@"indexPath.row = %ld",(long)self.num);
 
 }
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    
-    [RedScarf_API requestWithURL:@"/task/unstandardAddr" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self.dataArr removeAllObjects];
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                [self.dataArr addObject:dic];
-            }
-            [self reloadData];
-
+    [RSHttp requestWithURL:@"/task/unstandardAddr" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self.dataArr removeAllObjects];
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            NSLog(@"dic = %@",dic);
+            [self.dataArr addObject:dic];
         }
+        [self reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
-    
 }
 
 -(void)didClickModifyBtn

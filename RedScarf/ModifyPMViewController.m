@@ -25,9 +25,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -107,7 +106,7 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
@@ -118,20 +117,16 @@
 //        [params setObject:self.schoolId forKey:@"departmentId"];
     }
     
-    [RedScarf_API requestWithURL:url params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([result objectForKey:@"success"]) {
-            if ([self.judgeStr isEqualToString:@"major"]) {
-                array = [result objectForKey:@"msg"];
-            }else{
-                addressArray = [[result objectForKey:@"msg"] objectForKey:@"apartments"];
-                [self initPickerView];
-            }
-            
-            [self.tableView reloadData];
+    [RSHttp requestWithURL:url params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        if ([self.judgeStr isEqualToString:@"major"]) {
+            array = [data objectForKey:@"msg"];
+        }else{
+            addressArray = [[data objectForKey:@"msg"] objectForKey:@"apartments"];
+            [self initPickerView];
         }
+        [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
-    
 }
 #pragma mark -- 修改姓名
 -(void)modifyName
@@ -251,7 +246,7 @@
 
 -(void)didClickDone
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
@@ -286,30 +281,26 @@
         }
         
     }
-    [RedScarf_API requestWithURL:@"/user" params:params httpMethod:@"PUT" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self alertView:@"修改成功"];
-            if ([self.judgeStr isEqualToString:@"name"]) {
-                [self.delegate returnString:nameTf.text gender:sex judge:@"name"];
-            }else{
-                [self.delegate returnString:[addressArray[major] objectForKey:@"name"] gender:nil judge:@"address"];
-            }
-            
-            [self.navigationController popViewControllerAnimated:YES];
-        }else
-        {
-            [self alertView:[result objectForKey:@"msg"]];
+    
+    [RSHttp requestWithURL:@"/user" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+        [self alertView:@"修改成功"];
+        if ([self.judgeStr isEqualToString:@"name"]) {
+            [self.delegate returnString:nameTf.text gender:sex judge:@"name"];
+        }else{
+            [self.delegate returnString:[addressArray[major] objectForKey:@"name"] gender:nil judge:@"address"];
         }
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
-
 }
 
 #pragma mark -- uipickView
 
 -(void)getMajor:(NSString *)departmentId;
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
@@ -317,14 +308,12 @@
     
     [params setObject:departmentId forKey:@"departmentId"];
     
-    [RedScarf_API requestWithURL:@"/user/major" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([result objectForKey:@"success"]) {
-            majorArray = [result objectForKey:@"msg"];
-            [self initPickerView];
-        }
+    [RSHttp requestWithURL:@"/user/major" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        majorArray = [data objectForKey:@"msg"];
+        [self initPickerView];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        
     }];
-
 }
 
 -(void)initPickerView
@@ -387,21 +376,17 @@
         UIButton *btn = (UIButton *)[self.view viewWithTag:56789];
         [btn setTitle:[addressArray[major] objectForKey:@"name"] forState:UIControlStateNormal];
     }else{
-        AppDelegate *app = [UIApplication sharedApplication].delegate;
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         
         app.tocken = [UIUtils replaceAdd:app.tocken];
         [params setObject:[majorArray[major] objectForKey:@"id"] forKey:@"major.Id"];
         [params setObject:app.tocken forKey:@"token"];
-        [RedScarf_API requestWithURL:@"/user" params:params httpMethod:@"PUT" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if ([[result objectForKey:@"success"] boolValue]) {
-                [self alertView:@"修改成功"];
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            }else
-            {
-                [self alertView:[result objectForKey:@"msg"]];
-            }
+        [RSHttp requestWithURL:@"/user" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+            [self alertView:@"修改成功"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        } failure:^(NSInteger code, NSString *errmsg) {
+            [self alertView:errmsg];
         }];
     }
 

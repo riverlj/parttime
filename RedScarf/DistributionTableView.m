@@ -12,7 +12,6 @@
 #import "UIView+ViewController.h"
 #import "DistributionVC.h"
 #import "AppDelegate.h"
-#import "RedScarf_API.h"
 #import "UIUtils.h"
 #import "Model.h"
 #import "GoPeiSongTableViewCell.h"
@@ -70,55 +69,49 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [self showHUD:@"正在加载"];
-    [RedScarf_API requestWithURL:@"/task/assignedTask/apartmentAndCount" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            NSArray *arr = [NSArray arrayWithArray:[result objectForKey:@"msg"]];
-            if (![arr count]) {
-                [self addSubview:[self named:@"kongrenwu" text:@"任务"]];
-            }
-            [self.addressArr removeAllObjects];
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                Model *model = [[Model alloc] init];
-                model.apartmentName = [dic objectForKey:@"apartmentName"];
-                model.taskNum = [dic objectForKey:@"taskNum"];
-                model.aId = [dic objectForKey:@"apartmentId"];
-                model.apartmentsArr = nil;
-                model.select = @"zu2x";
-                [self.addressArr addObject:model];
-            }
-            
-            //默认展开第一行
-            [self detailZero:0];
-            [self reloadData];
+    [RSHttp requestWithURL:@"/task/assignedTask/apartmentAndCount" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self hidHUD];
+        NSArray *arr = [NSArray arrayWithArray:[data objectForKey:@"msg"]];
+        if (![arr count]) {
+            [self addSubview:[self named:@"kongrenwu" text:@"任务"]];
         }
+        [self.addressArr removeAllObjects];
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            NSLog(@"dic = %@",dic);
+            Model *model = [[Model alloc] init];
+            model.apartmentName = [dic objectForKey:@"apartmentName"];
+            model.taskNum = [dic objectForKey:@"taskNum"];
+            model.aId = [dic objectForKey:@"apartmentId"];
+            model.apartmentsArr = nil;
+            model.select = @"zu2x";
+            [self.addressArr addObject:model];
+        }
+        
+        //默认展开第一行
+        [self detailZero:0];
+        [self reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
         [self hidHUD];
     }];
-    
 }
 
 -(void)getRoomMsg:(NSString *)sender
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:sender forKey:@"aId"];
-    
-    [RedScarf_API requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self.roomArr removeAllObjects];
-
-            for (Model *model in self.addressArr) {
-                if ([model.aId isEqualToString:sender]) {
-                    model.apartmentsArr = [result objectForKey:@"msg"];
-                }
+    [RSHttp requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self.roomArr removeAllObjects];
+        
+        for (Model *model in self.addressArr) {
+            if ([model.aId isEqualToString:sender]) {
+                model.apartmentsArr = [data objectForKey:@"msg"];
             }
-            [self reloadData];
-
         }
+        [self reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 
@@ -228,10 +221,10 @@
         tag.textColor = colorblue;
         
         NSString *tagStr = [NSString stringWithFormat:@"%@",[dic objectForKey:@"tag"] ];
-        [tagArr addObject:[NSNumber numberWithInt:tagStr.length]];
+        [tagArr addObject:[NSNumber numberWithUnsignedInteger:tagStr.length]];
         
         str = [str stringByAppendingFormat:@"%@   %@ (%@份) \n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
-        [lengthArr addObject:[NSNumber numberWithInt:str.length]];
+        [lengthArr addObject:[NSNumber numberWithUnsignedInteger:str.length]];
         NSLog(@"str length = %lu",(unsigned long)str.length);
     }
     //数量和餐品颜色
@@ -321,24 +314,18 @@
     switch (buttonIndex) {
         case 1:
         {
-            AppDelegate *app = [UIApplication sharedApplication].delegate;
+            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             app.tocken = [UIUtils replaceAdd:app.tocken];
             [params setObject:app.tocken forKey:@"token"];
             [params setObject:self.aId forKey:@"aId"];
             [params setObject:self.roomNum forKey:@"room"];
             [params setObject:@"2" forKey:@"source"];
-            
-            [RedScarf_API requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" block:^(id result) {
-                NSLog(@"result = %@",result);
-                if ([[result objectForKey:@"success"] boolValue]) {
-                    [self alertView:@"成功送达"];
-                    [self didClickLeft];
-
-                }else{
-                    [self alertView:[result objectForKey:@"msg"]];
-                }
-                
+            [RSHttp requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+                [self alertView:@"成功送达"];
+                [self didClickLeft];
+            } failure:^(NSInteger code, NSString *errmsg) {
+                [self alertView:errmsg];
             }];
         }
             break;

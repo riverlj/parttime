@@ -8,7 +8,6 @@
 
 #import "AllocatingTaskVC.h"
 #import "Header.h"
-#import "RedScarf_API.h"
 #import "AppDelegate.h"
 #import "UIUtils.h"
 #import "Model.h"
@@ -22,17 +21,9 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
+    [super viewWillAppear:animated];
 }
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = NO;
-    [self.tabBarController.view viewWithTag:11011].hidden = NO;
-}
-
 
 -(void)viewDidLoad
 {
@@ -76,31 +67,28 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setValue:@"" forKey:@"name"];
-    
-    [RedScarf_API requestWithURL:@"/task/fuzzyUser" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self.array removeAllObjects];
-            [self.nameArray removeAllObjects];
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                Model *model = [[Model alloc] init];
-                model.username = [dic objectForKey:@"username"];
-                model.tasksArr = [dic objectForKey:@"apartments"];
-                model.mobile = [dic objectForKey:@"mobile"];
-                model.userId = [dic objectForKey:@"userId"];
-                [self.array addObject:model];
-                [self.nameArray addObject: model.username];
-            }
-            [self.taskTableView reloadData];
+    [RSHttp requestWithURL:@"/task/fuzzyUser" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self.array removeAllObjects];
+        [self.nameArray removeAllObjects];
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            NSLog(@"dic = %@",dic);
+            Model *model = [[Model alloc] init];
+            model.username = [dic objectForKey:@"username"];
+            model.tasksArr = [dic objectForKey:@"apartments"];
+            model.mobile = [dic objectForKey:@"mobile"];
+            model.userId = [dic objectForKey:@"userId"];
+            [self.array addObject:model];
+            [self.nameArray addObject: model.username];
         }
+        [self.taskTableView reloadData];
+
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
-    
 }
 
 
@@ -111,10 +99,7 @@
     self.taskTableView.backgroundColor = color242;
     self.taskTableView.delegate = self;
     self.taskTableView.dataSource = self;
-//    if (self.num == 1) {
-        self.taskTableView.tableHeaderView = self.searchBar;
-
-//    }
+    self.taskTableView.tableHeaderView = self.searchBar;
     UIView *footView = [[UIView alloc] init];
     self.taskTableView.tableFooterView = footView;
     [self.view addSubview:self.taskTableView];
@@ -240,7 +225,7 @@
     switch (buttonIndex) {
         case 1:
         {
-            AppDelegate *app = [UIApplication sharedApplication].delegate;
+            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             app.tocken = [UIUtils replaceAdd:app.tocken];
             [params setObject:app.tocken forKey:@"token"];
@@ -258,15 +243,11 @@
                 url = @"/task/assignTask/updateTask";
             }
             
-            [RedScarf_API requestWithURL:url params:params httpMethod:@"PUT" block:^(id result) {
-                NSLog(@"result = %@",result);
-                if ([[result objectForKey:@"success"] boolValue]) {
-                    [self alertView:@"分配成功" number:0];
-                }else{
-                    [self alertView:@"分配失败" number:0];
-                }
+            [RSHttp requestWithURL:url params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+                [self alertView:@"分配成功" number:0];
+            } failure:^(NSInteger code, NSString *errmsg) {
+                [self alertView:@"分配失败" number:0];
             }];
-
         }
         case 0:{
             if (whichAlertView == 1) {

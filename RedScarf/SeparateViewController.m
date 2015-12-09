@@ -23,8 +23,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -136,27 +135,23 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    
-    [RedScarf_API requestWithURL:@"/task/distPointMeals" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            
-            NSArray *arr = [NSArray arrayWithArray:[[result objectForKey:@"msg"] objectForKey:@"list"]];
-            if (![arr count]) {
-                [self.view addSubview:[self named:@"meiyoucanpin" text:@"餐品"]];
-            }
-            
-            [self.dataArray removeAllObjects];
-            for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
-                NSLog(@"dic = %@",dic);
-                [self.dataArray addObject:dic];
-            }
-            [self.tableView reloadData];
+    [RSHttp requestWithURL:@"/task/distPointMeals" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
+        if (![arr count]) {
+            [self.view addSubview:[self named:@"meiyoucanpin" text:@"餐品"]];
         }
+        
+        [self.dataArray removeAllObjects];
+        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+            NSLog(@"dic = %@",dic);
+            [self.dataArray addObject:dic];
+        }
+        [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 

@@ -15,6 +15,7 @@
 #import "Part-timeTaskVC.h"
 #import "HomePageViewController.h"
 #import "UITabBarController+ViewController.h"
+#import "GoPeiSongViewController.h"
 
 @interface BaseTabbarViewController ()<UITabBarControllerDelegate>
 
@@ -35,6 +36,7 @@
 //    self.tabBar.tintColor = [UIColor blackColor];
 
     self.delegate = self;
+    [self setHidesBottomBarWhenPushed:YES];
 }
 
 -(void)setViewController
@@ -47,7 +49,7 @@
     
     UIColor *titleHighlightedColor = MakeColor(69, 128, 250);
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                       titleHighlightedColor, UITextAttributeTextColor,
+                                                       titleHighlightedColor, NSForegroundColorAttributeName,
                                                        nil] forState:UIControlStateSelected];
 
     myNAVI.tabBarItem.image = [[UIImage imageNamed:@"newwgeren"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -62,8 +64,30 @@
     homeNAVI.tabBarItem.image = [[UIImage imageNamed:@"newwshouye"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     homeNAVI.tabBarItem.selectedImage = [[UIImage imageNamed:@"newshouye"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     self.viewControllers = @[homeNAVI,myNAVI];
-
+    [self.view addSubview:self.btn];
 }
+
+-(UIButton *) btn
+{
+    if(_btn) {
+        return _btn;
+    }
+    //圆形
+    _btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-25, kUIScreenHeigth-80, 60, 60)];
+    [_btn setBackgroundColor:[UIColor redColor]];
+    _btn.layer.cornerRadius = 30;
+    [_btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
+    _btn.layer.masksToBounds = YES;
+    [_btn addTarget:self action:@selector(pressChange:) forControlEvents:UIControlEventTouchUpInside];
+    return _btn;
+}
+
+-(void)pressChange:(id)sender
+{
+    GoPeiSongViewController *goVC = [[GoPeiSongViewController alloc] init];
+    [[self selectedViewController] pushViewController:goVC animated:YES];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

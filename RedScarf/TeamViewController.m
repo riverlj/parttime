@@ -24,10 +24,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
-
     self.tabBarController.tabBar.hidden = NO;
+    [super viewWillAppear:animated];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

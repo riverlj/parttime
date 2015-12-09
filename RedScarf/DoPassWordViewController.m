@@ -120,7 +120,6 @@
 
 -(void)didClickCodeBtn
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
     if ([codeBtn.titleLabel.text isEqualToString:@"重新获取"]) {
         num = 60;
         
@@ -131,16 +130,12 @@
             [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
         }
         [self showHUD:@"正在发送"];
-        [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/verifyCode/shortMsg",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if ([[result objectForKey:@"success"] boolValue]) {
-                [self alertView:@"发送成功"];
-                [self hidHUD];
-                [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
-            }else{
-                [self alertView:@"发送失败"];
-            }
-            
+        [RSHttp payRequestWithURL:@"/verifyCode/shortMsg" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+            [self alertView:@"发送成功"];
+            [self hidHUD];
+            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
+        } failure:^(NSInteger code, NSString *errmsg) {
+            [self alertView:@"发送失败"];
         }];
         
     }else{
@@ -151,18 +146,14 @@
             [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
         }
         [self showHUD:@"正在发送"];
-        [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/verifyCode/shortMsg",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if ([[result objectForKey:@"success"] boolValue]) {
-                [self alertView:@"发送成功"];
-                [self hidHUD];
-                [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
-            }else{
-                [self alertView:@"发送失败"];
-            }
-            
+        [RSHttp payRequestWithURL:@"/verifyCode/shortMsg" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+            [self alertView:@"发送成功"];
+            [self hidHUD];
+            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
+        } failure:^(NSInteger code, NSString *errmsg) {
+            [self alertView:@"发送失败"];
         }];
-    }
+     }
 
 }
 
@@ -202,19 +193,17 @@
     }
     NSLog(@"resultParams = %@",params);
     [self showHUD:@"正在设置"];
-    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/setPayPwd",REDSCARF_PAY_URL] params:params httpMethod:@"POST" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:passWord.text forKey:@"passWord"];
-            [defaults synchronize];
-            [self alertView:[result objectForKey:@"body"]];
-            [self.navigationController popViewControllerAnimated:YES];
-//            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
-        }else{
-            [self alertView:[result objectForKey:@"body"]];
-        }
+    [RSHttp payRequestWithURL:@"/account/setPayPwd" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:passWord.text forKey:@"passWord"];
+        [defaults synchronize];
+        [self alertView:[data objectForKey:@"body"]];
+        [self.navigationController popViewControllerAnimated:YES];
+        //            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
         [self hidHUD];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
+        [self alertView:errmsg];
     }];
 }
 

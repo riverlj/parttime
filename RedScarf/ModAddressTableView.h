@@ -12,7 +12,7 @@
 @interface ModAddressTableView : BaseTableView<JudgeTableViewName>
 
 @property(nonatomic,strong)NSMutableArray *dataArr;
-@property(nonatomic,assign)int num;
+@property(nonatomic,assign)NSInteger num;
 @property(nonatomic,strong)NSString *nameTableView;
 
 @end

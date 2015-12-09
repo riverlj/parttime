@@ -28,15 +28,14 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
+    [super viewWillAppear:animated];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [[self.navigationController.navigationBar viewWithTag:30001] removeFromSuperview];
-    
+    [super viewWillDisappear:animated];
 }
 
 -(void)viewDidLoad
@@ -71,42 +70,68 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:dateStr forKey:@"date"];
-    [RedScarf_API requestWithURL:@"/salary/month/v2" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [eveydayArray removeAllObjects];
-            [settleArray removeAllObjects];
-            [salayArray removeAllObjects];
-            [settledDateArray removeAllObjects];
-            settledSum = [NSString stringWithFormat:@"%@",[[result objectForKey:@"msg"] objectForKey:@"settledSum"]];
-            UILabel *money = (UILabel *)[self.view viewWithTag:6666];
-            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"已结算金额\n%@",settledSum]];
-            [str addAttribute:NSForegroundColorAttributeName value:color155 range:NSMakeRange(0,5)];
-            money.attributedText = str;
-
-//            money.text = [NSString stringWithFormat:@"已结算金额\n%@",settledSum];
-            
-            unsettledSum = [NSString stringWithFormat:@"%@",[[result objectForKey:@"msg"] objectForKey:@"unsettledSum"]];
-            UILabel *money1 = (UILabel *)[self.view viewWithTag:7777];
-            money1.text = [NSString stringWithFormat:@"未结算金额\n%@",unsettledSum];
-            
-            for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
-                NSLog(@"dic = %@",dic);
-                [eveydayArray addObject:[dic objectForKey:@"date"]];
-                [salayArray addObject:[dic objectForKey:@"sum"]];
-                [settledDateArray addObject:[dic objectForKey:@"settledDate"]];
-                [settleArray addObject:[dic objectForKey:@"settled"]];
-            }
-            [self.tableView reloadData];
-        }else{
-            [self alertView:[result objectForKey:@"msg"]];
+    [RSHttp requestWithURL:@"/salary/month/v2" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [eveydayArray removeAllObjects];
+        [settleArray removeAllObjects];
+        [salayArray removeAllObjects];
+        [settledDateArray removeAllObjects];
+        settledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"msg"] objectForKey:@"settledSum"]];
+        UILabel *money = (UILabel *)[self.view viewWithTag:6666];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"已结算金额\n%@",settledSum]];
+        [str addAttribute:NSForegroundColorAttributeName value:color155 range:NSMakeRange(0,5)];
+        money.attributedText = str;
+        
+        //            money.text = [NSString stringWithFormat:@"已结算金额\n%@",settledSum];
+        
+        unsettledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"msg"] objectForKey:@"unsettledSum"]];
+        UILabel *money1 = (UILabel *)[self.view viewWithTag:7777];
+        money1.text = [NSString stringWithFormat:@"未结算金额\n%@",unsettledSum];
+        
+        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+            NSLog(@"dic = %@",dic);
+            [eveydayArray addObject:[dic objectForKey:@"date"]];
+            [salayArray addObject:[dic objectForKey:@"sum"]];
+            [settledDateArray addObject:[dic objectForKey:@"settledDate"]];
+            [settleArray addObject:[dic objectForKey:@"settled"]];
         }
+        [self.tableView reloadData];
+
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
+    }];
+    [RSHttp requestWithURL:@"/salary/month/v2" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [eveydayArray removeAllObjects];
+        [settleArray removeAllObjects];
+        [salayArray removeAllObjects];
+        [settledDateArray removeAllObjects];
+        settledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"msg"] objectForKey:@"settledSum"]];
+        UILabel *money = (UILabel *)[self.view viewWithTag:6666];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"已结算金额\n%@",settledSum]];
+        [str addAttribute:NSForegroundColorAttributeName value:color155 range:NSMakeRange(0,5)];
+        money.attributedText = str;
+        
+        //            money.text = [NSString stringWithFormat:@"已结算金额\n%@",settledSum];
+        
+        unsettledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"msg"] objectForKey:@"unsettledSum"]];
+        UILabel *money1 = (UILabel *)[self.view viewWithTag:7777];
+        money1.text = [NSString stringWithFormat:@"未结算金额\n%@",unsettledSum];
+        
+        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+            NSLog(@"dic = %@",dic);
+            [eveydayArray addObject:[dic objectForKey:@"date"]];
+            [salayArray addObject:[dic objectForKey:@"sum"]];
+            [settledDateArray addObject:[dic objectForKey:@"settledDate"]];
+            [settleArray addObject:[dic objectForKey:@"settled"]];
+        }
+        [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
 }
 

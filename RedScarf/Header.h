@@ -11,6 +11,7 @@
 
 #define kUIScreenHeigth  [UIScreen mainScreen].bounds.size.height
 #define kUIScreenWidth   [UIScreen mainScreen].bounds.size.width
+#define kUITabBarHeight  64
 
 #define MakeColor(r, g, b) [UIColor colorWithRed:(r/255.0f) green:(g/255.0f) blue:(b/255.0f) alpha:1.0f]
 #define textcolor [UIColor colorWithRed:(75/255.0f) green:(75/255.0f) blue:(75/255.0f) alpha:1.0f]
@@ -37,4 +38,17 @@
 
 #define NBColorRGBValue$(rgbValue,a)  [UIColor colorWithRed:((float)((rgbValue & 0xff0000) >> 16))/255.0 green:((float)((rgbValue & 0xff00) >> 8))/255.0 blue:((float)(rgbValue & 0xff))/255.0 alpha:a]
 
+//#define  REDSCARF_BASE_URL @"http://192.168.1.95:8080"
+//#define  REDSCARF_BASE_URL @"http://test.jianzhi.honglingjinclub.com"
+//正式
+#define  REDSCARF_BASE_URL @"http://jianzhi.honglingjinclub.com"
+//测试
+//#define  REDSCARF_BASE_URL @"http://121.42.58.92"
+//#define  REDSCARF_BASE_URL @"http://192.168.1.14:9080"
+
+#define  REDSCARF_PAY_URL @"https://pay.honglingjinclub.com"
+//#define  REDSCARF_PAY_URL @"https://paytest.honglingjinclub.com"
+
+#import "RSHttp.h"
+#import "RSCategory.h"
 #endif

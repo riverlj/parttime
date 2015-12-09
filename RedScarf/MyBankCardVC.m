@@ -30,8 +30,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidLoad
@@ -77,37 +76,32 @@
     if ([defaults objectForKey:@"withdrawToken"]) {
         [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
     }
-    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/queryBankCard",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-            arr = [result objectForKey:@"body"];
-            if (arr.count) {
-                NSMutableDictionary *dic = [[result objectForKey:@"body"] objectAtIndex:0];
-                NSLog(@"dic = %@",dic);
-                nameText = [dic objectForKey:@"realName"];
-                if (nameText.length) {
-                    editOrSave = NO;
-                }
-                telText = [dic objectForKey:@"phoneNumber"];
-                bankText = [dic objectForKey:@"cardNum"];
-                branchBankId = [dic objectForKey:@"branchBankId"];
-                [idArr replaceObjectAtIndex:3 withObject:[dic objectForKey:@"branchBankId"]];
-                cardId = [dic objectForKey:@"id"];
-                indexArr[2] = [dic objectForKey:@"bankName"];
-                indexArr[3] = [dic objectForKey:@"branchBankName"];
-                indexArr[4] = [dic objectForKey:@"businessType"];
-                self.navigationItem.rightBarButtonItem.title = @"编辑";
-                [self getMsgFromBranchBankId];
+    [RSHttp payRequestWithURL:@"/account/queryBankCard" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        arr = [data objectForKey:@"body"];
+        if (arr.count) {
+            NSMutableDictionary *dic = [[data objectForKey:@"body"] objectAtIndex:0];
+            NSLog(@"dic = %@",dic);
+            nameText = [dic objectForKey:@"realName"];
+            if (nameText.length) {
+                editOrSave = NO;
             }
-            
-            [self hidHUD];
-           
-            
-        }else{
-            [self alertView:[result objectForKey:@"body"]];
+            telText = [dic objectForKey:@"phoneNumber"];
+            bankText = [dic objectForKey:@"cardNum"];
+            branchBankId = [dic objectForKey:@"branchBankId"];
+            [idArr replaceObjectAtIndex:3 withObject:[dic objectForKey:@"branchBankId"]];
+            cardId = [dic objectForKey:@"id"];
+            indexArr[2] = [dic objectForKey:@"bankName"];
+            indexArr[3] = [dic objectForKey:@"branchBankName"];
+            indexArr[4] = [dic objectForKey:@"businessType"];
+            self.navigationItem.rightBarButtonItem.title = @"编辑";
+            [self getMsgFromBranchBankId];
         }
+        
+        [self hidHUD];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
+        [self alertView:errmsg];
     }];
-    
 }
 
 -(void)getMsgFromBranchBankId
@@ -120,24 +114,18 @@
     if ([defaults objectForKey:@"withdrawToken"]) {
         [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
     }
-    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/bank/getBranchBankById",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-            NSMutableDictionary *dic = [result objectForKey:@"body"];
-            indexArr[0] = [dic objectForKey:@"provincename"];
-            indexArr[1] = [dic objectForKey:@"cityname"];
-//            [idArr replaceObjectAtIndex:0 withObject:[dic objectForKey:@"provinceid"]];
-//            [idArr replaceObjectAtIndex:1 withObject:[dic objectForKey:@"cityid"]];
-//            [idArr replaceObjectAtIndex:2 withObject:[dic objectForKey:@"parentid"]];
-
-
-        }else{
-            [self alertView:[result objectForKey:@"body"]];
-        }
+    [RSHttp payRequestWithURL:@"/bank/getBranchBankById" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSMutableDictionary *dic = [data objectForKey:@"body"];
+        indexArr[0] = [dic objectForKey:@"provincename"];
+        indexArr[1] = [dic objectForKey:@"cityname"];
+        //            [idArr replaceObjectAtIndex:0 withObject:[dic objectForKey:@"provinceid"]];
+        //            [idArr replaceObjectAtIndex:1 withObject:[dic objectForKey:@"cityid"]];
+        //            [idArr replaceObjectAtIndex:2 withObject:[dic objectForKey:@"parentid"]];
         [self initView];
         [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
-
 }
 
 -(void)initView
@@ -402,29 +390,20 @@
             }
             
             [params setObject:idArr[3] forKey:@"branchBankId"];
-            
-            [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@%@",REDSCARF_PAY_URL,url] params:params httpMethod:@"POST" block:^(id result) {
-                NSLog(@"result = %@",result);
-                if ([[result objectForKey:@"success"] boolValue]) {
-                    for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                        NSLog(@"dic = %@",dic);
-                        
-                    }
-                    [self alertView:@"保存成功"];
-                    self.navigationItem.rightBarButtonItem.title = @"编辑";
-                    bankTf.userInteractionEnabled = NO;
-                    nameTf.userInteractionEnabled = NO;
-                    telTf.userInteractionEnabled = NO;
-                    proBtn.userInteractionEnabled = NO;
-                    taskTypeBtn.userInteractionEnabled = NO;
-                    cityBtn.userInteractionEnabled = NO;
-                    bankBtn.userInteractionEnabled = NO;
-                    bankChildBtn.userInteractionEnabled = NO;
-                }else{
-                    [self alertView:[result objectForKey:@"body"]];
-                }
+            [RSHttp payRequestWithURL:url params:params httpMethod:@"POST" success:^(NSDictionary *data) {
+                [self alertView:@"保存成功"];
+                self.navigationItem.rightBarButtonItem.title = @"编辑";
+                bankTf.userInteractionEnabled = NO;
+                nameTf.userInteractionEnabled = NO;
+                telTf.userInteractionEnabled = NO;
+                proBtn.userInteractionEnabled = NO;
+                taskTypeBtn.userInteractionEnabled = NO;
+                cityBtn.userInteractionEnabled = NO;
+                bankBtn.userInteractionEnabled = NO;
+                bankChildBtn.userInteractionEnabled = NO;
+            } failure:^(NSInteger code, NSString *errmsg) {
+                [self alertView:errmsg];
             }];
-            
         }else{
             [self alertView:@"用户信息不能为空"];
         }

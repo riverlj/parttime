@@ -48,10 +48,6 @@
     [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [barView addSubview:back];
     
-//    UITextField *telTXT = [[UITextField alloc] initWithFrame:CGRectMake(15, 79, kUIScreenWidth-30, 45)];
-//    telTXT.backgroundColor = [UIColor whiteColor];
-//    [self.view addSubview:telTXT];
-    
     for (int i = 0; i < 4; i++) {
         UITextField *TXT = [[UITextField alloc] initWithFrame:CGRectMake(18, 85+i*60, kUIScreenWidth-30, 45)];
         TXT.backgroundColor = [UIColor whiteColor];
@@ -99,39 +95,24 @@
 //发送验证码
 -(void)code
 {
-    if ([codeBtn.titleLabel.text isEqualToString:@"重新获取"]) {
-        num = 60;
-        UITextField *tf = (UITextField *)[self.view viewWithTag:1000];
+    num = 60;
+    UITextField *tf = (UITextField *)[self.view viewWithTag:1000];
         
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        [params setObject:tf.text forKey:@"mobile"];
-        [RedScarf_API requestWithURL:@"/user/validCode" params:params httpMethod:@"GET" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if ([[result objectForKey:@"success"] boolValue]) {
-                //            [self alertView:@"修改成功"];
-                [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
-            }else{
-                [self alertView:[result objectForKey:@"msg"]];
-            }
-            
-        }];
-    }else{
-        UITextField *tf = (UITextField *)[self.view viewWithTag:1000];
-        
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        [params setObject:tf.text forKey:@"mobile"];
-        [RedScarf_API requestWithURL:@"/user/validCode" params:params httpMethod:@"GET" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if ([[result objectForKey:@"success"] boolValue]) {
-                //            [self alertView:@"修改成功"];
-                [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
-            }else{
-                [self alertView:[result objectForKey:@"msg"]];
-            }
-            
-        }];
-    }
-    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:tf.text forKey:@"mobile"];
+    [RSHttp requestWithURL:@"/user/validCode"
+                    params:params
+                httpMethod:@"GET"
+                   success:^(NSDictionary *data) {
+                           [NSTimer scheduledTimerWithTimeInterval:1
+                                                            target:self
+                                                          selector:@selector(timer)
+                                                          userInfo:nil
+                                                           repeats:YES];
+                   }
+                   failure:^(NSInteger code, NSString *errmsg) {
+                           [self alertView:errmsg];
+                }];
 }
 //确认
 -(void)makeSure
@@ -145,15 +126,11 @@
     [params setObject:tf1.text forKey:@"validCode"];
     [params setObject:tf2.text forKey:@"newPwd"];
     [params setObject:tf3.text forKey:@"reNewPwd"];
-    [RedScarf_API requestWithURL:@"/user/password" params:params httpMethod:@"PUT" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self alertView:@"修改成功"];
-            [self.navigationController popViewControllerAnimated:YES];
-        }else{
-            [self alertView:[result objectForKey:@"msg"]];
-        }
-        
+    [RSHttp requestWithURL:@"/user/password" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+        [self alertView:@"修改成功"];
+        [self.navigationController popViewControllerAnimated:YES];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
 }
 
@@ -178,20 +155,4 @@
 {
     [self.view endEditing:YES];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

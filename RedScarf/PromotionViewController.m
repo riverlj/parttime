@@ -31,15 +31,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = NO;
-    [self.tabBarController.view viewWithTag:11011].hidden = NO;
 }
 
 -(void)viewDidLoad
@@ -67,41 +59,38 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:[NSNumber numberWithInt:30] forKey:@"pageSize"];
     [params setObject:[NSNumber numberWithInt:1] forKey:@"pageNum"];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    
-    [RedScarf_API requestWithURL:@"/promotionActivity/index" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            NSMutableDictionary *dic = [result objectForKey:@"msg"];
-                NSLog(@"dic = %@",dic);
-                dataArray = [dic objectForKey:@"otherUsers"];
-                for (NSMutableDictionary *dic1 in [dic objectForKey:@"otherUsers"]) {
-                    [nameArray addObject:[dic1 objectForKey:@"otherUserName"]];
-                    [telArray addObject:[dic1 objectForKey:@"otherUserPhone"]];
-                    [orderArray addObject:[dic1 objectForKey:@"otherUserYestdayOrder"]];
-                    [countArray addObject:[dic1 objectForKey:@"otherUserTotalOrder"]];
-                }
-            code = [dic objectForKey:@"cdkey"];
-                for (int i = 0; i < 3; i++) {
-                    UILabel *label = (UILabel *)[self.view viewWithTag:1000+i];
-                    if (i==0) {
-                        label.text = [dic objectForKey:@"fansTotal"];
-                    }
-                    if (i==1) {
-                        label.text = [dic objectForKey:@"promoteAccount"];
-                    }
-                    if (i==2) {
-                        label.text = [dic objectForKey:@"orderTotal"];
-                    }
-                }
-            [self initArray];
-            [self.listTableView reloadData];
+    [RSHttp requestWithURL:@"/promotionActivity/index" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSMutableDictionary *dic = [data objectForKey:@"msg"];
+        NSLog(@"dic = %@",dic);
+        dataArray = [dic objectForKey:@"otherUsers"];
+        for (NSMutableDictionary *dic1 in [dic objectForKey:@"otherUsers"]) {
+            [nameArray addObject:[dic1 objectForKey:@"otherUserName"]];
+            [telArray addObject:[dic1 objectForKey:@"otherUserPhone"]];
+            [orderArray addObject:[dic1 objectForKey:@"otherUserYestdayOrder"]];
+            [countArray addObject:[dic1 objectForKey:@"otherUserTotalOrder"]];
         }
+        code = [dic objectForKey:@"cdkey"];
+        for (int i = 0; i < 3; i++) {
+            UILabel *label = (UILabel *)[self.view viewWithTag:1000+i];
+            if (i==0) {
+                label.text = [dic objectForKey:@"fansTotal"];
+            }
+            if (i==1) {
+                label.text = [dic objectForKey:@"promoteAccount"];
+            }
+            if (i==2) {
+                label.text = [dic objectForKey:@"orderTotal"];
+            }
+        }
+        [self initArray];
+        [self.listTableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 

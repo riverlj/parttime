@@ -26,6 +26,7 @@
     [self initTableView];
     [self judgeRoundView];
     [self comeBack:nil];
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidLoad
@@ -44,26 +45,36 @@
 
 -(void)judgeRoundView
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     count = 0;
     __block int peisong;
-    [RedScarf_API requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                peisong = [[dic objectForKey:@"count"] intValue];
-                count += peisong;
-                if (count) {
-                    UILabel *label = (UILabel *)[[self.view viewWithTag:100006] viewWithTag:100008];
-                    label.text = [NSString stringWithFormat:@"—总计:%d份—",count];
-                    }
-                [self initTableView];
+    [RSHttp requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            peisong = [[dic objectForKey:@"count"] intValue];
+            count += peisong;
+            if (count) {
+                UILabel *label = (UILabel *)[[self.view viewWithTag:100006] viewWithTag:100008];
+                label.text = [NSString stringWithFormat:@"—总计:%d份—",count];
             }
-            
+            [self initTableView];
         }
+    } failure:^(NSInteger code, NSString *errmsg) {
+    }];
+    [RSHttp requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            peisong = [[dic objectForKey:@"count"] intValue];
+            count += peisong;
+            if (count) {
+                UILabel *label = (UILabel *)[[self.view viewWithTag:100006] viewWithTag:100008];
+                label.text = [NSString stringWithFormat:@"—总计:%d份—",count];
+            }
+            [self initTableView];
+        }
+
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 
@@ -85,7 +96,7 @@
     countLabel.text = [NSString stringWithFormat:@"—共计:%d份—",count];
     countLabel.tag = 100008;
     countLabel.font = [UIFont systemFontOfSize:12];
-    countLabel.textAlignment = UITextAlignmentCenter;
+    countLabel.textAlignment = NSTextAlignmentCenter;
     [backgroundView addSubview:countLabel];
     
     

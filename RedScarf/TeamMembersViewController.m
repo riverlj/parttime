@@ -20,18 +20,6 @@
     NSMutableArray *nameArray;
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = NO;
-    [self.tabBarController.view viewWithTag:11011].hidden = NO;
-}
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
-    
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -59,36 +47,30 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:app.tocken forKey:@"token"];
     [params setValue:@"" forKey:@"name"];
     [params setValue:@"-1" forKey:@"pageSize"];
     [params setValue:@"-1" forKey:@"pageNum"];
     [self showHUD:@"正在加载"];
-    [RedScarf_API requestWithURL:@"/user/teamMembers/" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            
-            NSArray *arr = [NSArray arrayWithArray:[[result objectForKey:@"msg"] objectForKey:@"list"]];
-            if (![arr count]) {
-                [self.view addSubview:[self named:@"meiyouchengyuan" text:@"成员"]];
-            }
-            
-            [listArray removeAllObjects];
-            [nameArray removeAllObjects];
-            for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
-                [listArray addObject:dic];
-                [nameArray addObject:[dic objectForKey:@"realName"]];
-            }
-            [self.tableView reloadData];
-        }else
-        {
-            [self alertView:[result objectForKey:@"加载失败"]];
+    [RSHttp requestWithURL:@"/user/teamMembers/" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
+        if (![arr count]) {
+            [self.view addSubview:[self named:@"meiyouchengyuan" text:@"成员"]];
         }
+        
+        [listArray removeAllObjects];
+        [nameArray removeAllObjects];
+        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+            [listArray addObject:dic];
+            [nameArray addObject:[dic objectForKey:@"realName"]];
+        }
+        [self.tableView reloadData];
         [self hidHUD];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:@"加载失败"];
     }];
-
 }
 
 -(void)initTableView
@@ -175,14 +157,13 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    //[tableView deselectRowAtIndexPath:indexPath animated:NO];
     MemberDetailViewController *memberVC = [[MemberDetailViewController alloc] init];
     NSMutableDictionary *dic;
     if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
 
         //根据名字查找aid
         NSString *name = self.filteredArray[indexPath.row];
-        NSString *phone = @"";
         for (NSMutableDictionary *dic in listArray) {
             if ([[dic objectForKey:@"realName"] isEqualToString:name]) {
                 memberVC.memberId = [dic objectForKey:@"id"];

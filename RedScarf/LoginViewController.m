@@ -9,7 +9,7 @@
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 #import "Header.h"
-#import "RedScarf_API.h"
+#import "RSHttp.h"
 #import "UIUtils.h"
 #import "Flurry.h"
 #import "ForgetPassViewController.h"
@@ -28,12 +28,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = MakeColor(244, 244, 244);
     [Flurry logEvent:@"login_count"];
     [self initView];
-    
-    
 }
 
 -(void)initView
@@ -96,12 +93,11 @@
     UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     if (kUIScreenHeigth == 480) {
         loginBtn.frame = CGRectMake(58, passField.frame.origin.y+passField.frame.size.height+15, self.view.frame.size.width-116, 45);
-        loginBtn.font = [UIFont systemFontOfSize:16];
+        loginBtn.titleLabel.font = [UIFont systemFontOfSize:16];
 
     }else{
         loginBtn.frame = CGRectMake(58, passField.frame.origin.y+passField.frame.size.height+20, self.view.frame.size.width-116, 50);
-        loginBtn.font = [UIFont systemFontOfSize:18];
-
+        loginBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     }
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn setBackgroundColor:MakeColor(32, 102, 208)];
@@ -160,54 +156,47 @@
     NSString *str = [UIUtils getSha1String:passField.text];
     [self showHUD:@"正在登录"];
     [dic setObject:str forKey:@"password"];
-    [RedScarf_API requestWithURL:@"/auth" params:dic httpMethod:@"POST" block:^(id result) {
-                NSLog(@"result = %@",[result objectForKey:@"msg"]);
+    __weak __typeof(&*self)weakSelf = self;
+    [RSHttp requestWithURL:@"/auth" params:dic httpMethod:@"POST" success:^(NSDictionary *data) {
+        [weakSelf hidHUD];
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        app.tocken = [data objectForKey:@"msg"];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *string = [self uuid];
+        NSString *uuid = [defaults objectForKey:@"uuid"];
+        if (!uuid.length) {
+            [defaults setObject:string forKey:@"uuid"];
+            [defaults synchronize];
+        }
+        app.tocken = [UIUtils replaceAdd:app.tocken];
+        [dic setObject:app.tocken forKey:@"token"];
         
-                if (![[result objectForKey:@"success"] boolValue]) {
-                    [self hidHUD];
-                    [self alertView:[result objectForKey:@"msg"]];
-                }
-                if ([[result objectForKey:@"success"] boolValue]) {
-                    AppDelegate *app = [UIApplication sharedApplication].delegate;
-                    app.tocken = [result objectForKey:@"msg"];
-                    NSLog(@"token = %@",app.tocken);
-                    
-                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                    NSString *string = [self uuid];
-                    NSString *uuid = [defaults objectForKey:@"uuid"];
-                    if (!uuid.length) {
-                        [defaults setObject:string forKey:@"uuid"];
-                        [defaults synchronize];
-                    }
-                    
-                    app.tocken = [UIUtils replaceAdd:app.tocken];
-
-                    [dic setObject:app.tocken forKey:@"token"];
-                    
-                [RedScarf_API requestWithURL:@"/resource/appMenu" params:dic httpMethod:@"GET" block:^(id result) {
-                    NSLog(@"result = %@   %@",[result objectForKey:@"msg"],result);
-                    
-                    NSMutableArray *tabCount = [result objectForKey:@"msg"];
-                    app.array = tabCount;
-                    for (NSDictionary *dic in tabCount) {
-                        NSLog(@"dic = %@",dic);
-                        app.count = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
-                    }
-                    [Flurry logEvent:@"login_count"];
-
-                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                    [defaults setObject:app.tocken forKey:@"token"];
-                    [defaults setObject:app.count forKey:@"count"];
-                    [defaults setObject:nameField.text forKey:@"username"];
-                    [defaults synchronize];
-                    baseTabVC = [[BaseTabbarViewController alloc] init];
-                    [app setRoorViewController:baseTabVC];
-
-                }];
-                    
-                }
-        }];
-    
+        [RSHttp requestWithURL:@"/resource/appMenu"
+                              params:dic
+                          httpMethod:@"GET"
+                             success:^(NSDictionary *data) {
+                                 NSLog(@"result = %@   %@",[data objectForKey:@"msg"],data);
+                                 NSMutableArray *tabCount = [data objectForKey:@"msg"];
+                                 app.array = tabCount;
+                                 for (NSDictionary *dic in tabCount) {
+                                     app.count = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
+                                 }
+                                 [Flurry logEvent:@"login_count"];
+                                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                                 [defaults setObject:app.tocken forKey:@"token"];
+                                 [defaults setObject:app.count forKey:@"count"];
+                                 [defaults setObject:nameField.text forKey:@"username"];
+                                 [defaults synchronize];
+                                 baseTabVC = [[BaseTabbarViewController alloc] init];
+                                 [app setRoorViewController:baseTabVC];
+                             }
+                             failure:^(NSInteger code, NSString *errmsg) {
+                             }];
+        
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [weakSelf hidHUD];
+        [weakSelf alertView:errmsg];
+    }];
 }
 
 -(NSString*) uuid {
@@ -244,7 +233,6 @@
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     CGRect frame = textField.frame;
-    
     //键盘高度216
     int offset;
     if (kUIScreenHeigth == 480) {
@@ -256,27 +244,20 @@
     }
     
     NSTimeInterval animationDuration = 0.30f;
-    
     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    
     [UIView setAnimationDuration:animationDuration];
     
     //将软键盘Y坐标向上移动offset个单位 以使下面显示软键盘显示
-    if (offset > 0 )
+    if (offset > 0 ) {
         self.view.frame = CGRectMake(0, -offset, self.view.frame.size.width, self.view.frame.size.height);
+    }
     [UIView commitAnimations];
 }
 
 #pragma mark 结束时恢复界面高度
-//-(void)textFieldDidEndEditing:(UITextField *)textField
-//{
-//    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-//}
-
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    
     [self.view endEditing:YES];
 }
 
@@ -284,21 +265,4 @@
 {
     
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

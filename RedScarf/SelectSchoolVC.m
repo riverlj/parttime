@@ -8,7 +8,6 @@
 
 #import "SelectSchoolVC.h"
 #import "Header.h"
-#import "RedScarf_API.h"
 #import "UIUtils.h"
 #import "AppDelegate.h"
 
@@ -158,22 +157,19 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     
-    
-    [RedScarf_API requestWithURL:@"/task/allApartmentBySchoolId" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                [self.dataArray addObject:dic];
-                [self.nameArray addObject:[dic objectForKey:@"name"]];
-            }
-            [self.schoolTableView reloadData];
+    [RSHttp requestWithURL:@"/task/allApartmentBySchoolId" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            NSLog(@"dic = %@",dic);
+            [self.dataArray addObject:dic];
+            [self.nameArray addObject:[dic objectForKey:@"name"]];
         }
+        [self.schoolTableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 

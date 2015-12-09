@@ -27,13 +27,6 @@
     NSMutableArray *saveOtherDaysArray;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
-}
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -68,7 +61,7 @@
 
 -(void)getDate
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *url = @"/user/setting/time";
     app.tocken = [UIUtils replaceAdd:app.tocken];
@@ -78,28 +71,22 @@
         url = @"/team/user/setting/time";
     }
     [self showHUD:@"正在加载"];
-    [RedScarf_API requestWithURL:url params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            
-            NSMutableDictionary *dic = [[result objectForKey:@"msg"] objectAtIndex:0];
-            NSLog(@"dic = %@",dic);
-            NSString *days = [dic objectForKey:@"days"];
-            getDaysArray = [days componentsSeparatedByString:@","];
-            
-            NSMutableDictionary *dic1 = [[result objectForKey:@"msg"] objectAtIndex:1];
-            NSLog(@"dic = %@",dic1);
-            NSString *days1 = [dic1 objectForKey:@"days"];
-            getOtherDaysArray = [days1 componentsSeparatedByString:@","];
-            [self hidHUD];
-            [self initBtnView];
-        }else
-        {
-            [self hidHUD];
-            [self alertView:[result objectForKey:@"msg"]];
-        }
+    [RSHttp requestWithURL:url params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSMutableDictionary *dic = [[data objectForKey:@"msg"] objectAtIndex:0];
+        NSLog(@"dic = %@",dic);
+        NSString *days = [dic objectForKey:@"days"];
+        getDaysArray = [[days componentsSeparatedByString:@","] mutableCopy];
+        
+        NSMutableDictionary *dic1 = [[data objectForKey:@"msg"] objectAtIndex:1];
+        NSLog(@"dic = %@",dic1);
+        NSString *days1 = [dic1 objectForKey:@"days"];
+        getOtherDaysArray = [[days1 componentsSeparatedByString:@","] copy];
+        [self hidHUD];
+        [self initBtnView];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
+        [self alertView:errmsg];
     }];
-
 }
 
 -(void)initBtnView
@@ -393,7 +380,7 @@
                              initWithCalendarIdentifier:NSGregorianCalendar];
     NSDate *_date = [gregorian dateFromComponents:_comps];
     NSDateComponents *weekdayComponents = [gregorian components:NSWeekdayCalendarUnit fromDate:_date];
-    int _weekday = [weekdayComponents weekday];
+    NSInteger _weekday = [weekdayComponents weekday];
 //    NSLog(@" _weekday::%d  %@ %@",_weekday,arrWeek[_weekday],_date);
     if ([yearString intValue] == 2016 && [monthString intValue] == 1) {
         return arrWeek[1];
@@ -443,7 +430,7 @@
         }
     }else{
         
-        AppDelegate *app = [UIApplication sharedApplication].delegate;
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         
         app.tocken = [UIUtils replaceAdd:app.tocken];
 //        [params setObject:app.tocken forKey:@"token"];
@@ -454,12 +441,12 @@
         [dictionary setObject:yearStr forKey:@"year"];
         [dictionary setObject:monthStr forKey:@"month"];
         //数组转成字符串
-        NSMutableString *currStr = @"";
+        NSMutableString *currStr = [NSMutableString stringWithFormat:@""];
         for (int i = 0; i < getDaysArray.count; i++) {
             if (i == getDaysArray.count-1) {
-                currStr = [currStr stringByAppendingFormat:@"%@",getDaysArray[i]];
+                currStr = [[currStr stringByAppendingFormat:@"%@",getDaysArray[i]] mutableCopy];
             }else{
-                currStr = [currStr stringByAppendingFormat:@"%@,",getDaysArray[i]];
+                currStr = [[currStr stringByAppendingFormat:@"%@,",getDaysArray[i]] mutableCopy];
             }
 
         }
@@ -469,12 +456,12 @@
         [dictionary1 setObject:yearStr forKey:@"year"];
         [dictionary1 setObject:[NSString stringWithFormat:@"%d",[monthStr intValue]+1] forKey:@"month"];
         //数组转成字符串
-        NSMutableString *currStr1 = @"";
+        NSMutableString *currStr1 = [NSMutableString stringWithFormat:@""];
         for (int i = 0; i < getOtherDaysArray.count; i++) {
             if (i == getOtherDaysArray.count-1) {
-                currStr1 = [currStr1 stringByAppendingFormat:@"%@",getOtherDaysArray[i]];
+                currStr1 = [[currStr1 stringByAppendingFormat:@"%@",getOtherDaysArray[i]] mutableCopy];
             }else{
-                currStr1 = [currStr1 stringByAppendingFormat:@"%@,",getOtherDaysArray[i]];
+                currStr1 = [[currStr1 stringByAppendingFormat:@"%@,",getOtherDaysArray[i]] mutableCopy];
             }
             
         }
@@ -483,7 +470,7 @@
         NSString *dataString = [[NSString alloc] initWithData:[self toJsonData:dictionary] encoding:NSUTF8StringEncoding];
         NSString *dataString1 = [[NSString alloc] initWithData:[self toJsonData:dictionary1] encoding:NSUTF8StringEncoding];
         NSMutableString *jsonString = [NSMutableString stringWithFormat:@"[%@,%@]",dataString,dataString1];
-        jsonString = [jsonString stringByReplacingOccurrencesOfString:@"=" withString:@":"];
+        jsonString = [[jsonString stringByReplacingOccurrencesOfString:@"=" withString:@":"] mutableCopy];
         //系统put请求
         NSString *urlString;
         NSData *teamData;

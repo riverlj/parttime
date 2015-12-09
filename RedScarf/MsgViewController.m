@@ -20,28 +20,23 @@
     NSArray *titleArray;
     NSMutableArray *msgArray,*statusArray,*idArray;
     MJRefreshFooterView *footView;
-    MJRefreshHeaderView *headView;
     int pageNum;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     self.tabBarController.tabBar.hidden = YES;
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     msgArray = [NSMutableArray array];
     statusArray = [NSMutableArray array];
     idArray = [NSMutableArray array];
     pageNum = 1;
     [self getMessage];
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     [self comeBack:nil];
-    
     self.title = @"消息中心";
     [self initTableView];
     
@@ -49,30 +44,26 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
     [params setObject:[NSNumber numberWithInt:10] forKey:@"pageSize"];
-    
-    [RedScarf_API requestWithURL:@"/user/message" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-            
-            for (NSDictionary *dic in [[result objectForKey:@"body"] objectForKey:@"list"]) {
-                [msgArray addObject:dic];
-            }
+    [RSHttp requestWithURL:@"/user/message" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        for (NSDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
+            [msgArray addObject:dic];
+        }
         
-            for (NSMutableDictionary *dic in [[result objectForKey:@"body"] objectForKey:@"list"]) {
-                [statusArray addObject:[dic objectForKey:@"status"]];
-                [idArray addObject:[dic objectForKey:@"id"]];
-            }
+        for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
+            [statusArray addObject:[dic objectForKey:@"status"]];
+            [idArray addObject:[dic objectForKey:@"id"]];
         }
         [footView endRefreshing];
-        [headView endRefreshing];
         [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [footView endRefreshing];
     }];
 }
 
@@ -92,23 +83,20 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    UIView *foot = [[UIView alloc] init];
-    self.tableView.tableFooterView = foot;
     self.tableView.backgroundColor = color242;
     [self.view addSubview:self.tableView];
     
     footView = [[MJRefreshFooterView alloc] init];
     footView.delegate = self;
     footView.scrollView = self.tableView;
-
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
-    if (cell == nil) {
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    static NSString *identifier = @"MsgCell_Identifier";
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+    if(!cell) {
+        cell = [[UITableViewCell alloc] init];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -188,7 +176,8 @@
     return msgArray.count;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
      NSDictionary *dic = msgArray[indexPath.row];
@@ -198,14 +187,11 @@
     [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
     [params setObject:[NSString stringWithFormat:@"%@",idArray[indexPath.row]] forKey:@"messageId"];
     
-    [RedScarf_API requestWithURL:@"/user/message/status" params:params httpMethod:@"POST" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            
-        }else{
-            [self alertView:[result objectForKey:@"msg"]];
-        }
+    [RSHttp requestWithURL:@"/user/message/status" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
+    
     if ([[dic objectForKey:@"title"] isEqualToString:@"任务变更通知"] || [[dic objectForKey:@"title"] isEqualToString:@"任务操作提醒"]) {
         GoPeiSongViewController *taskVC = [[GoPeiSongViewController alloc] init];
         [self.navigationController pushViewController:taskVC animated:YES];
@@ -219,20 +205,4 @@
         [self.navigationController pushViewController:peisongVC animated:YES];
     }
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

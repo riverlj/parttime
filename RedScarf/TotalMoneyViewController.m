@@ -17,9 +17,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidLoad
@@ -37,23 +36,20 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:[NSNumber numberWithInt:10] forKey:@"pageSize"];
     [params setObject:[NSNumber numberWithInt:1] forKey:@"pageNum"];
 
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    
-    [RedScarf_API requestWithURL:@"/promotionActivity/index/promotionAccount" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
-                NSLog(@"dic = %@",dic);
-                [dataArray addObject:dic];
-            }
-            [self.tableView reloadData];
+    [RSHttp requestWithURL:@"/promotionActivity/index/promotionAccount" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+            NSLog(@"dic = %@",dic);
+            [dataArray addObject:dic];
         }
+        [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
     
 }

@@ -17,9 +17,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
     [self comeBack:nil];
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -153,7 +152,7 @@
 
 -(void)save
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     UITextField *old = (UITextField *)[self.view viewWithTag:100];
@@ -169,19 +168,13 @@
     [params setObject:newStr forKey:@"newPwd"];
     [params setObject:reNewStr forKey:@"reNewPwd"];
    
-    [RedScarf_API requestWithURL:@"/user/loginPwd" params:params httpMethod:@"PUT" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self alertView:@"修改成功"];
-            LoginViewController *login = [[LoginViewController alloc] init];
-            [app setRoorViewController:login];
-//            [self.navigationController popViewControllerAnimated:YES];
-        }else{
-            [self alertView:[result objectForKey:@"msg"]];
-            return ;
-        }
+    [RSHttp requestWithURL:@"/user/loginPwd" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+        [self alertView:@"修改成功"];
+        LoginViewController *login = [[LoginViewController alloc] init];
+        [app setRoorViewController:login];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
-
 }
 
 #pragma mark 开始时提高界面高度实现不遮挡效果

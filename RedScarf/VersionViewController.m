@@ -21,8 +21,7 @@
 {
     [self comeBack:nil];
     self.tabBarController.tabBar.hidden = YES;
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -104,22 +103,31 @@
     if ([defaults objectForKey:@"token"]) {
         [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
         [params setObject:@"2" forKey:@"type"];
-        
-        [RedScarf_API requestWithURL:@"/user/version" params:params httpMethod:@"GET" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if (![[result objectForKey:@"code"] boolValue]) {
-                
-                NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-                dic = [result objectForKey:@"body"];
-                NSString *versionStr = [dic objectForKey:@"version"];
-                
-                if (![versionStr isEqualToString:app_Version]) {
-                    UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
-                    [aler show];
-                }else{
-                    [self alertView:@"当前为最新版本"];
-                }
+        [RSHttp requestWithURL:@"/user/version" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+            dic = [data objectForKey:@"body"];
+            NSString *versionStr = [dic objectForKey:@"version"];
+            
+            if (![versionStr isEqualToString:app_Version]) {
+                UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
+                [aler show];
+            }else{
+                [self alertView:@"当前为最新版本"];
             }
+        } failure:^(NSInteger code, NSString *errmsg) {
+        }];
+        [RSHttp requestWithURL:@"/user/version" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+            dic = [data objectForKey:@"body"];
+            NSString *versionStr = [dic objectForKey:@"version"];
+            
+            if (![versionStr isEqualToString:app_Version]) {
+                UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
+                [aler show];
+            }else{
+                [self alertView:@"当前为最新版本"];
+            }
+        } failure:^(NSInteger code, NSString *errmsg) {
         }];
     }
 

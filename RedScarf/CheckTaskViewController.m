@@ -22,18 +22,6 @@
     UILabel *dateLabel;
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = NO;
-    [self.tabBarController.view viewWithTag:11011].hidden = NO;
-}
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:101010].hidden = YES;
-
-}
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,38 +42,33 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:dateLabel.text forKey:@"date"];
     [params setObject:@"-1" forKey:@"pageSize"];
     [params setObject:@"-1" forKey:@"pageNum"];
     [self showHUD:@"正在加载"];
-    [RedScarf_API requestWithURL:@"/team/schedule/" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            
-            NSArray *arr = [NSArray arrayWithArray:[[result objectForKey:@"msg"] objectForKey:@"list"]];
-            if (![arr count]) {
-                [self.view addSubview:[self named:@"meiyoupaiban" text:@"排班"]];
-            }
-            
-            [dateArray removeAllObjects];
-            for (NSMutableDictionary *dic in [[result objectForKey:@"msg"] objectForKey:@"list"]) {
-                TeamModel *model = [[TeamModel alloc] init];
-                model.users = [dic objectForKey:@"users"];
-                model.apartmentName = [dic objectForKey:@"apartmentName"];
-                
-                [dateArray addObject:model];
-            }
-            [self.tableView reloadData];
-        }else
-        {
-            [self alertView:[result objectForKey:@"msg"]];
-        }
+    [RSHttp requestWithURL:@"/team/schedule/" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self hidHUD];
+        NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
+        if (![arr count]) {
+            [self.view addSubview:[self named:@"meiyoupaiban" text:@"排班"]];
+        }
+        
+        [dateArray removeAllObjects];
+        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+            TeamModel *model = [[TeamModel alloc] init];
+            model.users = [dic objectForKey:@"users"];
+            model.apartmentName = [dic objectForKey:@"apartmentName"];
+            
+            [dateArray addObject:model];
+        }
+        [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
+        [self alertView:errmsg];
     }];
-    
 }
 
 -(void)initTableView

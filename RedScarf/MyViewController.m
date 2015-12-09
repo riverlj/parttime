@@ -36,14 +36,12 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.view viewWithTag:22022].hidden = NO;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
-    self.tabBarController.tabBar.hidden = NO;
     //改变navigationbar的颜色
     self.navigationController.navigationBar.barTintColor = MakeColor(26, 30, 37);
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
     [self getMessage];
+    [super viewWillAppear:animated];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -51,14 +49,13 @@
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],NSForegroundColorAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIButton *button = (UIButton *)[self.tabBarController.view viewWithTag:22022];
-    [button removeFromSuperview];
     self.view.backgroundColor = bgcolor;
     self.title = @"我的";
     
@@ -70,16 +67,8 @@
     if ([net isEqualToString:@"not"]) {
         [self alertView:@"当前没有网络"];
     }
-    //圆形
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-25, kUIScreenHeigth-80, 60, 60)];
-    [btn setBackgroundColor:[UIColor redColor]];
-    [btn addTarget:self action:@selector(pressChange:) forControlEvents:UIControlEventTouchUpInside];
-    btn.layer.cornerRadius = 30;
-    btn.tag = 22022;
-    [btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
-    btn.layer.masksToBounds = YES;
     
-    [self.tabBarController.view addSubview:btn];
+ 
 
     cellArr = [NSArray arrayWithObjects:@"配送时间",@"配送范围", nil];
     imageArr = [NSArray arrayWithObjects:@"time",@"anwei", nil];
@@ -87,30 +76,20 @@
     [self initTableView];
 }
 
--(void)pressChange:(id)sender
-{
-    GoPeiSongViewController *goVC = [[GoPeiSongViewController alloc] init];
-    [self.navigationController pushViewController:goVC animated:YES];
-    
-}
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     
-    [RedScarf_API requestWithURL:@"/user/info" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            infoDic = [NSMutableDictionary dictionary];
-            infoDic = [result objectForKey:@"msg"];
-            
-        }
-        
+    [RSHttp requestWithURL:@"/user/info" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        infoDic = [NSMutableDictionary dictionary];
+        infoDic = [data objectForKey:@"msg"];
         [self.informationTableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 
 }

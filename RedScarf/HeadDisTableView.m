@@ -7,7 +7,6 @@
 //
 
 #import "HeadDisTableView.h"
-#import "RedScarf_API.h"
 #import "AppDelegate.h"
 #import "UIUtils.h"
 #import "Header.h"
@@ -31,28 +30,25 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     
-    [RedScarf_API requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            
-            NSArray *arr = [NSArray arrayWithArray:[result objectForKey:@"msg"]];
-            if (![arr count]) {
-                [self addSubview:[self named:@"meiyoucanpin" text:@"餐品"]];
-            }
-            
-            [self.dataArray removeAllObjects];
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                [self.dataArray addObject:dic];
-                
-            }
-            [self reloadData];
+    [RSHttp requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSArray *arr = [NSArray arrayWithArray:[data objectForKey:@"msg"]];
+        if (![arr count]) {
+            [self addSubview:[self named:@"meiyoucanpin" text:@"餐品"]];
         }
+        
+        [self.dataArray removeAllObjects];
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            NSLog(@"dic = %@",dic);
+            [self.dataArray addObject:dic];
+            
+        }
+        [self reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 

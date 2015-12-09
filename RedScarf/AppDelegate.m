@@ -29,7 +29,7 @@
     [self BaiduMobStat];
     [Flurry setCrashReportingEnabled:YES];
     [Flurry startSession:@"ZWVZ56TNDFHVQX48RMD2"];
-    AppDelegate *myDelegate = [UIApplication sharedApplication].delegate;
+    AppDelegate *myDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     Reachability *reach = [Reachability reachabilityForInternetConnection];
     NetworkStatus status = [reach currentReachabilityStatus];
@@ -75,25 +75,21 @@
     if ([defaults objectForKey:@"token"]) {
         [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
         [params setObject:@"2" forKey:@"type"];
-        
-        [RedScarf_API requestWithURL:@"/user/version" params:params httpMethod:@"GET" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if (![[result objectForKey:@"code"] boolValue]) {
-                
-                NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-                dic = [result objectForKey:@"body"];
-                NSString *versionStr = [dic objectForKey:@"version"];
-                
-                //当前版本
-                NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-                CFShow((__bridge CFTypeRef)(infoDictionary));
-                NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-                
-                if (![versionStr isEqualToString:app_Version]) {
-                    UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
-                    [aler show];
-                }
+        [RSHttp requestWithURL:@"/user/version" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+            dic = [data objectForKey:@"body"];
+            NSString *versionStr = [dic objectForKey:@"version"];
+            
+            //当前版本
+            NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+            CFShow((__bridge CFTypeRef)(infoDictionary));
+            NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+            
+            if (![versionStr isEqualToString:app_Version]) {
+                UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
+                [aler show];
             }
+        } failure:^(NSInteger code, NSString *errmsg) {
         }];
     }
 }

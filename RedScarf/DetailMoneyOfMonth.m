@@ -17,8 +17,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidLoad
@@ -39,43 +38,41 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.deatilSalary forKey:@"date"];
-    [RedScarf_API requestWithURL:@"/salary/date" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                if ([dic objectForKey:@"basis"]) {
-                    [salaryArr addObject:[dic objectForKey:@"basis"]];
-                }
-                if ([dic objectForKey:@"commission"]) {
-                    [salaryArr addObject:[dic objectForKey:@"commission"]];
-
-                }
-                if ([dic objectForKey:@"promotion"]) {
-                    [salaryArr addObject:[dic objectForKey:@"promotion"]];
-                }
-                if ([dic objectForKey:@"adjustBonus"]) {
-                     [salaryArr addObject:[dic objectForKey:@"adjustBonus"]];
-                }
-                if ([dic objectForKey:@"adjustCommission"]) {
-                    [salaryArr addObject:[dic objectForKey:@"adjustCommission"]];
-                }
-                if ([dic objectForKey:@"adjustPromotion"]) {
-                    [salaryArr addObject:[dic objectForKey:@"adjustPromotion"]];
-                }
-                if ([dic objectForKey:@"sum"]) {
-                    [salaryArr addObject:[dic objectForKey:@"sum"]];
-                }
+    [RSHttp requestWithURL:@"/salary/date" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            NSLog(@"dic = %@",dic);
+            if ([dic objectForKey:@"basis"]) {
+                [salaryArr addObject:[dic objectForKey:@"basis"]];
+            }
+            if ([dic objectForKey:@"commission"]) {
+                [salaryArr addObject:[dic objectForKey:@"commission"]];
                 
             }
-            [self.tableView reloadData];
+            if ([dic objectForKey:@"promotion"]) {
+                [salaryArr addObject:[dic objectForKey:@"promotion"]];
+            }
+            if ([dic objectForKey:@"adjustBonus"]) {
+                [salaryArr addObject:[dic objectForKey:@"adjustBonus"]];
+            }
+            if ([dic objectForKey:@"adjustCommission"]) {
+                [salaryArr addObject:[dic objectForKey:@"adjustCommission"]];
+            }
+            if ([dic objectForKey:@"adjustPromotion"]) {
+                [salaryArr addObject:[dic objectForKey:@"adjustPromotion"]];
+            }
+            if ([dic objectForKey:@"sum"]) {
+                [salaryArr addObject:[dic objectForKey:@"sum"]];
+            }
+            
         }
+        [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 
@@ -168,9 +165,7 @@
         }
         
         [cell.contentView addSubview:label];
-    }
-
-    
+    }    
     return cell;
 }
 

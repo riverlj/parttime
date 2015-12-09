@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 #import "Header.h"
-#import "RedScarf_API.h"
+#import "RSHttp.h"
 #import "AppDelegate.h"
 #import "UIUtils.h"
 #import "Reachability.h"
@@ -21,6 +21,7 @@
 {
     UIView *_tipView;
 }
+
 
 -(NSString *)stringFromStatus:(NetworkStatus)status;
 
@@ -55,5 +56,5 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 
 -(UIView *)named:(NSString *)imageNamed text:(NSString *)text;
-
+-(void)didClickLeft;
 @end

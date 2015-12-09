@@ -34,11 +34,6 @@
 
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -209,19 +204,15 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    
-    [RedScarf_API requestWithURL:@"/team/apartments" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([result objectForKey:@"success"]) {
-            addressArray = [[result objectForKey:@"msg"] objectForKey:@"apartments"];
-            [self initPickerView];
-        }
+    [RSHttp requestWithURL:@"/team/apartments" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        addressArray = [[data objectForKey:@"msg"] objectForKey:@"apartments"];
+        [self initPickerView];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
-    
 }
 
 -(void)initPickerView
@@ -306,7 +297,7 @@
 
 -(void)save
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
 
     NSInteger major = [pickerView selectedRowInComponent:0];
@@ -373,23 +364,20 @@
     [params setObject:stuArray forKey:@"studentIdCardPics"];
     
     [self showHUD:@"正在加载"];
-    [RedScarf_API requestWithURL:[NSString stringWithFormat:@"/user/2?token=%@",app.tocken] params:params httpMethod:@"POST" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self alertView:@"添加成功"];
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }else
-        {
-            [self alertView:[result objectForKey:@"msg"]];
-        }
+    [RSHttp requestWithURL:[NSString stringWithFormat:@"/user/2?token=%@",app.tocken] params:params httpMethod:@"POST" success:^(NSDictionary *data) {
         [self hidHUD];
+        [self alertView:@"添加成功"];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
+        [self alertView:errmsg];
     }];
 }
 
 -(void)upImageView:(id)sender
 {
     UIButton *btn = (UIButton *)sender;
-    currentTag = btn.tag;
+    currentTag = (int)btn.tag;
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"设置头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相机",@"打开图库", nil];
     [actionSheet showInView:self.view];
 }

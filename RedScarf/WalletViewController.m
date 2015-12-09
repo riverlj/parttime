@@ -26,8 +26,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.tabBarController.tabBar.hidden = YES;
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -40,26 +39,22 @@
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXian)];
     self.navigationItem.rightBarButtonItem = right;
     [self getToken];
-//    [self getMessage];
     [self initTableView];
 }
 //获取支付系统需要的token
 -(void)getToken
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
-    [RedScarf_API requestWithURL:@"/user/token/finance" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@" token result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:[result objectForKey:@"body"] forKey:@"withdrawToken"];
-            [defaults synchronize];
-            [self getMessage];
-        }else{
-            [self alertView:[result objectForKey:@"msg"]];
-        }
+    [RSHttp requestWithURL:@"/user/token/finance" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:[data objectForKey:@"body"] forKey:@"withdrawToken"];
+        [defaults synchronize];
+        [self getMessage];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
 
 }
@@ -72,19 +67,14 @@
         [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
     }
     
-    [RedScarf_API zhangbRequestWithURL:[NSString stringWithFormat:@"%@/account/accountInfo",REDSCARF_PAY_URL] params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if (![[result objectForKey:@"code"] boolValue]) {
-
-            NSMutableDictionary *dic = [result objectForKey:@"body"];
-            salary = [NSString stringWithFormat:@"%@",[dic objectForKey:@"money"]];
-            pwdStatus = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pwdStatus"]];
-            telNum = [NSString stringWithFormat:@"%@",[dic objectForKey:@"phoneNumber"]];
-        }else{
-            showStr = [NSString stringWithFormat:@"%@",[result objectForKey:@"body"]];
-            [self alertView:[result objectForKey:@"body"]];
-        }
+    [RSHttp payRequestWithURL:@"/account/accountInfo" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSMutableDictionary *dic = [data objectForKey:@"body"];
+        salary = [NSString stringWithFormat:@"%@",[dic objectForKey:@"money"]];
+        pwdStatus = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pwdStatus"]];
+        telNum = [NSString stringWithFormat:@"%@",[dic objectForKey:@"phoneNumber"]];
         [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
 }
 

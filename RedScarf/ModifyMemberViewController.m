@@ -80,23 +80,20 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:app.tocken forKey:@"token"];
 //    self.username = [self.username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:self.username forKey:@"username"];
     [self showHUD:@"正在加载"];
-    [RedScarf_API requestWithURL:@"/team/user/setting/addr" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            apartmentsArray = [[result objectForKey:@"msg"] objectForKey:@"apartments"];
-            NSString *selectedApartments = [[result objectForKey:@"msg"] objectForKey:@"selectedApartments"];
-            selectedArray = [selectedApartments componentsSeparatedByString:@","];
-            [self.tableView reloadData];
-        }else
-        {
-            [self alertView:[result objectForKey:@"msg"]];
-        }
+    [RSHttp requestWithURL:@"/team/user/setting/addr" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        apartmentsArray = [[data objectForKey:@"msg"] objectForKey:@"apartments"];
+        NSString *selectedApartments = [[data objectForKey:@"msg"] objectForKey:@"selectedApartments"];
+        selectedArray = [[selectedApartments componentsSeparatedByString:@","] copy];
+        [self.tableView reloadData];
+        [self hidHUD];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
         [self hidHUD];
     }];
 }
@@ -190,35 +187,30 @@
 -(void)didClickDone
 {
     
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.phoneString forKey:@"username"];
     [params setValue:modifyTf.text forKey:@"mobilePhone"];
     [self showHUD:@"正在加载"];
-    [RedScarf_API requestWithURL:@"/team/user" params:params httpMethod:@"PUT" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self alertView:@"修改成功"];
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            if ([[defaults objectForKey:@"username"] isEqualToString:self.phoneString]) {
-                [defaults removeObjectForKey:@"token"];
-                [defaults synchronize];
-                
-                LoginViewController *loginVC = [[LoginViewController alloc] init];
-                [app setRoorViewController:loginVC];
-            }
+    [RSHttp requestWithURL:@"/team/user" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+        [self alertView:@"修改成功"];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if ([[defaults objectForKey:@"username"] isEqualToString:self.phoneString]) {
+            [defaults removeObjectForKey:@"token"];
+            [defaults synchronize];
             
-            [self.delegate returnNumber:modifyTf.text];
-            [self.navigationController popViewControllerAnimated:YES];
-            
-        }else
-        {
-            [self alertView:[result objectForKey:@"msg"]];
+            LoginViewController *loginVC = [[LoginViewController alloc] init];
+            [app setRoorViewController:loginVC];
         }
+        
+        [self.delegate returnNumber:modifyTf.text];
+        [self.navigationController popViewControllerAnimated:YES];
+        [self hidHUD];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
         [self hidHUD];
     }];
-
 }
 
 -(void)didClickSave
@@ -228,28 +220,21 @@
         userEnable = YES;
         [self.tableView reloadData];
     }else{
-        AppDelegate *app = [UIApplication sharedApplication].delegate;
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         [params setObject:app.tocken forKey:@"token"];
         NSString *addrs = [indexArr componentsJoinedByString:@","];
         [params setObject:addrs forKey:@"addrs"];
         [params setObject:self.username forKey:@"username"];
         [self showHUD:@"正在加载"];
-        [RedScarf_API requestWithURL:@"/team/user/setting/addr" params:params httpMethod:@"PUT" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if ([[result objectForKey:@"success"] boolValue]) {
-                [self alertView:@"修改成功"];
-                
-                [self.navigationController popViewControllerAnimated:YES];
-                
-            }else
-            {
-                [self alertView:[result objectForKey:@"msg"]];
-                return ;
-            }
+        [RSHttp requestWithURL:@"/team/user/setting/addr" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+            [self alertView:@"修改成功"];
+            [self hidHUD];
+            [self.navigationController popViewControllerAnimated:YES];
+        } failure:^(NSInteger code, NSString *errmsg) {
+            [self alertView:errmsg];
             [self hidHUD];
         }];
-
         self.navigationItem.rightBarButtonItem.title = @"编辑";
         userEnable = NO;
         [self.tableView reloadData];

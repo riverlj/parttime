@@ -10,7 +10,6 @@
 #import "Header.h"
 #import "SelectSchoolVC.h"
 #import "AppDelegate.h"
-#import "RedScarf_API.h"
 #import "UIUtils.h"
 #import "ModAddressTableView.h"
 
@@ -100,7 +99,7 @@
 -(void)didClickDone
 {
     UITextField *tf = (UITextField *)[self.view viewWithTag:10002];
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
@@ -120,15 +119,11 @@
         
     }else{
         [params setObject:tf.text forKey:@"room"];
-        
-        [RedScarf_API requestWithURL:@"/task/updateUnstandardAddr" params:params httpMethod:@"PUT" block:^(id result) {
-            NSLog(@"result = %@",result);
-            if ([[result objectForKey:@"success"] boolValue]) {
-                
-                [self alertView:@"修改成功"];
-                 [self.delegate returnNameOfTableView:@"address"];
-                [self.navigationController popViewControllerAnimated:YES];
-            }
+        [RSHttp requestWithURL:@"/task/updateUnstandardAddr" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+            [self alertView:@"修改成功"];
+            [self.delegate returnNameOfTableView:@"address"];
+            [self.navigationController popViewControllerAnimated:YES];
+        } failure:^(NSInteger code, NSString *errmsg) {
         }];
     }
     

@@ -7,7 +7,6 @@
 //
 
 #import "OrderRangeViewController.h"
-#import "RedScarf_API.h"
 
 @interface OrderRangeViewController ()
 
@@ -22,8 +21,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
-    [self.tabBarController.view viewWithTag:22022].hidden = YES;
-    [self.tabBarController.view viewWithTag:11011].hidden = YES;
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -59,7 +57,7 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
@@ -67,18 +65,12 @@
         [params setObject:self.username forKey:@"username"];
     }
     
-    [RedScarf_API requestWithURL:@"/user/setting/addr" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-    
-            addressArray = [[result objectForKey:@"msg"] objectForKey:@"apartments"];
-            [idArray addObject:[[result objectForKey:@"msg"] objectForKey:@"selectedApartments"]];
-            
-        }else
-        {
-            [self alertView:[result objectForKey:@"msg"]];
-        }
+    [RSHttp requestWithURL:@"/user/setting/addr" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        addressArray = [[data objectForKey:@"msg"] objectForKey:@"apartments"];
+        [idArray addObject:[[data objectForKey:@"msg"] objectForKey:@"selectedApartments"]];
         [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
     }];
 }
 

@@ -10,7 +10,6 @@
 #import "Header.h"
 #import "DistributionCell.h"
 #import "RoomViewController.h"
-#import "RedScarf_API.h"
 #import "Header.h"
 #import "AppDelegate.h"
 #import "UIUtils.h"
@@ -25,6 +24,7 @@
     [self comeBack:nil];
     //刷新tableview
     [self getMessage];
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidLoad
@@ -75,25 +75,29 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.aId forKey:@"aId"];
-    
-    
-    [RedScarf_API requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" block:^(id result) {
-        NSLog(@"result = %@",result);
-        if ([[result objectForKey:@"success"] boolValue]) {
-            [self.dataArray removeAllObjects];
-            for (NSMutableDictionary *dic in [result objectForKey:@"msg"]) {
-                NSLog(@"dic = %@",dic);
-                [self.dataArray addObject:dic];
-                
-            }
-            [self.detailTableView reloadData];
-
+    [RSHttp requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self.dataArray removeAllObjects];
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            NSLog(@"dic = %@",dic);
+            [self.dataArray addObject:dic];
+            
         }
+        [self.detailTableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+    }];
+    [RSHttp requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self.dataArray removeAllObjects];
+        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+            NSLog(@"dic = %@",dic);
+            [self.dataArray addObject:dic];
+        }
+        [self.detailTableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 
@@ -149,7 +153,7 @@
     NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
     NSMutableArray *array = [dic objectForKey:@"content"];
 //    NSMutableDictionary *foodDic = [array objectAtIndex:indexPath.row];
-    NSMutableString *foodStr = @"";
+    NSMutableString *foodStr = [NSMutableString stringWithString:@""];
     for (NSMutableDictionary *foodDic in array) {
         foodStr = [foodStr stringByAppendingFormat:@"%@ (%@)\n",[foodDic objectForKey:@"content"],[foodDic objectForKey:@"count"]];
     }
@@ -188,24 +192,19 @@
     switch (buttonIndex) {
         case 1:
         {
-            AppDelegate *app = [UIApplication sharedApplication].delegate;
+            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             app.tocken = [UIUtils replaceAdd:app.tocken];
             [params setObject:app.tocken forKey:@"token"];
             [params setObject:self.aId forKey:@"aId"];
             [params setObject:roomNum forKey:@"room"];
-            
-            [RedScarf_API requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" block:^(id result) {
-                NSLog(@"result = %@",result);
-                if ([[result objectForKey:@"success"] boolValue]) {
-                    [self alertView:@"成功送达"];
-                    [self didClickLeft];
-                }else{
-                    [self alertView:[result objectForKey:@"msg"]];
-                }
+            [RSHttp requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+                [self alertView:@"成功送达"];
+                [self didClickLeft];
                 [self getMessage];
-                
-                
+            } failure:^(NSInteger code, NSString *errmsg) {
+                [self alertView:errmsg];
+                [self getMessage];
             }];
         }
             break;
