@@ -108,7 +108,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
     NSString *url = nil;
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.aId forKey:@"aId"];
     if (self.number == 0) {
         [params setObject:self.userId forKey:@"userId"];

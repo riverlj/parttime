@@ -78,7 +78,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.aId forKey:@"aId"];
     [RSHttp requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self.dataArray removeAllObjects];
@@ -144,7 +143,7 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-    cell.btn.layer.borderColor = [UIColor redColor].CGColor;
+    cell.btn.layer.borderColor = colorrede5.CGColor;
     cell.btn.layer.borderWidth = 1.0;
     cell.btn.layer.cornerRadius = 5;
     cell.btn.layer.masksToBounds = YES;
@@ -195,7 +194,6 @@
             AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             app.tocken = [UIUtils replaceAdd:app.tocken];
-            [params setObject:app.tocken forKey:@"token"];
             [params setObject:self.aId forKey:@"aId"];
             [params setObject:roomNum forKey:@"room"];
             [RSHttp requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {

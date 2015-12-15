@@ -40,7 +40,6 @@
     [params setObject:[NSNumber numberWithInt:1] forKey:@"pageNum"];
 
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     
     [RSHttp requestWithURL:@"/promotionActivity/index/fansTotal" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {

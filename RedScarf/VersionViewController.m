@@ -15,6 +15,7 @@
 @implementation VersionViewController
 {
     NSString *app_Version;
+    NSString *url;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -107,20 +108,7 @@
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];
             dic = [data objectForKey:@"body"];
             NSString *versionStr = [dic objectForKey:@"version"];
-            
-            if (![versionStr isEqualToString:app_Version]) {
-                UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
-                [aler show];
-            }else{
-                [self alertView:@"当前为最新版本"];
-            }
-        } failure:^(NSInteger code, NSString *errmsg) {
-        }];
-        [RSHttp requestWithURL:@"/user/version" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-            dic = [data objectForKey:@"body"];
-            NSString *versionStr = [dic objectForKey:@"version"];
-            
+            url = [dic objectForKey:@"url"];
             if (![versionStr isEqualToString:app_Version]) {
                 UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
                 [aler show];
@@ -136,23 +124,11 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (buttonIndex==1) {
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"itms-services://?action=download-manifest&url=https://passport.honglingjinclub.com/downlod/RedScarf.plist"]];
+        if(!url) {
+            url = @"itms-services://?action=download-manifest&url=https://passport.honglingjinclub.com/downlod/RedScarf.plist";
+        }
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
     }
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

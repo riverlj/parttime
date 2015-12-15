@@ -8,6 +8,7 @@
 
 #import "ModifyPWViewController.h"
 #import "LoginViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ModifyPWViewController ()
 
@@ -93,17 +94,17 @@
         
         if ([self.titleString isEqualToString:@"查看身份证"]) {
             if (i == 0) {
-                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.idUrl1]]];
+                [img setImageWithURL:[NSURL URLWithString:self.idUrl1]];
             }
             if (i == 1) {
-                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.idUrl2]]];
+                [img setImageWithURL:[NSURL URLWithString:self.idUrl2]];
             }
         }else{
             if (i == 0) {
-                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.studentUrl1]]];
+                [img setImageWithURL:[NSURL URLWithString:self.studentUrl1]];
             }
             if (i == 1) {
-                img.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.studentUrl2]]];
+                [img setImageWithURL:[NSURL URLWithString:self.studentUrl2]];
             }
 
         }
@@ -143,7 +144,9 @@
     [btn setTitle:@"确认" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:16];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn setBackgroundColor:MakeColor(193, 193, 193)];
+    //[btn setBackgroundColor:MakeColor(193, 193, 193)];
+    [btn setBackgroundColor:colorblue];
+    btn.titleLabel.textColor = [UIColor whiteColor];
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = 6;
     [self.view addSubview:btn];
@@ -163,7 +166,6 @@
      NSString *oldStr = [UIUtils getSha1String:old.text];
      NSString *newStr = [UIUtils getSha1String:new.text];
      NSString *reNewStr = [UIUtils getSha1String:reNew.text];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:oldStr forKey:@"oldPwd"];
     [params setObject:newStr forKey:@"newPwd"];
     [params setObject:reNewStr forKey:@"reNewPwd"];

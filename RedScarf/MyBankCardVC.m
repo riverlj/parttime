@@ -72,10 +72,6 @@
     __block NSMutableArray *arr = [NSMutableArray array];
     [self showHUD:@"正在加载"];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"withdrawToken"]) {
-        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-    }
     [RSHttp payRequestWithURL:@"/account/queryBankCard" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         arr = [data objectForKey:@"body"];
         if (arr.count) {
@@ -110,17 +106,10 @@
     
     [self showHUD:@"正在加载"];
     [params setObject:branchBankId forKey:@"id"];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"withdrawToken"]) {
-        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-    }
     [RSHttp payRequestWithURL:@"/bank/getBranchBankById" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSMutableDictionary *dic = [data objectForKey:@"body"];
         indexArr[0] = [dic objectForKey:@"provincename"];
         indexArr[1] = [dic objectForKey:@"cityname"];
-        //            [idArr replaceObjectAtIndex:0 withObject:[dic objectForKey:@"provinceid"]];
-        //            [idArr replaceObjectAtIndex:1 withObject:[dic objectForKey:@"cityid"]];
-        //            [idArr replaceObjectAtIndex:2 withObject:[dic objectForKey:@"parentid"]];
         [self initView];
         [self.tableView reloadData];
     } failure:^(NSInteger code, NSString *errmsg) {
@@ -289,6 +278,7 @@
     [bankChildBtn setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
     bankChildBtn.tag = 10003;
     bankChildBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    bankChildBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingHead;
     bankChildBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     bankChildBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     bankChildBtn.userInteractionEnabled = NO;
@@ -349,9 +339,6 @@
             if (!editOrSave) {
                 url = @"/account/updateBankCard";
                  [params setObject:cardId forKey:@"id"];
-//                for (int i = 0; i < indexArr.count; i++) {
-//                    indexArr[i] = [indexArr[i] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//                }
             }
             
             if ([nameTf.text rangeOfString:@" "].location != NSNotFound) {
@@ -366,7 +353,6 @@
             }
             bankTf.text = [bankTf.text stringByReplacingOccurrencesOfString:@" " withString:@""];
             if (![UIUtils isNumber:bankTf.text]) {
-                
                 [self alertView:@"卡号输入有误"];
                 return;
             }
@@ -376,10 +362,6 @@
 //            name = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
           
             [params setObject:name forKey:@"realName"];
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            if ([defaults objectForKey:@"withdrawToken"]) {
-                [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-            }
             [params setObject:bankTf.text forKey:@"cardNum"];
             [params setObject:telTf.text forKey:@"phoneNumber"];
             if ([taskTypeBtn.titleLabel.text isEqualToString:@"对公业务"]) {

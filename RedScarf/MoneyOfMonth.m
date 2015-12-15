@@ -74,7 +74,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:dateStr forKey:@"date"];
     [RSHttp requestWithURL:@"/salary/month/v2" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [eveydayArray removeAllObjects];
@@ -142,7 +141,7 @@
     [self.view addSubview:hintLabel];
     hintLabel.font = textFont14;
     hintLabel.textAlignment = NSTextAlignmentCenter;
-    hintLabel.textColor = [UIColor redColor];
+    hintLabel.textColor = colorrede5;
     
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 104, kUIScreenWidth, 54)];
     bgView.backgroundColor = [UIColor whiteColor];
@@ -184,7 +183,7 @@
     [midView addSubview:midLineView];
     
     UILabel *yijisuanLabel = [[UILabel alloc] initWithFrame:CGRectMake(midView.frame.size.width/4-50, 0, 100, 54)];
-    yijisuanLabel.textColor = [UIColor greenColor];
+    yijisuanLabel.textColor = colorgreen65;
     yijisuanLabel.numberOfLines = 2;
     yijisuanLabel.tag = 6666;
     yijisuanLabel.textAlignment = NSTextAlignmentCenter;
@@ -315,9 +314,9 @@
     [cell.contentView addSubview:jiesuanDate];
     //判断是不是已结算
     if ([[NSString stringWithFormat:@"%@",[settleArray objectAtIndex:indexPath.row]] isEqualToString:@"1"]) {
-        date.textColor = [UIColor greenColor];
-        [totalCount setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-        jiesuanDate.textColor = [UIColor greenColor];
+        date.textColor = colorgreen65;
+        [totalCount setTitleColor:colorgreen65 forState:UIControlStateNormal];
+        jiesuanDate.textColor = colorgreen65;
     }
     
     UIButton *detailBtn = [[UIButton alloc] initWithFrame:CGRectMake(jiesuanDate.frame.origin.x+jiesuanDate.frame.size.width+5, 12, 15, 15)];

@@ -7,19 +7,19 @@
 //
 
 #import "RSHttp.h"
+#import "LoginViewController.h"
 @implementation RSHttp
 
-+ (void)requestWithURL:(NSString *)urlstring
++ (void)baseRequestWithURL:(NSString *)urlstring
                             params:(NSMutableDictionary *)params
                         httpMethod:(NSString *)httpMethod
                           success:(void (^)(NSDictionary *))success
-               failure:(void (^)(NSInteger, NSString *))failure
+                          failure:(void (^)(NSInteger, NSString *))failure
+        constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
 {
     NSString *url = [urlstring urlWithHost:nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    //manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    //[manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     //设置超时时间
     manager.requestSerializer.timeoutInterval = 5;
     if([httpMethod isEqualToString:@"GET"]) {
@@ -29,7 +29,7 @@
             [self processFailure:failure operation:operation error:error];
         }];
     } else if([httpMethod isEqualToString:@"POST"]) {
-        [manager POST:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [manager POST:url parameters:params constructingBodyWithBlock:block success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processSuccess:success operation:operation response:responseObject failure:failure];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [self processFailure:failure operation:operation error:error];
@@ -46,7 +46,13 @@
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [self processFailure:failure operation:operation error:error];
         }];
-    } else {
+    } else if([httpMethod isEqualToString:@"POSTJSON"]){
+        [manager POST:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processSuccess:success operation:operation response:responseObject failure:failure];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self processFailure:failure operation:operation error:error];
+        }];
+    }else {
         [manager GET:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processSuccess:success operation:operation response:responseObject failure:failure];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -54,6 +60,7 @@
         }];
     }
 }
+
 
 +(void) processSuccess:(void (^)(NSDictionary *data)) success
              operation:(AFHTTPRequestOperation *)op
@@ -66,7 +73,12 @@
     if(code == 0) {
         success(responseObject);
     } else {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[responseObject valueForKey:@"msg"], NSLocalizedDescriptionKey, nil];
+        NSDictionary *userInfo;
+        if([responseObject objectForKey:@"msg"]) {
+            userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[responseObject valueForKey:@"msg"], NSLocalizedDescriptionKey, nil];
+        } else {
+            userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[responseObject valueForKey:@"body"], NSLocalizedDescriptionKey, nil];
+        }
         NSError *error = [NSError errorWithDomain:@"httpUserError" code:code userInfo:userInfo];
         [self processFailure:failure operation:op error:error];
     }
@@ -76,10 +88,34 @@
              operation:(AFHTTPRequestOperation *)op
                  error:(NSError *)error
 {
-    
+    if(error.code == 401) {
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        LoginViewController *loginVC = [[LoginViewController alloc] init];
+        [app setRoorViewController:loginVC];
+    }
     NSString *errmsg = [error.userInfo valueForKey:@"NSLocalizedDescription"];
     failure(error.code, errmsg);
 }
+
+
++(void) requestWithURL:(NSString *)urlstring
+                params:(NSMutableDictionary *)params
+            httpMethod:(NSString *)httpMethod success:(void (^)(NSDictionary *))success
+               failure:(void (^)(NSInteger, NSString *))failure
+{
+    urlstring = [urlstring urlWithHost:REDSCARF_BASE_URL];
+    //添加token参数
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"token"] &&  [urlstring rangeOfString:@"token="].location == NSNotFound) {
+        if([urlstring rangeOfString:@"?"].location == NSNotFound) {
+            urlstring = [NSString stringWithFormat:@"%@?token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"token"] stringEncoding:NSUTF8StringEncoding]];
+        } else {
+            urlstring = [NSString stringWithFormat:@"%@&token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"token"] stringEncoding:NSUTF8StringEncoding]];
+        }
+    }
+    [self baseRequestWithURL:urlstring params:params httpMethod:httpMethod success:success failure:failure constructingBodyWithBlock:nil];
+}
+
 
 +(void)payRequestWithURL:(NSString *)urlstring
                   params:(NSMutableDictionary *)params
@@ -88,166 +124,29 @@
                  failure:(void (^)(NSInteger, NSString *))failure
 {
     urlstring = [urlstring urlWithHost:REDSCARF_PAY_URL];
-    [self requestWithURL:urlstring params:params httpMethod:httpMethod success:success failure:failure];
+    //添加paytoken
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"withdrawToken"] &&  [urlstring rangeOfString:@"token="].location == NSNotFound) {
+        if([urlstring rangeOfString:@"?"].location == NSNotFound) {
+            urlstring = [NSString stringWithFormat:@"%@?token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"withdrawToken"] stringEncoding:NSUTF8StringEncoding]];
+        } else {
+            urlstring = [NSString stringWithFormat:@"%@&token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"withdrawToken"] stringEncoding:NSUTF8StringEncoding]];
+        }
+    }
+    [self baseRequestWithURL:urlstring params:params httpMethod:httpMethod success:success failure:failure constructingBodyWithBlock:nil];
 }
 
-
-/* if ([httpMethod isEqualToString:@"GET"]||[httpMethod isEqualToString:@"PUT"]) {
- if (params != nil) {//如果请求参数不为空
- //在url后面追加参数
- [url appendString:@"?"];
- NSArray *allkeys = [params allKeys];
- for (int i=0; i<allkeys.count; i++) {
- NSString *key = [allkeys objectAtIndex:i];
- NSString *value = [params objectForKey:key];
- 
- [url appendFormat:@"%@=%@",key,value];
- 
- if (i<allkeys.count-1) {
- [url appendString:@"&"];
- }
- }
- }
- }
- 
- //2.创建request请求
- NSURLRequest *request = [NSURLRequest requestWithURL:url];
- 
- AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];
- NSLog(@"url = %@",url);
- 
- if ([urlstring isEqualToString:@"/user/setting/time"]) {
- NSMutableDictionary *content = [NSMutableDictionary dictionary];
- [content setObject:@"application/json; charset=UTF-8" forKey:@"Content-Type"];
- [request setRequestHeaders:content];
- 
- }
- [request setRequestMethod:httpMethod];
- [request setTimeOutSeconds:20];
- 
- //3.判断是否为POST请求，向请求体中添加参数
- if ([httpMethod isEqualToString:@"POST"]) {
- if (params != nil) {//如果请求参数不为空
- //向请求体内添加参数
- for (NSString *key in params) {
- id value = [params objectForKey:key];
- //判断是否为文件数据
- if ([value isKindOfClass:[NSData class]]) {
- [request addData:value forKey:key];
- } else {
- [request addPostValue:value forKey:key];
- }
- }
- //            request setda
- }
- }
- 
- //4.数据返回的处理
- [request setCompletionBlock:^{
- 
- NSData *jsonData = request.responseData;
- id result = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
- if (block != nil) {
- block(result);
- }
- }];
- 
- //5.请求失败
- [request setFailedBlock:^{
- NSLog(@"请求失败:%@",request.error);
- 
- //        if (block != nil) {
- //            block(@"");
- //        }
- }];
- 
- 
- 
- //6.发送异步请求
- [request startAsynchronous];
- 
- return request;*/
-
-/*+ (ASIHTTPRequest *)zhangbRequestWithURL:(NSString *)zhangb
-                                  params:(NSMutableDictionary *)params
-                              httpMethod:(NSString *)httpMethod
-                                   block:(CompletionLoadHandle)block
++(void) postDataWithURL:(NSString *)urlstring params:(NSMutableDictionary *)params constructingBodyWithBlock:(void (^)(id<AFMultipartFormData>))block success:(void (^)(NSDictionary *))success failure:(void (^)(NSInteger, NSString *))failure
 {
-    //1.如果是GET请求，将参数拼接到url后面
-    NSMutableString *url = [NSMutableString stringWithFormat:@"%@",zhangb];
- 
-    if ([httpMethod isEqualToString:@"GET"]||[httpMethod isEqualToString:@"PUT"]) {
-        if (params != nil) {//如果请求参数不为空
-            //在url后面追加参数
-            [url appendString:@"?"];
-            NSArray *allkeys = [params allKeys];
-            for (int i=0; i<allkeys.count; i++) {
-                NSString *key = [allkeys objectAtIndex:i];
-                NSString *value = [params objectForKey:key];
-                
-                [url appendFormat:@"%@=%@",key,value];
-                
-                if (i<allkeys.count-1) {
-                    [url appendString:@"&"];
-                }
-            }
+    urlstring = [urlstring urlWithHost:nil];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"token"] &&  [urlstring rangeOfString:@"token="].location == NSNotFound) {
+        if([urlstring rangeOfString:@"?"].location == NSNotFound) {
+            urlstring = [NSString stringWithFormat:@"%@?token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"token"] stringEncoding:NSUTF8StringEncoding]];
+        } else {
+            urlstring = [NSString stringWithFormat:@"%@&token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"token"] stringEncoding:NSUTF8StringEncoding]];
         }
     }
-    
-    //2.创建request请求
-    
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
-    NSLog(@"url = %@",url);
-    
-    if ([zhangb isEqualToString:@"/user/setting/time"]) {
-        NSMutableDictionary *content = [NSMutableDictionary dictionary];
-        [content setObject:@"application/json; charset=UTF-8" forKey:@"Content-Type"];
-        [request setRequestHeaders:content];
-        
-    }
-    [request setRequestMethod:httpMethod];
-    [request setTimeOutSeconds:20];
-    
-    //3.判断是否为POST请求，向请求体中添加参数
-    if ([httpMethod isEqualToString:@"POST"]) {
-        if (params != nil) {//如果请求参数不为空
-            //向请求体内添加参数
-            for (NSString *key in params) {
-                id value = [params objectForKey:key];
-                //判断是否为文件数据
-                if ([value isKindOfClass:[NSData class]]) {
-                    [request addData:value forKey:key];
-                } else {
-                    [request addPostValue:value forKey:key];
-                }
-            }
-        }
-    }
-    
-    //4.数据返回的处理
-    [request setCompletionBlock:^{
-        
-        NSData *jsonData = request.responseData;
-        id result = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-        if (block != nil) {
-            block(result);
-        }
-    }];
-    
-    //5.请求失败
-    [request setFailedBlock:^{
-        NSLog(@"请求失败:%@",request.error);
-        
-        //        if (block != nil) {
-        //            block(@"");
-        //        }
-    }];
-    
-    //6.发送异步请求
-    [request startAsynchronous];
-    
-    return request;
-
-}*/
-
+    [self baseRequestWithURL:urlstring params:params httpMethod:@"POST" success:success failure:failure constructingBodyWithBlock:block];
+}
 @end

@@ -32,7 +32,7 @@
     
     self.changeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 40, 70, 30)];
     self.changeLabel.font = textFont14;
-    self.changeLabel.textColor = [UIColor redColor];
+    self.changeLabel.textColor = colorrede5;
     self.changeLabel.textAlignment = NSTextAlignmentRight;
     [self.contentView addSubview:self.changeLabel];
     

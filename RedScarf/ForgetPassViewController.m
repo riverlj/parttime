@@ -20,7 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = color242;
     num = 60;
     [self initView];
@@ -76,9 +75,11 @@
         }
         if (i == 2) {
             TXT.placeholder = @"  新密码";
+            TXT.secureTextEntry = YES;
         }
         if (i == 3) {
             TXT.placeholder = @"  确认密码";
+            TXT.secureTextEntry = YES;
         }
     }
     

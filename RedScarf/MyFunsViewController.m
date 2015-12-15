@@ -43,7 +43,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:[NSNumber numberWithInt:10] forKey:@"pageSize"];
     [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
     

@@ -65,7 +65,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *url = @"/user/setting/time";
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     if (self.username.length) {
         [params setObject:self.username forKey:@"username"];
         url = @"/team/user/setting/time";
@@ -80,7 +79,7 @@
         NSMutableDictionary *dic1 = [[data objectForKey:@"msg"] objectAtIndex:1];
         NSLog(@"dic = %@",dic1);
         NSString *days1 = [dic1 objectForKey:@"days"];
-        getOtherDaysArray = [[days1 componentsSeparatedByString:@","] copy];
+        getOtherDaysArray = [[days1 componentsSeparatedByString:@","] mutableCopy];
         [self hidHUD];
         [self initBtnView];
     } failure:^(NSInteger code, NSString *errmsg) {

@@ -7,7 +7,11 @@
 //
 
 #import "BaseViewController.h"
+#import "SDCycleScrollView.h"
 
 @interface HomePageViewController : BaseViewController
+
+@property(nonatomic, strong) SDCycleScrollView *cycleScrollView;
+@property(nonatomic, strong) UIScrollView *listScrollView;
 
 @end

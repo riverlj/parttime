@@ -10,6 +10,7 @@
 #import "HeadDisTableView.h"
 #import "GoPeiSongViewController.h"
 #import "SeparateTableViewCell.h"
+#import "RSAccountModel.h"
 
 @interface SeparateViewController ()
 
@@ -18,6 +19,7 @@
 @implementation SeparateViewController
 {
     HeadDisTableView *headTableView;
+    RSAccountModel *model;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -29,11 +31,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    model = [RSAccountModel sharedAccount];
     self.title = @"分餐点";
-    self.tabBarController.tabBar.hidden = YES;
     self.view.backgroundColor = color242;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
+    if ([model isCEO]) {
         [self initSeparateBtn];
         [self initView];
     }else{
@@ -45,9 +46,8 @@
 
 -(void)initTableView
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     headTableView.tag = 999;
-    if ([[defaults objectForKey:@"count"] rangeOfString:@"8"].location != NSNotFound) {
+    if ([model isCEO]) {
          headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 124,kUIScreenWidth-20, kUIScreenHeigth-245)];
     }else{
          headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 20,kUIScreenWidth-20, kUIScreenHeigth-130)];
@@ -138,7 +138,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [RSHttp requestWithURL:@"/task/distPointMeals" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
         if (![arr count]) {

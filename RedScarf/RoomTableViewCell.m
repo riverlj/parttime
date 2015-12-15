@@ -16,7 +16,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.groundImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, kUIScreenWidth-30, 115)];
-        self.groundImage.backgroundColor = [UIColor redColor];
+        self.groundImage.backgroundColor = colorrede5;
         self.groundImage.backgroundColor = [UIColor whiteColor];
         self.groundImage.layer.cornerRadius = 5;
         self.groundImage.layer.masksToBounds = YES;

@@ -68,8 +68,8 @@
     cell.addressLabel.text = [NSString stringWithFormat:@"%@-%@",[dic objectForKey:@"addr"],[dic objectForKey:@"tId"]];
     [cell.modifyBtn setTitle:@"修改" forState:UIControlStateNormal];
     [cell.modifyBtn addTarget:self action:@selector(didClickModifyBtn) forControlEvents:UIControlEventTouchUpInside];
-    cell.modifyBtn.layer.borderColor = [UIColor greenColor].CGColor;
-    [cell.modifyBtn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+    cell.modifyBtn.layer.borderColor = colorgreen65.CGColor;
+    [cell.modifyBtn setTitleColor:colorgreen65 forState:UIControlStateNormal];
     return cell;
 }
 
@@ -86,7 +86,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [RSHttp requestWithURL:@"/task/unstandardAddr" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self.dataArr removeAllObjects];
         for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {

@@ -40,7 +40,7 @@
         
         self.btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         self.btn.frame = CGRectMake(kUIScreenWidth-80, 30, 50, 30);
-        [self.btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [self.btn setTitleColor:colorrede5 forState:UIControlStateNormal];
    
         [self.contentView addSubview:self.btn];
         

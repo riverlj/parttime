@@ -33,7 +33,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     
     [RSHttp requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSArray *arr = [NSArray arrayWithArray:[data objectForKey:@"msg"]];

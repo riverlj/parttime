@@ -37,7 +37,6 @@
     addressArray = [NSMutableArray array];
     if ([self.judgeStr isEqualToString:@"name"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-//        right.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = right;
 
         self.title = @"修改姓名";
@@ -51,7 +50,6 @@
     }
     if ([self.judgeStr isEqualToString:@"address"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-//        right.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = right;
         [self initAddress];
         self.title = @"修改地址";
@@ -110,11 +108,9 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     url = @"/team/apartments";
     if ([self.judgeStr isEqualToString:@"major"]) {
         url = @"/user/department/";
-//        [params setObject:self.schoolId forKey:@"departmentId"];
     }
     
     [RSHttp requestWithURL:url params:params httpMethod:@"GET" success:^(NSDictionary *data) {
@@ -132,7 +128,7 @@
 -(void)modifyName
 {
     nameTf = [[UITextField alloc] initWithFrame:CGRectMake(25, 84, kUIScreenWidth-50, 40)];
-    nameTf.placeholder = self.name;
+    nameTf.text = self.name;
     nameTf.layer.borderColor = MakeColor(230, 230, 230).CGColor;
     nameTf.layer.borderWidth = 1.0;
     nameTf.layer.masksToBounds = YES;
@@ -249,7 +245,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     NSString *sex;
     NSInteger major = [pickerView selectedRowInComponent:0];
     if ([self.judgeStr isEqualToString:@"address"]) {
@@ -276,22 +271,22 @@
         
         
         if ([self.judgeStr isEqualToString:@"name"]) {
-            NSString *nameStr = [nameTf.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            [params setObject:nameStr forKey:@"realName"];
+            [params setObject:nameTf.text forKey:@"realName"];
         }
         
     }
-    
+    [self showHUD:@"保存中..."];
     [RSHttp requestWithURL:@"/user" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+        [self hidHUD];
         [self alertView:@"修改成功"];
         if ([self.judgeStr isEqualToString:@"name"]) {
             [self.delegate returnString:nameTf.text gender:sex judge:@"name"];
         }else{
             [self.delegate returnString:[addressArray[major] objectForKey:@"name"] gender:nil judge:@"address"];
         }
-        
         [self.navigationController popViewControllerAnimated:YES];
     } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
         [self alertView:errmsg];
     }];
 }
@@ -304,7 +299,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     
     [params setObject:departmentId forKey:@"departmentId"];
     
@@ -381,7 +375,6 @@
         
         app.tocken = [UIUtils replaceAdd:app.tocken];
         [params setObject:[majorArray[major] objectForKey:@"id"] forKey:@"major.Id"];
-        [params setObject:app.tocken forKey:@"token"];
         [RSHttp requestWithURL:@"/user" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
             [self alertView:@"修改成功"];
             [self.navigationController popToRootViewControllerAnimated:YES];
@@ -424,20 +417,4 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

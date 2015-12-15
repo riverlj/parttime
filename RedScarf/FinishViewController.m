@@ -41,19 +41,31 @@
     
     UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newshaixuan"] landscapeImagePhone:[UIImage imageNamed:@"newshaixuan"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickRight:)];
     
-    UIButton *barBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    barBtn.tag = 11111;
-//    barBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-    barBtn.frame = CGRectMake(kUIScreenWidth-90, 6, 60, 30);
-    [barBtn setTitle:@"    全 部" forState:UIControlStateNormal];
-    [barBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [barBtn addTarget:self action:@selector(didClickRight:) forControlEvents:UIControlEventTouchUpInside];
-    [self.navigationController.navigationBar addSubview:barBtn];
+
     
     r.tintColor = [UIColor grayColor];
     self.navigationItem.rightBarButtonItem = r;
     [self getMessage:nil];
     [self initTableView];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    UIButton *barBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    barBtn.tag = 11111;
+    //    barBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    barBtn.frame = CGRectMake(kUIScreenWidth-90, 6, 60, 30);
+    [barBtn setTitle:@"    全 部" forState:UIControlStateNormal];
+    [barBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [barBtn addTarget:self action:@selector(didClickRight:) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationController.navigationBar addSubview:barBtn];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[self.navigationController.navigationBar viewWithTag:11111] removeFromSuperview];
 }
 
 -(void)initTableView
@@ -62,6 +74,7 @@
     [self.searchBar.layer setBorderColor:MakeColor(241, 241, 241).CGColor];
     [self.searchBar.layer setBorderWidth:1.0];
     self.searchBar.delegate = self;
+    self.searchBar.placeholder = @"请输入用户手机号搜索";
     [self.searchBar setBarTintColor:MakeColor(241, 241, 241)];
     
     self.finishTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, self.view.frame.size.height)];
@@ -90,6 +103,7 @@
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+    [self getMessage:nil];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -114,7 +128,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:[NSNumber numberWithInt:10] forKey:@"pageSize"];
     [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
     if (self.status.length) {
@@ -366,12 +379,6 @@
     [[self.view viewWithTag:102] removeFromSuperview];
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [[self.navigationController.navigationBar viewWithTag:11111] removeFromSuperview];
-    [[self.navigationController.navigationBar viewWithTag:2020] removeFromSuperview];
-    [super viewWillDisappear:animated];
-}
 
 -(void)didClickLeft
 {

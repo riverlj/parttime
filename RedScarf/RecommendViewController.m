@@ -34,7 +34,6 @@
 -(void)initView
 {
     UIImageView *codeView = [[UIImageView alloc] initWithFrame:CGRectMake(60, 100, kUIScreenWidth-120, kUIScreenWidth-120)];
-//    codeView.backgroundColor = [UIColor redColor];
     codeView.image = [UIImage imageNamed:@"shareerweima"];
     [self.view addSubview:codeView];
     

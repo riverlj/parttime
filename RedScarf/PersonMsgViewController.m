@@ -11,6 +11,7 @@
 #import "ModifyPMViewController.h"
 #import "ModifyPWViewController.h"
 #import "Base64ForImage.h"
+#import "RSAccountModel.h"
 
 @interface PersonMsgViewController ()
 
@@ -22,31 +23,17 @@
     NSString *judgeGender,*headString;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self comeBack:nil];
-    [super viewWillAppear:animated];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self comeBack:nil];
+
     // Do any additional setup after loading the view.
     self.title = @"个人资料";
     self.view.backgroundColor = MakeColor(241, 242, 248);
     self.tabBarController.tabBar.hidden = YES;
-    [self navigationBar];
+    //[self navigationBar];
     [self initTableView];
-}
-
--(void)navigationBar
-{
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = left;
-    
-    //隐藏tabbar上的按钮
-    UIButton *barBtn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
-    [barBtn removeFromSuperview];
 }
 
 -(void)initTableView
@@ -102,7 +89,7 @@
     loginOutBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     loginOutBtn.layer.cornerRadius = 5;
     [loginOutBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [loginOutBtn setBackgroundColor:[UIColor redColor]];
+    [loginOutBtn setBackgroundColor:colorrede5];
     [loginOutBtn addTarget:self action:@selector(loginOut) forControlEvents:UIControlEventTouchUpInside];
     
     [scroll addSubview:loginOutBtn];
@@ -130,33 +117,18 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-//    NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
-//    NSData *imageData = [[NSData alloc] initWithContentsOfFile:imageFile];
-//    UIImage *image = [[UIImage alloc] initWithData:imageData];
-//    if (image != nil)
-//    {
-//        headView.image = image;
-//    }
-//    [self.navigationController setNavigationBarHidden:NO];
-}
-
 //调用相机
 - (void)didClickCamera:(id)sender
 {
     //判断是否可以打开相机
     if ([UIImagePickerController  isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera ]) {
         
-        UIImagePickerController *pichker = [[UIImagePickerController alloc] init];
-        pichker.delegate = self;
-        pichker.allowsEditing = YES;//是否可编辑
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;//是否可编辑
         //摄像头
-        pichker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:pichker animated:YES completion:nil];
-        
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:picker animated:YES completion:nil];
     } else{
         //
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"你没有摄像头" delegate:self cancelButtonTitle:@"Drat!" otherButtonTitles:@"取消", nil];
@@ -167,7 +139,8 @@
 //点击Cancel按钮后执行方法
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    [picker dismissViewControllerAnimated:YES completion:^{
+    }];
 }
 
 //调用图片库
@@ -191,7 +164,7 @@
 //选中图片进入的代理方法
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [picker dismissViewControllerAnimated:YES completion:^{}];
 }
 
 
@@ -214,22 +187,19 @@
         [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
         [RSHttp requestWithURL:@"/user/portrait" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
             [self alertView:@"设置成功"];
+            RSAccountModel *model = [RSAccountModel sharedAccount];
+            model.headImg = [params valueForKey:@"url"];
+            [model save];
             [picker dismissViewControllerAnimated:YES completion:nil];
         } failure:^(NSInteger code, NSString *errmsg) {
+            [picker dismissViewControllerAnimated:YES completion:nil];
         }];
     } failure:^(NSInteger code, NSString *errmsg) {
-        
+        [self alertView:errmsg];
+        [picker dismissViewControllerAnimated:YES completion:nil];
     }];
-
-    
-    //存本地
-//    NSString *imageFile=[NSTemporaryDirectory() stringByAppendingPathComponent:@"/img.png"];
-//
-//    NSData *imageData = UIImageJPEGRepresentation(image1, 0.5);
-//
-//    [imageData writeToFile:imageFile atomically:YES];
-    
 }
+
 -(NSString *) image2String:(UIImage *)image{
     
     NSData* pictureData = UIImageJPEGRepresentation(image,0.3);//进行图片压缩从0.0到1.0（0.0表示最大压缩，质量最低);
@@ -418,8 +388,6 @@
             modifyPW.titleString = @"修改密码";
             [self.navigationController pushViewController:modifyPW animated:YES];
         }
-        
-
     }
 }
 
@@ -430,7 +398,7 @@
         judgeGender = sex;
         
     }else if ([from isEqualToString:@"address"]){
-        [self.personMsgArray replaceObjectAtIndex:2 withObject:string];
+        [self.personMsgArray replaceObjectAtIndex:1 withObject:string];
     }
     [self.tableView reloadData];
 }
@@ -445,27 +413,7 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     LoginViewController *loginVC = [[LoginViewController alloc] init];
     [app setRoorViewController:loginVC];
-    
 }
 
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

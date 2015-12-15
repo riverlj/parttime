@@ -6,10 +6,9 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 
-@interface MyViewController : BaseViewController
+@interface MyViewController :RSTableViewController
 
-@property(nonatomic,strong) UITableView *informationTableView;
 
 @end

@@ -47,7 +47,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [RSHttp requestWithURL:@"/user/token/finance" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:[data objectForKey:@"body"] forKey:@"withdrawToken"];
@@ -62,10 +61,6 @@
 -(void)getMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"withdrawToken"]) {
-        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-    }
     
     [RSHttp payRequestWithURL:@"/account/accountInfo" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSMutableDictionary *dic = [data objectForKey:@"body"];
@@ -163,7 +158,7 @@
             UILabel *salaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(title.frame.size.width+title.frame.origin.x, 0, 150, 50)];
             salaryLabel.font = textFont14;
             salaryLabel.text = [NSString stringWithFormat:@"¥%.2f",[salary floatValue]/100];
-            salaryLabel.textColor = [UIColor greenColor];
+            salaryLabel.textColor = colorgreen65;
             [cell.contentView addSubview:salaryLabel];
         }
         if (indexPath.row == 1) {

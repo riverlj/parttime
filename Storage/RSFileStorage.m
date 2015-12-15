@@ -16,9 +16,8 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     NSString *savePath = [paths objectAtIndex:0];
     savePath = [savePath stringByAppendingPathComponent:@"Preferences"];
-    savePath = [savePath stringByAppendingPathComponent:@"com.RedScarf.preferences.plist"];
     if(!filename) {
-        filename = @"default";
+        filename = @"com.RedScarf.preferences.plist";
     }
     savePath = [savePath stringByAppendingPathComponent:filename];
     return savePath;

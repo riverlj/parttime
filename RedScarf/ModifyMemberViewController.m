@@ -82,7 +82,6 @@
 {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:app.tocken forKey:@"token"];
 //    self.username = [self.username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:self.username forKey:@"username"];
     [self showHUD:@"正在加载"];
@@ -189,7 +188,6 @@
     
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.phoneString forKey:@"username"];
     [params setValue:modifyTf.text forKey:@"mobilePhone"];
     [self showHUD:@"正在加载"];
@@ -222,7 +220,6 @@
     }else{
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        [params setObject:app.tocken forKey:@"token"];
         NSString *addrs = [indexArr componentsJoinedByString:@","];
         [params setObject:addrs forKey:@"addrs"];
         [params setObject:self.username forKey:@"username"];

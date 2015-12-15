@@ -49,7 +49,6 @@
 {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:app.tocken forKey:@"token"];
     [params setValue:@"" forKey:@"name"];
     [params setValue:@"-1" forKey:@"pageSize"];
     [params setValue:@"-1" forKey:@"pageNum"];

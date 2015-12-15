@@ -56,7 +56,7 @@
 {
    UITextField * view = [[UITextField alloc] initWithFrame:CGRectMake(25, 85, kUIScreenWidth-50, 40)];
     view.placeholder = @"请输入您的问题,200字以内。";
-    view.backgroundColor = [UIColor redColor];
+    view.backgroundColor = colorrede5;
     view.tag = 20001;
     view.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:view];
@@ -147,7 +147,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:@"2" forKey:@"source"];
 //    suggestionView.text = [suggestionView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:suggestionView.text forKey:@"content"];

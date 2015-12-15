@@ -160,7 +160,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     
     [RSHttp requestWithURL:@"/task/allApartmentBySchoolId" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {

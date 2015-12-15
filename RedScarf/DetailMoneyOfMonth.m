@@ -42,7 +42,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.deatilSalary forKey:@"date"];
     [RSHttp requestWithURL:@"/salary/date" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {

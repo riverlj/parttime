@@ -64,10 +64,9 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [self showHUD:@"正在加载"];
     [RSHttp requestWithURL:@"/task/assignedTask/apartmentAndCount" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self hidHUD];
@@ -100,14 +99,14 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:sender forKey:@"aId"];
     [RSHttp requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        
         [self.roomArr removeAllObjects];
         
         for (Model *model in self.addressArr) {
             if ([model.aId isEqualToString:sender]) {
-                model.apartmentsArr = [data objectForKey:@"msg"];
+                model.apartmentsArr = [[data objectForKey:@"msg"] mutableCopy];
             }
         }
         [self reloadData];
@@ -230,11 +229,6 @@
     //数量和餐品颜色
     NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:str];
     for (int i = 0; i < lengthArr.count; i++) {
-        int num = [[lengthArr objectAtIndex:i] intValue];
-         NSRange redRange = NSMakeRange(num-6, 5);
-        //份数颜色
-//        [noteStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:redRange];
-        
         int tagLength = [[tagArr objectAtIndex:i] intValue];
         NSRange tagRange;
         if (i == 0) {
@@ -246,7 +240,6 @@
         [noteStr addAttribute:NSForegroundColorAttributeName value:colorblue range:tagRange];
 
     }
-//    [noteStr appendAttributedString:noteStr];
     
     cell.addLabel.frame = CGRectMake(45, 0, 200, 50);
     cell.foodLabel.frame = CGRectMake(45, cell.addLabel.frame.size.height+cell.addLabel.frame.origin.y, kUIScreenWidth-30, 40);
@@ -317,7 +310,6 @@
             AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             app.tocken = [UIUtils replaceAdd:app.tocken];
-            [params setObject:app.tocken forKey:@"token"];
             [params setObject:self.aId forKey:@"aId"];
             [params setObject:self.roomNum forKey:@"room"];
             [params setObject:@"2" forKey:@"source"];

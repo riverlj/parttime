@@ -61,6 +61,7 @@
     nameField.layer.borderWidth = 1.0;
     nameField.layer.cornerRadius = 4;
     nameField.layer.masksToBounds = YES;
+    nameField.keyboardType = UIKeyboardTypePhonePad;
     nameField.placeholder = @"请输入手机号";
     nameField.delegate = self;
     nameField.textAlignment = NSTextAlignmentCenter;
@@ -166,33 +167,12 @@
         NSString *uuid = [defaults objectForKey:@"uuid"];
         if (!uuid.length) {
             [defaults setObject:string forKey:@"uuid"];
-            [defaults synchronize];
         }
-        app.tocken = [UIUtils replaceAdd:app.tocken];
-        [dic setObject:app.tocken forKey:@"token"];
-        
-        [RSHttp requestWithURL:@"/resource/appMenu"
-                              params:dic
-                          httpMethod:@"GET"
-                             success:^(NSDictionary *data) {
-                                 NSLog(@"result = %@   %@",[data objectForKey:@"msg"],data);
-                                 NSMutableArray *tabCount = [data objectForKey:@"msg"];
-                                 app.array = tabCount;
-                                 for (NSDictionary *dic in tabCount) {
-                                     app.count = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
-                                 }
-                                 [Flurry logEvent:@"login_count"];
-                                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                                 [defaults setObject:app.tocken forKey:@"token"];
-                                 [defaults setObject:app.count forKey:@"count"];
-                                 [defaults setObject:nameField.text forKey:@"username"];
-                                 [defaults synchronize];
-                                 baseTabVC = [[BaseTabbarViewController alloc] init];
-                                 [app setRoorViewController:baseTabVC];
-                             }
-                             failure:^(NSInteger code, NSString *errmsg) {
-                             }];
-        
+        [defaults setObject:app.tocken forKey:@"token"];
+        [defaults synchronize];
+        [Flurry logEvent:@"login_count"];
+        baseTabVC = [[BaseTabbarViewController alloc] init];
+        [app setRoorViewController:baseTabVC];
     } failure:^(NSInteger code, NSString *errmsg) {
         [weakSelf hidHUD];
         [weakSelf alertView:errmsg];

@@ -59,7 +59,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.aId forKey:@"aId"];
     self.room = [self.room stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:self.room forKey:@"room"];
@@ -129,8 +128,6 @@
     NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:contentStr];
     for (int i = 0; i < lengthArr.count; i++) {
         //份数颜色
-        //        [noteStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:redRange];
-        
         int tagLength = [[tagArr objectAtIndex:i] intValue];
         NSRange tagRange;
         if (i == 0) {
@@ -162,7 +159,7 @@
         [cell.roundBtn setImage:[UIImage imageNamed:@"xuanzhong"]];
         UIButton *btn = (UIButton *)[self.view viewWithTag:1234];
         UIButton *btn1 = (UIButton *)[self.view viewWithTag:2234];
-        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [btn setTitleColor:colorrede5 forState:UIControlStateNormal];
         [btn1 setTitleColor:colorblue forState:UIControlStateNormal];
         btn1.userInteractionEnabled = YES;
         btn.userInteractionEnabled = YES;
@@ -273,7 +270,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setObject:self.sn forKey:@"sn"];
     if (reason.length) {
         [params setObject:reason forKey:@"reason"];
@@ -303,7 +299,6 @@
                 AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
                 NSMutableDictionary *params = [NSMutableDictionary dictionary];
                 app.tocken = [UIUtils replaceAdd:app.tocken];
-                [params setObject:app.tocken forKey:@"token"];
                 [params setObject:self.sn forKey:@"sn"];
                 [params setObject:@"2" forKey:@"source"];
                 [RSHttp requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {

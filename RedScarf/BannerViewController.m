@@ -20,7 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     [self comeBack:nil];
     [self initWebView];
@@ -31,17 +30,36 @@
     NSURL *url;
     bannerView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth+kUITabBarHeight)];
     bannerView.delegate = self;
-    if ([self.title isEqualToString:@"详情"]) {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.url]];
-    }else if ([self.title isEqualToString:@"CEO群"]){
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://jianzhi.honglingjinclub.com/html/banner/20151113/ceo.html"]];
-    }else{
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://jianzhi.honglingjinclub.com/html/banner/20151026/QandA.html"]];
+    url = [NSURL URLWithString:self.urlString];
+    if(!url) {
+        [self alertView:@"URL地址错误"];
+        return;
     }
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
     request.timeoutInterval = 5;
     [bannerView loadRequest:request];
     [self.view addSubview:bannerView];
+}
+
+
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSMutableURLRequest *req = [request mutableCopy];
+    NSString *urlStr = [req.URL absoluteString];
+    if([urlStr hasPrefix:REDSCARF_BASE_URL]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if ([defaults objectForKey:@"token"] &&  [urlStr rangeOfString:@"token="].location == NSNotFound) {
+            if([urlStr rangeOfString:@"?"].location == NSNotFound) {
+                urlStr = [NSString stringWithFormat:@"%@?token=%@", urlStr, [NSString URLencode:[defaults objectForKey:@"token"] stringEncoding:NSUTF8StringEncoding]];
+            } else {
+                urlStr = [NSString stringWithFormat:@"%@&token=%@", urlStr, [NSString URLencode:[defaults objectForKey:@"token"] stringEncoding:NSUTF8StringEncoding]];
+            }
+            req.URL = [NSURL URLWithString:urlStr];
+            [bannerView loadRequest:req];
+            return false;
+        }
+    }
+    return YES;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
@@ -60,4 +78,5 @@
     NSString *errmsg = [error.userInfo valueForKey:@"NSLocalizedDescription"];
     [self alertView:errmsg];
 }
+
 @end

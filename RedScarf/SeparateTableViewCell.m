@@ -19,7 +19,6 @@
         self.typeLabel.textColor = colorblue;
         self.typeLabel.font = textFont12;
         self.typeLabel.numberOfLines = 0;
-//        self.typeLabel.backgroundColor = [UIColor greenColor];
         self.typeLabel.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:self.typeLabel];
         
@@ -27,7 +26,6 @@
         self.foodLabel.textColor = color155;
         self.foodLabel.numberOfLines = 0;
         self.foodLabel.font = textFont12;
-//        self.foodLabel.backgroundColor = [UIColor redColor];
         self.foodLabel.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:self.foodLabel];
         

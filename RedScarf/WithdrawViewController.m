@@ -37,10 +37,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"withdrawToken"]) {
-        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-    }
     [RSHttp payRequestWithURL:@"/account/accountInfo" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSMutableDictionary *dic = [data objectForKey:@"body"];
         self.pwdStatus = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pwdStatus"]];
@@ -70,11 +66,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     [self showHUD:@"正在加载"];
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"withdrawToken"]) {
-        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-    }
+
     [RSHttp payRequestWithURL:@"/account/queryBankCard" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSArray *arr = [data objectForKey:@"body"];
         if (arr.count) {
@@ -107,7 +99,7 @@
     
     UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width/2-40, 25, 80, 31)];
     moneyLabel.text = [NSString stringWithFormat:@"¥%.2f",[self.salary floatValue]/100];
-    moneyLabel.textColor = [UIColor greenColor];
+    moneyLabel.textColor = colorgreen65;
     moneyLabel.textAlignment = NSTextAlignmentCenter;
     moneyLabel.font = textFont14;
     [bgView addSubview:moneyLabel];
@@ -146,7 +138,7 @@
             money.text = @"0";
             money.textAlignment = NSTextAlignmentCenter;
             money.font = textFont15;
-            money.textColor = [UIColor redColor];
+            money.textColor = colorrede5;
             money.tag = 100;
             [self.view addSubview:money];
             
@@ -176,7 +168,7 @@
             label.text = @"    实际提现金额：";
             UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(view.frame.size.width+view.frame.origin.x+10, bgView.frame.size.height+bgView.frame.origin.y+18+(i*50), 60, 50)];
             moneyLabel.textAlignment = NSTextAlignmentCenter;
-            moneyLabel.textColor = [UIColor greenColor];
+            moneyLabel.textColor = colorgreen65;
             moneyLabel.tag = 200;
             moneyLabel.font = textFont15;
             moneyLabel.text = @"0.00";

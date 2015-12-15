@@ -24,8 +24,8 @@
     NSMutableArray *majorArray;
     NSMutableArray *addressArray;
     
-    NSString *idString,*idString1;
-    NSString *studentIdString,*studentIdString1;
+    NSData *idData,*idData1;
+    NSData *stuData,*stuData1;
     
     UIImage *idImage,*idImage1;
     UIImage *stuImage,*stuImage1;
@@ -37,7 +37,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     UIView *navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 64)];
     [self.view addSubview:navigationView];
@@ -207,7 +206,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [RSHttp requestWithURL:@"/team/apartments" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         addressArray = [[data objectForKey:@"msg"] objectForKey:@"apartments"];
         [self initPickerView];
@@ -297,7 +295,6 @@
 
 -(void)save
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
 
     NSInteger major = [pickerView selectedRowInComponent:0];
@@ -310,11 +307,10 @@
                 [self alertView:@"请输入姓名"];
                 return;
             }
-            if (![UIUtils isValidateCharacter:tf.text]) {
+            /*if (![UIUtils isValidateCharacter:tf.text]) {
                 [self alertView:@"名字为两个以上的汉字"];
                 return;
-            }
-
+            }*/
         }
         if (i == 1) {
             if (tf.text.length && tf.text.length == 11) {
@@ -358,9 +354,34 @@
         }
     }
 
-    NSArray *idArray = [NSArray arrayWithObjects:idString,idString1, nil];
-    NSArray *stuArray = [NSArray arrayWithObjects:studentIdString,studentIdString1, nil];
+    NSArray *idArray = [NSArray arrayWithObjects:[[NSString alloc] initWithData:idData encoding:NSUTF8StringEncoding],[[NSString alloc] initWithData:idData1 encoding:NSUTF8StringEncoding], nil];
+    NSArray *stuArray = [NSArray arrayWithObjects:[[NSString alloc] initWithData:stuData encoding:NSUTF8StringEncoding],[[NSString alloc] initWithData:stuData1 encoding:NSUTF8StringEncoding], nil];
     [params setObject:idArray forKey:@"idCardPics"];
+    [params setObject:stuArray forKey:@"studentIdCardPics"];
+
+    [RSHttp postDataWithURL:@"/user/2" params:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        if(idData){
+            [formData appendPartWithFormData:idData name:@"idCardPics"];
+        }
+        if(idData1) {
+            [formData appendPartWithFormData:idData1 name:@"idCardPics"];
+        }
+        if(stuData) {
+            [formData appendPartWithFormData:stuData name:@"studentIdCardPics"];
+        }
+        if(stuData1) {
+            [formData appendPartWithFormData:stuData1 name:@"studentIdCardPics"];
+        }
+    } success:^(NSDictionary *data) {
+        [self hidHUD];
+        [self alertView:@"添加成功"];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
+        [self alertView:errmsg];
+    }];
+    
+    /*[params setObject:idArray forKey:@"idCardPics"];
     [params setObject:stuArray forKey:@"studentIdCardPics"];
     
     [self showHUD:@"正在加载"];
@@ -371,7 +392,7 @@
     } failure:^(NSInteger code, NSString *errmsg) {
         [self hidHUD];
         [self alertView:errmsg];
-    }];
+    }];*/
 }
 
 -(void)upImageView:(id)sender
@@ -451,6 +472,18 @@
 
     return pictureDataString;
 }
+-(NSData *) image2Data:(UIImage *) image
+{
+    //判断图片是不是png格式的文件
+    if (UIImagePNGRepresentation(image)) {
+        //返回为png图像。
+        return UIImagePNGRepresentation(image);
+    }else {
+        //返回为JPEG图像。
+        return UIImageJPEGRepresentation(image, 1.0);
+    }
+    return nil;
+}
 
 //选中图片进入的代理方法
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
@@ -471,16 +504,16 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     
     if (btn.tag == 1000) {
-        idString = [self image2String:image1];
+        idData = [[self image2String:image1] dataUsingEncoding:NSUTF8StringEncoding];
         idImage = image1;
     }else if (btn.tag == 1001) {
-        studentIdString = [self image2String:image1];
+        stuData = [[self image2String:image1] dataUsingEncoding:NSUTF8StringEncoding];
         stuImage = image1;
     }else if (btn.tag == 1002) {
-        idString1 = [self image2String:image1];
+        idData1 = [[self image2String:image1] dataUsingEncoding:NSUTF8StringEncoding];
         idImage1 = image1;
     }else if (btn.tag == 1003) {
-        studentIdString1 = [self image2String:image1];
+        stuData1 = [[self image2String:image1] dataUsingEncoding:NSUTF8StringEncoding];
         stuImage1 = image1;
     }
 }

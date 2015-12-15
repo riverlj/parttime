@@ -45,7 +45,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [self showHUD:@"正在加载"];
     [RSHttp requestWithURL:@"/task/waitAssignTask" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self hidHUD];

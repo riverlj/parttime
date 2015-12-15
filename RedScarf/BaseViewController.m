@@ -67,7 +67,6 @@
 
 -(void)comeBack:(UIColor *)color
 {
-    
     UIImage *img= [[UIImage imageNamed:@"newfanhui"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
     left.tintColor = [UIColor whiteColor];

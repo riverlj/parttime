@@ -36,10 +36,6 @@
 -(void)getMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"withdrawToken"]) {
-        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-    }
     [params setObject:@"0" forKey:@"timestamp"];
     [RSHttp payRequestWithURL:@"/pay/withdraw/record" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [bodyArray removeAllObjects];
@@ -48,23 +44,11 @@
     } failure:^(NSInteger code, NSString *errmsg) {
         [self alertView:errmsg];
     }];
-    [RSHttp payRequestWithURL:@"/pay/withdraw/record" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        [bodyArray removeAllObjects];
-        bodyArray = [data objectForKey:@"body"];
-        [self.tableView reloadData];
-    } failure:^(NSInteger code, NSString *errmsg) {
-        [self alertView:errmsg];
-    }];
-
 }
 
 -(void)getSalaryMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"withdrawToken"]) {
-        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-    }
     [params setObject:@"0" forKey:@"timestamp"];
     [RSHttp payRequestWithURL:@"/account/moneyChangeRecord" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [bodyArray removeAllObjects];
@@ -212,31 +196,15 @@
       
         cell.dateLabel.text = [NSString stringWithFormat:@"%@",str];
         if ([[dic objectForKey:@"totalFee"] intValue] > 0) {
-            cell.changeLabel.textColor = [UIColor greenColor];
+            cell.changeLabel.textColor = colorgreen65;
             cell.changeLabel.text = [NSString stringWithFormat:@"+%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
         }else{
-            cell.changeLabel.textColor = [UIColor redColor];
+            cell.changeLabel.textColor = colorrede5;
             cell.changeLabel.text = [NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
         }
     }
     
     return cell;
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -20,11 +20,12 @@
     NSString *phoneText;
 }
 
--(void)viewWillAppear:(BOOL)animated
+-(void) viewWillAppear:(BOOL)animated
 {
-    [self initView];
     [super viewWillAppear:animated];
+    [self getMessage];
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,18 +34,18 @@
     msgDictionary = [NSMutableDictionary dictionary];
     self.title = @"详细信息";
     [self comeBack:nil];
-    [self getMessage];
-    [self initView];
+    //[self getMessage];
+    //[self initView];
 }
 
 -(void)getMessage
 {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:app.tocken forKey:@"token"];
     [params setValue:self.memberId forKey:@"id"];
     [self showHUD:@"正在加载"];
     [RSHttp requestWithURL:@"/team/user/" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self.view removeAllSubviews];
         msgDictionary = [data objectForKey:@"msg"];
         [self initView];
         [self hidHUD];
@@ -65,9 +66,11 @@
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 33, 70, 35)];
     nameLabel.text = [msgDictionary objectForKey:@"realName"];
+    [nameLabel sizeToFit];
     [bgView addSubview:nameLabel];
 
-    UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(170, 43, 12, 15)];
+    UIImageView *genderView = [[UIImageView alloc] initWithFrame:CGRectMake(170, nameLabel.top +3, 12, 15)];
+    genderView.left = nameLabel.right + 5;
     if ((NSInteger)[msgDictionary objectForKey:@"sex"] == 1) {
         genderView.image = [UIImage imageNamed:@"nan2x"];
     }else{

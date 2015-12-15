@@ -90,7 +90,6 @@
 {
     if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) {
     }else{
-        pageNum += 1;
         [self getMessage];
     }
 }
@@ -117,12 +116,13 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     
     if (cell == nil) {
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        cell = [[UITableViewCell alloc] init];
     }
+    cell.textLabel.lineBreakMode = NSLineBreakByTruncatingHead;
     if ([self.title isEqualToString:@"账号类型"]) {
         cell.textLabel.text = taskTypeArray[indexPath.row];
     }else{
@@ -136,7 +136,6 @@
                 }
             }
             cell.textLabel.text = [NSString stringWithFormat:@"%@",self.filteredArray[indexPath.row]];
-            
         }else{
             dic = [self.dataArray objectAtIndex:indexPath.row];
             
@@ -147,22 +146,6 @@
     
     return cell;
 }
-
-/*-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if([self.title isEqualToString:@"开户支行"]) {
-        return self.searchBar.frame.size.height;
-    }
-    return 0;
-}
-
--(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if ([self.title isEqualToString:@"开户支行"]) {
-        return self.searchBar;
-    }
-    return nil;
-}*/
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -200,11 +183,23 @@
 
 -(void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope
 {
-    [self.filteredArray removeAllObjects];
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF CONTAINS %@",searchText];
-    NSArray *tempArray = [self.nameArray filteredArrayUsingPredicate:pred];
-    //只把名字加到数组里面，
-    self.filteredArray = [NSMutableArray arrayWithArray:tempArray];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
+    [params setObject:@"50" forKey:@"pageSize"];
+    [params setObject:self.idArr[0] forKey:@"provinceId"];
+    [params setObject:self.idArr[1] forKey:@"cityId"];
+    [params setObject:self.idArr[2] forKey:@"parentId"];
+    [params setObject:searchText forKey:@"key"];
+    //[self showHUD:@"搜索中"];
+    [RSHttp payRequestWithURL:@"/bank/queryBranchBank" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        self.filteredArray = [NSMutableArray array];
+        for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
+            [self.filteredArray addObject:[dic objectForKey:@"name"]];
+        }
+        [self.searchaDisplay.searchResultsTableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
+    }];
 }
 
 
@@ -228,9 +223,6 @@
     NSString *url = @"/location/province";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"withdrawToken"]) {
-        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-    }
     if ([self.title isEqualToString:@"开户城市"]) {
         url = @"/location/city";
         [params setObject:self.Id forKey:@"provinceId"];
@@ -250,21 +242,28 @@
         [params setObject:self.idArr[2] forKey:@"parentId"];
     }
     [RSHttp payRequestWithURL:url params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        pageNum += 1;
+        NSInteger total = 0;
         if ([self.title isEqualToString:@"开户银行"]||[self.title isEqualToString:@"开户支行"]) {
             for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
-                NSLog(@"dic = %@",dic);
+                total ++;
                 [self.dataArray addObject:dic];
                 [self.nameArray addObject:[dic objectForKey:@"name"]];
             }
         }else{
             for (NSMutableDictionary *dic in [data objectForKey:@"body"]) {
-                NSLog(@"dic = %@",dic);
+                total ++;
                 [self.dataArray addObject:dic];
                 [self.nameArray addObject:[dic objectForKey:@"name"]];
             }
         }
+        if(total == 0) {
+            [self alertView:@"没有更多数据了"];
+        }
         [self.listView reloadData];
+        [footView endRefreshing];
     } failure:^(NSInteger code, NSString *errmsg) {
+        [footView endRefreshing];
         [self alertView:errmsg];
     }];
 

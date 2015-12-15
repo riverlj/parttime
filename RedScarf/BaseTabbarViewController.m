@@ -74,7 +74,7 @@
     }
     //圆形
     _btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-25, kUIScreenHeigth-80, 60, 60)];
-    [_btn setBackgroundColor:[UIColor redColor]];
+    [_btn setBackgroundColor:colorrede5];
     _btn.layer.cornerRadius = 30;
     [_btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
     _btn.layer.masksToBounds = YES;

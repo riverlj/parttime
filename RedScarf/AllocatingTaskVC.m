@@ -70,7 +70,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setValue:@"" forKey:@"name"];
     [RSHttp requestWithURL:@"/task/fuzzyUser" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self.array removeAllObjects];
@@ -228,7 +227,6 @@
             AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             app.tocken = [UIUtils replaceAdd:app.tocken];
-            [params setObject:app.tocken forKey:@"token"];
             [params setValue:indexModel.userId forKey:@"userId"];
             [params setValue:self.aId forKey:@"aId"];
             NSString *url = @"/task/waitAssignTask/updateTask";

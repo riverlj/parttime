@@ -15,7 +15,9 @@
 #import "Flurry.h"
 #import "BaiduMobStat.h"
 
-@interface AppDelegate ()
+@interface AppDelegate (){
+    NSString *updateUrl;
+}
 
 @end
 
@@ -84,7 +86,8 @@
             NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
             CFShow((__bridge CFTypeRef)(infoDictionary));
             NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-            
+            updateUrl = [dic objectForKey:@"url"];
+
             if (![versionStr isEqualToString:app_Version]) {
                 UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
                 [aler show];
@@ -110,7 +113,10 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (buttonIndex==0) {
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"itms-services://?action=download-manifest&url=https://passport.honglingjinclub.com/downlod/RedScarf.plist"]];
+        if(!updateUrl) {
+            updateUrl = @"itms-services://?action=download-manifest&url=https://passport.honglingjinclub.com/downlod/RedScarf.plist";
+        }
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:updateUrl]];
     }
 }
 

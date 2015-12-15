@@ -124,11 +124,6 @@
         num = 60;
         
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        if ([defaults objectForKey:@"withdrawToken"]) {
-            [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-        }
         [self showHUD:@"正在发送"];
         [RSHttp payRequestWithURL:@"/verifyCode/shortMsg" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
             [self alertView:@"发送成功"];
@@ -142,9 +137,6 @@
         
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        if ([defaults objectForKey:@"withdrawToken"]) {
-            [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-        }
         [self showHUD:@"正在发送"];
         [RSHttp payRequestWithURL:@"/verifyCode/shortMsg" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
             [self alertView:@"发送成功"];
@@ -162,9 +154,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"withdrawToken"]) {
-        [params setObject:[defaults objectForKey:@"withdrawToken"] forKey:@"token"];
-    }
     if (!codeTextField.text.length) {
         [self alertView:@"请输入手机验证码"];
         return;
@@ -230,20 +219,4 @@
 {
     [self.view endEditing:YES];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

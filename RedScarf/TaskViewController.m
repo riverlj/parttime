@@ -140,7 +140,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     
     NSString *nameStr = [NSString stringWithFormat:@"%@",self.searchBar.text];
     nameStr = [nameStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -242,7 +241,6 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [params setValue:@"" forKey:@"name"];
     [RSHttp requestWithURL:@"/task/assignTask/user" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self hidHUD];

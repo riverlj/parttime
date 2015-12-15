@@ -32,6 +32,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self comeBack:nil];
+    [super viewWillAppear:animated];
 }
 
 -(void)viewDidLoad
@@ -64,7 +65,6 @@
     [params setObject:[NSNumber numberWithInt:30] forKey:@"pageSize"];
     [params setObject:[NSNumber numberWithInt:1] forKey:@"pageNum"];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:app.tocken forKey:@"token"];
     [RSHttp requestWithURL:@"/promotionActivity/index" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSMutableDictionary *dic = [data objectForKey:@"msg"];
         NSLog(@"dic = %@",dic);
