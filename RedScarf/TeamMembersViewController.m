@@ -47,7 +47,6 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:@"" forKey:@"name"];
     [params setValue:@"-1" forKey:@"pageSize"];

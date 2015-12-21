@@ -10,7 +10,6 @@
 #import "ModTableViewCell.h"
 #import "DaiFenPeiVC.h"
 #import "UIView+ViewController.h"
-#import "DistributionVC.h"
 #import "AppDelegate.h"
 #import "UIUtils.h"
 #import "Model.h"
@@ -20,14 +19,6 @@
 
 
 @implementation DistributionTableView
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -43,7 +34,7 @@
     self = [super initWithFrame:frame style:style];
     
     if (self) {
-        self.backgroundColor = MakeColor(242, 242, 248);
+        self.backgroundColor = color_gray_f3f5f7;
         self.addressArr = [NSMutableArray array];
         self.roomArr = [NSMutableArray array];
         self.totalArr = [NSMutableArray array];
@@ -57,7 +48,6 @@
         self.dataSource = self;
         [self viewDidLayoutSubviews];
     }
-    
     
     return self;
 }
@@ -101,9 +91,7 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:sender forKey:@"aId"];
     [RSHttp requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        
         [self.roomArr removeAllObjects];
-        
         for (Model *model in self.addressArr) {
             if ([model.aId isEqualToString:sender]) {
                 model.apartmentsArr = [[data objectForKey:@"msg"] mutableCopy];
@@ -168,7 +156,7 @@
     NSString *str = [NSString stringWithFormat:@"%@",model.apartmentName];
     
     CGSize size = CGSizeMake(kUIScreenWidth-80, 1000);
-    CGSize labelSize = [str sizeWithFont:label.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+    CGSize labelSize = [str sizeWithFont:label.font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
     label.frame = CGRectMake(35, 12, labelSize.width, labelSize.height);
     label.text = str;
     
@@ -203,7 +191,7 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = MakeColor(242, 242, 248);
     cell.bgImageView.backgroundColor = [UIColor whiteColor];
     NSString *str = @"";
@@ -259,18 +247,12 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-}
-
 //送达
 -(void)didClickBtn:(id)sender
 {
     [[BaiduMobStat defaultStat] logEvent:@"送达" eventLabel:@"button10"];
     UIButton *btn = (UIButton *)sender;
     NSIndexPath *indexPath = objc_getAssociatedObject(btn, &UITableViewIndexSearch);
-    NSLog(@"indexPath.row = %ld,indexPath.section = %ld",(long)indexPath.row,(long)indexPath.section);
 
     Model *model = [[Model alloc] init];
     model = [self.addressArr objectAtIndex:indexPath.section];
@@ -315,7 +297,21 @@
             [params setObject:@"2" forKey:@"source"];
             [RSHttp requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
                 [self alertView:@"成功送达"];
-                [self didClickLeft];
+                for (Model *model in self.addressArr) {
+                    if ([model.aId isEqualToString:self.aId]) {
+                        for(NSDictionary *dic in model.apartmentsArr) {
+                            if([[dic valueForKey:@"room"] isEqualToString:self.roomNum]) {
+                                [model.apartmentsArr removeObject:dic];
+                                self.roomNum = nil;
+                                if([model.apartmentsArr count] == 0) {
+                                    [self.addressArr removeObject:model];
+                                    [self detailZero:0];
+                                }
+                            }
+                        }
+                    }
+                }
+                [self reloadData];
             } failure:^(NSInteger code, NSString *errmsg) {
                 [self alertView:errmsg];
             }];
@@ -335,8 +331,6 @@
 -(void)detail:(id)sender
 {
     UIButton *btn = (UIButton *)sender;
-    NSLog(@"section = %ld",(long)btn.tag);
-    
   
     Model *model = [[Model alloc] init];
     model = self.addressArr[btn.tag];
@@ -386,7 +380,6 @@
     if ([self respondsToSelector:@selector(setLayoutMargins:)])  {
         [self setLayoutMargins:UIEdgeInsetsZero];
     }
-    
 }
 
 -(void)returnNameOfTableView:(NSString *)name

@@ -41,17 +41,17 @@
         self.btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         self.btn.frame = CGRectMake(kUIScreenWidth-80, 30, 50, 30);
         [self.btn setTitleColor:colorrede5 forState:UIControlStateNormal];
-   
-        [self.contentView addSubview:self.btn];
         
-        self.button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.button.frame = CGRectMake(self.groundImage.frame.size.width-60, 0, 60, self.frame.size.height-15);
-        [self.button setTitle:@"给ta" forState:UIControlStateNormal];
-        [self.button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        self.button.titleLabel.font = textFont16;
-        self.button.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.button.backgroundColor = MakeColor(201, 220, 254);
-        [self.groundImage addSubview:self.button];
+        self.rightLabel = [[UILabel alloc] init];
+        self.rightLabel.frame = CGRectMake(self.groundImage.frame.size.width-60, 0, 60, self.frame.size.height-15);
+        //[self.button setTitle:@"给ta" forState:UIControlStateNormal];
+        //[self.button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        self.rightLabel.text = @"给ta";
+        self.rightLabel.textColor = [UIColor blueColor];
+        self.rightLabel.font = textFont16;
+        self.rightLabel.textAlignment = NSTextAlignmentCenter;
+        self.rightLabel.backgroundColor = MakeColor(201, 220, 254);
+        [self.groundImage addSubview:self.rightLabel];
 
         
     }

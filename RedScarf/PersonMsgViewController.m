@@ -406,10 +406,7 @@
 //退出登陆
 -(void)loginOut
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"token"];
-    [defaults synchronize];
-    
+    [NSUserDefaults clearValueForKey:@"token"];
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     LoginViewController *loginVC = [[LoginViewController alloc] init];
     [app setRoorViewController:loginVC];

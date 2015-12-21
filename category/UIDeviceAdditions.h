@@ -12,7 +12,9 @@
 /* 返回网络状态[None, WiFi, GPRS]
  */
 + (NSString *)networkStatus;
-
++ (NSString *) utm_campaign;
++ (NSString *) utm_source;
++ (NSString *) utm_content;
 + (BOOL)isPad;
 + (CGFloat)scale;
 + (BOOL)isRetina;

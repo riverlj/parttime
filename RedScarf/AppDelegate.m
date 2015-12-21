@@ -12,7 +12,6 @@
 #import "UMSocial.h"
 #import "UMSocialQQHandler.h"
 #import "UMSocialWechatHandler.h"
-#import "Flurry.h"
 #import "BaiduMobStat.h"
 
 @interface AppDelegate (){
@@ -29,8 +28,6 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self BaiduMobStat];
-    [Flurry setCrashReportingEnabled:YES];
-    [Flurry startSession:@"ZWVZ56TNDFHVQX48RMD2"];
     AppDelegate *myDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     Reachability *reach = [Reachability reachabilityForInternetConnection];
@@ -55,7 +52,6 @@
    
     if (token.length) {
         BaseTabbarViewController *baseVC = [[BaseTabbarViewController alloc] init];
-    
         myDelegate.tocken = token;
         self.window.rootViewController = baseVC;
     }else{
@@ -100,14 +96,14 @@
 -(void)BaiduMobStat
 {
     BaiduMobStat *statTracker = [BaiduMobStat defaultStat];
+    [statTracker startWithAppId:@"89b848cd73"];
     statTracker.enableExceptionLog = YES; //截获崩溃信息
     statTracker.logStrategy = BaiduMobStatLogStrategyAppLaunch;
     statTracker.logSendInterval = 1;
-    statTracker.channelId = @"BaiduSDK";
+    statTracker.channelId = [UIDevice utm_source];
     statTracker.logSendWifiOnly = NO;
-    statTracker.enableDebugOn = YES;
+    //statTracker.enableDebugOn = YES;
     statTracker.sessionResumeInterval = 60;
-    [statTracker startWithAppId:@"89b848cd73"];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -173,5 +169,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
 
 @end

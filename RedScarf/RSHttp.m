@@ -10,14 +10,13 @@
 #import "LoginViewController.h"
 @implementation RSHttp
 
-+ (void)baseRequestWithURL:(NSString *)urlstring
-                            params:(NSMutableDictionary *)params
++ (void)baseRequestWithURL:(NSString *)url
+                            params:(id)params
                         httpMethod:(NSString *)httpMethod
                           success:(void (^)(NSDictionary *))success
                           failure:(void (^)(NSInteger, NSString *))failure
         constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
 {
-    NSString *url = [urlstring urlWithHost:nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     //设置超时时间
@@ -47,7 +46,17 @@
             [self processFailure:failure operation:operation error:error];
         }];
     } else if([httpMethod isEqualToString:@"POSTJSON"]){
+        manager.requestSerializer=[AFJSONRequestSerializer serializer];
+        [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [manager POST:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processSuccess:success operation:operation response:responseObject failure:failure];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self processFailure:failure operation:operation error:error];
+        }];
+    } else if([httpMethod isEqualToString:@"PUTJSON"]){
+        manager.requestSerializer=[AFJSONRequestSerializer serializer];
+        [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [manager PUT:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processSuccess:success operation:operation response:responseObject failure:failure];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [self processFailure:failure operation:operation error:error];
@@ -89,6 +98,7 @@
                  error:(NSError *)error
 {
     if(error.code == 401) {
+        [NSUserDefaults clearValueForKey:@"token"];
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         LoginViewController *loginVC = [[LoginViewController alloc] init];
         [app setRoorViewController:loginVC];
@@ -104,15 +114,6 @@
                failure:(void (^)(NSInteger, NSString *))failure
 {
     urlstring = [urlstring urlWithHost:REDSCARF_BASE_URL];
-    //添加token参数
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"token"] &&  [urlstring rangeOfString:@"token="].location == NSNotFound) {
-        if([urlstring rangeOfString:@"?"].location == NSNotFound) {
-            urlstring = [NSString stringWithFormat:@"%@?token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"token"] stringEncoding:NSUTF8StringEncoding]];
-        } else {
-            urlstring = [NSString stringWithFormat:@"%@&token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"token"] stringEncoding:NSUTF8StringEncoding]];
-        }
-    }
     [self baseRequestWithURL:urlstring params:params httpMethod:httpMethod success:success failure:failure constructingBodyWithBlock:nil];
 }
 
@@ -124,29 +125,12 @@
                  failure:(void (^)(NSInteger, NSString *))failure
 {
     urlstring = [urlstring urlWithHost:REDSCARF_PAY_URL];
-    //添加paytoken
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"withdrawToken"] &&  [urlstring rangeOfString:@"token="].location == NSNotFound) {
-        if([urlstring rangeOfString:@"?"].location == NSNotFound) {
-            urlstring = [NSString stringWithFormat:@"%@?token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"withdrawToken"] stringEncoding:NSUTF8StringEncoding]];
-        } else {
-            urlstring = [NSString stringWithFormat:@"%@&token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"withdrawToken"] stringEncoding:NSUTF8StringEncoding]];
-        }
-    }
     [self baseRequestWithURL:urlstring params:params httpMethod:httpMethod success:success failure:failure constructingBodyWithBlock:nil];
 }
 
 +(void) postDataWithURL:(NSString *)urlstring params:(NSMutableDictionary *)params constructingBodyWithBlock:(void (^)(id<AFMultipartFormData>))block success:(void (^)(NSDictionary *))success failure:(void (^)(NSInteger, NSString *))failure
 {
-    urlstring = [urlstring urlWithHost:nil];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"token"] &&  [urlstring rangeOfString:@"token="].location == NSNotFound) {
-        if([urlstring rangeOfString:@"?"].location == NSNotFound) {
-            urlstring = [NSString stringWithFormat:@"%@?token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"token"] stringEncoding:NSUTF8StringEncoding]];
-        } else {
-            urlstring = [NSString stringWithFormat:@"%@&token=%@", urlstring, [NSString URLencode:[defaults objectForKey:@"token"] stringEncoding:NSUTF8StringEncoding]];
-        }
-    }
+    urlstring = [urlstring urlWithHost:REDSCARF_BASE_URL];
     [self baseRequestWithURL:urlstring params:params httpMethod:@"POST" success:success failure:failure constructingBodyWithBlock:block];
 }
 @end

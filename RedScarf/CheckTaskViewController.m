@@ -42,7 +42,6 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:dateLabel.text forKey:@"date"];
     [params setObject:@"-1" forKey:@"pageSize"];

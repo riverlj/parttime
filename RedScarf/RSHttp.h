@@ -15,19 +15,19 @@
 
 
 + (void)requestWithURL:(NSString *)urlstring
-                            params:(NSMutableDictionary *)params
+                            params:(id)params
                         httpMethod:(NSString *)httpMethod
                            success:(void (^)(NSDictionary *data)) success
                            failure:(void (^)(NSInteger code, NSString *errmsg))failure;
 
 + (void)payRequestWithURL:(NSString *)urlstring
-                params:(NSMutableDictionary *)params
+                params:(id)params
             httpMethod:(NSString *)httpMethod
                success:(void (^)(NSDictionary *data)) success
                failure:(void (^)(NSInteger code, NSString *errmsg))failure;
 
 +(void)postDataWithURL:(NSString *)urlstring
-                params:(NSMutableDictionary *)params
+                params:(id)params
 constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
                success:(void (^)(NSDictionary *data)) success
                failure:(void (^)(NSInteger code, NSString *errmsg))failure;

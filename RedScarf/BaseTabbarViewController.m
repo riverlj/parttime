@@ -23,13 +23,6 @@
 
 @implementation BaseTabbarViewController
 
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [self setViewController];
-
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -37,6 +30,7 @@
 
     self.delegate = self;
     [self setHidesBottomBarWhenPushed:YES];
+    [self setViewController];
 }
 
 -(void)setViewController
@@ -63,7 +57,8 @@
     [homeNAVI.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:MakeColor(133, 133, 133),NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
     homeNAVI.tabBarItem.image = [[UIImage imageNamed:@"newwshouye"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     homeNAVI.tabBarItem.selectedImage = [[UIImage imageNamed:@"newshouye"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    self.viewControllers = @[homeNAVI,myNAVI];
+    
+    self.viewControllers = @[homeNAVI, myNAVI];
     [self.view addSubview:self.btn];
 }
 
@@ -74,7 +69,6 @@
     }
     //圆形
     _btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-25, kUIScreenHeigth-80, 60, 60)];
-    [_btn setBackgroundColor:colorrede5];
     _btn.layer.cornerRadius = 30;
     [_btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
     _btn.layer.masksToBounds = YES;

@@ -17,7 +17,6 @@
     if (self) {
         
         self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, kUIScreenWidth-30, self.frame.size.height-10)];
-//        self.bgImageView.image = [UIImage imageNamed:@"liebiao"];
         self.backgroundColor = [UIColor whiteColor];
         self.bgImageView.layer.cornerRadius = 5;
         self.bgImageView.layer.masksToBounds = YES;
@@ -46,7 +45,7 @@
         
         
         self.detailBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.detailBtn.frame = CGRectMake(kUIScreenWidth-60, 20, 30, 30);
+        self.detailBtn.frame = CGRectMake(kUIScreenWidth-80, 20, 60, 30);
         [self.detailBtn setTitle:@"详情" forState:UIControlStateNormal];
         [self.detailBtn setTitleColor:MakeColor(69, 126, 251) forState:UIControlStateNormal];
         [self.contentView addSubview:self.detailBtn];

@@ -142,7 +142,7 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     
     NSString *nameStr = [NSString stringWithFormat:@"%@",self.searchBar.text];
-    nameStr = [nameStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    //nameStr = [nameStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
     [params setObject:nameStr forKey:@"name"];
     

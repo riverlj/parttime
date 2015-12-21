@@ -16,5 +16,5 @@
 #import "UIView+CustomFrame.h"
 #import "UIDeviceAdditions.h"
 #import "RSFileStorage.h"
-
+#import "NSUserDefaults+Token.h"
 #endif /* RSCategory_h */

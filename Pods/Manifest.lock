@@ -20,35 +20,36 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Flurry-iOS-SDK (7.3.0):
-    - Flurry-iOS-SDK/FlurrySDK (= 7.3.0)
-  - Flurry-iOS-SDK/FlurrySDK (7.3.0)
   - Mantle (2.0.6):
     - Mantle/extobjc (= 2.0.6)
   - Mantle/extobjc (2.0.6)
+  - MBProgressHUD (0.9.1)
+  - pop (1.0.8)
   - Reachability (3.0.0)
   - SDCycleScrollView (1.3)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
-  - UMengSocial (4.2.5)
+  - UMengSocial (4.4)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.5.1)
-  - Flurry-iOS-SDK (~> 7.3.0)
   - Mantle (~> 2.0.6)
+  - MBProgressHUD (~> 0.9.1)
+  - pop (~> 1.0.7)
   - Reachability (~> 3.0.0)
   - SDCycleScrollView (~> 1.3)
   - SDWebImage
-  - UMengSocial (~> 4.2.3)
+  - UMengSocial (~> 4.4)
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
-  Flurry-iOS-SDK: 054befae0fa0244fb000985bfe757d70f87a9f60
   Mantle: 299966b00759634931699f69cb6a30b9239b944d
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   Reachability: 31e4272bd8378e094beaf6609dc182c85c4e6574
   SDCycleScrollView: 90e43636fcc8e6a7f74e8b64d87418a8e96549b4
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
-  UMengSocial: 76fb557ec9d2749a63dde17c28ab915f4642e52d
+  UMengSocial: aba7296602310385114d82c255539a7bef3b7ab0
 
 COCOAPODS: 0.39.0

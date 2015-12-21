@@ -7,6 +7,7 @@
 //
 
 #import "RSProgressView.h"
+#import <pop/POP.h>
 
 @implementation RSProgressView
 
@@ -41,7 +42,31 @@
 
 -(void) resize
 {
-    self.frontView.frame = CGRectMake(0, 0, self.width*self.progress, self.height);
+    self.frontView.height = self.height;
+    POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewBounds];
+    animation.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 0, self.height)];;
+    animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, self.width*self.progress, self.height)];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    animation.duration = 1.0;
+    animation.beginTime = CACurrentMediaTime() + 1.0;
+    [self.frontView pop_addAnimation:animation forKey:@"go"];
+    /*_animatableModel = [[AnimatableModel alloc] init];
+    [_animatableModel pop_addAnimation:animation forKey:@"easeOut"];
+    POPDecayAnimation *framePOP = [POPDecayAnimation animationWithPropertyNamed:kPOPViewBounds];
+    //framePOP.springSpeed = 1.0f;
+    //framePOP.springBounciness = 5.0f;
+    //framePOP.beginTime = CACurrentMediaTime() + 1.0f;
+    framePOP.dynamicsFriction = 3.0f;
+    framePOP.dynamicsTension = 10;
+    framePOP.dynamicsMass = 1.5;
+    //framePOP.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 0, 0)];
+    //framePOP.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, self.width*self.progress, self.height)];
+    [framePOP setCompletionBlock:^(POPAnimation * anim , BOOL finish) {
+        if (finish) {
+            //self.frontView.frame = CGRectMake(0, 0, self.width*self.progress, self.height);
+        }
+    }];
+    [self.frontView pop_addAnimation:framePOP forKey:@"go"];*/
 }
 
 
@@ -69,9 +94,7 @@
 
 -(void) setProgress:(float)progress withInterval:(float)interval
 {
-    [UIView animateWithDuration:interval animations:^{
-        self.progress = progress;
-    }];
+    self.progress = progress;
 }
 
 -(void) setFrontcolor:(UIColor *)frontcolor backColor:(UIColor *)backColor
@@ -82,11 +105,16 @@
 
 -(void) setFrontImg:(NSString *)frontImg backImg:(NSString *)backImg
 {
-    UIImage *imgPattern1 = [UIImage imageNamed:frontImg];
-    UIColor *colorPattern1 = [[UIColor alloc] initWithPatternImage:imgPattern1];
-    [self.frontView setBackgroundColor:colorPattern1];
-    //self.frontView.image = [[UIImage imageNamed:frontImg] stretchableImageWithLeftCapWidth:0 topCapHeight:self.height];
-    self.image = [UIImage imageNamed:backImg];
+    if(frontImg) {
+        UIImage *imgPattern1 = [UIImage imageNamed:frontImg];
+        UIColor *colorPattern1 = [[UIColor alloc] initWithPatternImage:imgPattern1];
+        [self.frontView setBackgroundColor:colorPattern1];
+    }
+    if(backImg) {
+        UIImage *imgPattern2 = [UIImage imageNamed:backImg];
+        UIColor *colorPattern2 = [[UIColor alloc] initWithPatternImage:imgPattern2];
+        [self setBackgroundColor:colorPattern2];
+    }
 }
 
 @end

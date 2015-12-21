@@ -133,7 +133,7 @@
     recordView.backgroundColor = [UIColor whiteColor];
     UILabel *recordText = [[UILabel alloc] initWithFrame:CGRectMake(13, 14, 83, 15)];
     recordText.text = @"成长值记录";
-    recordText.textColor = colorblack33;
+    recordText.textColor = color_black_333333;
     recordText.font = textFont15;
     [recordView addSubview:recordText];
     
@@ -164,7 +164,7 @@
                               textFont12, NSFontAttributeName,
                               color155, NSForegroundColorAttributeName, nil];
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:@"如何获取成长值？\n· 成功配送并送达一个任务，增加两个成长值\n· 未送达一个任务，增加一个成长值\n· 校园CEO成长值为负责学校送达任务总数除以10，每日凌晨更新；" attributes:attrDict];
-    [attrStr setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:textFont15, NSFontAttributeName, colorblack33, NSForegroundColorAttributeName, nil] range:NSMakeRange(0, 9)];
+    [attrStr setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:textFont15, NSFontAttributeName, color_black_333333, NSForegroundColorAttributeName, nil] range:NSMakeRange(0, 9)];
     [attrStr setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:colorgreen65, NSForegroundColorAttributeName, nil] range:NSMakeRange(10, 1)];
     [attrStr setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:colorgreen65, NSForegroundColorAttributeName, nil] range:NSMakeRange(32, 1)];
     [attrStr setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:colorgreen65, NSForegroundColorAttributeName, nil] range:NSMakeRange(50, 1)];
@@ -267,7 +267,7 @@
     [view addTapAction:@selector(toggleTableView) target:self];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(16, 14, 80, 15)];
     label.text = @"等级划分";
-    label.textColor = colorblack33;
+    label.textColor = color_black_333333;
     label.font = textFont15;
     [view addSubview:label];
     
@@ -315,7 +315,7 @@
         
         if(row == 0) {
             label.font = textFont14;
-            label.textColor = colorblack33;
+            label.textColor = color_black_333333;
         }
         
         UIView *line = [[UIView alloc] init];

@@ -123,6 +123,7 @@
         tf.layer.cornerRadius = 4;
         tf.layer.masksToBounds = YES;
         tf.layer.borderWidth = 0.8;
+        tf.secureTextEntry = YES;
         if (i == 0) {
             tf.placeholder = @"   输入原密码";
             tf.tag = 100;

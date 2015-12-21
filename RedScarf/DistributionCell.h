@@ -16,7 +16,7 @@
 @property(nonatomic,strong)UIImageView *groundImage;
 @property(nonatomic,strong)UIView *line;
 
-@property(nonatomic,strong)UIButton *button;
+@property(nonatomic,strong)UILabel *rightLabel;
 
 -(void)setIntroductionText:(NSString*)text;
 

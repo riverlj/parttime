@@ -72,6 +72,8 @@
     codeTextField.layer.cornerRadius = 5;
     codeTextField.layer.masksToBounds = YES;
     codeTextField.backgroundColor = [UIColor whiteColor];
+    codeTextField.clearButtonMode = UITextFieldViewModeAlways;
+    codeTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:codeTextField];
     
     codeBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -93,6 +95,8 @@
     passWord.layer.cornerRadius = 5;
     passWord.layer.masksToBounds = YES;
     passWord.backgroundColor = [UIColor whiteColor];
+    passWord.clearButtonMode = UITextFieldViewModeAlways;
+    passWord.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:passWord];
     
     newPassWord = [[UITextField alloc] initWithFrame:CGRectMake(15, passWord.frame.size.height+passWord.frame.origin.y+10, kUIScreenWidth-30, 45)];
@@ -104,6 +108,8 @@
     newPassWord.layer.cornerRadius = 5;
     newPassWord.layer.masksToBounds = YES;
     newPassWord.backgroundColor = [UIColor whiteColor];
+    newPassWord.clearButtonMode = UITextFieldViewModeAlways;
+    newPassWord.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:newPassWord];
     
     UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -134,9 +140,7 @@
         }];
         
     }else{
-        
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [self showHUD:@"正在发送"];
         [RSHttp payRequestWithURL:@"/verifyCode/shortMsg" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
             [self alertView:@"发送成功"];
@@ -146,7 +150,6 @@
             [self alertView:@"发送失败"];
         }];
      }
-
 }
 
 -(void)SaveBtn
@@ -180,7 +183,6 @@
     if ([defaults objectForKey:@"uuid"]) {
         [params setObject:[defaults objectForKey:@"uuid"] forKey:@"macAddr"];
     }
-    NSLog(@"resultParams = %@",params);
     [self showHUD:@"正在设置"];
     [RSHttp payRequestWithURL:@"/account/setPayPwd" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -188,7 +190,6 @@
         [defaults synchronize];
         [self alertView:[data objectForKey:@"body"]];
         [self.navigationController popViewControllerAnimated:YES];
-        //            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
         [self hidHUD];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self hidHUD];
@@ -208,10 +209,28 @@
     
 }
 
+-(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if([string isEqualToString:@""]) {
+        return YES;
+    }
+    NSInteger maxLength = 6;
+    if([textField.text length] >= maxLength) {
+        return NO;
+    }
+    return YES;
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    [self.view endEditing:YES];
+    if(textField == codeTextField) {
+        [passWord becomeFirstResponder];
+    } else if(textField == passWord) {
+        [newPassWord becomeFirstResponder];
+    } else if(textField == newPassWord) {
+        [self SaveBtn];
+    }
     return YES;
 }
 

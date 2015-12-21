@@ -82,8 +82,9 @@
     }
     footView = [[MJRefreshFooterView alloc] init];
     footView.delegate = self;
-    footView.scrollView = self.listView;
-    
+    if (![self.title isEqualToString:@"开户省份"]) {
+        footView.scrollView = self.listView;
+    }
 }
 
 -(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
@@ -128,20 +129,11 @@
     }else{
         if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
             //根据名字查找aid
-            NSString *name = self.filteredArray[indexPath.row];
-            NSString *aId = @"";
-            for (NSMutableDictionary *dic in self.dataArray) {
-                if ([[dic objectForKey:@"name"] isEqualToString:name]) {
-                    aId = [dic objectForKey:@"aId"];
-                }
-            }
-            cell.textLabel.text = [NSString stringWithFormat:@"%@",self.filteredArray[indexPath.row]];
+            dic = [self.filteredArray objectAtIndex:indexPath.row];
         }else{
             dic = [self.dataArray objectAtIndex:indexPath.row];
-            
-            cell.textLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]];
         }
-
+        cell.textLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]];
     }
     
     return cell;
@@ -162,19 +154,11 @@
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         
         if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
-            NSString *name = self.filteredArray[indexPath.row];
-            NSString *aId = @"";
-            for (NSMutableDictionary *dic in self.dataArray) {
-                if ([[dic objectForKey:@"name"] isEqualToString:name]) {
-                    aId = [dic objectForKey:@"id"];
-                }
-            }
-            
-            [self.delegate returnAddress:[NSString stringWithFormat:@"%@",name] aId:aId];
+            dic = [self.filteredArray objectAtIndex:indexPath.row];
         }else{
             dic = [self.dataArray objectAtIndex:indexPath.row];
-            [self.delegate returnAddress:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]] aId:[dic objectForKey:@"id"]];
         }
+        [self.delegate returnAddress:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]] aId:[dic objectForKey:@"id"]];
     }
     
     [self didClickLeft];
@@ -184,7 +168,7 @@
 -(void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
+    [params setObject:@"1" forKey:@"pageNum"];
     [params setObject:@"50" forKey:@"pageSize"];
     [params setObject:self.idArr[0] forKey:@"provinceId"];
     [params setObject:self.idArr[1] forKey:@"cityId"];
@@ -194,9 +178,9 @@
     [RSHttp payRequestWithURL:@"/bank/queryBranchBank" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         self.filteredArray = [NSMutableArray array];
         for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
-            [self.filteredArray addObject:[dic objectForKey:@"name"]];
+            [self.filteredArray addObject:dic];
         }
-        [self.searchaDisplay.searchResultsTableView reloadData];
+        [self.searchDisplayController.searchResultsTableView reloadData];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self alertView:errmsg];
     }];
@@ -222,7 +206,6 @@
 {
     NSString *url = @"/location/province";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([self.title isEqualToString:@"开户城市"]) {
         url = @"/location/city";
         [params setObject:self.Id forKey:@"provinceId"];

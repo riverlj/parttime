@@ -9,5 +9,6 @@
 #import "BaseViewController.h"
 
 @interface ForgetPassViewController : BaseViewController
+@property(nonatomic, strong) NSTimer *timer;
 
 @end

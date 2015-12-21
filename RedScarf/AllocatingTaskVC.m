@@ -164,8 +164,8 @@
     [cell setIntroductionText:[NSString stringWithFormat:@"%@",str]];
     
    
-    cell.button.tag = indexPath.row;
-    cell.button.frame = CGRectMake(cell.groundImage.frame.size.width-60, 0, 60, cell.frame.size.height-15);
+    cell.rightLabel.tag = indexPath.row;
+    cell.rightLabel.frame = CGRectMake(cell.groundImage.frame.size.width-60, 0, 60, cell.frame.size.height-15);
 //    [cell.button addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
@@ -232,7 +232,6 @@
             NSString *url = @"/task/waitAssignTask/updateTask";
             
             if (self.room.length) {
-                self.room = [self.room stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 [params setValue:self.room forKey:@"room"];
             }
             //已分配跳过来的界面

@@ -11,8 +11,8 @@
 #import "Header.h"
 #import "RSHttp.h"
 #import "UIUtils.h"
-#import "Flurry.h"
 #import "ForgetPassViewController.h"
+#import "RSAccountModel.h"
 
 
 @interface LoginViewController ()
@@ -24,18 +24,57 @@
     UITextField *nameField;
     UITextField *passField;
     BaseTabbarViewController *baseTabVC;
+    UIScrollView *scrolView;
+    UIImageView *logoView;
+}
+
+-(void)editing:(UITextField *)textField
+{
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^ {
+                         scrolView.contentInset = UIEdgeInsetsMake(-(textField.bottom -200), 0.0f, 0.0f, 0.0f);
+                     }
+                     completion:^(BOOL finished) {
+                     }];
+}
+-(void) hideKeyboard
+{
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^ {
+                         scrolView.contentInset = UIEdgeInsetsMake(0, 0.0f, 0.0f, 0.0f);
+                     }
+                     completion:^(BOOL finished) {
+                     }];
+    [nameField resignFirstResponder];
+    [passField resignFirstResponder];
+}
+
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    RSAccountModel *model = [RSAccountModel sharedAccount];
+    if(model.mobile) {
+        nameField.text = model.mobile;
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = MakeColor(244, 244, 244);
-    [Flurry logEvent:@"login_count"];
     [self initView];
+    [nameField becomeFirstResponder];
 }
 
 -(void)initView
 {
-    UIImageView *logoView;
+    scrolView = [[UIScrollView alloc]initWithFrame:self.view.bounds];
+    [scrolView addTapAction:@selector(hideKeyboard) target:self];
+    [self.view addSubview:scrolView];
+    
     if (kUIScreenHeigth == 480) {
         logoView = [[UIImageView alloc] initWithFrame:CGRectMake(60, 38, self.view.frame.size.width-120, self.view.frame.size.width-120)];
 
@@ -45,10 +84,12 @@
     }
     logoView.contentMode = UIViewContentModeScaleAspectFit;
     logoView.image = [UIImage imageNamed:@"logo"];
-    [self.view addSubview:logoView];
+    [scrolView addSubview:logoView];
     
     UIImageView *leftImage;
-    if (kUIScreenHeigth == 480) {
+    nameField = [[UITextField alloc] initWithFrame:CGRectMake(58, logoView.bottom+20, scrolView.width-116, 45)];
+    leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(0,11, 64, nameField.height-22)];
+   /* if (kUIScreenHeigth == 480) {
         nameField = [[UITextField alloc] initWithFrame:CGRectMake(58, logoView.frame.origin.y+logoView.frame.size.height+20, self.view.frame.size.width-116, 45)];
         leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(20,12, 20, nameField.frame.size.height-22)];
 
@@ -56,7 +97,7 @@
         nameField = [[UITextField alloc] initWithFrame:CGRectMake(58, logoView.frame.origin.y+logoView.frame.size.height+25, self.view.frame.size.width-116, 50)];
         leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(20,11, 26, nameField.frame.size.height-22)];
 
-    }
+    }*/
     nameField.layer.borderColor = MakeColor(214, 214, 214).CGColor;
     nameField.layer.borderWidth = 1.0;
     nameField.layer.cornerRadius = 4;
@@ -64,13 +105,15 @@
     nameField.keyboardType = UIKeyboardTypePhonePad;
     nameField.placeholder = @"请输入手机号";
     nameField.delegate = self;
-    nameField.textAlignment = NSTextAlignmentCenter;
+    nameField.leftViewMode = UITextFieldViewModeAlways;
+    nameField.clearButtonMode = UITextFieldViewModeWhileEditing;
     leftImage.image = [UIImage imageNamed:@"账户"];
-    [nameField addSubview:leftImage];
-    [self.view addSubview:nameField];
+    nameField.leftView = leftImage;
+    leftImage.contentMode =  UIViewContentModeCenter;
+    [scrolView addSubview:nameField];
     
     UIImageView *left;
-    if (kUIScreenHeigth == 480) {
+    /*if (kUIScreenHeigth == 480) {
         passField = [[UITextField alloc] initWithFrame:CGRectMake(58, nameField.frame.origin.y+nameField.frame.size.height+10, self.view.frame.size.width-116, 45)];
         left = [[UIImageView alloc] initWithFrame:CGRectMake(20,12, 18, passField.frame.size.height-22)];
 
@@ -78,18 +121,23 @@
         passField = [[UITextField alloc] initWithFrame:CGRectMake(58, nameField.frame.origin.y+nameField.frame.size.height+15, self.view.frame.size.width-116, 50)];
         left = [[UIImageView alloc] initWithFrame:CGRectMake(20,11, 24, passField.frame.size.height-22)];
 
-    }
+    }*/
+    passField = [[UITextField alloc] initWithFrame:CGRectMake(nameField.left, nameField.bottom+10, nameField.width, nameField.height)];
+    left = [[UIImageView alloc] initWithFrame:CGRectMake(0,11, 64, passField.height-22)];
     passField.layer.borderColor = MakeColor(214, 214, 214).CGColor;
     passField.layer.borderWidth = 1.0;
     passField.layer.cornerRadius = 4;
     passField.delegate = self;
     passField.layer.masksToBounds = YES;
     passField.secureTextEntry = YES;
+    passField.clearButtonMode = UITextFieldViewModeWhileEditing;
     passField.placeholder = @"请输入密码";
-    passField.textAlignment = NSTextAlignmentCenter;
+    passField.leftView = left;
+    passField.leftViewMode = UITextFieldViewModeAlways;
     left.image = [UIImage imageNamed:@"密码"];
-    [passField addSubview:left];
-    [self.view addSubview:passField];
+    left.contentMode =  UIViewContentModeCenter;
+    //[passField addSubview:left];
+    [scrolView addSubview:passField];
     
     UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     if (kUIScreenHeigth == 480) {
@@ -105,14 +153,14 @@
     loginBtn.layer.masksToBounds = YES;
     loginBtn.layer.cornerRadius = 4;
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [loginBtn addTarget:self action:@selector(didClickLoginBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:loginBtn];
+    [loginBtn addTarget:self action:@selector(didClickLoginBtn) forControlEvents:UIControlEventTouchUpInside];
+    [scrolView addSubview:loginBtn];
     
     //忘记密码
     UIButton *forgetBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [forgetBtn setTitleColor:MakeColor(32, 102, 208) forState:UIControlStateNormal];
     forgetBtn.frame = CGRectMake(loginBtn.frame.origin.x+loginBtn.frame.size.width/2-35, loginBtn.frame.size.height+loginBtn.frame.origin.y+7, 70, 30);
-    [self.view addSubview:forgetBtn];
+    [scrolView addSubview:forgetBtn];
     [forgetBtn addTarget:self action:@selector(ForgetPassWord) forControlEvents:UIControlEventTouchUpInside];
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"忘记密码?"];
     NSRange strRange = {0,[str length]};
@@ -120,7 +168,7 @@
     [forgetBtn setAttributedTitle:str forState:UIControlStateNormal];
 }
 
--(void)didClickLoginBtn:(id)sender
+-(void)didClickLoginBtn
 {
     Reachability *reach = [Reachability reachabilityForInternetConnection];
     NetworkStatus status = [reach currentReachabilityStatus];
@@ -134,10 +182,12 @@
     
     if (nameField.text.length == 0) {
         [self alertView:@"用户名不能为空"];
+        [nameField becomeFirstResponder];
         return;
     }
     if (nameField.text.length != 11) {
         [self alertView:@"用户名输入不正确"];
+        [nameField becomeFirstResponder];
         return;
     }
     if (passField.text.length == 0) {
@@ -170,7 +220,6 @@
         }
         [defaults setObject:app.tocken forKey:@"token"];
         [defaults synchronize];
-        [Flurry logEvent:@"login_count"];
         baseTabVC = [[BaseTabbarViewController alloc] init];
         [app setRoorViewController:baseTabVC];
     } failure:^(NSInteger code, NSString *errmsg) {
@@ -196,9 +245,12 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    
-    [textField resignFirstResponder];
-    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    if(textField == nameField) {
+        [textField resignFirstResponder];
+        [passField becomeFirstResponder];
+    } else {
+        [self didClickLoginBtn];
+    }
     return YES;
 }
 
@@ -212,37 +264,17 @@
 #pragma mark 开始时提高界面高度实现不遮挡效果
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    CGRect frame = textField.frame;
-    //键盘高度216
-    int offset;
-    if (kUIScreenHeigth == 480) {
-        offset = frame.origin.y + 19 - (self.view.frame.size.width - 180.0);
-
-    }else{
-        offset = frame.origin.y + 19 - (self.view.frame.size.width - 110.0);
-
-    }
-    
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    
-    //将软键盘Y坐标向上移动offset个单位 以使下面显示软键盘显示
-    if (offset > 0 ) {
-        self.view.frame = CGRectMake(0, -offset, self.view.frame.size.width, self.view.frame.size.height);
-    }
-    [UIView commitAnimations];
+    [self editing:textField];
 }
 
-#pragma mark 结束时恢复界面高度
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    [self.view endEditing:YES];
-}
-
--(void)keyboardWillHide:(NSNotification *)aNotification
-{
+    if (textField == nameField) {
+        if([textField.text length] >= 11 && ![string isEqualToString:@""]) {
+            [passField becomeFirstResponder];
+        }
+    }
     
+    return YES;
 }
 @end

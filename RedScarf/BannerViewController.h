@@ -6,10 +6,8 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSWebViewController.h"
 
-@interface BannerViewController : BaseViewController<UIWebViewDelegate>
-
-@property(nonatomic,strong)NSString *urlString;
+@interface BannerViewController : RSWebViewController
 
 @end

@@ -14,6 +14,25 @@
 #import <ifaddrs.h>
 #import <sys/utsname.h>
 @implementation UIDevice(HardWare)
++(NSString *) utm_campaign
+{
+    return @"pttms";
+}
+
++(NSString *) utm_source
+{
+    return @"inhouse";
+}
+
++(NSString *) utm_content
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [defaults objectForKey:@"uuid"];
+    if(uuid) {
+        return uuid;
+    }
+    return @"";
+}
 
 + (NSString *)networkStatus
 {

@@ -251,18 +251,17 @@
     cell.chuLiLabel.text = [NSString stringWithFormat:@"处理：%@",model.dateStr];
     cell.buyerLabel.text = [NSString stringWithFormat:@"收货人：%@",model.buyerStr];
     cell.telLabel.text = [NSString stringWithFormat:@"%@",model.telStr];
+    cell.telLabel.textColor = MakeColor(0x27, 0x7d, 0xd7);
+    [cell.telLabel addTapAction:@selector(callPerson:) target:self];
     cell.addressLabel.text = [NSString stringWithFormat:@"%@ - %@",model.addressStr,model.room];
     
     NSString *contentStr = @"";
-    NSLog(@"food = %@",model.foodArr);
     for (NSDictionary *dic in model.foodArr) {
         contentStr = [contentStr stringByAppendingFormat:@"%@  %@  (%@份)\n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
         NSLog(@"contentStr = %@",contentStr);
         NSLog(@"food = %@",[dic objectForKey:@"content"]);
     }
-    NSLog(@"food = %@",contentStr);
     [cell setIntroductionText:[NSString stringWithFormat:@"%@",contentStr]];
-//        cell.dateLabel.text = [NSString stringWithFormat:@"下单：%@",model.dateStr];
     cell.numberLabel.text = [NSString stringWithFormat:@"任务编号：%@",model.numberStr];
     if ([model.status isEqualToString:@"FINISHED"]) {
         statusImage.image = [UIImage imageNamed:@"yiwan@2x"];
@@ -270,7 +269,6 @@
     }if ([model.status isEqualToString:@"UNDELIVERED"]) {
         statusImage.image = [UIImage imageNamed:@"weiwan@2x"];
     }
-        
     return cell;
 }
 
@@ -385,4 +383,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void) callPerson:(UITapGestureRecognizer *)tap
+{
+    if([tap.view isKindOfClass:[UILabel class]]) {
+        UILabel *label = (UILabel *) tap.view;
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", label.text]]];
+    }
+}
 @end

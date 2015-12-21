@@ -1,1 +1,1 @@
-../../../UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.2.5/UMSocial_Sdk_4.2.5/Header/UMSocialConfig.h
+../../../UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.4/UMSocial_Sdk_4.4/Header/UMSocialConfig.h

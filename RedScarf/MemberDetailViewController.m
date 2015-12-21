@@ -40,7 +40,6 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:self.memberId forKey:@"id"];
     [self showHUD:@"正在加载"];

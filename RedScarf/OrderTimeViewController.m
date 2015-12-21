@@ -380,7 +380,6 @@
     NSDate *_date = [gregorian dateFromComponents:_comps];
     NSDateComponents *weekdayComponents = [gregorian components:NSWeekdayCalendarUnit fromDate:_date];
     NSInteger _weekday = [weekdayComponents weekday];
-//    NSLog(@" _weekday::%d  %@ %@",_weekday,arrWeek[_weekday],_date);
     if ([yearString intValue] == 2016 && [monthString intValue] == 1) {
         return arrWeek[1];
     }
@@ -428,14 +427,10 @@
             }
         }
     }else{
-        
-        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        
-        app.tocken = [UIUtils replaceAdd:app.tocken];
-//        [params setObject:app.tocken forKey:@"token"];
-        
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         NSMutableDictionary *dictionary1 = [NSMutableDictionary dictionary];
+        NSInteger year = [yearStr integerValue];
+        NSInteger month = [monthStr integerValue];
         //本月
         [dictionary setObject:yearStr forKey:@"year"];
         [dictionary setObject:monthStr forKey:@"month"];
@@ -451,9 +446,14 @@
         }
         [dictionary setObject:currStr forKey:@"days"];
         
-        //下月
-        [dictionary1 setObject:yearStr forKey:@"year"];
-        [dictionary1 setObject:[NSString stringWithFormat:@"%d",[monthStr intValue]+1] forKey:@"month"];
+        //防止在12月时出现问题
+        month++;
+        if(month >12) {
+            month = 1;
+            year ++;
+        }
+        [dictionary1 setObject:[NSString stringWithFormat:@"%ld", year] forKey:@"year"];
+        [dictionary1 setObject:[NSString stringWithFormat:@"%ld", month] forKey:@"month"];
         //数组转成字符串
         NSMutableString *currStr1 = [NSMutableString stringWithFormat:@""];
         for (int i = 0; i < getOtherDaysArray.count; i++) {
@@ -465,90 +465,30 @@
             
         }
         [dictionary1 setObject:currStr1 forKey:@"days"];
-        //转换json
-        NSString *dataString = [[NSString alloc] initWithData:[self toJsonData:dictionary] encoding:NSUTF8StringEncoding];
-        NSString *dataString1 = [[NSString alloc] initWithData:[self toJsonData:dictionary1] encoding:NSUTF8StringEncoding];
-        NSMutableString *jsonString = [NSMutableString stringWithFormat:@"[%@,%@]",dataString,dataString1];
-        jsonString = [[jsonString stringByReplacingOccurrencesOfString:@"=" withString:@":"] mutableCopy];
-        //系统put请求
+        NSArray *dataArr = @[dictionary, dictionary1];
         NSString *urlString;
-        NSData *teamData;
+        id params = dataArr;
         if (self.username.length) {
-            urlString = [NSString stringWithFormat:@"%@/team/user/setting/time?token=%@&&username=%@",REDSCARF_BASE_URL,app.tocken,self.username];
-            
-            NSMutableString *STR = [NSMutableString stringWithFormat:@"{\n\"ustList\":%@,\n\"username\":\"%@\"\n}",jsonString,self.username];
-            teamData = [STR dataUsingEncoding:NSUTF8StringEncoding];
+            urlString = [NSString stringWithFormat:@"/team/user/setting/time"];
+            params = [NSDictionary dictionaryWithObjectsAndKeys:self.username, @"username", dataArr, @"ustList", nil];
         }else{
-            urlString = [NSString stringWithFormat:@"%@/user/setting/time?token=%@&&username=%@",REDSCARF_BASE_URL,app.tocken,self.username];
+            urlString = [NSString stringWithFormat:@"/user/setting/time"];
         }
-        NSLog(@"urlString = %@",urlString);
-        NSURL *url = [NSURL URLWithString:urlString];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"PUT"];
-    
-        NSMutableDictionary *content = [NSMutableDictionary dictionary];
-        [content setObject:@"application/json; charset=UTF-8" forKey:@"Content-Type"];
-        [request setAllHTTPHeaderFields:content];
-        
-        NSData *DATA = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-        if (self.username.length) {
-            [request setHTTPBody:teamData];
-        }else{
-            [request setHTTPBody:DATA];
-        }
-        
-        [NSURLConnection connectionWithRequest:request delegate:self];
-
-    }
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
-    if ([dataString rangeOfString:@"true"].location != NSNotFound) {
-        [self alertView:@"修改成功"];
-        self.navigationItem.rightBarButtonItem.title = @"编辑";
-        UIScrollView *scroll = (UIScrollView *)[self.view viewWithTag:50000];
-        for (UIView *view in scroll.subviews) {
-            if ([[view class] isSubclassOfClass:[UIButton class]]) {
-                view.userInteractionEnabled = NO;
+        [self showHUD:@"修改中"];
+        [RSHttp requestWithURL:urlString params:params httpMethod:@"PUTJSON" success:^(NSDictionary *data) {
+            [self hidHUD];
+            [self alertView:@"修改成功"];
+            self.navigationItem.rightBarButtonItem.title = @"编辑";
+            UIScrollView *scroll = (UIScrollView *)[self.view viewWithTag:50000];
+            for (UIView *view in scroll.subviews) {
+                if ([[view class] isSubclassOfClass:[UIButton class]]) {
+                    view.userInteractionEnabled = NO;
+                }
             }
-        }
-        return;
-    }else{
-        [self alertView:@"修改失败"];
-    }
-     NSLog(@"dataString = %@",dataString);
-    
+        } failure:^(NSInteger code, NSString *errmsg) {
+            [self hidHUD];
+            [self alertView:errmsg];
+        }];
+     }
 }
-#pragma mark 将dictionary转为data数据
--(NSData *)toJsonData:(id )dict
-{
-    NSError *error=nil;
-//    NSData *da = [NSJSONSer]
-    NSData *Jsondata=[NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
-    if ([Jsondata length]>0&& error==nil) {
-        return Jsondata;
-    }
-    else
-        return nil;
-}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

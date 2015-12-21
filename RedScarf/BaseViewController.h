@@ -52,6 +52,9 @@
 - (void)hidHUD;
 //隐藏之前显示加载完成的提示
 - (void)hidHUDWithLoadComplete:(NSString *)title;
+//toast
+-(void)showAllTextDialog:(NSString *)str;
+
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 

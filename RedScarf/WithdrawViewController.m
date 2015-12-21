@@ -48,14 +48,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self comeBack:nil];
     self.title = @"提现";
     moreTimesOrNo = NO;
     self.passWordNum = 4;
     self.view.backgroundColor = color242;
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现纪录" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXianJILu)];
-    right.tintColor = color155;
     self.navigationItem.rightBarButtonItem = right;
     [self getCardMsg];
 }
@@ -270,12 +268,9 @@
 
     self.zctView = [ZCTradeView tradeView];
     
-    [self.zctView showInView:self.view.window];
+    [self.zctView showInView:self.view];
     self.zctView.delegate = self;
     self.zctView.finish = ^(NSString *passWord){
-        
-        NSLog(@"  passWord %@ ",passWord);
-        
         [blockSelf.zctView hidenKeyboard];
         
         NSString *money = [NSString stringWithFormat:@"%.0f",[input.text floatValue]*100];
@@ -291,8 +286,7 @@
         if ([defaults objectForKey:@"uuid"]) {
             [params setObject:[defaults objectForKey:@"uuid"] forKey:@"macAddr"];
         }
-            //提现接口
-            NSLog(@"resultParams = %@",params);
+        //提现接口
         [RSHttp payRequestWithURL:@"/pay/withdraw" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
             [weakSelf alertView:@"提现成功"];
             SubmitViewController *submitVC = [[SubmitViewController alloc] init];
@@ -304,12 +298,10 @@
             }else if([[NSString stringWithFormat:@"%@",errmsg] isEqualToString:@"余额不足"]){
                 [weakSelf alertView:@"余额不足"];
             }else{
-                //                        [self alertView:[NSString stringWithFormat:@"还有%d次输入机会",4-[[result objectForKey:@"body"] intValue]]];
                 UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"还有%d次输入机会",4-[errmsg intValue]] delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:@"重试", nil];
                 weakSelf.passWordNum--;
                 [al show];
             }
-
         }];
     };
 }

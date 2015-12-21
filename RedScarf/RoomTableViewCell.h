@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "RSTableViewCell.h"
 
-@interface RoomTableViewCell : UITableViewCell
+@interface RoomTableViewCell : RSTableViewCell
 
-@property(nonatomic,strong)UIImageView *roundBtn;
+@property(nonatomic,strong)UIButton *roundBtn;
 @property(nonatomic,strong)UILabel *nameLabel;
 @property(nonatomic,strong)UILabel *foodLabel;
 @property(nonatomic,strong)UILabel *numberLabel;

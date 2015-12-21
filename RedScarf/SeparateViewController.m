@@ -135,9 +135,7 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
     [RSHttp requestWithURL:@"/task/distPointMeals" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
         if (![arr count]) {
@@ -146,7 +144,6 @@
         
         [self.dataArray removeAllObjects];
         for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
-            NSLog(@"dic = %@",dic);
             [self.dataArray addObject:dic];
         }
         [self.tableView reloadData];
@@ -288,19 +285,5 @@
     [self.navigationController pushViewController:goPeiSongVC animated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -21,8 +21,6 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.tabBarController.tabBar.hidden = YES;
-    [self comeBack:nil];
     disTableView = [[DistributionTableView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth-64)];
     [self.view addSubview:disTableView];
     [super viewWillAppear:animated];
@@ -30,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self comeBack:nil];
     self.title = @"开始配送";
     [self initTableView];
 }
@@ -40,20 +38,5 @@
     disTableView = [[DistributionTableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
     [self.view addSubview:disTableView];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

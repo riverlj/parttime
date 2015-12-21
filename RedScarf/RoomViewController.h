@@ -6,11 +6,9 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 
-@interface RoomViewController : BaseViewController
-
-@property(nonatomic,strong)UITableView *detailTableView;
+@interface RoomViewController : RSTableViewController
 
 @property(nonatomic,strong)NSString *titleStr;
 @property(nonatomic,strong)NSString *aId;

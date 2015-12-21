@@ -66,11 +66,12 @@
             codeBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             codeBtn.frame = CGRectMake(TXT.frame.size.width+TXT.frame.origin.x+20, 145, 102, 45);
             [codeBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
-            [codeBtn addTarget:self action:@selector(code) forControlEvents:UIControlEventTouchUpInside];
+            [codeBtn addTarget:self action:@selector(sendCode:) forControlEvents:UIControlEventTouchUpInside];
             [codeBtn setBackgroundColor:colorblue];
             codeBtn.layer.cornerRadius = 3;
             codeBtn.layer.masksToBounds = YES;
             [codeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [codeBtn setTitle:@"60秒" forState:UIControlStateDisabled];
             [self.view addSubview:codeBtn];
         }
         if (i == 2) {
@@ -94,25 +95,24 @@
     [self.view addSubview:doBtn];
 }
 //发送验证码
--(void)code
+-(void)sendCode:(id)sender
 {
     num = 60;
+    UIButton *btn = (UIButton *) sender;
+    [btn setEnabled:NO];
     UITextField *tf = (UITextField *)[self.view viewWithTag:1000];
-        
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:tf.text forKey:@"mobile"];
     [RSHttp requestWithURL:@"/user/validCode"
                     params:params
                 httpMethod:@"GET"
                    success:^(NSDictionary *data) {
-                           [NSTimer scheduledTimerWithTimeInterval:1
-                                                            target:self
-                                                          selector:@selector(timer)
-                                                          userInfo:nil
-                                                           repeats:YES];
+                       [self timer];
                    }
                    failure:^(NSInteger code, NSString *errmsg) {
-                           [self alertView:errmsg];
+                       [self alertView:errmsg];
+                       [btn setEnabled:YES];
                 }];
 }
 //确认
@@ -135,16 +135,27 @@
     }];
 }
 
--(void)timer
+-(void)changeBtnText
 {
-    if (num == 0) {
-        [codeBtn setTitle:@"重新获取" forState:UIControlStateNormal];
-        
-    }else{
+    if (num > 0) {
         num--;
-        [codeBtn setTitle:[NSString stringWithFormat:@"%d秒",num] forState:UIControlStateNormal];
+        [codeBtn setTitle:[NSString stringWithFormat:@"%d秒",num] forState:UIControlStateDisabled];
+    }else{
+        [codeBtn setTitle:@"重新获取" forState:UIControlStateNormal];
+        [codeBtn setEnabled:YES];
+        [_timer invalidate];
     }
     
+}
+
+-(NSTimer *) timer
+{
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1
+                                              target:self
+                                            selector:@selector(changeBtnText)
+                                            userInfo:nil
+                                             repeats:YES];
+    return _timer;
 }
 
 -(void)back

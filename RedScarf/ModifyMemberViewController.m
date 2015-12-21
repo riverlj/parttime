@@ -80,7 +80,6 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
 //    self.username = [self.username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:self.username forKey:@"username"];
@@ -218,7 +217,6 @@
         userEnable = YES;
         [self.tableView reloadData];
     }else{
-        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         NSString *addrs = [indexArr componentsJoinedByString:@","];
         [params setObject:addrs forKey:@"addrs"];

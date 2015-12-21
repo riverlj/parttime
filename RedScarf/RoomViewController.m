@@ -7,21 +7,13 @@
 //
 
 #import "RoomViewController.h"
-#import "Header.h"
 #import "RoomTableViewCell.h"
 #import "Header.h"
 #import "UIUtils.h"
 #import "AppDelegate.h"
+#import "RoomMissionModel.h"
 
 @implementation RoomViewController
-{
-    UIButton *doBtn;
-    UIButton *notBtn;
-    NSMutableArray *numArr;
-    NSString *yesOrNo;
-    
-    NSString *judgeAlterView;
-}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -31,157 +23,79 @@
 
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
     self.navigationController.navigationBar.hidden = NO;
     self.view.backgroundColor = color242;
     self.tabBarController.tabBar.hidden = YES;
-    judgeAlterView = @"yes";
     self.title = self.titleStr;
-    numArr = [NSMutableArray array];
     self.dataArray = [NSMutableArray array];
-    [self initNavigation];
+    _models = [NSMutableArray array];
     [self initTableView];
     [self initFootBtn];
     [self getMessage];
 }
 
--(void)initNavigation
-{
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = left;
-    //隐藏tabbar上的按钮
-    UIButton *barBtn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
-    [barBtn removeFromSuperview];
-}
-
 -(void)getMessage
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:self.aId forKey:@"aId"];
-    self.room = [self.room stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:self.room forKey:@"room"];
     [params setObject:@"2" forKey:@"source"];
     [RSHttp requestWithURL:@"/task/assignedTask/customerDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        [self.dataArray removeAllObjects];
         for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
-            NSLog(@"dic = %@",dic);
-            [self.dataArray addObject:dic];
+            NSError *error = nil;
+            RoomMissionModel *model = [MTLJSONAdapter modelOfClass:[RoomMissionModel class] fromJSONDictionary:dic error:&error];
+            if(model) {
+                [self.models addObject:model];
+                model.content = [dic objectForKey:@"content"];
+                model.checked = NO;
+            }
         }
-        [self.detailTableView reloadData];
+        [self.tableView reloadData];
+        [self refreshBtn];
     } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 -(void)initTableView
 {
-    self.detailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth-50)];
-    self.detailTableView.delegate = self;
-    self.detailTableView.dataSource = self;
-    self.detailTableView.backgroundColor = color242;
-    self.detailTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.view addSubview:self.detailTableView];
+    self.tableView.backgroundColor = color242;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.dataArray.count;
-}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RoomTableViewCell *cell = (RoomTableViewCell *)[self tableView:self.detailTableView cellForRowAtIndexPath:indexPath];
-    return cell.frame.size.height;
-}
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *identifier = @"identifier";
-    RoomTableViewCell *cell = [[RoomTableViewCell alloc] init];
-    if (cell == nil) {
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.backgroundColor = color242;
-    NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
-    
-    cell.nameLabel.text = [NSString stringWithFormat:@"%@:%@",[dic objectForKey:@"customerName"],[dic objectForKey:@"mobile"]];
-    //content是个数组
-    NSString *contentStr = @"";
-    NSMutableArray *lengthArr = [NSMutableArray array];
-    NSMutableArray *tagArr = [NSMutableArray array];
-    for (NSDictionary *content in [dic objectForKey:@"content"]) {
-        contentStr = [contentStr stringByAppendingFormat:@"%@  %@  (%@份)\n",[content objectForKey:@"tag"],[content objectForKey:@"content"],[content objectForKey:@"count"]];
-        
-        NSString *tagStr = [NSString stringWithFormat:@"%@",[content objectForKey:@"tag"] ];
-        [tagArr addObject:[NSNumber numberWithUnsignedInteger:tagStr.length]];
-        
-        [lengthArr addObject:[NSNumber numberWithUnsignedInteger:contentStr.length]];
-        NSLog(@"str length = %lu",(unsigned long)contentStr.length);
-    }
-    //数量和餐品颜色
-    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:contentStr];
-    for (int i = 0; i < lengthArr.count; i++) {
-        //份数颜色
-        int tagLength = [[tagArr objectAtIndex:i] intValue];
-        NSRange tagRange;
-        if (i == 0) {
-            tagRange = NSMakeRange(0, tagLength);
-        }else{
-            tagRange = NSMakeRange([[lengthArr objectAtIndex:i-1] intValue], tagLength);
-        }
-        
-        [noteStr addAttribute:NSForegroundColorAttributeName value:colorblue range:tagRange];
-        
-    }
-    
-    [cell setIntroductionText:noteStr];
-    cell.numberLabel.text = [NSString stringWithFormat:@"任务编号:%@",[dic objectForKey:@"sn"]];
-    cell.dateLabel.text = [dic objectForKey:@"date"];
-    
-    return cell;
+    RoomTableViewCell *cell = (RoomTableViewCell *)[self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+    return cell.height;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    RoomTableViewCell *cell = (RoomTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    NSMutableDictionary *dic = [self.dataArray objectAtIndex:indexPath.row];
-    self.sn = [dic objectForKey:@"sn"];
+    RoomMissionModel *model = (RoomMissionModel *)[self.models objectAtIndex:indexPath.row];
+    model.checked = !model.checked;
+    [self.tableView reloadData];
+    [self refreshBtn];
+}
 
-    
-    if (cell.roundBtn.image == nil) {
-        [cell.roundBtn setImage:[UIImage imageNamed:@"xuanzhong"]];
-        UIButton *btn = (UIButton *)[self.view viewWithTag:1234];
-        UIButton *btn1 = (UIButton *)[self.view viewWithTag:2234];
-        [btn setTitleColor:colorrede5 forState:UIControlStateNormal];
-        [btn1 setTitleColor:colorblue forState:UIControlStateNormal];
-        btn1.userInteractionEnabled = YES;
-        btn.userInteractionEnabled = YES;
-        [numArr addObject:[NSNumber numberWithInteger:indexPath.row]];
-
-    }else{
-        [cell.roundBtn setImage:nil];
-       
-        [numArr removeObject:[NSNumber numberWithInteger:indexPath.row]];
-        
-        if (numArr.count == 0) {
-            UIButton *btn = (UIButton *)[self.view viewWithTag:1234];
-            UIButton *btn1 = (UIButton *)[self.view viewWithTag:2234];
-            [btn setTitleColor:color155 forState:UIControlStateNormal];
-            [btn1 setTitleColor:color155 forState:UIControlStateNormal];
-            btn.userInteractionEnabled = NO;
-            btn1.userInteractionEnabled = NO;
-            notBtn.userInteractionEnabled = NO;
-            doBtn.userInteractionEnabled = NO;
+//刷新底下的按钮组
+-(void) refreshBtn
+{
+    UIButton *btn = (UIButton *)[self.view viewWithTag:1234];
+    UIButton *btn1 = (UIButton *)[self.view viewWithTag:2234];
+    BOOL enable = NO;
+    for(RoomMissionModel *model in self.models) {
+        if(model.checked) {
+            enable = YES;
+            break;
         }
     }
-
+    if (enable){
+        [btn setEnabled: YES];
+        [btn1 setEnabled:YES];
+    } else {
+        [btn setEnabled:NO];
+        [btn1 setEnabled:NO];
+    }
 }
 
 -(void)initFootBtn
@@ -193,19 +107,21 @@
     
     for (int i = 0; i < 2; i++) {
         UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2*i, kUIScreenHeigth-45, kUIScreenWidth/2, 45)];
-        [btn setTitleColor:color155 forState:UIControlStateNormal];
-        btn.userInteractionEnabled = NO;
+        [btn setTitleColor:color155 forState:UIControlStateDisabled];
+        [btn setEnabled:NO];
         btn.backgroundColor = [UIColor whiteColor];
         btn.titleLabel.font = textFont14;
         [self.view addSubview:btn];
         if (i == 0) {
             btn.tag = 1234;
             [btn setTitle:@"遇到问题" forState:UIControlStateNormal];
+            [btn setTitleColor:colorrede5 forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(didClickNotBtn) forControlEvents:UIControlEventTouchUpInside];
         }
         if (i == 1) {
             btn.tag = 2234;
             [btn setTitle:@"已送达" forState:UIControlStateNormal];
+            [btn setTitleColor:colorblue forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(didClickDoBtn) forControlEvents:UIControlEventTouchUpInside];
         }
     }
@@ -213,12 +129,20 @@
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2, kUIScreenHeigth-38, 0.5, 30)];
     lineView.backgroundColor = MakeColor(169, 169, 169);
     [self.view addSubview:lineView];
+    [self refreshBtn];
 }
 
 -(void)didClickDoBtn
 {
     [[BaiduMobStat defaultStat] logEvent:@"已送达" eventLabel:@"button4"];
     [self alertView:@"确认送达"];
+}
+
+-(void)alertView:(NSString *)msg
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    [alertView show];
+    return;
 }
 
 -(void)didClickNotBtn
@@ -263,72 +187,45 @@
         }
             break;
         default:
-            break;
+            return;
     }
-    reason = [reason stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:self.sn forKey:@"sn"];
-    if (reason.length) {
-        [params setObject:reason forKey:@"reason"];
-        [RSHttp requestWithURL:@"/task/assignedTask/undelivereReason" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
-            [self alertView:@"提交成功"];
-            judgeAlterView = @"no";
-        } failure:^(NSInteger code, NSString *errmsg) {
-            [self alertView:errmsg];
-        }];
+    for(RoomMissionModel *model in self.models) {
+        if(!model.checked) {
+            [params setObject:reason forKey:@"reason"];
+            [params setObject:model.snid forKey:@"sn"];
+            [RSHttp requestWithURL:@"/task/assignedTask/undelivereReason" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+                [self.models removeObject:model];
+                [self.tableView reloadData];
+                [self refreshBtn];
+                [self showAllTextDialog:@"发送成功"];
+            } failure:^(NSInteger code, NSString *errmsg) {
+                [self showAllTextDialog:errmsg];
+            }];
+        }
     }
-    
-}
-
--(void)alertView:(NSString *)msg
-{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
-    [alertView show];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    switch (buttonIndex) {
-        case 0:
-        {
-            if ([judgeAlterView isEqualToString:@"yes"]) {
-                judgeAlterView = @"no";
-                AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                NSMutableDictionary *params = [NSMutableDictionary dictionary];
-                app.tocken = [UIUtils replaceAdd:app.tocken];
-                [params setObject:self.sn forKey:@"sn"];
-                [params setObject:@"2" forKey:@"source"];
+    if(buttonIndex == 0) {
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        [params setObject:@"2" forKey:@"source"];
+        for(RoomMissionModel *model in self.models) {
+            if(model.checked) {
+                [params setObject:model.snid forKey:@"sn"];
                 [RSHttp requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
-                    yesOrNo = @"yes";
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"成功送达" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                    [alertView show];
+                    [self showAllTextDialog:@"送达成功"];
+                    [self.models removeObject:model];
+                    [self.tableView reloadData];
+                    [self refreshBtn];
                 } failure:^(NSInteger code, NSString *errmsg) {
-                    yesOrNo = @"yes";
-                    [self alertView:errmsg];
+                    [self showAllTextDialog:errmsg];
                 }];
-            }else{
-                [self.navigationController popViewControllerAnimated:YES];
             }
-            
         }
-            break;
-        case 1:
-        {
-            
-        }
-            break;
-        case 2:
-        {
-            
-        }
-            break;
-        default:
-            break;
     }
 }
-
 
 @end

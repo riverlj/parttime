@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = color_gray_f3f5f7;
 
 }
 
@@ -183,12 +183,9 @@
     if (_hud == nil) {
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     } else {
-        //        [self.view addSubview:self.hud];
     }
     self.hud.mode=MBProgressHUDModeIndeterminate;
-//    [self.hud setYOffset:100];
     self.hud.labelText = title;
-//    self.hud.dimBackground = YES;
     
 }
 -(void)showAlertHUD:(NSString*)title{
@@ -254,8 +251,29 @@
     return view;
 }
 
--(void)didClickLeft
+
+-(void) didClickLeft
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)showAllTextDialog:(NSString *)str
+{
+    [self.hud hide:NO];
+    if (_hud == nil) {
+        self.hud = [[MBProgressHUD alloc] initWithView:self.view];
+    } else {
+    }
+    [self.view addSubview:self.hud];
+    self.hud.yOffset = 100;
+    self.hud.labelText = str;
+    self.hud.mode = MBProgressHUDModeText;
+    [self.hud showAnimated:YES whileExecutingBlock:^{
+        sleep(1);
+    } completionBlock:^{
+        [self.hud removeFromSuperview];
+        self.hud = nil;
+    }];
+    
 }
 @end

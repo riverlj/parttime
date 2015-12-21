@@ -9,17 +9,43 @@
 #import "NSString+RSHttp.h"
 
 @implementation NSString(RSHttp)
+- (NSString *)append:(NSString *)string {
+    return [NSString stringWithFormat:@"%@%@",self,string];
+}
 
 -(NSString *) urlWithHost:(NSString *)host
 {
     if(!host) {
         host = REDSCARF_BASE_URL;
     }
+    NSString *urlstr;
     //如果当前url以http://或https开头，则跳过
     if([self hasPrefix:@"http://"] || [self hasPrefix:@"https://"]) {
-        return self;
+        urlstr = self;
+    } else {
+        urlstr = [NSString stringWithFormat:@"%@%@", host, self];
     }
-    return [NSString stringWithFormat:@"%@%@", host, self];
+    //解析url
+    NSString *urlPrefix = [urlstr parseHostFromURLString];
+    NSMutableDictionary *urlParams = [[[urlstr parseParamsFromURLString] parseURLParams] mutableCopy];
+    //添加token
+    if([urlPrefix hasPrefix:REDSCARF_PAY_URL]) {
+        NSString *token = [NSString URLencode:[NSUserDefaults getValue:@"withdrawToken"] stringEncoding:NSUTF8StringEncoding];
+        if(token) {
+            [urlParams setObject:token forKey:@"token"];
+        }
+    } else if([urlPrefix hasPrefix:REDSCARF_BASE_URL]) {
+        NSString *token = [NSString URLencode:[NSUserDefaults getValue:@"token"] stringEncoding:NSUTF8StringEncoding];
+        if(token) {
+            [urlParams setObject:token forKey:@"token"];
+        }
+    }
+    [urlParams setObject:[NSString URLencode:[UIDevice utm_content] stringEncoding:NSUTF8StringEncoding]  forKey:@"utm_content"];
+    [urlParams setObject:[NSString URLencode:[UIDevice utm_campaign] stringEncoding:NSUTF8StringEncoding] forKey:@"utm_campaign"];
+    [urlParams setObject:[NSString URLencode:[UIDevice utm_source] stringEncoding:NSUTF8StringEncoding]  forKey:@"utm_source"];
+    [urlParams setObject:[NSString URLencode:[UIDevice modelName] stringEncoding:NSUTF8StringEncoding]   forKey:@"utm_media"];
+    [urlParams setObject:[UIDevice clientVersion] forKey:@"utm_term"];
+    return [[urlPrefix append:@"?"] append:[NSString urlParameterWithDictionary:urlParams]];
 }
 
 
@@ -41,5 +67,196 @@
     NSString *outStr = [NSString stringWithString:temp];
     return outStr;
 }
+
+
++ (NSString *)urlParameterWithDictionary:(NSDictionary *)params {
+    NSMutableArray *mutableQueryStringComponents = [NSMutableArray array];
+    NSArray *keysArray = [params allKeys];
+    for (int index = 0; index < [keysArray count]; index ++) {
+        NSString *key = [keysArray objectAtIndex:index];
+        NSString *keyValue = [params objectForKey:key];
+        if (key && keyValue) {
+            NSString *component = [NSString stringWithFormat:@"%@=%@",key,keyValue];
+            [mutableQueryStringComponents addObject:component];
+        }
+    }
+    NSString *urlParameter = [mutableQueryStringComponents componentsJoinedByString:@"&"];
+    return urlParameter;
+}
+
++ (NSDictionary *)parseInfoFromURLString:(NSString *)pagramsInfoString {
+    
+    NSMutableDictionary *paragrmsDict = [NSMutableDictionary dictionaryWithCapacity:0];
+    NSArray *pagramArray = [pagramsInfoString componentsSeparatedByString:@"&"];
+    for (NSString *pagramString in pagramArray) {
+        NSArray *pagramValueAndName = [pagramString componentsSeparatedByString:@"="];
+        if ([pagramValueAndName count] >= 2) {
+            NSString *name = [pagramValueAndName objectAtIndex:0];
+            NSString *value = [pagramValueAndName objectAtIndex:1];
+            
+            if (name && value) {
+                [paragrmsDict setObject:value forKey:name];
+            }
+        }
+    }
+    
+    return paragrmsDict;
+}
+
+-(NSString *) parseHostFromURLString
+{
+    NSArray *pagramArray = [self componentsSeparatedByString:@"?"];
+    if([pagramArray count] > 0) {
+        return pagramArray[0];
+    }
+    return nil;
+}
+
+-(NSString *) parseParamsFromURLString
+{
+    NSArray *pagramArray = [self componentsSeparatedByString:@"?"];
+    if([pagramArray count] > 1) {
+        return pagramArray[1];
+    }
+    return @"";
+}
+
+- (NSDictionary *)parseURLParams {
+    NSMutableDictionary *paragrmsDict = [NSMutableDictionary dictionaryWithCapacity:0];
+    NSArray *pagramArray = [self componentsSeparatedByString:@"&"];
+    for (NSString *pagramString in pagramArray) {
+        NSArray *pagramValueAndName = [pagramString componentsSeparatedByString:@"="];
+        if ([pagramValueAndName count] >= 2) {
+            NSString *name = [pagramValueAndName objectAtIndex:0];
+            NSString *value = [pagramValueAndName objectAtIndex:1];
+            
+            if (name && value) {
+                [paragrmsDict setObject:value forKey:name];
+            }
+        }
+    }
+    
+    return paragrmsDict;
+}
+
++ (NSArray *)phoneNumberFromString:(NSString*)orginalStr {
+    
+    NSMutableArray *phonesArray = [NSMutableArray array];
+    // 取第一个phonenumber
+    NSMutableString *phoneNumber = [NSMutableString string];
+    NSString *phoneNumberSet = @"1234567890-—";
+    BOOL numberStart = NO;
+    for (int index = 0; index < orginalStr.length; index ++) {
+        NSString *subString = [orginalStr substringWithRange:NSMakeRange(index, 1)];
+        if ([phoneNumberSet rangeOfString:subString].length > 0) {
+            if ([subString isEqualToString:@"-"] || [subString isEqualToString:@"—"]) {
+                continue;
+            }
+            numberStart = YES;
+            [phoneNumber appendString:subString];
+        }
+        else if(!numberStart) {
+            continue;
+        }
+        else {
+            [phonesArray addObject:[NSString stringWithFormat:@"呼叫%@", phoneNumber]];
+            phoneNumber = [NSMutableString string];
+            numberStart = NO;
+        }
+        
+        if (index == orginalStr.length - 1 && phoneNumber.length > 0) {
+            [phonesArray addObject:[NSString stringWithFormat:@"呼叫%@", phoneNumber]];
+        }
+    }
+    
+    
+    return phonesArray;
+}
+
+
+// 此函数作用在于确保number转为string ,只保留两位小数
++ (NSString *)stringFromNumber:(NSNumber *)number {
+    
+    CGFloat floatValue = [number floatValue];
+    NSString *result = [number stringValue];
+    NSRange pointRange = [result rangeOfString:@"."];
+    if (pointRange.length > 0 && pointRange.location < result.length -2) {
+        result = [NSString stringWithFormat:@"%.2f",floatValue];
+    }
+    
+    return result;
+}
+
++ (NSString *)moneyStringWithNumber:(NSNumber *)floatNumber {// 将价格变成字符串，前面加人民币符号
+    return [@"￥" append:[NSString stringFromNumber:floatNumber]];
+}
+
++ (NSString *)stringWithFloat:(float)number {
+    NSNumber *floatNumber = [NSNumber numberWithFloat:number];
+    return [NSString stringFromNumber:floatNumber];
+}
+
++ (NSString *)moneyStringWithFloat:(float)number{
+    NSNumber *floatNumber = [NSNumber numberWithFloat:number];
+    return [NSString moneyStringWithNumber:floatNumber];
+}
+
+
+- (NSString *)addString:(NSString *)string every:(NSInteger)charCount {
+    NSMutableString *newString = [NSMutableString string];
+    int i;
+    for (i=1; i<self.length/charCount; i++) {
+        [newString appendString:[self substringWithRange:NSMakeRange(charCount*(i-1), charCount)]];
+        [newString appendString:string];
+    }
+    [newString appendString:[self substringFromIndex:charCount*(i-1)]];
+    return newString;
+}
+
+
+- (NSComparisonResult)versionStringCompare:(NSString *)other {
+    NSArray *oneComponents = [self componentsSeparatedByString:@"."];
+    NSArray *twoComponents = [other componentsSeparatedByString:@"."];
+    
+    //比较主版本号
+    int one = [[oneComponents objectAtIndex:0] intValue];
+    int two = [[twoComponents objectAtIndex:0] intValue];
+    if (one < two) {
+        return NSOrderedAscending;
+    }else if (one > two) {
+        return NSOrderedDescending;
+    }
+    
+    //比较次版本号
+    one = [[oneComponents objectAtIndex:1] intValue];
+    two = [[twoComponents objectAtIndex:1] intValue];
+    if (one < two) {
+        return NSOrderedAscending;
+    }else if (one > two) {
+        return NSOrderedDescending;
+    }
+    
+    //比较长度
+    if ([oneComponents count] < [twoComponents count]) {
+        return NSOrderedAscending;
+    } else if ([oneComponents count] > [twoComponents count]) {
+        return NSOrderedDescending;
+    }
+    
+    if (oneComponents.count == 2) {//版本号只有两位
+        return NSOrderedSame;
+    }else {//版本号有三位，比较第三位
+        one = [[oneComponents objectAtIndex:2] intValue];
+        two = [[twoComponents objectAtIndex:2] intValue];
+        if (one < two) {
+            return NSOrderedAscending;
+        }else if (one > two) {
+            return NSOrderedDescending;
+        }
+    }
+    return NSOrderedSame;
+}
+
+
 
 @end
