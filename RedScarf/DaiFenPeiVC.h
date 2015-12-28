@@ -18,8 +18,8 @@
 
 @property(nonatomic,strong)NSMutableArray *dataArray;
 
-@property(nonatomic,assign) int num;
-@property(nonatomic,assign) int number;
+@property(nonatomic,assign) NSInteger num;
+@property(nonatomic,assign) NSInteger number;
 
 @property(nonatomic,assign)id<JudgeTableViewName>delegate;
 

@@ -182,8 +182,7 @@
         if ([[dic objectForKey:@"status"] intValue] == 3) {
             cell.salaryLabel.text = [NSString stringWithFormat:@"提现成功"];
         }
-        NSString *str = [self timeIntersince1970:[[dic objectForKey:@"requestTime"] doubleValue]];
-
+        NSString *str = [NSDate formatTimestamp:[[dic objectForKey:@"requestTime"] integerValue]/1000 format:@"yyyy-MM-dd"];
         cell.dateLabel.text = [NSString stringWithFormat:@"%@",str];
         cell.changeLabel.text = [NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"totalFee"] floatValue]/100];
     }else{
@@ -191,9 +190,8 @@
         dic = [bodyArray objectAtIndex:indexPath.row];
         cell.detailLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"attach"]];
         cell.salaryLabel.text = [NSString stringWithFormat:@"余额：%.2f",[[dic objectForKey:@"accountMoney"] floatValue]/100];
-        //将时间戳转化为时间13位的除1000  我擦
-        NSString *str = [self timeIntersince1970:[[dic objectForKey:@"timePoint"] doubleValue]];
-      
+        NSString *str = [NSDate formatTimestamp:[[dic objectForKey:@"timePoint"] integerValue]/1000 format:@"yyyy-MM-dd"];
+
         cell.dateLabel.text = [NSString stringWithFormat:@"%@",str];
         if ([[dic objectForKey:@"totalFee"] intValue] > 0) {
             cell.changeLabel.textColor = colorgreen65;

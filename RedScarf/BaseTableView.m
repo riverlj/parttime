@@ -49,93 +49,15 @@
     return;
 }
 
-- (void)showLoading:(BOOL)show {
-    if (_tipView == nil) {
-        _tipView = [[UIView alloc] initWithFrame:CGRectMake(0, (kUIScreenHeigth-20-44)/2, kUIScreenWidth, 30)];
-        _tipView.backgroundColor = [UIColor clearColor];
-        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [activityView startAnimating];
-        [_tipView addSubview:activityView];
-        
-        UILabel *loadLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        loadLabel.backgroundColor = [UIColor clearColor];
-        loadLabel.text = @"正在加载...";
-        loadLabel.textColor = [UIColor blackColor];
-        [loadLabel sizeToFit];
-        [_tipView addSubview:loadLabel];
-        
-        loadLabel.left = (kUIScreenWidth - loadLabel.width+10)/2;
-        activityView.right = loadLabel.left - 5;
-        
-    }
-    
-    if (show) {
-        [self addSubview:_tipView];
-    } else {
-        if (_tipView.superview) {
-            [_tipView removeFromSuperview];
-        }
-    }
-    
-}
-
-
-- (void)showLoadingByName:(BOOL)show desc:(NSString *)desc{
-    if (_tipView == nil) {
-        _tipView = [[UIView alloc] initWithFrame:CGRectMake(0, (kUIScreenHeigth-20-44)/2, kUIScreenWidth, 30)];
-        _tipView.backgroundColor = [UIColor clearColor];
-        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [activityView startAnimating];
-        [_tipView addSubview:activityView];
-        
-        UILabel *loadLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        loadLabel.backgroundColor = [UIColor clearColor];
-        loadLabel.text = desc;
-        loadLabel.textColor = [UIColor blackColor];
-        [loadLabel sizeToFit];
-        [_tipView addSubview:loadLabel];
-        
-        loadLabel.left = (kUIScreenWidth - loadLabel.width+10)/2;
-        activityView.right = loadLabel.left - 5;
-        
-    }
-    
-    if (show) {
-        [self addSubview:_tipView];
-    } else {
-        if (_tipView.superview) {
-            [_tipView removeFromSuperview];
-        }
-    }
-    
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan:touches withEvent:event];
-}
-
 //显示加载
 - (void)showHUD:(NSString *)title {
     [self.hud hide:NO];
-    if (_hud == nil) {
-        self.hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-    } else {
-        //        [self.view addSubview:self.hud];
-    }
     self.hud.mode=MBProgressHUDModeIndeterminate;
-//    self.hud.minSize = CGSizeMake(30, 30);
     [self.hud setYOffset:-40];
     self.hud.labelText = title;
-//    self.hud.dimBackground = YES;
-    
 }
 -(void)showAlertHUD:(NSString*)title{
     [self.hud hide:NO];
-    if (_hud == nil) {
-        self.hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-    } else {
-        //        [self.view addSubview:self.hud];
-    }
     self.hud.labelText = title;
     self.hud.dimBackground = YES;
     self.hud.mode=MBProgressHUDModeCustomView;
@@ -145,17 +67,6 @@
 - (void)hidHUD {
     [self.hud hide:YES];
     self.hud = nil;
-}
-
-- (void)hidHUDWithLoadComplete:(NSString *)title {
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.labelText = title;
-    
-    //延迟隐藏
-    [self.hud hide:YES afterDelay:1.5];
-    self.hud = nil;
-    
 }
 
 -(UIView *)named:(NSString *)imageNamed text:(NSString *)text
@@ -188,4 +99,31 @@
     
     return view;
 }
+
+-(MBProgressHUD *) hud
+{
+    if(_hud) {
+        return _hud;
+    }
+    _hud = [[MBProgressHUD alloc] initWithView:self];
+    [self addSubview:self.hud];
+    return _hud;
+}
+
+-(void)showToast:(NSString *)str
+{
+    [self.hud hide:NO];
+    self.hud.yOffset = kUIScreenHeigth/2;
+    self.hud.labelText = str;
+    self.hud.mode = MBProgressHUDModeText;
+    [self.hud showAnimated:YES whileExecutingBlock:^{
+        self.hud.yOffset = kUIScreenHeigth/2 - 150;
+        sleep(1);
+    } completionBlock:^{
+        [self.hud removeFromSuperview];
+        self.hud = nil;
+    }];
+    
+}
+
 @end

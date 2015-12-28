@@ -82,16 +82,11 @@
     title.text = @"先锋";
     title.font = textFont15;
     [self.view addSubview:title];
-    UILabel *address;
-    if (kUIScreenWidth == 320) {
-        address = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-60, title.frame.size.height+title.frame.origin.y+10, 120, 20)];
-    }else{
-        address = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-60, title.frame.size.height+title.frame.origin.y+30, 120, 20)];
-    }
-    
+    UILabel *address = [[UILabel alloc] initWithFrame:CGRectMake(0, title.frame.size.height+title.frame.origin.y+10, 200, 20)];
+    address.centerX = self.view.centerX;
     address.textAlignment = NSTextAlignmentCenter;
     address.textColor = [UIColor grayColor];
-    address.text = @"@honglingjin.com";
+    address.text = @"@honglingjinclub.com";
     address.font = textFont12;
     [self.view addSubview:address];
 }

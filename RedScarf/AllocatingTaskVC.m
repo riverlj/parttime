@@ -81,6 +81,7 @@
             model.tasksArr = [dic objectForKey:@"apartments"];
             model.mobile = [dic objectForKey:@"mobile"];
             model.userId = [dic objectForKey:@"userId"];
+            model.present = [[dic objectForKey:@"present"] boolValue];
             [self.array addObject:model];
             [self.nameArray addObject: model.username];
         }
@@ -224,9 +225,7 @@
     switch (buttonIndex) {
         case 1:
         {
-            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            app.tocken = [UIUtils replaceAdd:app.tocken];
             [params setValue:indexModel.userId forKey:@"userId"];
             [params setValue:self.aId forKey:@"aId"];
             NSString *url = @"/task/waitAssignTask/updateTask";

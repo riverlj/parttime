@@ -276,12 +276,16 @@
     Model *model = self.addressArr[indexPath.section];
     self.roomArr = model.apartmentsArr;
     NSMutableDictionary *dic = [self.roomArr objectAtIndex:indexPath.row];
-
-    RoomViewController *roomVC = [[RoomViewController alloc] init];
-    roomVC.titleStr = [dic objectForKey:@"room"];
-    roomVC.room = [dic objectForKey:@"room"];
-    roomVC.aId = model.aId;
-    [self.viewController.navigationController pushViewController:roomVC animated:YES];
+    
+    if([dic objectForKey:@"room"]) {
+        RoomViewController *roomVC = [[RoomViewController alloc] init];
+        roomVC.titleStr = [dic objectForKey:@"room"];
+        roomVC.room = [dic objectForKey:@"room"];
+        roomVC.aId = model.aId;
+        [self.viewController.navigationController pushViewController:roomVC animated:YES];
+    } else {
+        [(BaseViewController *)self.delegate showToast:@"寝室号错误!"];
+    }
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -295,25 +299,32 @@
             [params setObject:self.aId forKey:@"aId"];
             [params setObject:self.roomNum forKey:@"room"];
             [params setObject:@"2" forKey:@"source"];
+            [self showHUD:@"送达中..."];
             [RSHttp requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
-                [self alertView:@"成功送达"];
+                [self showToast:@"成功送达"];
+                Model *tempModel;
+                NSDictionary *tempDic;
                 for (Model *model in self.addressArr) {
                     if ([model.aId isEqualToString:self.aId]) {
+                        tempModel = model;
                         for(NSDictionary *dic in model.apartmentsArr) {
                             if([[dic valueForKey:@"room"] isEqualToString:self.roomNum]) {
-                                [model.apartmentsArr removeObject:dic];
-                                self.roomNum = nil;
-                                if([model.apartmentsArr count] == 0) {
-                                    [self.addressArr removeObject:model];
-                                    [self detailZero:0];
-                                }
+                                tempDic = dic;
                             }
                         }
                     }
                 }
+                [tempModel.apartmentsArr removeObject:tempDic];
+                self.roomNum = nil;
+                if([tempModel.apartmentsArr count] == 0) {
+                    [self.addressArr removeObject:tempModel];
+                    [self detailZero:0];
+                }
                 [self reloadData];
+                [self hidHUD];
             } failure:^(NSInteger code, NSString *errmsg) {
-                [self alertView:errmsg];
+                [self hidHUD];
+                [self showToast:errmsg];
             }];
         }
             break;
@@ -354,7 +365,6 @@
 
 -(void)detailZero:(int)sender
 {
-    
     Model *model = [[Model alloc] init];
     if (self.addressArr.count) {
         model = self.addressArr[sender];
@@ -368,14 +378,12 @@
     }else{
         
     }
-   
 }
 
 -(void)viewDidLayoutSubviews {
     
     if ([self respondsToSelector:@selector(setSeparatorInset:)]) {
         [self setSeparatorInset:UIEdgeInsetsZero];
-        
     }
     if ([self respondsToSelector:@selector(setLayoutMargins:)])  {
         [self setLayoutMargins:UIEdgeInsetsZero];

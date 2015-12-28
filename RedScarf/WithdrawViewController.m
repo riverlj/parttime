@@ -263,6 +263,11 @@
 -(void)inputText
 {
     [input resignFirstResponder];
+    //判断是否有银行卡信息，若无则跳转至银行卡的页面
+    if(!self.cardId) {
+        [self selectBank];
+        return;
+    }
     __block WithdrawViewController *blockSelf = self;
     __weak typeof(self) weakSelf=self;
 

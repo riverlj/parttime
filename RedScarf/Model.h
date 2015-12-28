@@ -31,7 +31,7 @@
 @property(nonatomic,strong)NSString *mobile;
 @property(nonatomic,strong)NSString *username;
 @property(nonatomic,strong)NSString *userId;
-
+@property(nonatomic) BOOL present;
 @property(nonatomic,strong)NSMutableArray *tasksArr;
 @property(nonatomic,strong)NSMutableArray *apartmentsArr;
 

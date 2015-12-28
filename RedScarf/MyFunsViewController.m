@@ -169,10 +169,5 @@
     return cell;
 }
 
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 
 @end

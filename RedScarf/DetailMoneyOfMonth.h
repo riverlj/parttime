@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 
-@interface DetailMoneyOfMonth : BaseViewController
+@interface DetailMoneyOfMonth : RSTableViewController
 
 @property(nonatomic,strong)NSString *deatilSalary;
 

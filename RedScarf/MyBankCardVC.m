@@ -27,27 +27,18 @@
 
 @implementation MyBankCardVC
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self comeBack:nil];
-    [super viewWillAppear:animated];
-}
-
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
+    [self comeBack:nil];
     self.title = @"我的银行卡";
     editOrSave = YES;
     indexArr = [NSMutableArray arrayWithObjects:@"",@"",@"",@"",@"", nil];
     idArr = [NSMutableArray arrayWithObjects:@"",@"",@"",@"",@"", nil];
-    [self navigationBar];
-    [self initView];
-    [self getMessage];
-}
-
--(void)navigationBar
-{
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
     [self.navigationItem setRightBarButtonItem:right];
+    [self initView];
+    [self getMessage];
 }
 
 -(void)getMessage
@@ -539,9 +530,5 @@
     return YES;
 }
 
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 @end

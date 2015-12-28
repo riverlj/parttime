@@ -15,7 +15,7 @@
     self.title = title;
     self.imgName = imgName;
     self.vcName = vcName;
-    self.cellHeight = 45;
+    self.cellHeight = 48;
     return self;
 }
 

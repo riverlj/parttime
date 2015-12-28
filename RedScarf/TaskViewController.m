@@ -64,7 +64,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = MakeColor(244, 245, 246);
     self.title = @"任务";
     searchOrAll = @"all";
     countStr = 0;

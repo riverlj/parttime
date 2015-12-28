@@ -25,7 +25,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = MakeColor(242, 242, 242);
     self.title = self.titleString;
     if ([self.titleString isEqualToString:@"查看身份证"]) {
         [self initId];
@@ -145,7 +144,6 @@
     [btn setTitle:@"确认" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:16];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    //[btn setBackgroundColor:MakeColor(193, 193, 193)];
     [btn setBackgroundColor:colorblue];
     btn.titleLabel.textColor = [UIColor whiteColor];
     btn.layer.masksToBounds = YES;

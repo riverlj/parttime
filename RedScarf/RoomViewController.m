@@ -189,22 +189,30 @@
         default:
             return;
     }
-
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:reason forKey:@"reason"];
+    NSMutableArray *tempArr = [NSMutableArray array];
+    NSString *sns = @"";
     for(RoomMissionModel *model in self.models) {
-        if(!model.checked) {
-            [params setObject:reason forKey:@"reason"];
-            [params setObject:model.snid forKey:@"sn"];
-            [RSHttp requestWithURL:@"/task/assignedTask/undelivereReason" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
-                [self.models removeObject:model];
-                [self.tableView reloadData];
-                [self refreshBtn];
-                [self showAllTextDialog:@"发送成功"];
-            } failure:^(NSInteger code, NSString *errmsg) {
-                [self showAllTextDialog:errmsg];
-            }];
+        if(model.checked) {
+            [tempArr addObject:model];
+            sns = [sns append:[NSString stringWithFormat:@"%@,", model.snid]];
         }
     }
+    [params setObject:sns forKey:@"sns"];
+    [self showHUD:@"处理中"];
+    [RSHttp requestWithURL:@"/task/assignedTask/batchUndelivereReason" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+        [self hidHUD];
+        for(RoomMissionModel *model in tempArr) {
+            [self.models removeObject:model];
+        }
+        [self.tableView reloadData];
+        [self refreshBtn];
+        [self showToast:@"发送成功"];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
+        [self showToast:errmsg];
+    }];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -212,19 +220,28 @@
     if(buttonIndex == 0) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         [params setObject:@"2" forKey:@"source"];
+        NSMutableArray *tempArr = [NSMutableArray array];
+        NSString *sns = @"";
         for(RoomMissionModel *model in self.models) {
             if(model.checked) {
-                [params setObject:model.snid forKey:@"sn"];
-                [RSHttp requestWithURL:@"/task/assignedTask/finishSingle" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
-                    [self showAllTextDialog:@"送达成功"];
-                    [self.models removeObject:model];
-                    [self.tableView reloadData];
-                    [self refreshBtn];
-                } failure:^(NSInteger code, NSString *errmsg) {
-                    [self showAllTextDialog:errmsg];
-                }];
+                [tempArr addObject:model];
+                sns = [sns append:[NSString stringWithFormat:@"%@,", model.snid]];
             }
         }
+        [params setObject:sns forKey:@"sns"];
+        [self showHUD:@"送达中"];
+        [RSHttp requestWithURL:@"/task/assignedTask/batchFinish" params:params httpMethod:@"PUT" success:^(NSDictionary *data){
+            [self hidHUD];
+            for(RoomMissionModel *model in tempArr) {
+                [self.models removeObject:model];
+            }
+            [self.tableView reloadData];
+            [self refreshBtn];
+            [self showToast:@"提交成功"];
+        } failure:^(NSInteger code, NSString *errmsg) {
+            [self hidHUD];
+            [self showToast:errmsg];
+        }];
     }
 }
 

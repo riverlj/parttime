@@ -123,7 +123,7 @@
 //-----------------------------------------
 //
 //NSString转NSDate
-- (NSDate *)dateFromString:(NSString *)dateString
++(NSDate *)dateFromString:(NSString *)dateString
 {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

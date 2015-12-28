@@ -97,7 +97,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = color234;
     [self.listScrollView addSubview:self.cycleScrollView];
     [self.view addSubview: self.listScrollView];
 

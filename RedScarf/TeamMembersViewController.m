@@ -33,7 +33,6 @@
     self.navigationItem.rightBarButtonItem = right;
     listArray = [NSMutableArray array];
     nameArray = [NSMutableArray array];
-//    [self navigationBar];
     [self initTableView];
     [self getMessage];
 }

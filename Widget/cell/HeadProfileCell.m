@@ -8,6 +8,7 @@
 
 #import "HeadProfileCell.h"
 #import "RSAccountModel.h"
+#import "MyprofileModel.h"
 @implementation HeadProfileCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -16,6 +17,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.backgroundColor = MakeColor(55, 57, 63);
+        [self.contentView addSubview:self.titleLabel];
         [self.contentView addSubview:self.headView];
         [self.contentView addSubview: self.nameLabel];
         [self.contentView addSubview:self.telLabel];
@@ -56,17 +58,32 @@
     return _nameLabel;
 }
 
+-(UILabel *)titleLabel
+{
+    if(_titleLabel) {
+        return _titleLabel;
+    }
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, kUIScreenWidth, 44)];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.textColor = [UIColor whiteColor];
+    _titleLabel.font = textFont16;
+    return _titleLabel;
+}
+
 -(RSHeadView *)headView
 {
     if(_headView) {
         return _headView;
     }
-    _headView = [[RSHeadView alloc]initWithFrame:CGRectMake(0, 15, 80, 80)];
+    _headView = [[RSHeadView alloc]initWithFrame:CGRectMake(0, 15 + self.titleLabel.bottom, 80, 80)];
     _headView.left = (kUIScreenWidth - _headView.width)/2;
     return _headView;
 }
 -(void) setModel:(RSModel *)model
 {
+    if([model isKindOfClass:[MyprofileModel class]]) {
+        self.titleLabel.text = ((MyprofileModel *)model).title;
+    }
     [super setModel:model];
     [self reload];
 }

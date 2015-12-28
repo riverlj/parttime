@@ -186,7 +186,7 @@
 
         }
     }
-    
+
     self.num = indexPath.row;
     
 }
@@ -195,14 +195,12 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     NSString *room = @"";
-    NSLog(@"num = %d",self.num);
     //选中的房间号
     for (NSNumber *num in numArr) {
         int index = [num intValue];
         dic = [self.dataArray objectAtIndex:index];
         room = [room stringByAppendingFormat:@"%@,",[dic objectForKey:@"room"]];
     }
-    NSLog(@"aid = %@,room = %@",self.aId,room);
 
     if ([feipeiBtn.backgroundColor isEqual: colorblue]) {
         AllocatingTaskVC *allocatingVC = [[AllocatingTaskVC alloc] init];

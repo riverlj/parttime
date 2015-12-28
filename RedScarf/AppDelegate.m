@@ -30,22 +30,6 @@
     [self BaiduMobStat];
     AppDelegate *myDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
-    Reachability *reach = [Reachability reachabilityForInternetConnection];
-    NetworkStatus status = [reach currentReachabilityStatus];
-    
-    switch (status) {
-        case NotReachable:
-        {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"当前没有网络" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alertView show];
-            
-        }
-            break;
-            
-        default:
-            break;
-    }
-
     [self UpdateVersion];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults objectForKey:@"token"];
@@ -102,7 +86,6 @@
     statTracker.logSendInterval = 1;
     statTracker.channelId = [UIDevice utm_source];
     statTracker.logSendWifiOnly = NO;
-    //statTracker.enableDebugOn = YES;
     statTracker.sessionResumeInterval = 60;
 }
 

@@ -12,18 +12,17 @@
 #import "RSHttp.h"
 #import "AppDelegate.h"
 #import "UIUtils.h"
-#import "Reachability.h"
 #import "BaiduMobStat.h"
 #import "MJRefreshFooterView.h"
 #import "MJRefreshHeaderView.h"
 
-@interface BaseViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate,UISearchDisplayDelegate,UIActionSheetDelegate,UISearchBarDelegate,UIAlertViewDelegate,UITextFieldDelegate,UIApplicationDelegate,MJRefreshBaseViewDelegate>
+@interface BaseViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate,UISearchDisplayDelegate,UIActionSheetDelegate,UISearchBarDelegate,UIAlertViewDelegate,UITextFieldDelegate,MJRefreshBaseViewDelegate>
 {
     UIView *_tipView;
 }
 
-
--(NSString *)stringFromStatus:(NetworkStatus)status;
+@property(nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong)MBProgressHUD *hud;
 
 -(void)alertView:(NSString *)msg;
 
@@ -31,18 +30,6 @@
 
 -(void)navigationBar;
 
-@property(nonatomic,strong) UITableView *tableView;
-
--(NSString *)date:(NSString *)type;
-
--(NSString *)timeIntersince1970:(double)date;
-
-@property (nonatomic,strong)MBProgressHUD *hud;
-//加载提示
-- (void)showLoading:(BOOL)show;
-
-//增加提示语言
-- (void)showLoadingByName:(BOOL)show desc:(NSString *)desc;
 
 -(void)showAlertHUD:(NSString*)title;
 //hud
@@ -50,13 +37,8 @@
 - (void)showHUD:(NSString *)title;
 //隐藏加载
 - (void)hidHUD;
-//隐藏之前显示加载完成的提示
-- (void)hidHUDWithLoadComplete:(NSString *)title;
 //toast
--(void)showAllTextDialog:(NSString *)str;
-
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+-(void)showToast:(NSString *)str;
 
 -(UIView *)named:(NSString *)imageNamed text:(NSString *)text;
 -(void)didClickLeft;

@@ -32,7 +32,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = MakeColor(242, 242, 248);
     array = [NSMutableArray array];
     addressArray = [NSMutableArray array];
     if ([self.judgeStr isEqualToString:@"name"]) {

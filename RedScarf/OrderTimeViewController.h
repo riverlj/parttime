@@ -7,8 +7,9 @@
 //
 
 #import "BaseViewController.h"
+#import "RSCalendar.h"
 
-@interface OrderTimeViewController : BaseViewController<NSURLConnectionDataDelegate>
+@interface OrderTimeViewController : BaseViewController<RSCalendarProtocol>
 //团队里面的配送时间
 @property(nonatomic,strong)NSString *username;
 

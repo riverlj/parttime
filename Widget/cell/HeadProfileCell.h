@@ -14,6 +14,8 @@
 @property(nonatomic, strong) RSHeadView *headView;
 @property(nonatomic, strong) UILabel *nameLabel;
 @property(nonatomic, strong) UILabel *telLabel;
+@property(nonatomic, strong) UILabel *titleLabel;
+
 
 -(void) reload;
 @end

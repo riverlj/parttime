@@ -37,35 +37,41 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     //改变navigationbar的颜色
     self.navigationController.navigationBar.barTintColor = MakeColor(26, 30, 37);
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
-    [self.tableView reloadData];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    self.navigationController.navigationBarHidden = YES;
+    self.tableView.top = -20;
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],NSForegroundColorAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
+}
+
+-(UIStatusBarStyle) preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
+-(BOOL) prefersStatusBarHidden
+{
+    return NO;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = bgcolor;
     self.title = @"我的";
     infoDic = [NSMutableDictionary dictionary];
-    
-    Reachability *reach = [Reachability reachabilityForInternetConnection];
-    NetworkStatus status = [reach currentReachabilityStatus];
-    
-    NSString *net = [self stringFromStatus:status];
-    if ([net isEqualToString:@"not"]) {
-        [self alertView:@"当前没有网络"];
-    }
     cellArr = [NSArray arrayWithObjects:@"配送时间",@"配送范围", nil];
     imageArr = [NSArray arrayWithObjects:@"time",@"anwei", nil];
     [self getMessage];
@@ -90,13 +96,12 @@
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 100)];
     self.tableView.tableFooterView = view;
-    self.tableView.backgroundColor = bgcolor;
     
     self.models = [NSMutableArray array];
     
     NSMutableArray *innerItems1 = [NSMutableArray array];
-    MyprofileModel *model = [[MyprofileModel alloc] initWithTitle:@"test" icon:@"test" vcName:@"PersonMsgViewController"];
-    model.cellHeight = 170;
+    MyprofileModel *model = [[MyprofileModel alloc] initWithTitle:@"我的" icon:@"test" vcName:@"PersonMsgViewController"];
+    model.cellHeight = 170 + 64;
     model.cellClassName = @"HeadProfileCell";
     [innerItems1 addObject:model];
     [self.models addObject:innerItems1];
@@ -186,4 +191,5 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
+
 @end

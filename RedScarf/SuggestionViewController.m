@@ -7,6 +7,7 @@
 //
 
 #import "SuggestionViewController.h"
+#import "RSPlaceHolderTextView.h"
 
 @interface SuggestionViewController ()
 
@@ -14,65 +15,33 @@
 
 @implementation SuggestionViewController
 {
-    UITextView *suggestionView;
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [self comeBack:nil];
-    [super viewWillAppear:animated];
+    RSPlaceHolderTextView *suggestionView;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self comeBack:nil];
     self.title = @"意见反馈";
-    self.tabBarController.tabBar.hidden = YES;
-    [self navigationBar];
+    if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
     [self initView];
-    
 }
--(void)navigationBar
-{
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = left;
-//    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-//    right.tintColor = [UIColor whiteColor];
-//    self.navigationItem.rightBarButtonItem = right;
-    
-    //隐藏tabbar上的按钮
-    UIButton *barBtn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
-    [barBtn removeFromSuperview];
-}
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 
 -(void)initView
 {
-   UITextField * view = [[UITextField alloc] initWithFrame:CGRectMake(25, 85, kUIScreenWidth-50, 40)];
-    view.placeholder = @"请输入您的问题,200字以内。";
-    view.backgroundColor = colorrede5;
-    view.tag = 20001;
-    view.font = [UIFont systemFontOfSize:14];
-    [self.view addSubview:view];
-    
-    suggestionView = [[UITextView alloc] initWithFrame:CGRectMake(20, 80, kUIScreenWidth-40, 150)];
+    suggestionView = [[RSPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, 80, kUIScreenWidth-40, 150)];
     suggestionView.delegate = self;
-    suggestionView.text=view.placeholder;
+    suggestionView.placeholder= @"请输入您的问题,200字以内。";
     suggestionView.textColor = color155;
-    suggestionView.selectedRange=NSMakeRange(0,0) ;   //起始位置
-    suggestionView.selectedRange=NSMakeRange(view.text.length,0);
-    [self.view addSubview:suggestionView];
+    suggestionView.textAlignment = NSTextAlignmentLeft;
+    suggestionView.font = textFont14;
     suggestionView.layer.borderWidth = 0.8;
     suggestionView.layer.borderColor = MakeColor(203, 203, 203).CGColor;
     suggestionView.layer.masksToBounds = YES;
     suggestionView.layer.cornerRadius = 5;
-    
+    [self.view addSubview:suggestionView];
+
     UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     submitBtn.frame = CGRectMake(20, suggestionView.frame.size.height+suggestionView.frame.origin.y+20, kUIScreenWidth-40, 45);
     [submitBtn setTitle:@"提交反馈" forState:UIControlStateNormal];
@@ -83,9 +52,6 @@
     submitBtn.backgroundColor = MakeColor(85, 130, 255);
     [self.view addSubview:submitBtn];
     [submitBtn addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-
 }
 
 
@@ -139,22 +105,19 @@
 
 -(void)submit:(id)sender
 {
-    if ([suggestionView.text isEqualToString:@""] || [suggestionView.text isEqualToString:@"请输入您的问题,200字以内。"]) {
+    if ([suggestionView.text isEqualToString:@""]) {
         [self alertView:@"请输入内容"];
         return;
     }
-    AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:@"2" forKey:@"source"];
-//    suggestionView.text = [suggestionView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:suggestionView.text forKey:@"content"];
     [RSHttp requestWithURL:@"/user/feedbackAdvice" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
-        [self alertView:@"提交成功"];
         suggestionView.text = @"";
+        [suggestionView resignFirstResponder];
+        [self showToast:@"提交成功"];
     } failure:^(NSInteger code, NSString *errmsg) {
-        [self alertView:errmsg];
+        [self showToast:errmsg];
     }];
 }
 
@@ -162,26 +125,10 @@
 {
     if ([suggestionView.text isEqualToString:@"\n"])
     {
-        NSLog(@"DDDDDDDD  ==  %@",suggestionView.text);
         [suggestionView resignFirstResponder];
         return NO;
     }
-    
     return YES;
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -170,16 +170,6 @@
 
 -(void)didClickLoginBtn
 {
-    Reachability *reach = [Reachability reachabilityForInternetConnection];
-    NetworkStatus status = [reach currentReachabilityStatus];
-    
-    NSString *net = [self stringFromStatus:status];
-    NSLog(@"net = %@",net);
-    if ([net isEqualToString:@"not"]) {
-        [self alertView:@"当前没有网络"];
-        return;
-    }
-    
     if (nameField.text.length == 0) {
         [self alertView:@"用户名不能为空"];
         [nameField becomeFirstResponder];

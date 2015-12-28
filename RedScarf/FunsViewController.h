@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 
-@interface FunsViewController : BaseViewController
+@interface FunsViewController : RSTableViewController
 
 @end

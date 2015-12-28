@@ -28,9 +28,9 @@
     if(_titleLabel) {
         return _titleLabel;
     }
-    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.iconView.right+12, self.iconView.top, 200, 16)];
-    _titleLabel.font = textFont16;
-    _titleLabel.textColor = MakeColor(75, 75, 75);
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.iconView.right+12, 15, 200, 15)];
+    _titleLabel.font = textFont15;
+    _titleLabel.textColor = color_black_333333;
     return _titleLabel;
 }
 
@@ -39,7 +39,7 @@
     if(_iconView) {
         return _iconView;
     }
-    _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 20, 20)];
+    _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(12, 13, 20, 20)];
     
     return _iconView;
 }

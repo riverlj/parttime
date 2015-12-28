@@ -26,33 +26,19 @@
     NSString *settledSum,*unsettledSum;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self comeBack:nil];
-    [super viewWillAppear:animated];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [[self.navigationController.navigationBar viewWithTag:30001] removeFromSuperview];
-    [super viewWillDisappear:animated];
-}
-
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
+    [self comeBack:nil];
     self.title = @"我的工资";
-    self.view.backgroundColor = color242;
-    
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"说明" style:UIBarButtonItemStylePlain target:self action:@selector(clickShow)];
     self.navigationItem.rightBarButtonItem = right;
     
-    self.navigationController.navigationBar.hidden = NO;
     settleArray = [NSMutableArray array];
     settledDateArray = [NSMutableArray array];
     eveydayArray = [NSMutableArray array];
     salayArray = [NSMutableArray array];
     tag = 0;
-    self.tabBarController.tabBar.hidden = YES;
     
     NSDate *now = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -208,7 +194,6 @@
     self.tableView.dataSource = self;
     self.tableView.layer.borderWidth = 0.5;
     self.tableView.layer.borderColor = color242.CGColor;
-    self.tableView.backgroundColor = color242;
     UIView *foot = [[UIView alloc] init];
     self.tableView.tableFooterView = foot;
     [self.view addSubview:self.tableView];
@@ -324,9 +309,6 @@
     [detailBtn setBackgroundImage:[UIImage imageNamed:@"xiangqin"] forState:UIControlStateNormal];
      detailBtn.tag = indexPath.row;
     [detailBtn addTarget:self action:@selector(DetailMoneyOfMonth:) forControlEvents:UIControlEventTouchUpInside];
-    
-//    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
     return cell;
 }
 

@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol RSCalendarProtocol
+-(void) dateTaped:(NSDate *)date;
+@end
 
 @interface RSCalendar : UIView
 {
@@ -19,5 +22,10 @@
 
 //选中日期
 @property(nonatomic, strong) NSMutableArray *selectedArr;
+@property(nonatomic, weak)id<RSCalendarProtocol> delegate;
 
+@end
+
+@interface RSCalendarButton : UIButton
+@property(nonatomic, strong) UILabel *label;
 @end

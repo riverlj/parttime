@@ -27,26 +27,80 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self comeBack:nil];
-
     // Do any additional setup after loading the view.
     self.title = @"个人资料";
-    self.view.backgroundColor = MakeColor(241, 242, 248);
-    self.tabBarController.tabBar.hidden = YES;
-    //[self navigationBar];
     [self initTableView];
 }
+
+
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self getMessage];
+}
+
+
+-(void)getMessage
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [RSHttp requestWithURL:@"/user/info" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSDictionary *infoDic = [data objectForKey:@"msg"];
+        NSError *error = nil;
+        RSAccountModel *model = [MTLJSONAdapter modelOfClass:[RSAccountModel class] fromJSONDictionary:infoDic error:&error];
+        [model save];
+        NSDictionary *info = [infoDic objectForKey:@"userInfo"];
+        if(info) {
+            self.headUrl =  [info objectForKey:@"url"];
+            
+            [self.personMsgArray addObject:[info objectForKey:@"realName"]];
+            NSMutableDictionary *apartmentDic = [info objectForKey:@"apartment"];
+            //地址
+            [self.personMsgArray addObject:[apartmentDic objectForKey:@"name"]];
+            //学校
+            [self.personMsgArray addObject:[[apartmentDic objectForKey:@"school"] objectForKey:@"name"]];
+            self.schoolId = [[apartmentDic objectForKey:@"school"] objectForKey:@"id"];
+            
+            [self.personMsgArray addObject:[info objectForKey:@"mobilePhone"]];
+            [self.personMsgArray addObject:[info objectForKey:@"idCardNo"]];
+            [self.personMsgArray addObject:[info objectForKey:@"studentIdCardNo"]];
+            [self.personMsgArray addObject:@"密码"];
+            [self.personMsgArray addObject:[info objectForKey:@"sex"]];
+            [self.personMsgArray addObject:[info objectForKey:@"idCardUrl1"]];
+            
+            if ([info objectForKey:@"idCardUrl2"] != nil) {
+                [self.personMsgArray addObject:[info objectForKey:@"idCardUrl2"]];
+            }else{
+                [self.personMsgArray addObject:@""];
+            }
+            
+            [self.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl1"]];
+            if ([info objectForKey:@"studentIdCardUrl2"] != nil) {
+                [self.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl2"]];
+            }else{
+                [self.personMsgArray addObject:@""];
+            }
+            
+            if (![[info objectForKey:@"position"] isEqualToString:@"校园兼职"]) {
+                self.position = @"ceo";
+            }
+        }
+        [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+    }];
+}
+
+
 
 -(void)initTableView
 {
     UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
     scroll.contentSize = CGSizeMake(0, kUIScreenHeigth*1.2);
-    scroll.backgroundColor = MakeColor(240, 240, 240);
     [self.view addSubview:scroll];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, kUIScreenWidth, 350)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.backgroundColor = MakeColor(240, 240, 240);
+    self.tableView.backgroundColor = color_gray_f3f5f7;
     UIView *view = [[UIView alloc] init];
     self.tableView.tableFooterView = view;
     [scroll addSubview:self.tableView];
@@ -244,7 +298,6 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 10)];
-    headerView.backgroundColor = MakeColor(240, 240, 240);
     return headerView;
 }
 

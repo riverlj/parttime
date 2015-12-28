@@ -1,8 +1,6 @@
 platform:ios,'7.0'
-pod 'Reachability','~>3.0.0'
 pod 'AFNetworking', '~> 2.5.1'
 pod 'SDCycleScrollView', '~>1.3'
-pod 'SDWebImage'
 pod 'Mantle', '~> 2.0.6'
 pod 'pop', '~> 1.0.7'
 pod 'UMengSocial', '~> 4.4'
