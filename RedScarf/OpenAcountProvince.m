@@ -15,17 +15,9 @@
 {
     NSString *urlString;
     NSArray *taskTypeArray;
-    MJRefreshFooterView *footView;
-    MJRefreshHeaderView *headView;
-
     int pageNum;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self comeBack:nil];
-    [super viewWillAppear:animated];
-}
 
 -(void)viewDidLoad
 {
@@ -80,20 +72,11 @@
     if ([self.title isEqualToString:@"开户支行"]) {
         self.listView.tableHeaderView = self.searchBar;
     }
-    footView = [[MJRefreshFooterView alloc] init];
-    footView.delegate = self;
-    if (![self.title isEqualToString:@"开户省份"]) {
-        footView.scrollView = self.listView;
+    if (![self.title isEqualToString:@"开户省份"] && ![self.title isEqualToString:@"开户城市"] && ![self.title isEqualToString:@"账号类型"]) {
+        self.listView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMessage)];
     }
 }
 
--(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
-{
-    if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) {
-    }else{
-        [self getMessage];
-    }
-}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -209,6 +192,8 @@
     if ([self.title isEqualToString:@"开户城市"]) {
         url = @"/location/city";
         [params setObject:self.Id forKey:@"provinceId"];
+        [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
+        [params setObject:@"15" forKey:@"pageSize"];
     }
     if ([self.title isEqualToString:@"开户银行"]) {
         url = @"/bank/getAllParentBank";
@@ -240,13 +225,14 @@
                 [self.nameArray addObject:[dic objectForKey:@"name"]];
             }
         }
-        if(total == 0) {
-            [self alertView:@"没有更多数据了"];
-        }
         [self.listView reloadData];
-        [footView endRefreshing];
+        if(total == 0 && [self.dataArray count] > 0) {
+            [self.listView.mj_footer endRefreshingWithNoMoreData];
+            return;
+        }
+        [self.listView.mj_footer endRefreshing];
     } failure:^(NSInteger code, NSString *errmsg) {
-        [footView endRefreshing];
+        [self.listView.mj_footer endRefreshing];
         [self alertView:errmsg];
     }];
 

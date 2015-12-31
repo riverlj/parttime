@@ -8,7 +8,7 @@
 
 #import "FinishTableViewCell.h"
 #import "Header.h"
-
+#import "Model.h"
 
 @implementation FinishTableViewCell
 
@@ -16,98 +16,168 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        if (kUIScreenWidth == 320) {
-            self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 100, 30)];
-            self.nameLabel.font = [UIFont systemFontOfSize:14];
-            self.nameLabel.textColor = textcolor;
-            [self.contentView addSubview:self.nameLabel];
-            
-            self.chuLiLabel = [[UILabel alloc] initWithFrame:CGRectMake(115, 10, 170, 30)];
-            self.chuLiLabel.font = textFont12;
-            self.chuLiLabel.textColor = MakeColor(187, 186, 193);
-            [self.contentView addSubview:self.chuLiLabel];
-        }else{
-            self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 130, 30)];
-            self.nameLabel.font = [UIFont systemFontOfSize:16];
-            self.nameLabel.textColor = textcolor;
-            [self.contentView addSubview:self.nameLabel];
-            
-            self.chuLiLabel = [[UILabel alloc] initWithFrame:CGRectMake(150, 7, 170, 30)];
-            self.chuLiLabel.font = textFont12;
-            self.chuLiLabel.textColor = MakeColor(187, 186, 193);
-            [self.contentView addSubview:self.chuLiLabel];
-        }
-        
-        
-        self.line = [[UIImageView alloc] initWithFrame:CGRectMake(15, self.nameLabel.frame.size.height+self.nameLabel.frame.origin.y+5, kUIScreenWidth-30, 0.5)];
-        self.line.backgroundColor = color155;
-        [self.contentView addSubview:self.line];
-        
-        self.buyerLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.line.frame.origin.y+10, 90, 20)];
-        self.buyerLabel.font = textFont12;
-        self.buyerLabel.textColor = textcolor;
-        [self.contentView addSubview:self.buyerLabel];
-        
-        self.telLabel = [[UILabel alloc] initWithFrame:CGRectMake(130, self.line.frame.origin.y+10, 100, 20)];
-        self.telLabel.font = textFont12;
-        self.telLabel.textColor = textcolor;
-        [self.contentView addSubview:self.telLabel];
-        
-        self.noctionBtn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth-85, self.buyerLabel.frame.size.height+self.buyerLabel.frame.origin.y, 70, 25)];
-        self.noctionBtn.titleLabel.font = textFont12;
-        self.noctionBtn.layer.masksToBounds = YES;
-        self.noctionBtn.layer.cornerRadius = 3;
-        [self.noctionBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//        [self.contentView addSubview:self.noctionBtn];
-        
-        self.addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.telLabel.frame.size.height+self.telLabel.frame.origin.y, 250, 20)];
-        self.addressLabel.font = textFont12;
-        self.addressLabel.textColor = textcolor;
-        [self.contentView addSubview:self.addressLabel];
-        
-        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.addressLabel.frame.origin.y+self.addressLabel.frame.size.height, kUIScreenWidth-70, 45)];
-        self.foodLabel.numberOfLines = 0;
-        self.foodLabel.font = textFont12;
-        self.foodLabel.textColor = MakeColor(141, 173, 221);
-        [self.contentView addSubview:self.foodLabel];
-        
-        self.lineImage = [[UIImageView alloc] initWithFrame:CGRectMake(40, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+7, kUIScreenWidth-55, 0.5)];
-        self.lineImage.backgroundColor = color155;
-        [self.contentView addSubview:self.lineImage];
-        
-        self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+12, 200, 25)];
-        self.dateLabel.textColor = textcolor;
-        self.dateLabel.font = textFont12;
-//        [self.contentView addSubview:self.dateLabel];
-        
-        self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+12, 200, 25)];
-        self.numberLabel.textColor = MakeColor(243, 171, 64);
-        self.numberLabel.font = textFont12;
-        [self.contentView addSubview:self.numberLabel];
-        
+        [self.contentView setBackgroundColor:color_gray_f3f5f7];
+        [self.bgView addSubview:self.nameLabel];
+        [self.bgView addSubview:self.chuLiLabel];
+        [self.bgView addSubview:self.statusImage];
+        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.statusImage.bottom, self.bgView.width, 0.5)];
+        [line setBackgroundColor:color155];
+        [self.bgView addSubview:line];
+        [self.bgView addSubview:self.telLabel];
+        [self.bgView addSubview:self.foodLabel];
+        [self.bgView addSubview:self.addressLabel];
+        [self.bgView addSubview:self.buyerLabel];
+        [self.bgView addSubview:self.numberLabel];
+        [self.contentView addSubview:self.bgView];
     }
     
     return self;
 }
 
+-(UIView *)bgView
+{
+    if(_bgView) {
+        return _bgView;
+    }
+    _bgView = [[UIView alloc]initWithFrame:CGRectMake(10, 0, kUIScreenWidth - 20, 100)];
+    [_bgView setBackgroundColor:[UIColor whiteColor]];
+    return _bgView;
+}
+
+-(UILabel *)nameLabel
+{
+    if(_nameLabel) {
+        return _nameLabel;
+    }
+    _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, (self.bgView.width - self.statusImage.width -15)*2/5, 30)];
+    _nameLabel.font = [UIFont systemFontOfSize:14];
+    _nameLabel.textColor = textcolor;
+    return _nameLabel;
+}
+
+-(UILabel *) chuLiLabel
+{
+    if(_chuLiLabel) {
+        return _chuLiLabel;
+    }
+    _chuLiLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.nameLabel.right, 10, self.bgView.width - self.statusImage.width - self.nameLabel.right + 20, 30)];
+    _chuLiLabel.font = textFont12;
+    _chuLiLabel.textColor = MakeColor(187, 186, 193);
+    return _chuLiLabel;
+}
+
+-(UILabel *) telLabel
+{
+    if(_telLabel) {
+        return _telLabel;
+    }
+    _telLabel = [[UILabel alloc] initWithFrame:CGRectMake(130, self.buyerLabel.y, 100, 20)];
+    _telLabel.font = textFont12;
+    _telLabel.textColor = MakeColor(0x27, 0x7d, 0xd7);
+    [_telLabel addTapAction:@selector(callPerson:) target:self];
+    return _telLabel;
+}
+
+-(UILabel *) buyerLabel
+{
+    if(_buyerLabel) {
+        return _buyerLabel;
+    }
+    _buyerLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.statusImage.bottom+10, 90, 20)];
+    _buyerLabel.font = textFont12;
+    _buyerLabel.textColor = textcolor;
+    return _buyerLabel;
+}
+
+-(UILabel *)addressLabel
+{
+    if(_addressLabel) {
+        return _addressLabel;
+    }
+    _addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.buyerLabel.left, self.buyerLabel.bottom, 250, 20)];
+    _addressLabel.font = textFont12;
+    _addressLabel.textColor = textcolor;
+    return _addressLabel;
+}
+
+-(UILabel *)numberLabel
+{
+    if(_numberLabel) {
+        return _numberLabel;
+    }
+    _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.buyerLabel.left, self.foodLabel.bottom+12, self.bgView.width - self.buyerLabel.left, 25)];
+    _numberLabel.textColor = MakeColor(243, 171, 64);
+    _numberLabel.font = textFont12;
+    UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _numberLabel.width, 0.5)];
+    [line setBackgroundColor:color155];
+    [_numberLabel addSubview:line];
+    return _numberLabel;
+}
+
+-(UILabel *) foodLabel
+{
+    if(_foodLabel) {
+        return _foodLabel;
+    }
+    _foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, self.addressLabel.bottom, self.bgView.width - 40, 45)];
+    _foodLabel.numberOfLines = 0;
+    _foodLabel.font = textFont12;
+    _foodLabel.textColor = MakeColor(141, 173, 221);
+    return _foodLabel;
+}
+
+-(UIImageView *)statusImage
+{
+    if(_statusImage) {
+        return _statusImage;
+    }
+    _statusImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.bgView.width-45, 0, 45, 45)];
+    return _statusImage;
+}
+
 -(void)setIntroductionText:(NSString*)text
 {
-    CGRect frame = [self frame];
-    
     self.foodLabel.text = text;
-    
-    self.foodLabel.numberOfLines = 10;
-    CGSize size = CGSizeMake(kUIScreenWidth-55, 1000);
-    
+    CGSize size = CGSizeMake(self.foodLabel.width, 1000);
     CGSize labelSize = [self.foodLabel.text sizeWithFont:self.foodLabel.font constrainedToSize:size lineBreakMode:NSLineBreakByClipping];
-    
-    self.foodLabel.frame = CGRectMake(self.foodLabel.frame.origin.x, self.foodLabel.frame.origin.y, labelSize.width, labelSize.height);
-    frame.size.height = labelSize.height+100;
-    self.lineImage.frame = CGRectMake(40, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+7, kUIScreenWidth-55, 0.5);
-    self.numberLabel.frame = CGRectMake(40, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+12, 200, 25);
-    self.frame = frame;
+    self.foodLabel.height = labelSize.height;
+    self.numberLabel.top = self.foodLabel.bottom + 12;
+    self.bgView.height = self.numberLabel.bottom + 15;
+    self.height = self.bgView.height + 10;
 }
 
 
+-(void) setModel:(RSModel *)model
+{
+    if([model isKindOfClass:[Model class]]) {
+        Model *m = (Model *) model;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        self.nameLabel.text = [NSString stringWithFormat:@"配送人:%@",m.nameStr];
+        self.chuLiLabel.text = [NSString stringWithFormat:@"处理：%@",m.dateStr];
+        self.buyerLabel.text = [NSString stringWithFormat:@"收货人：%@",m.buyerStr];
+        self.telLabel.text = [NSString stringWithFormat:@"%@",m.telStr];
+        self.addressLabel.text = [NSString stringWithFormat:@"%@ - %@",m.addressStr,m.room];
+        
+        NSString *contentStr = @"";
+        for (NSDictionary *dic in m.foodArr) {
+            contentStr = [contentStr stringByAppendingFormat:@"%@  %@  (%@份)\n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
+        }
+        [self setIntroductionText:[NSString stringWithFormat:@"%@",contentStr]];
+        self.numberLabel.text = [NSString stringWithFormat:@"任务编号：%@",m.numberStr];
+        if ([m.status isEqualToString:@"FINISHED"]) {
+            self.statusImage.image = [UIImage imageNamed:@"yiwan@2x"];
+        }if ([m.status isEqualToString:@"UNDELIVERED"]) {
+            self.statusImage.image = [UIImage imageNamed:@"weiwan@2x"];
+        }
+    }
+}
+
+-(void) callPerson:(UITapGestureRecognizer *)tap
+{
+    if([tap.view isKindOfClass:[UILabel class]]) {
+        UILabel *label = (UILabel *) tap.view;
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", label.text]]];
+    }
+}
 @end

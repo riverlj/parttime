@@ -18,30 +18,15 @@
     NSMutableArray *idArray;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self comeBack:nil];
-    [super viewWillAppear:animated];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"配送范围";
-    self.view.backgroundColor = color242;
-    self.tabBarController.tabBar.hidden = YES;
     addressArray = [NSMutableArray array];
     idArray = [NSMutableArray array];
-    [self navigationBar];
     [self initTableView];
     [self getMessage];
-}
-
--(void)navigationBar
-{
-    //隐藏tabbar上的按钮
-    UIButton *barBtn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
-    [barBtn removeFromSuperview];
 }
 
 -(void)initTableView
@@ -51,7 +36,6 @@
     self.tableView.dataSource = self;
     UIView *foot = [[UIView alloc] init];
     self.tableView.tableFooterView = foot;
-    self.tableView.backgroundColor = color242;
     [self.view addSubview:self.tableView];
 }
 
@@ -111,7 +95,7 @@
     NSArray *arr = [select componentsSeparatedByString:@","];
     for (NSString *str in arr) {
         if ([str isEqualToString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]]) {
-            UIImageView *finishImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 0, 50, 50)];
+            UIImageView *finishImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-50, 0, 50, 50)];
             [cell.contentView addSubview:finishImage];
             finishImage.image = [UIImage imageNamed:@"peisong2x"];
         }
@@ -119,31 +103,4 @@
     
     return cell;
 }
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-}
-
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

@@ -11,7 +11,6 @@
 		1D24D43F1B7479C500FD39BC /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D24D43E1B7479C500FD39BC /* BaseTableView.m */; };
 		1D24D4421B747A7100FD39BC /* ModAddressTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D24D4411B747A7100FD39BC /* ModAddressTableView.m */; };
 		1D24D4451B747AEE00FD39BC /* DistributionTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D24D4441B747AEE00FD39BC /* DistributionTableView.m */; };
-		1D24D44B1B747D1900FD39BC /* DaiFenPeiTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D24D44A1B747D1900FD39BC /* DaiFenPeiTableView.m */; };
 		1D24D44F1B748A6400FD39BC /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D24D44E1B748A6400FD39BC /* LoginViewController.m */; };
 		1D24D4631B748FF200FD39BC /* 任务.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D24D4531B748FF200FD39BC /* 任务.png */; };
 		1D24D4641B748FF200FD39BC /* 任务@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D24D4541B748FF200FD39BC /* 任务@2x.png */; };
@@ -61,7 +60,6 @@
 		1D72D6941B71ECE500E80D15 /* BaseTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D6931B71ECE500E80D15 /* BaseTabbarViewController.m */; };
 		1D72D6971B71ED5800E80D15 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D6961B71ED5800E80D15 /* BaseViewController.m */; };
 		1D72D69A1B71EDA300E80D15 /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D6991B71EDA300E80D15 /* MyViewController.m */; };
-		1D72D69D1B71EDB900E80D15 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D69C1B71EDB900E80D15 /* TaskViewController.m */; };
 		1D72D6A01B71EDC700E80D15 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D69F1B71EDC700E80D15 /* TeamViewController.m */; };
 		1D72D6A61B71FC2500E80D15 /* TeamTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D6A51B71FC2500E80D15 /* TeamTableViewCell.m */; };
 		1D98A1871B96E21A00F35C88 /* head.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D98A1851B96E21A00F35C88 /* head.png */; };
@@ -131,7 +129,6 @@
 		1DCDCDFA1B942D070022B756 /* 2-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DCDCDF91B942D070022B756 /* 2-1@2x.png */; };
 		1DCDCDFC1B942D110022B756 /* 3-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DCDCDFB1B942D110022B756 /* 3-1@2x.png */; };
 		1DCDCDFE1B942D190022B756 /* 4-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DCDCDFD1B942D190022B756 /* 4-1@2x.png */; };
-		1DCE084A1B7B31BD0096F5C0 /* YiFenPeiTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCE08491B7B31BD0096F5C0 /* YiFenPeiTableViewCell.m */; };
 		1DCE084D1B7B4A600096F5C0 /* HeadDisTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCE084C1B7B4A600096F5C0 /* HeadDisTableView.m */; };
 		1DCE3A571B8AFE8700513378 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DCE3A541B8AFE8700513378 /* 37x-Checkmark.png */; };
 		1DD1A5911B91C8B80093E9E6 /* touxiang.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD1A58F1B91C8B80093E9E6 /* touxiang.png */; };
@@ -270,10 +267,6 @@
 		1DE0AE3D1B8C91F80092E87C /* FunsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE0AE3C1B8C91F80092E87C /* FunsViewController.m */; };
 		1DE0AE401B8C92150092E87C /* TotalMoneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE0AE3F1B8C92150092E87C /* TotalMoneyViewController.m */; };
 		1DE17F50D59319519B1518A3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82FAFF956A2BA8C678D65C3 /* libPods.a */; };
-		1DE4752C1B9988EF00747F0C /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1DE475241B9988EF00747F0C /* MJRefresh.bundle */; };
-		1DE4752D1B9988EF00747F0C /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE475271B9988EF00747F0C /* MJRefreshBaseView.m */; };
-		1DE4752E1B9988EF00747F0C /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE475291B9988EF00747F0C /* MJRefreshFooterView.m */; };
-		1DE4752F1B9988EF00747F0C /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE4752B1B9988EF00747F0C /* MJRefreshHeaderView.m */; };
 		1DE787101BB39A5E00F7DB3F /* tuanduiSelect.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE7870E1BB39A5E00F7DB3F /* tuanduiSelect.png */; };
 		1DE787111BB39A5E00F7DB3F /* tuandui.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE7870F1BB39A5E00F7DB3F /* tuandui.png */; };
 		1DEA80571B7DBBBA0071D956 /* xuxian@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEA80551B7DBBBA0071D956 /* xuxian@2x.png */; };
@@ -347,10 +340,12 @@
 		1DF647451BC911EA00A80A89 /* GoPeiSongTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF647441BC911EA00A80A89 /* GoPeiSongTableViewCell.m */; };
 		1DF810C11B7871F00049C2B2 /* UIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF810C01B7871F00049C2B2 /* UIUtils.m */; };
 		1DF810C41B78739F0049C2B2 /* ModTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF810C31B78739F0049C2B2 /* ModTableViewCell.m */; };
-		1DF810C81B788F040049C2B2 /* DaiFenPeiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF810C71B788F040049C2B2 /* DaiFenPeiVC.m */; };
 		1DF810CB1B789D3B0049C2B2 /* AddressEditingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF810CA1B789D3B0049C2B2 /* AddressEditingCell.m */; };
 		1DF810CE1B78A17E0049C2B2 /* AllocatingTaskVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF810CD1B78A17E0049C2B2 /* AllocatingTaskVC.m */; };
 		3058A3981C2E44AF0095345D /* RSPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3058A3971C2E44AF0095345D /* RSPlaceHolderTextView.m */; };
+		306D896F1C31553C00C9772E /* RSSingleTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 306D896E1C31553C00C9772E /* RSSingleTitleCell.m */; };
+		306D89721C322CA700C9772E /* BankCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 306D89711C322CA700C9772E /* BankCardsViewController.m */; };
+		306D89751C3234E100C9772E /* RSBankCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 306D89741C3234E100C9772E /* RSBankCardModel.m */; };
 		309A8AA61C1EC7AE00E0EE42 /* RSMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 309A8AA51C1EC7AE00E0EE42 /* RSMenuButton.m */; };
 		309A8AAA1C200BA300E0EE42 /* bg_progress.png in Resources */ = {isa = PBXBuildFile; fileRef = 309A8AA91C200BA300E0EE42 /* bg_progress.png */; };
 		309A8AAD1C216EDD00E0EE42 /* NSUserDefaults+Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 309A8AAC1C216EDD00E0EE42 /* NSUserDefaults+Token.m */; };
@@ -378,6 +373,13 @@
 		309F53921C1C600600249476 /* HeadProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F53911C1C600600249476 /* HeadProfileCell.m */; };
 		30D08B861C23C5ED008706E8 /* UIViewExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D08B851C23C5ED008706E8 /* UIViewExt.m */; };
 		30D08B891C23DD4F008706E8 /* RoomMissionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D08B881C23DD4F008706E8 /* RoomMissionModel.m */; };
+		30E2468A1C337D87009A9A58 /* RSSubTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E246891C337D87009A9A58 /* RSSubTitleView.m */; };
+		30E2468D1C337DA6009A9A58 /* RSRadioGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E2468C1C337DA6009A9A58 /* RSRadioGroup.m */; };
+		30E246901C337F79009A9A58 /* RSRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E2468F1C337F79009A9A58 /* RSRefreshTableViewController.m */; };
+		30E246931C338C5F009A9A58 /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E246921C338C5F009A9A58 /* TasksViewController.m */; };
+		30E246961C34C6DD009A9A58 /* RoomTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E246951C34C6DD009A9A58 /* RoomTaskTableViewCell.m */; };
+		30E246991C34D29C009A9A58 /* UserTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E246981C34D29C009A9A58 /* UserTaskTableViewCell.m */; };
+		30E2469E1C34F325009A9A58 /* AllocatingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E2469D1C34F325009A9A58 /* AllocatingTaskViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -399,8 +401,6 @@
 		1D24D4411B747A7100FD39BC /* ModAddressTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModAddressTableView.m; sourceTree = "<group>"; };
 		1D24D4431B747AEE00FD39BC /* DistributionTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistributionTableView.h; sourceTree = "<group>"; };
 		1D24D4441B747AEE00FD39BC /* DistributionTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistributionTableView.m; sourceTree = "<group>"; };
-		1D24D4491B747D1900FD39BC /* DaiFenPeiTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaiFenPeiTableView.h; sourceTree = "<group>"; };
-		1D24D44A1B747D1900FD39BC /* DaiFenPeiTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DaiFenPeiTableView.m; sourceTree = "<group>"; };
 		1D24D44D1B748A6400FD39BC /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		1D24D44E1B748A6400FD39BC /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		1D24D4531B748FF200FD39BC /* 任务.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "任务.png"; sourceTree = "<group>"; };
@@ -464,8 +464,6 @@
 		1D72D6961B71ED5800E80D15 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseViewController.m; path = RedScarf/BaseViewController.m; sourceTree = "<group>"; };
 		1D72D6981B71EDA300E80D15 /* MyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyViewController.h; sourceTree = "<group>"; };
 		1D72D6991B71EDA300E80D15 /* MyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyViewController.m; sourceTree = "<group>"; };
-		1D72D69B1B71EDB900E80D15 /* TaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewController.h; sourceTree = "<group>"; };
-		1D72D69C1B71EDB900E80D15 /* TaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewController.m; sourceTree = "<group>"; };
 		1D72D69E1B71EDC700E80D15 /* TeamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamViewController.h; sourceTree = "<group>"; };
 		1D72D69F1B71EDC700E80D15 /* TeamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamViewController.m; sourceTree = "<group>"; };
 		1D72D6A41B71FC2500E80D15 /* TeamTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamTableViewCell.h; sourceTree = "<group>"; };
@@ -558,8 +556,6 @@
 		1DCDCDF91B942D070022B756 /* 2-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2-1@2x.png"; sourceTree = "<group>"; };
 		1DCDCDFB1B942D110022B756 /* 3-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3-1@2x.png"; sourceTree = "<group>"; };
 		1DCDCDFD1B942D190022B756 /* 4-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4-1@2x.png"; sourceTree = "<group>"; };
-		1DCE08481B7B31BD0096F5C0 /* YiFenPeiTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiFenPeiTableViewCell.h; sourceTree = "<group>"; };
-		1DCE08491B7B31BD0096F5C0 /* YiFenPeiTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiFenPeiTableViewCell.m; sourceTree = "<group>"; };
 		1DCE084B1B7B4A600096F5C0 /* HeadDisTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadDisTableView.h; sourceTree = "<group>"; };
 		1DCE084C1B7B4A600096F5C0 /* HeadDisTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadDisTableView.m; sourceTree = "<group>"; };
 		1DCE3A541B8AFE8700513378 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
@@ -723,14 +719,6 @@
 		1DE0AE3C1B8C91F80092E87C /* FunsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunsViewController.m; sourceTree = "<group>"; };
 		1DE0AE3E1B8C92150092E87C /* TotalMoneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalMoneyViewController.h; sourceTree = "<group>"; };
 		1DE0AE3F1B8C92150092E87C /* TotalMoneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalMoneyViewController.m; sourceTree = "<group>"; };
-		1DE475241B9988EF00747F0C /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
-		1DE475251B9988EF00747F0C /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
-		1DE475261B9988EF00747F0C /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
-		1DE475271B9988EF00747F0C /* MJRefreshBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshBaseView.m; sourceTree = "<group>"; };
-		1DE475281B9988EF00747F0C /* MJRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooterView.h; sourceTree = "<group>"; };
-		1DE475291B9988EF00747F0C /* MJRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooterView.m; sourceTree = "<group>"; };
-		1DE4752A1B9988EF00747F0C /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
-		1DE4752B1B9988EF00747F0C /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
 		1DE7870E1BB39A5E00F7DB3F /* tuanduiSelect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuanduiSelect.png; sourceTree = "<group>"; };
 		1DE7870F1BB39A5E00F7DB3F /* tuandui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuandui.png; sourceTree = "<group>"; };
 		1DEA80551B7DBBBA0071D956 /* xuxian@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xuxian@2x.png"; sourceTree = "<group>"; };
@@ -822,14 +810,18 @@
 		1DF810C01B7871F00049C2B2 /* UIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIUtils.m; sourceTree = "<group>"; };
 		1DF810C21B78739F0049C2B2 /* ModTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModTableViewCell.h; sourceTree = "<group>"; };
 		1DF810C31B78739F0049C2B2 /* ModTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModTableViewCell.m; sourceTree = "<group>"; };
-		1DF810C61B788F040049C2B2 /* DaiFenPeiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaiFenPeiVC.h; sourceTree = "<group>"; };
-		1DF810C71B788F040049C2B2 /* DaiFenPeiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DaiFenPeiVC.m; sourceTree = "<group>"; };
 		1DF810C91B789D3B0049C2B2 /* AddressEditingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressEditingCell.h; sourceTree = "<group>"; };
 		1DF810CA1B789D3B0049C2B2 /* AddressEditingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressEditingCell.m; sourceTree = "<group>"; };
 		1DF810CC1B78A17E0049C2B2 /* AllocatingTaskVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllocatingTaskVC.h; sourceTree = "<group>"; };
 		1DF810CD1B78A17E0049C2B2 /* AllocatingTaskVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllocatingTaskVC.m; sourceTree = "<group>"; };
 		3058A3961C2E44AF0095345D /* RSPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSPlaceHolderTextView.h; path = Widget/RSPlaceHolderTextView.h; sourceTree = "<group>"; };
 		3058A3971C2E44AF0095345D /* RSPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSPlaceHolderTextView.m; path = Widget/RSPlaceHolderTextView.m; sourceTree = "<group>"; };
+		306D896D1C31553C00C9772E /* RSSingleTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSSingleTitleCell.h; path = view/RSSingleTitleCell.h; sourceTree = "<group>"; };
+		306D896E1C31553C00C9772E /* RSSingleTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSSingleTitleCell.m; path = view/RSSingleTitleCell.m; sourceTree = "<group>"; };
+		306D89701C322CA700C9772E /* BankCardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BankCardsViewController.h; path = RedScarf/BankCardsViewController.h; sourceTree = "<group>"; };
+		306D89711C322CA700C9772E /* BankCardsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BankCardsViewController.m; path = RedScarf/BankCardsViewController.m; sourceTree = "<group>"; };
+		306D89731C3234E100C9772E /* RSBankCardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSBankCardModel.h; path = Model/RSBankCardModel.h; sourceTree = "<group>"; };
+		306D89741C3234E100C9772E /* RSBankCardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSBankCardModel.m; path = Model/RSBankCardModel.m; sourceTree = "<group>"; };
 		309A8AA41C1EC7AE00E0EE42 /* RSMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSMenuButton.h; sourceTree = "<group>"; };
 		309A8AA51C1EC7AE00E0EE42 /* RSMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSMenuButton.m; sourceTree = "<group>"; };
 		309A8AA91C200BA300E0EE42 /* bg_progress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_progress.png; sourceTree = "<group>"; };
@@ -883,6 +875,20 @@
 		30D08B851C23C5ED008706E8 /* UIViewExt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewExt.m; sourceTree = "<group>"; };
 		30D08B871C23DD4F008706E8 /* RoomMissionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoomMissionModel.h; path = Model/RoomMissionModel.h; sourceTree = SOURCE_ROOT; };
 		30D08B881C23DD4F008706E8 /* RoomMissionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoomMissionModel.m; path = Model/RoomMissionModel.m; sourceTree = SOURCE_ROOT; };
+		30E246881C337D87009A9A58 /* RSSubTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSSubTitleView.h; path = Widget/RSSubTitleView.h; sourceTree = "<group>"; };
+		30E246891C337D87009A9A58 /* RSSubTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSSubTitleView.m; path = Widget/RSSubTitleView.m; sourceTree = "<group>"; };
+		30E2468B1C337DA6009A9A58 /* RSRadioGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSRadioGroup.h; path = Widget/RSRadioGroup.h; sourceTree = "<group>"; };
+		30E2468C1C337DA6009A9A58 /* RSRadioGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSRadioGroup.m; path = Widget/RSRadioGroup.m; sourceTree = "<group>"; };
+		30E2468E1C337F79009A9A58 /* RSRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSRefreshTableViewController.h; path = Widget/RSRefreshTableViewController.h; sourceTree = "<group>"; };
+		30E2468F1C337F79009A9A58 /* RSRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSRefreshTableViewController.m; path = Widget/RSRefreshTableViewController.m; sourceTree = "<group>"; };
+		30E246911C338C5F009A9A58 /* TasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksViewController.h; sourceTree = "<group>"; };
+		30E246921C338C5F009A9A58 /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksViewController.m; sourceTree = "<group>"; };
+		30E246941C34C6DD009A9A58 /* RoomTaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomTaskTableViewCell.h; sourceTree = "<group>"; };
+		30E246951C34C6DD009A9A58 /* RoomTaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomTaskTableViewCell.m; sourceTree = "<group>"; };
+		30E246971C34D29C009A9A58 /* UserTaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTaskTableViewCell.h; sourceTree = "<group>"; };
+		30E246981C34D29C009A9A58 /* UserTaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTaskTableViewCell.m; sourceTree = "<group>"; };
+		30E2469A1C34F16A009A9A58 /* AllocatingTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllocatingTaskViewController.h; sourceTree = "<group>"; };
+		30E2469D1C34F325009A9A58 /* AllocatingTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllocatingTaskViewController.m; sourceTree = "<group>"; };
 		3414B9B1BB6084335511A390 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E82FAFF956A2BA8C678D65C3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4AAF6E7B917F5842B5CBBE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -944,8 +950,6 @@
 				1D24D4441B747AEE00FD39BC /* DistributionTableView.m */,
 				1DCE084B1B7B4A600096F5C0 /* HeadDisTableView.h */,
 				1DCE084C1B7B4A600096F5C0 /* HeadDisTableView.m */,
-				1D24D4491B747D1900FD39BC /* DaiFenPeiTableView.h */,
-				1D24D44A1B747D1900FD39BC /* DaiFenPeiTableView.m */,
 				1DF810C51B7873A50049C2B2 /* cell */,
 			);
 			name = view;
@@ -954,14 +958,10 @@
 		1D24D43C1B74784B00FD39BC /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				1D72D69B1B71EDB900E80D15 /* TaskViewController.h */,
-				1D72D69C1B71EDB900E80D15 /* TaskViewController.m */,
 				1D24D4AF1B75FE7A00FD39BC /* AddressViewVontroller.h */,
 				1D24D4B01B75FE7A00FD39BC /* AddressViewVontroller.m */,
 				1DEA80A91B7F1ED90071D956 /* SelectSchoolVC.h */,
 				1DEA80AA1B7F1ED90071D956 /* SelectSchoolVC.m */,
-				1DF810C61B788F040049C2B2 /* DaiFenPeiVC.h */,
-				1DF810C71B788F040049C2B2 /* DaiFenPeiVC.m */,
 				1DF810CC1B78A17E0049C2B2 /* AllocatingTaskVC.h */,
 				1DF810CD1B78A17E0049C2B2 /* AllocatingTaskVC.m */,
 				1DCC8D6F1B7C9A4E008FA392 /* Part-timeTaskVC.h */,
@@ -974,6 +974,10 @@
 				1DF647351BC8DEA900A80A89 /* GoPeiSongViewController.m */,
 				1DD237F21BCE033F00D26BF2 /* SeparateViewController.h */,
 				1DD237F31BCE033F00D26BF2 /* SeparateViewController.m */,
+				30E246911C338C5F009A9A58 /* TasksViewController.h */,
+				30E246921C338C5F009A9A58 /* TasksViewController.m */,
+				30E2469A1C34F16A009A9A58 /* AllocatingTaskViewController.h */,
+				30E2469D1C34F325009A9A58 /* AllocatingTaskViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -1187,7 +1191,6 @@
 				30D08B841C23C5ED008706E8 /* UIViewExt.h */,
 				30D08B851C23C5ED008706E8 /* UIViewExt.m */,
 				1DCE3A541B8AFE8700513378 /* 37x-Checkmark.png */,
-				1DE475231B9988EF00747F0C /* MJRefresh */,
 				1DF3A1121BE0B6490095DE24 /* Base64 */,
 				1DF408DB1BE1B8EB000BACA8 /* ios_api */,
 				1D9F36441BE4B96C008315CD /* ZCTradeView */,
@@ -1508,21 +1511,6 @@
 			name = controller;
 			sourceTree = "<group>";
 		};
-		1DE475231B9988EF00747F0C /* MJRefresh */ = {
-			isa = PBXGroup;
-			children = (
-				1DE475241B9988EF00747F0C /* MJRefresh.bundle */,
-				1DE475251B9988EF00747F0C /* MJRefresh.h */,
-				1DE475261B9988EF00747F0C /* MJRefreshBaseView.h */,
-				1DE475271B9988EF00747F0C /* MJRefreshBaseView.m */,
-				1DE475281B9988EF00747F0C /* MJRefreshFooterView.h */,
-				1DE475291B9988EF00747F0C /* MJRefreshFooterView.m */,
-				1DE4752A1B9988EF00747F0C /* MJRefreshHeaderView.h */,
-				1DE4752B1B9988EF00747F0C /* MJRefreshHeaderView.m */,
-			);
-			path = MJRefresh;
-			sourceTree = "<group>";
-		};
 		1DEA80531B7DBB190071D956 /* 任务 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1599,8 +1587,6 @@
 				1DF810C31B78739F0049C2B2 /* ModTableViewCell.m */,
 				1DF810C91B789D3B0049C2B2 /* AddressEditingCell.h */,
 				1DF810CA1B789D3B0049C2B2 /* AddressEditingCell.m */,
-				1DCE08481B7B31BD0096F5C0 /* YiFenPeiTableViewCell.h */,
-				1DCE08491B7B31BD0096F5C0 /* YiFenPeiTableViewCell.m */,
 				1DEA809D1B7E2B510071D956 /* FinishTableViewCell.h */,
 				1DEA809E1B7E2B510071D956 /* FinishTableViewCell.m */,
 				1DEA80A01B7E398E0071D956 /* DistributionCell.h */,
@@ -1611,6 +1597,10 @@
 				1DF647441BC911EA00A80A89 /* GoPeiSongTableViewCell.m */,
 				1D1D7F8C1BD7820400584F23 /* SeparateTableViewCell.h */,
 				1D1D7F8D1BD7820400584F23 /* SeparateTableViewCell.m */,
+				30E246941C34C6DD009A9A58 /* RoomTaskTableViewCell.h */,
+				30E246951C34C6DD009A9A58 /* RoomTaskTableViewCell.m */,
+				30E246971C34D29C009A9A58 /* UserTaskTableViewCell.h */,
+				30E246981C34D29C009A9A58 /* UserTaskTableViewCell.m */,
 			);
 			name = cell;
 			sourceTree = "<group>";
@@ -1627,6 +1617,8 @@
 		309F53451C0FF6BA00249476 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				306D896D1C31553C00C9772E /* RSSingleTitleCell.h */,
+				306D896E1C31553C00C9772E /* RSSingleTitleCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1639,6 +1631,8 @@
 				309F535A1C1708A000249476 /* RSModel.m */,
 				309F53691C17E01200249476 /* RSAccountModel.h */,
 				309F536A1C17E01200249476 /* RSAccountModel.m */,
+				306D89731C3234E100C9772E /* RSBankCardModel.h */,
+				306D89741C3234E100C9772E /* RSBankCardModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1742,14 +1736,16 @@
 				1DED1FB41B97E49700C4C5E8 /* OpenAcountProvince.h */,
 				1DB7428A1BE33CA900D6496B /* WalletViewController.h */,
 				1DB7428B1BE33CA900D6496B /* WalletViewController.m */,
-				1DDC5B951BA6CBFD006CC7FF /* MyBankCardVC.h */,
-				1DDC5B961BA6CBFD006CC7FF /* MyBankCardVC.m */,
 				1DB7428D1BE3579400D6496B /* TransactionViewController.h */,
 				1DB7428E1BE3579400D6496B /* TransactionViewController.m */,
 				1D9F36411BE467FD008315CD /* WithdrawViewController.h */,
 				1D9F36421BE467FD008315CD /* WithdrawViewController.m */,
 				1DB742901BE35C0500D6496B /* DoPassWordViewController.h */,
 				1DB742911BE35C0500D6496B /* DoPassWordViewController.m */,
+				306D89701C322CA700C9772E /* BankCardsViewController.h */,
+				306D89711C322CA700C9772E /* BankCardsViewController.m */,
+				1DDC5B951BA6CBFD006CC7FF /* MyBankCardVC.h */,
+				1DDC5B961BA6CBFD006CC7FF /* MyBankCardVC.m */,
 			);
 			name = Finance;
 			sourceTree = "<group>";
@@ -1787,6 +1783,8 @@
 				309A8AAF1C21B5B600E0EE42 /* RSWebViewController.m */,
 				309A8AB11C21B63800E0EE42 /* RSWebView.h */,
 				309A8AB21C21B63800E0EE42 /* RSWebView.m */,
+				30E2468E1C337F79009A9A58 /* RSRefreshTableViewController.h */,
+				30E2468F1C337F79009A9A58 /* RSRefreshTableViewController.m */,
 			);
 			name = BaseView;
 			sourceTree = "<group>";
@@ -1804,6 +1802,10 @@
 				309A8AA51C1EC7AE00E0EE42 /* RSMenuButton.m */,
 				3058A3961C2E44AF0095345D /* RSPlaceHolderTextView.h */,
 				3058A3971C2E44AF0095345D /* RSPlaceHolderTextView.m */,
+				30E246881C337D87009A9A58 /* RSSubTitleView.h */,
+				30E246891C337D87009A9A58 /* RSSubTitleView.m */,
+				30E2468B1C337DA6009A9A58 /* RSRadioGroup.h */,
+				30E2468C1C337DA6009A9A58 /* RSRadioGroup.m */,
 			);
 			name = UIWidget;
 			sourceTree = "<group>";
@@ -1971,7 +1973,6 @@
 				1D24D4631B748FF200FD39BC /* 任务.png in Resources */,
 				1D24D4AD1B75E58000FD39BC /* 密码@2x.png in Resources */,
 				1DEA80711B7DD0F20071D956 /* ncomeback.png in Resources */,
-				1DE4752C1B9988EF00747F0C /* MJRefresh.bundle in Resources */,
 				1DD2381A1BCE4C9F00D26BF2 /* yiwan@2x.png in Resources */,
 				1DD1AAE41BC78C29001BA76A /* shouye.png in Resources */,
 				1DD238351BCF543700D26BF2 /* shijian.png in Resources */,
@@ -2237,10 +2238,12 @@
 				1DEA80A21B7E398E0071D956 /* DistributionCell.m in Sources */,
 				1D9F36431BE467FD008315CD /* WithdrawViewController.m in Sources */,
 				1DD1AAD81BC7570E001BA76A /* HomePageViewController.m in Sources */,
-				1D24D44B1B747D1900FD39BC /* DaiFenPeiTableView.m in Sources */,
+				30E246991C34D29C009A9A58 /* UserTaskTableViewCell.m in Sources */,
 				309F53861C1962A200249476 /* LevelLogModel.m in Sources */,
 				1D72D6A61B71FC2500E80D15 /* TeamTableViewCell.m in Sources */,
+				30E2468A1C337D87009A9A58 /* RSSubTitleView.m in Sources */,
 				309F536E1C181C2D00249476 /* RSTableViewCell.m in Sources */,
+				30E246961C34C6DD009A9A58 /* RoomTaskTableViewCell.m in Sources */,
 				1DE0AE3D1B8C91F80092E87C /* FunsViewController.m in Sources */,
 				1DB1B3301BAA9D55003EB629 /* OrderRangeViewController.m in Sources */,
 				1DCC749C1B9179EA00159E99 /* DetailMoneyOfMonth.m in Sources */,
@@ -2263,8 +2266,6 @@
 				1DDC5B9A1BA7EF6A006CC7FF /* SuggestionViewController.m in Sources */,
 				1D72D6971B71ED5800E80D15 /* BaseViewController.m in Sources */,
 				1DF810CE1B78A17E0049C2B2 /* AllocatingTaskVC.m in Sources */,
-				1DCE084A1B7B31BD0096F5C0 /* YiFenPeiTableViewCell.m in Sources */,
-				1D72D69D1B71EDB900E80D15 /* TaskViewController.m in Sources */,
 				1DF647451BC911EA00A80A89 /* GoPeiSongTableViewCell.m in Sources */,
 				1DD3582F1B8D90A8009EF0A5 /* MyFunsViewController.m in Sources */,
 				309F53891C1964A800249476 /* NormalLogCell.m in Sources */,
@@ -2278,6 +2279,7 @@
 				1DDC5B971BA6CBFD006CC7FF /* MyBankCardVC.m in Sources */,
 				309F53751C181F3D00249476 /* RSSingleTitleModel.m in Sources */,
 				1DB1B3331BAAAA41003EB629 /* PersonMsgViewController.m in Sources */,
+				30E246931C338C5F009A9A58 /* TasksViewController.m in Sources */,
 				1DE0654F1BABADE3007A5D4B /* ModifyPMViewController.m in Sources */,
 				309A8AA61C1EC7AE00E0EE42 /* RSMenuButton.m in Sources */,
 				1DF810C41B78739F0049C2B2 /* ModTableViewCell.m in Sources */,
@@ -2295,7 +2297,6 @@
 				309F537D1C1854D700249476 /* RSHeadView.m in Sources */,
 				309F53831C194D0600249476 /* LevelLogViewController.m in Sources */,
 				1D72D66B1B71D7FD00E80D15 /* main.m in Sources */,
-				1DF810C81B788F040049C2B2 /* DaiFenPeiVC.m in Sources */,
 				309F53611C17139B00249476 /* RSCalendar.m in Sources */,
 				1DF3A11E1BE0B88E0095DE24 /* Base64ForImage.m in Sources */,
 				1DE065521BAD4487007A5D4B /* ModifyPWViewController.m in Sources */,
@@ -2317,14 +2318,18 @@
 				1DD48D351B83170E008A411C /* FinishViewController.m in Sources */,
 				309F53681C17DA9400249476 /* RSFileStorage.m in Sources */,
 				1DCE084D1B7B4A600096F5C0 /* HeadDisTableView.m in Sources */,
+				30E2468D1C337DA6009A9A58 /* RSRadioGroup.m in Sources */,
+				30E246901C337F79009A9A58 /* RSRefreshTableViewController.m in Sources */,
 				1D24D43F1B7479C500FD39BC /* BaseTableView.m in Sources */,
+				306D89721C322CA700C9772E /* BankCardsViewController.m in Sources */,
 				1DF647361BC8DEA900A80A89 /* GoPeiSongViewController.m in Sources */,
 				1D9F36531BE4B96C008315CD /* UIView+Extension.m in Sources */,
+				30E2469E1C34F325009A9A58 /* AllocatingTaskViewController.m in Sources */,
+				306D896F1C31553C00C9772E /* RSSingleTitleCell.m in Sources */,
 				309F535B1C1708A000249476 /* RSModel.m in Sources */,
 				1DD3581C1B8D640A009EF0A5 /* ListCell.m in Sources */,
 				1DF3A0DE1BDF50590095DE24 /* MsgViewController.m in Sources */,
 				1DF3A11B1BE0B8160095DE24 /* Base64.m in Sources */,
-				1DE4752E1B9988EF00747F0C /* MJRefreshFooterView.m in Sources */,
 				309F53571C16BFBF00249476 /* NSDate+RSFormatter.m in Sources */,
 				1DCCFA601BB15B8400B82609 /* TeamModel.m in Sources */,
 				1D24D4B71B76007A00FD39BC /* UIView+ViewController.m in Sources */,
@@ -2340,9 +2345,8 @@
 				309F53641C17D4D100249476 /* UIDeviceAdditions.m in Sources */,
 				1DEBD2E31BA922BE0040639A /* OrderTimeViewController.m in Sources */,
 				1DC2643D1BE704E800A915DB /* SubmitViewController.m in Sources */,
-				1DE4752D1B9988EF00747F0C /* MJRefreshBaseView.m in Sources */,
+				306D89751C3234E100C9772E /* RSBankCardModel.m in Sources */,
 				1DD237F41BCE033F00D26BF2 /* SeparateViewController.m in Sources */,
-				1DE4752F1B9988EF00747F0C /* MJRefreshHeaderView.m in Sources */,
 				1DF810CB1B789D3B0049C2B2 /* AddressEditingCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

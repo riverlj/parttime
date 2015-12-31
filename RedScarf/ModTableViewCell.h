@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RSTableViewCell.h"
 
-@interface ModTableViewCell : UITableViewCell
+@interface ModTableViewCell : RSTableViewCell
 
 @property(nonatomic,strong)UIButton *modifyBtn;
 @property(nonatomic,strong)UILabel *addressLabel;

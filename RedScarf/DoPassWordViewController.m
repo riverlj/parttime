@@ -28,7 +28,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self comeBack:nil];
-    self.view.backgroundColor = color242;
     num = 60;
     imageArray = [NSArray arrayWithObjects:@"yanzheng",@"shezhi",@"hchenggong", nil];
     titleArray = [NSArray arrayWithObjects:@"输入验证码",@"设置密码",@"设置成功", nil];

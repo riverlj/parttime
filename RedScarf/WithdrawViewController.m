@@ -11,8 +11,8 @@
 #import "UIAlertView+Quick.h"
 #import "SubmitViewController.h"
 #import "TransactionViewController.h"
-#import "MyBankCardVC.h"
 #import "DoPassWordViewController.h"
+#import "BankCardsViewController.h"
 
 @interface WithdrawViewController ()<ZCTradeViewDelegate,UIAlertViewDelegate,UITextFieldDelegate>
 
@@ -121,11 +121,11 @@
             
             input = [[UITextField alloc] initWithFrame:CGRectMake(view.frame.size.width+view.frame.origin.x, bgView.frame.size.height+bgView.frame.origin.y+18, kUIScreenWidth-100, 50)];
             input.delegate = self;
-//            input.keyboardType = UIKeyboardTypeNumberPad;
             input.placeholder = @"请输入提现金额";
             input.textColor = color102;
             input.font = textFont15;
             input.backgroundColor = [UIColor whiteColor];
+            input.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
             [self.view addSubview:input];
         }
         if (i == 1) {
@@ -200,8 +200,8 @@
 
 -(void)selectBank
 {
-    MyBankCardVC *myBankVC = [[MyBankCardVC alloc] init];
-    [self.navigationController pushViewController:myBankVC animated:YES];
+    BankCardsViewController *bankcards = [[BankCardsViewController alloc] init];
+    [self.navigationController pushViewController:bankcards animated:YES];
 }
 
 -(void)didClickTianXianJILu
@@ -227,7 +227,7 @@
             [self alertView:@"提现金额不能小于1元"];
             return;
         }
-        
+        [input resignFirstResponder];
         NSString *shijiStr = [shiji.text stringByReplacingOccurrencesOfString:@"    实际提现金额：" withString:@""];
         NSString *shouxuStr = [shouxu.text stringByReplacingOccurrencesOfString:@"    手续费：" withString:@""];
         
@@ -251,7 +251,6 @@
         case 1:
         {
             [self inputText];
-            
         }
             break;
         default:
@@ -262,7 +261,6 @@
 //弹框
 -(void)inputText
 {
-    [input resignFirstResponder];
     //判断是否有银行卡信息，若无则跳转至银行卡的页面
     if(!self.cardId) {
         [self selectBank];
@@ -272,9 +270,9 @@
     __weak typeof(self) weakSelf=self;
 
     self.zctView = [ZCTradeView tradeView];
-    
     [self.zctView showInView:self.view];
     self.zctView.delegate = self;
+    [self.zctView.responsder becomeFirstResponder];
     self.zctView.finish = ^(NSString *passWord){
         [blockSelf.zctView hidenKeyboard];
         
@@ -322,7 +320,6 @@
         shiji.text = @"0.00";
         [self alertView:@"提现金额不能大于当前余额"];
     }else{
-       
         if ([input.text floatValue] > 1) {
             if ([input.text intValue] < 100) {
                 shouxu.text = @"1";
@@ -361,7 +358,6 @@
     }
     //个别手机的提现密码会输入到这个里面
     [input resignFirstResponder];
-    
     [textField resignFirstResponder];
     return YES;
 }

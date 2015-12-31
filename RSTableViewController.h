@@ -14,12 +14,10 @@
 - (void)tableController:(UIViewController *)controller didSelectRowAtIndexPath:(NSIndexPath *)indexPath selectedItem:(id)item forCell:(UITableViewCell *)cell;
 @end
 
-@interface RSTableViewController : BaseViewController
+@interface RSTableViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_models;
-    MJRefreshHeaderView *_header;
-    MJRefreshFooterView *_footer;
 }
 @property (nonatomic,assign)UITableViewStyle tableStyle;
 @property (nonatomic,strong)NSMutableArray *models;//不含section信息
@@ -27,7 +25,4 @@
 @property (nonatomic,weak)id/*<MTTableViewControllerDelegate>*/ delegate;
 
 - (id)initWithStyle:(UITableViewStyle)tableStyle;
-- (MJRefreshFooterView *)footer;
-- (MJRefreshHeaderView *) header;
-- (void)doneWithView:(MJRefreshBaseView *)refreshView;
 @end

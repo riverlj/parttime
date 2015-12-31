@@ -205,7 +205,7 @@
 - (NSString *)addString:(NSString *)string every:(NSInteger)charCount {
     NSMutableString *newString = [NSMutableString string];
     int i;
-    for (i=1; i<self.length/charCount; i++) {
+    for (i=1; i< 1.0*self.length/charCount; i++) {
         [newString appendString:[self substringWithRange:NSMakeRange(charCount*(i-1), charCount)]];
         [newString appendString:string];
     }
@@ -259,4 +259,29 @@
 
 
 
+//验证数字
+-(BOOL)isCardNum {
+    NSString *regex = @"[0-9]{1,100}";
+    NSPredicate *mobileTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [mobileTest evaluateWithObject:self];
+}
+//验证邮箱
+-(BOOL)isEmail {
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:self];
+}
+
+//验证姓名  是 4- 12个汉字 或 字母
+-(BOOL)isCharacter {
+    NSString *regex = @"[\u4e00-\u9fa5]{2,14}|[A-Z,a-z]{2,14}";
+    NSPredicate *mobileTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [mobileTest evaluateWithObject:self];
+}
+
+-(BOOL)isMobile{
+    NSString *regex =  @"[0-9]{11}";
+    NSPredicate *mobileTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [mobileTest evaluateWithObject:self];
+}
 @end

@@ -21,8 +21,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self comeBack:nil];
     bodyArray = [NSMutableArray array];
     [self initTableView];
     if ([self.title isEqualToString:@"提现纪录"]) {
@@ -64,7 +62,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.backgroundColor = color242;
+    //self.tableView.backgroundColor = color242;
     UIView *footView = [[UIView alloc] init];
     self.tableView.tableFooterView = footView;
     [self.view addSubview:self.tableView];

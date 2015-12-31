@@ -27,14 +27,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"查看排班";
-    [self comeBack:nil];
-    self.view.backgroundColor = bgcolor;
-    self.tabBarController.tabBar.hidden = YES;
     apartmentArray = [NSMutableArray array];
     userArray = [NSMutableArray array];
     dateArray = [NSMutableArray array];
     tag = 0;
-//    [self navigationBar];
     [self initTableView];
     [self getMessage];
 

@@ -29,7 +29,6 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    [self comeBack:nil];
     self.title = @"我的工资";
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"说明" style:UIBarButtonItemStylePlain target:self action:@selector(clickShow)];
     self.navigationItem.rightBarButtonItem = right;
@@ -369,7 +368,6 @@
         dateStr = [NSString stringWithFormat:@"%@-01",Str];
         [self getMessage];
     }
-    
 }
 
 -(void)clickShow

@@ -8,7 +8,6 @@
 
 #import "DistributionTableView.h"
 #import "ModTableViewCell.h"
-#import "DaiFenPeiVC.h"
 #import "UIView+ViewController.h"
 #import "AppDelegate.h"
 #import "UIUtils.h"

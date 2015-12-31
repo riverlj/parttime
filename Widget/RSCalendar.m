@@ -18,6 +18,7 @@
         [self setTitleColor:color_black_222222 forState:UIControlStateNormal];
         [self setTitleColor:color_gray_cccccc forState:UIControlStateDisabled];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [self setBackgroundColor:[UIColor whiteColor]];
     }
     return self;
 }
@@ -32,6 +33,7 @@
         [self setTitleColor:color_black_222222 forState:UIControlStateNormal];
         [self setTitleColor:color_gray_cccccc forState:UIControlStateDisabled];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [self setBackgroundColor:[UIColor whiteColor]];
     }
     return self;
 }
@@ -189,7 +191,7 @@
         return _contentView;
     }
     _contentView = [[UIView alloc] initWithFrame:CGRectMake(0, self.headView.bottom, self.width, self.height)];
-    [_contentView setBackgroundColor:[UIColor whiteColor]];
+    //[_contentView setBackgroundColor:[UIColor whiteColor]];
     NSDate *startDate = [self.date firstDayOfCurrentMonth];
     NSDate *lastDate = [self.date lastDayOfCurrentMonth];
     NSInteger delta = [startDate getWeekIntValueWithDate] - 1;

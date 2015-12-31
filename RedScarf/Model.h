@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface Model : NSObject
+#import "RSModel.h"
+@interface Model : RSModel
 
 @property(nonatomic,strong)NSString *apartmentName;
 @property(nonatomic,strong)NSString *taskNum;

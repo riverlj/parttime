@@ -6,27 +6,11 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
-#import "MJRefreshFooterView.h"
-#import "MJRefreshHeaderView.h"
-#import "BaseTableView.h"
+#import "RSRefreshTableViewController.h"
 
-@interface FinishViewController : BaseViewController<MJRefreshBaseViewDelegate>
-
-@property(nonatomic,strong)UITableView *finishTableView;
-
-@property(nonatomic,strong)NSMutableArray *dataArr;
-
-@property(nonatomic,strong)NSMutableArray *searchDataArr;
-
-@property(nonatomic,strong)NSMutableArray *filteredArray;
-
-@property(nonatomic,strong)NSMutableArray *telArray;
-
+@interface FinishViewController : RSRefreshTableViewController
 @property(nonatomic,strong)NSString *status;
-
 @property(nonatomic,strong)UISearchBar *searchBar;
-
-@property(nonatomic,strong)UISearchDisplayController *searchaDisplay;
-
+@property(nonatomic, strong)UIView *btnView;
+@property(nonatomic) BOOL hideBtnView;
 @end

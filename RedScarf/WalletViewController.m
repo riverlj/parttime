@@ -7,9 +7,10 @@
 //
 
 #import "WalletViewController.h"
-#import "MyBankCardVC.h"
+#import "BankCardsViewController.h"
 #import "TransactionViewController.h"
 #import "WithdrawViewController.h"
+#import "RSSingleTitleModel.h"
 
 @interface WalletViewController ()
 
@@ -20,91 +21,105 @@
     NSString *salary;
     NSString *pwdStatus;
     NSString *telNum;
-    NSString *showStr;
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    self.tabBarController.tabBar.hidden = YES;
-    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self comeBack:nil];
-    self.view.backgroundColor = color242;
     self.title = @"红领巾钱包";
-    
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXian)];
     self.navigationItem.rightBarButtonItem = right;
+    UIView *footView = [[UIView alloc] init];
+    self.tableView.tableFooterView = footView;
+    [self generageModels];
     [self getToken];
-    [self initTableView];
 }
 //获取支付系统需要的token
 -(void)getToken
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
     [RSHttp requestWithURL:@"/user/token/finance" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:[data objectForKey:@"body"] forKey:@"withdrawToken"];
-        [defaults synchronize];
+        [NSUserDefaults setValue:[data objectForKey:@"body"] forKey:@"withdrawToken"];
         [self getMessage];
     } failure:^(NSInteger code, NSString *errmsg) {
-        [self alertView:errmsg];
+        [self showToast:errmsg];
     }];
-
 }
+
 
 -(void)getMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
+    [self showHUD:@"加载中"];
     [RSHttp payRequestWithURL:@"/account/accountInfo" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self hidHUD];
         NSMutableDictionary *dic = [data objectForKey:@"body"];
         salary = [NSString stringWithFormat:@"%@",[dic objectForKey:@"money"]];
         pwdStatus = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pwdStatus"]];
         telNum = [NSString stringWithFormat:@"%@",[dic objectForKey:@"phoneNumber"]];
-        [self.tableView reloadData];
+        [self generageModels];
     } failure:^(NSInteger code, NSString *errmsg) {
-        [self alertView:errmsg];
+        [self hidHUD];
+        [self showToast:errmsg];
     }];
 }
 
--(void)initTableView
+-(void) generageModels
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.backgroundColor = color242;
-    UIView *footView = [[UIView alloc] init];
-    self.tableView.tableFooterView = footView;
-    [self.view addSubview:self.tableView];
+    self.sections = [NSMutableArray array];
+    _models = [NSMutableArray array];
+    
+    NSMutableArray *items1 = [NSMutableArray array];
+    RSSingleTitleModel *model = [[RSSingleTitleModel alloc]init];
+    NSDictionary *attrDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              textFont14, NSFontAttributeName,
+                              color155, NSForegroundColorAttributeName, nil];
+    NSMutableAttributedString *attrStr;
+    attrStr = [[NSMutableAttributedString alloc]initWithString:@"账户余额：" attributes:attrDict];
+    if(salary) {
+        NSString *moneyStr = [NSString stringWithFormat:@"￥%.2f",[salary floatValue]/100];
+        attrStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"账户余额：%@", moneyStr] attributes:attrDict];
+        [attrStr setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color_green_65cb99, NSForegroundColorAttributeName, nil] range:NSMakeRange(5, [moneyStr length])];
+    }
+    model.str = attrStr;
+    [model setSelectAction:@selector(transaction) target:self];
+    [items1 addObject:model];
+    
+    model = [[RSSingleTitleModel alloc]init];
+    attrStr = [[NSMutableAttributedString alloc]initWithString:@"银行卡" attributes:attrDict];
+    model.str = attrStr;
+    [items1 addObject:model];
+    [model setSelectAction:@selector(bankcard) target:self];
+    [_models addObject:items1];
+    
+    NSMutableArray *items2 = [NSMutableArray array];
+    model = [[RSSingleTitleModel alloc] init];
+    attrStr = [[NSMutableAttributedString alloc]initWithString:@"交易密码" attributes:attrDict];
+    model.str = attrStr;
+    [model setSelectAction:@selector(modifyPass) target:self];
+    [items2 addObject:model];
+    [_models addObject:items2];
+    [self.tableView reloadData];
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)transaction
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            TransactionViewController *transactionVC = [[TransactionViewController alloc] init];
-            transactionVC.title = @"余额明细";
-            [self.navigationController pushViewController:transactionVC animated:YES];
-        }
-        if (indexPath.row == 1) {
-            MyBankCardVC *bankCardVC = [[MyBankCardVC alloc] init];
-            [self.navigationController pushViewController:bankCardVC animated:YES];
+    TransactionViewController *transactionVC = [[TransactionViewController alloc] init];
+    transactionVC.title = @"余额明细";
+    [self.navigationController pushViewController:transactionVC animated:YES];
+}
 
-        }
-    }
-    if (indexPath.section == 1) {
-        TransactionViewController *transactionVC = [[TransactionViewController alloc] init];
-        transactionVC.title = @"交易密码";
-        transactionVC.telNum = telNum;
-        [self.navigationController pushViewController:transactionVC animated:YES];
-    }
+-(void)bankcard
+{
+    BankCardsViewController *bankCardVC = [[BankCardsViewController alloc] init];
+    [self.navigationController pushViewController:bankCardVC animated:YES];
+}
+
+-(void)modifyPass
+{
+    TransactionViewController *transactionVC = [[TransactionViewController alloc] init];
+    transactionVC.title = @"交易密码";
+    transactionVC.telNum = telNum;
+    [self.navigationController pushViewController:transactionVC animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -112,94 +127,21 @@
     return 10;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return 2;
-    }
-    return 1;
-}
 
 -(UIView *)tableView:(UITableView *)tableView viewForheaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 10)];
-    view.backgroundColor = color242;
+    view.backgroundColor = color_red_e54545;
     return view;
-}
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 2;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
-    if (cell == nil) {
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    UILabel *title = [[UILabel alloc] init];
-    title.frame = CGRectMake(15, 0, 70, 50);
-    title.font = textFont14;
-    title.textColor = color155;
-    [cell.contentView addSubview:title];
-    
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            title.text = @"账户余额：";
-            UILabel *salaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(title.frame.size.width+title.frame.origin.x, 0, 150, 50)];
-            salaryLabel.font = textFont14;
-            salaryLabel.text = [NSString stringWithFormat:@"¥%.2f",[salary floatValue]/100];
-            salaryLabel.textColor = colorgreen65;
-            [cell.contentView addSubview:salaryLabel];
-        }
-        if (indexPath.row == 1) {
-            title.text = @"银行卡";
-        }
-    }
-    if (indexPath.section == 1) {
-        title.text = @"交易密码";
-    }
-    
-    return cell;
 }
 
 -(void)didClickTianXian
 {
-    if (showStr.length) {
-        [self alertView:showStr];
-        return;
-    }else{
-        WithdrawViewController *withdrawVC = [[WithdrawViewController alloc] init];
-        withdrawVC.pwdStatus = pwdStatus;
-        withdrawVC.telNum = telNum;
-        withdrawVC.salary = salary;
-        [self.navigationController pushViewController:withdrawVC animated:YES];
-
-    }
+    WithdrawViewController *withdrawVC = [[WithdrawViewController alloc] init];
+    withdrawVC.pwdStatus = pwdStatus;
+    withdrawVC.telNum = telNum;
+    withdrawVC.salary = salary;
+    [self.navigationController pushViewController:withdrawVC animated:YES];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -9,8 +9,21 @@
 #import "RSSingleTitleModel.h"
 
 @implementation RSSingleTitleModel
+- (id)initWithTitle:(NSString *)title {
+    self = [super init];
+    if (self) {
+        NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] initWithString:title];
+        self.str = attriString;
+    }
+    
+    return self;
+}
 
-@synthesize title = _title;
+-(int)cellHeight
+{
+    return 50;
+}
+/*@synthesize title = _title;
 @synthesize font = _font;
 @synthesize textColor = _textColor;
 @synthesize textAlignment = _textAlignment;
@@ -41,5 +54,5 @@
         //[_title boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:NSStringDrawingUsesFontLeading attributes:(nullable NSDictionary<NSString *,id> *) context:(nullable NSStringDrawingContext *)];
     }
     return _cellHeight;
-}
+}*/
 @end

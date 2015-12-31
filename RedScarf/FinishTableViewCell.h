@@ -7,21 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RSTableViewCell.h"
 
-@interface FinishTableViewCell : UITableViewCell
+@interface FinishTableViewCell : RSTableViewCell
 
+@property (nonatomic, strong) UIView *bgView;
 @property(nonatomic,strong)UILabel *nameLabel;
 @property(nonatomic,strong)UILabel *chuLiLabel;
 @property(nonatomic,strong)UILabel *buyerLabel;
 @property(nonatomic,strong)UILabel *telLabel;
 @property(nonatomic,strong)UILabel *addressLabel;
 @property(nonatomic,strong)UILabel *foodLabel;
-@property(nonatomic,strong)UILabel *dateLabel;
 @property(nonatomic,strong)UILabel *numberLabel;
-@property(nonatomic,strong)UIButton *noctionBtn;
-@property(nonatomic,strong)UIImageView *line;
-@property(nonatomic,strong)UIImageView *groundImage;
-@property(nonatomic,strong)UIImageView *lineImage;
+@property(nonatomic, strong) UIImageView *statusImage;
 
 -(void)setIntroductionText:(NSString*)text;
 

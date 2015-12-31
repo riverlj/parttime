@@ -33,7 +33,6 @@
     // Do any additional setup after loading the view.
     model = [RSAccountModel sharedAccount];
     self.title = @"分餐点";
-    self.view.backgroundColor = color242;
     if ([model isCEO]) {
         [self initSeparateBtn];
         [self initView];
@@ -125,7 +124,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 104,kUIScreenWidth-20, kUIScreenHeigth-130)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.backgroundColor = color242;
+    //self.tableView.backgroundColor = color242;
     self.dataArray = [NSMutableArray array];
     UIView *foot = [[UIView alloc] init];
     self.tableView.tableFooterView = foot;
@@ -173,7 +172,7 @@
     NSMutableDictionary *dic = [self.dataArray objectAtIndex:section];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth-20, 80)];
-    view.backgroundColor = color242;
+    //view.backgroundColor = color242;
     UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, kUIScreenWidth-20, 30)];
     name.text = [dic objectForKey:@"name"];
     name.textColor = color155;
@@ -242,13 +241,6 @@
     
     return cell;
 }
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-}
-
-
 
 -(void)initBtn
 {

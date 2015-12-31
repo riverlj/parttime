@@ -19,18 +19,9 @@
     int whichAlertView;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self comeBack:nil];
-    [super viewWillAppear:animated];
-}
-
 -(void)viewDidLoad
 {
-    self.navigationController.navigationBar.hidden = NO;
-    self.tabBarController.tabBar.hidden = YES;
-//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
-    self.view.backgroundColor = color242;
+    [super viewDidLoad];
     self.title = @"分配任务";
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
     [self.searchBar.layer setBorderColor:color242.CGColor];
@@ -43,22 +34,11 @@
     self.array = [NSMutableArray array];
     self.filteredArray = [NSMutableArray array];
     self.nameArray = [NSMutableArray array];
-    [self initNavigation];
     [self getMessage];
     [self initTableView];
     
 }
 
--(void)initNavigation
-{
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = left;
-    
-    //隐藏tabbar上的按钮
-    UIButton *barBtn = (UIButton *)[self.navigationController.navigationBar viewWithTag:11111];
-    [barBtn removeFromSuperview];
-}
 
 -(void)didClickLeft
 {
@@ -196,29 +176,6 @@
    
 }
 
-//-(void)clickBtn:(id)sender
-//{
-//    UITableView *tableView = [[UITableView alloc] init];
-//    UIButton *btn = (UIButton *)sender;
-//    indexModel = [[Model alloc] init];
-//    NSLog(@"self.aId = %@ ,self.room = %@",self.aId,self.room);
-//    if ([tableView isEqual:self.searchaDisplay.searchResultsTableView]) {
-//        //根据名字查找对应的数据
-//        NSString *name = @"";
-//        name = [self.filteredArray objectAtIndex:btn.tag];
-//        for (Model *mod in self.array) {
-//            if ([mod.username isEqualToString:name]) {
-//                indexModel = mod;
-//            }
-//        }
-//        
-//    }else{
-//        indexModel = [self.array objectAtIndex:btn.tag];
-//    }
-//    
-//    
-//    [self alertView:@"" number:1];
-//}
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -234,7 +191,7 @@
                 [params setValue:self.room forKey:@"room"];
             }
             //已分配跳过来的界面
-            if (self.number == 0) {
+            if ([self.userId integerValue] != 0) {
                 [params setValue:self.userId forKey:@"indexUserId"];
                 url = @"/task/assignTask/updateTask";
             }
@@ -242,20 +199,14 @@
             [RSHttp requestWithURL:url params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
                 [self alertView:@"分配成功" number:0];
             } failure:^(NSInteger code, NSString *errmsg) {
-                [self alertView:@"分配失败" number:0];
+                [self alertView:errmsg number:0];
             }];
         }
         case 0:{
             if (whichAlertView == 1) {
                 
             }else{
-                if (self.number == 0) {
-                    [self.delegate returnNameOfTableView:@"yifenpei"];
-                }else{
-                    [self.delegate returnNameOfTableView:@"daifenpei"];
-                }
                 [self.navigationController popViewControllerAnimated:YES];
-
             }
             
         }

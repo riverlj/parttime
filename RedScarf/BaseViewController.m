@@ -36,6 +36,12 @@
                 tabBar.btn.hidden = NO;
             }
         }
+        //判断navigation是否有push
+        if([self.navigationController.viewControllers count] > 1) {
+            [self comeBack:nil];
+        } else {
+            self.navigationItem.leftBarButtonItem = nil;
+        }
     }
     [super viewWillAppear:animated];
 }
@@ -77,22 +83,23 @@
 
 //显示加载
 - (void)showHUD:(NSString *)title {
-    [self.hud hide:NO];
+    self.hud = nil;
     self.hud.mode=MBProgressHUDModeIndeterminate;
     self.hud.labelText = title;
+    [self.hud show:YES];
 }
 
 -(void)showAlertHUD:(NSString*)title{
-    [self.hud hide:NO];
+    self.hud = nil;
     self.hud.labelText = title;
     self.hud.dimBackground = YES;
     self.hud.mode=MBProgressHUDModeCustomView;
+    [self.hud show:YES];
     [self.hud hide:YES afterDelay:1.5];
 }
 //隐藏加载、
 - (void)hidHUD {
     [self.hud hide:YES];
-    self.hud = nil;
 }
 
 
@@ -134,12 +141,11 @@
 
 -(void)showToast:(NSString *)str
 {
-    [self.hud hide:NO];
     self.hud.yOffset = kUIScreenHeigth/2;
     self.hud.labelText = str;
     self.hud.mode = MBProgressHUDModeText;
     [self.hud showAnimated:YES whileExecutingBlock:^{
-        self.hud.yOffset = kUIScreenHeigth/2 -150;
+        self.hud.yOffset = -(kUIScreenHeigth/2 - 150);
         sleep(1);
     } completionBlock:^{
         [self.hud removeFromSuperview];

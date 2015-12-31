@@ -8,71 +8,40 @@
 
 #import "MyBankCardVC.h"
 #import "OpenAcountProvince.h"
-#import "UIUtils.h"
 @interface MyBankCardVC ()
 {
-    NSString *bankText,*telText,*emailText,*nameText,*bank,*bankId,*cityId,*bankChildId;
+    BOOL isEdited;
     NSInteger tag;
-    BOOL editOrSave;
-    NSMutableArray *indexArr,*idArr;
+    NSString *url;
     UITextField *bankTf;
     UITextField *nameTf;
     UITextField *telTf;
     UIButton *proBtn,*cityBtn,*bankBtn,*bankChildBtn,*taskTypeBtn;
-    NSString *branchBankId,*cardId;
-    NSString *idOne,*idTwo,*idThree;
 }
 
 @end
 
 @implementation MyBankCardVC
 
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self refreshView];
+}
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    [self comeBack:nil];
+    isEdited = NO;
     self.title = @"我的银行卡";
-    editOrSave = YES;
-    indexArr = [NSMutableArray arrayWithObjects:@"",@"",@"",@"",@"", nil];
-    idArr = [NSMutableArray arrayWithObjects:@"",@"",@"",@"",@"", nil];
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
     [self.navigationItem setRightBarButtonItem:right];
     [self initView];
-    [self getMessage];
-}
-
--(void)getMessage
-{
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    __block NSMutableArray *arr = [NSMutableArray array];
-    [self showHUD:@"正在加载"];
-    
-    [RSHttp payRequestWithURL:@"/account/queryBankCard" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        arr = [data objectForKey:@"body"];
-        if (arr.count) {
-            NSMutableDictionary *dic = [[data objectForKey:@"body"] objectAtIndex:0];
-            NSLog(@"dic = %@",dic);
-            nameText = [dic objectForKey:@"realName"];
-            if (nameText.length) {
-                editOrSave = NO;
-            }
-            telText = [dic objectForKey:@"phoneNumber"];
-            bankText = [dic objectForKey:@"cardNum"];
-            branchBankId = [dic objectForKey:@"branchBankId"];
-            [idArr replaceObjectAtIndex:3 withObject:[dic objectForKey:@"branchBankId"]];
-            cardId = [dic objectForKey:@"id"];
-            indexArr[2] = [dic objectForKey:@"bankName"];
-            indexArr[3] = [dic objectForKey:@"branchBankName"];
-            indexArr[4] = [dic objectForKey:@"businessType"];
-            self.navigationItem.rightBarButtonItem.title = @"编辑";
-            [self getMsgFromBranchBankId];
-        }
-        [self hidHUD];
-    } failure:^(NSInteger code, NSString *errmsg) {
-        [self hidHUD];
-        [self alertView:errmsg];
-    }];
+    if(self.bankcard) {
+        [self getMsgFromBranchBankId];
+    } else {
+        self.bankcard = [[RSBankCardModel alloc] init];
+    }
 }
 
 -(void)getMsgFromBranchBankId
@@ -80,27 +49,44 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     [self showHUD:@"正在加载"];
-    [params setObject:branchBankId forKey:@"id"];
+    [params setObject:[NSString stringWithFormat:@"%ld", self.bankcard.branchBankId] forKey:@"id"];
     [RSHttp payRequestWithURL:@"/bank/getBranchBankById" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSMutableDictionary *dic = [data objectForKey:@"body"];
-        indexArr[0] = [dic objectForKey:@"provincename"];
-        indexArr[1] = [dic objectForKey:@"cityname"];
-        [self initView];
+        self.bankcard.provincename = [dic objectForKey:@"provincename"];
+        self.bankcard.cityname = [dic objectForKey:@"cityname"];
+        self.bankcard.cityid = [[dic objectForKey:@"cityid"]integerValue];
+        self.bankcard.provinceid = [[dic objectForKey:@"provinceid"] integerValue];
+        self.bankcard.branchBankName = [dic objectForKey:@"name"];
+        self.bankcard.bankId = [[dic objectForKey:@"parentid"] integerValue];
         [self hidHUD];
-        [self.tableView reloadData];
+        [self refreshView];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self hidHUD];
-        [self alertView:errmsg];
+        [self showToast:errmsg];
     }];
+}
+
+-(void) refreshView
+{
+    bankTf.text = [self.bankcard showCardNum];
+    nameTf.text = self.bankcard.realName;
+    telTf.text = self.bankcard.phoneNumber;
+    [cityBtn setTitle:self.bankcard.cityname forState:UIControlStateNormal];
+    [proBtn setTitle:self.bankcard.provincename forState:UIControlStateNormal];
+    [bankBtn setTitle:self.bankcard.bankName forState:UIControlStateNormal];
+    [bankChildBtn setTitle:self.bankcard.branchBankName forState:UIControlStateNormal];
+    NSString *str = self.bankcard.businessType == 0 ? @"对私业务" : @"对公业务";
+    [taskTypeBtn setTitle:str forState:UIControlStateNormal];
 }
 
 -(void)initView
 {
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth)];
-    [self.view addSubview:scrollView];
-    scrollView.backgroundColor = [UIColor whiteColor];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     scrollView.contentSize = CGSizeMake(0, kUIScreenHeigth*1.1);
     scrollView.userInteractionEnabled = YES;
+    scrollView.backgroundColor = [UIColor whiteColor];
+    [scrollView addTapAction:@selector(hideKeyboard) target:self];
+    self.view = scrollView;
     
     UIView *headView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 25)];
     headView1.backgroundColor = MakeColor(244, 245, 246);
@@ -111,14 +97,13 @@
     bankAcount.text = @"银行账号:";
     [scrollView addSubview:bankAcount];
     
-    bankTf = [[UITextField alloc] initWithFrame:CGRectMake(bankAcount.frame.size.width+bankAcount.frame.origin.x, headView1.frame.size.height+headView1.frame.origin.y, kUIScreenWidth-bankAcount.frame.size.width, 45)];
-    bankTf.text = bankText;
-    bankTf.userInteractionEnabled = NO;
+    bankTf = [[UITextField alloc] initWithFrame:CGRectMake(bankAcount.width+bankAcount.left, headView1.height+headView1.top, kUIScreenWidth-bankAcount.frame.size.width -15, 45)];
     bankTf.tag = 101;
     bankTf.delegate = self;
     bankTf.textColor = MakeColor(75, 75, 75);
+    bankTf.clearButtonMode = UITextFieldViewModeWhileEditing;
     bankTf.font = [UIFont systemFontOfSize:13];
-
+    bankTf.keyboardType = UIKeyboardTypePhonePad;
     [scrollView addSubview:bankTf];
     
     UIView *headView2 = [[UIView alloc] initWithFrame:CGRectMake(0, bankTf.frame.size.height+bankTf.frame.origin.y, kUIScreenWidth, 35)];
@@ -135,20 +120,19 @@
     personLabel.textColor = colorblue;
     [headView2 addSubview:personLabel];
     
-    nameTf = [[UITextField alloc] initWithFrame:CGRectMake(70, headView2.frame.size.height+headView2.frame.origin.y, kUIScreenWidth-60, 45)];
+    nameTf = [[UITextField alloc] initWithFrame:CGRectMake(70, headView2.frame.size.height+headView2.frame.origin.y, kUIScreenWidth-75, 45)];
     nameTf.delegate = self;
     nameTf.textColor = MakeColor(75, 75, 75);
-    nameTf.userInteractionEnabled = NO;
-    nameTf.text = nameText;
+    nameTf.clearButtonMode = UITextFieldViewModeWhileEditing;
     nameTf.font = [UIFont systemFontOfSize:13];
     [scrollView addSubview:nameTf];
     
-    telTf = [[UITextField alloc] initWithFrame:CGRectMake(70, headView2.frame.size.height+headView2.frame.origin.y+45, kUIScreenWidth-60, 45)];
+    telTf = [[UITextField alloc] initWithFrame:CGRectMake(70, headView2.frame.size.height+headView2.frame.origin.y+45, kUIScreenWidth-75, 45)];
     telTf.textColor = MakeColor(75, 75, 75);
-    telTf.userInteractionEnabled = NO;
-    telTf.text = telText;
     telTf.delegate = self;
     telTf.font = [UIFont systemFontOfSize:13];
+    telTf.clearButtonMode = UITextFieldViewModeWhileEditing;
+    telTf.keyboardType = UIKeyboardTypePhonePad;
     [scrollView addSubview:telTf];
     
     for (int i = 0; i < 2; i++) {
@@ -182,38 +166,19 @@
     msgLabel.textColor = colorblue;
     [headView3 addSubview:msgLabel];
     
+    NSArray *titleArr = [NSArray arrayWithObjects:@"开户省份：",@"开户城市：", @"开户银行：", @"开户支行：", @"账号类型：", nil];
     for (int i = 0; i < 5; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, headView3.frame.size.height+headView3.frame.origin.y+i*45, 90, 45)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, headView3.height+headView3.top+i*45, 90, 45)];
         label.textAlignment = NSTextAlignmentCenter;
-       
         [scrollView addSubview:label];
-        
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, headView3.frame.size.height+headView3.frame.origin.y+(i+1)*45, kUIScreenWidth, 0.5)];
-        line.backgroundColor = MakeColor(203, 203, 203);
+        line.backgroundColor = color_gray_cccccc;
         [scrollView addSubview:line];
-       
-        if (i == 0) {
-            label.text = @"开户省份:";
-        }
-        if (i == 1) {
-            label.text = @"开户城市:";
-        }
-        if (i == 2) {
-            label.text = @"开户银行:";
-        }
-        if (i == 3) {
-            label.text = @"开户支行:";
-        }
-        if (i == 4) {
-            label.text = @"账号类型:";
-        }
-        
+        label.text = [titleArr objectAtIndex:i];
     }
-    proBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, headView3.frame.size.height+headView3.frame.origin.y, kUIScreenWidth-90, 45)];
-    [proBtn setTitle:indexArr[0] forState:UIControlStateNormal];
+    proBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, headView3.height+headView3.top, kUIScreenWidth-90, 45)];
     proBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [proBtn setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
-    proBtn.userInteractionEnabled = NO;
     proBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     proBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     proBtn.tag = 10000;
@@ -225,10 +190,7 @@
     cityBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     cityBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     cityBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-    [cityBtn setTitle:indexArr[1] forState:UIControlStateNormal];
     [cityBtn setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
-
-    cityBtn.userInteractionEnabled = NO;
     [cityBtn addTarget:self action:@selector(cityBtn:) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:cityBtn];
 
@@ -237,42 +199,26 @@
     bankBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     bankBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     bankBtn.tag = 10002;
-    [bankBtn setTitle:indexArr[2] forState:UIControlStateNormal];
     [bankBtn setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
-
-    bankBtn.userInteractionEnabled = NO;
     [bankBtn addTarget:self action:@selector(bankBtn:) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:bankBtn];
 
     bankChildBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, headView3.frame.size.height+headView3.frame.origin.y+135, kUIScreenWidth-110, 45)];
-    [bankChildBtn setTitle:indexArr[3] forState:UIControlStateNormal];
     [bankChildBtn setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
     bankChildBtn.tag = 10003;
     bankChildBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     bankChildBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingHead;
     bankChildBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     bankChildBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-    bankChildBtn.userInteractionEnabled = NO;
     [bankChildBtn addTarget:self action:@selector(bankChildBtn:) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:bankChildBtn];
     
     taskTypeBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, headView3.frame.size.height+headView3.frame.origin.y+180, kUIScreenWidth-110, 45)];
-    if (indexArr[4]) {
-        if ([indexArr[4] intValue] == 0) {
-            [taskTypeBtn setTitle:@"对私业务" forState:UIControlStateNormal];
-            
-        }else{
-            [taskTypeBtn setTitle:@"对公业务" forState:UIControlStateNormal];
-            
-        }
-    }
-    
     [taskTypeBtn setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
     taskTypeBtn.tag = 10004;
     taskTypeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     taskTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     taskTypeBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-    taskTypeBtn.userInteractionEnabled = NO;
     [taskTypeBtn addTarget:self action:@selector(taskTypeBtn:) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:taskTypeBtn];
 
@@ -280,114 +226,108 @@
 
 -(void)didClickDone
 {
-    if ([self.navigationItem.rightBarButtonItem.title isEqualToString:@"编辑"]) {
-        bankTf.userInteractionEnabled = YES;
-        nameTf.userInteractionEnabled = YES;
-        telTf.userInteractionEnabled = YES;
-        taskTypeBtn.userInteractionEnabled = YES;
-        proBtn.userInteractionEnabled = YES;
-        cityBtn.userInteractionEnabled = YES;
-        bankBtn.userInteractionEnabled = YES;
-        bankChildBtn.userInteractionEnabled = YES;
-        for (int i = 0; i < 4; i++) {
-            UIButton *btn = (UIButton *)[[self.view viewWithTag:100] viewWithTag:100+i+5];
-            btn.userInteractionEnabled = YES;
-        }
-        self.navigationItem.rightBarButtonItem.title = @"保存";
-    }else{
-        //点击保存
-        if (nameTf.text.length&&bankTf.text.length&&telTf.text.length) {
-            
-            for (NSString *str in indexArr) {
-                if (str == nil) {
-                    [self alertView:@"开户信息不能为空"];
-                    return;
-                }
-            }
-            
-            NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            NSString *url = @"/account/bindBankCard";            
-            if (!editOrSave) {
-                url = @"/account/updateBankCard";
-                 [params setObject:cardId forKey:@"id"];
-            }
-            
-            if ([nameTf.text rangeOfString:@" "].location != NSNotFound) {
-                [self alertView:@"姓名不合法"];
-                return;
-            }
-            
-            if (![UIUtils isNumber:telTf.text] || telTf.text.length != 11) {
-           
-                [self alertView:@"手机号输入有误"];
-                return;
-            }
-            bankTf.text = [bankTf.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-            if (![UIUtils isNumber:bankTf.text]) {
-                [self alertView:@"卡号输入有误"];
-                return;
-            }
-            
-            NSString *name = nameTf.text;
-            //不用转utf8
-//            name = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-          
-            [params setObject:name forKey:@"realName"];
-            [params setObject:bankTf.text forKey:@"cardNum"];
-            [params setObject:telTf.text forKey:@"phoneNumber"];
-            if ([taskTypeBtn.titleLabel.text isEqualToString:@"对公业务"]) {
-                [params setObject:@"1" forKey:@"businessType"];
-            }
-            if ([taskTypeBtn.titleLabel.text isEqualToString:@"对私业务"]) {
-                [params setObject:@"0" forKey:@"businessType"];
-            }
-            
-            [params setObject:idArr[3] forKey:@"branchBankId"];
-            [RSHttp payRequestWithURL:url params:params httpMethod:@"POST" success:^(NSDictionary *data) {
-                [self alertView:@"保存成功"];
-                self.navigationItem.rightBarButtonItem.title = @"编辑";
-                bankTf.userInteractionEnabled = NO;
-                nameTf.userInteractionEnabled = NO;
-                telTf.userInteractionEnabled = NO;
-                proBtn.userInteractionEnabled = NO;
-                taskTypeBtn.userInteractionEnabled = NO;
-                cityBtn.userInteractionEnabled = NO;
-                bankBtn.userInteractionEnabled = NO;
-                bankChildBtn.userInteractionEnabled = NO;
-            } failure:^(NSInteger code, NSString *errmsg) {
-                [self alertView:errmsg];
-            }];
-        }else{
-            [self alertView:@"用户信息不能为空"];
-        }
-        
+    [self hideKeyboard];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if(!self.bankcard.cardNum || [self.bankcard.cardNum isEqualToString:@""]) {
+        [bankTf becomeFirstResponder];
+        [self showToast:@"请填写银行卡号"];
+        return;
     }
+    if(![self.bankcard.cardNum isCardNum]) {
+        [self showToast:@"银行卡号有误"];
+        [bankTf becomeFirstResponder];
+        return;
+    }
+    if(!self.bankcard.realName || [self.bankcard.realName isEqualToString:@""]) {
+        [self showToast:@"请填写姓名"];
+        [nameTf becomeFirstResponder];
+        return;
+    }
+    if(![self.bankcard.realName isCharacter]) {
+        [self showToast:@"姓名不合法"];
+        [nameTf becomeFirstResponder];
+        return;
+    }
+    if(!self.bankcard.phoneNumber || [self.bankcard.phoneNumber isEqualToString:@""]) {
+        [self showToast:@"请填写手机号"];
+        [telTf becomeFirstResponder];
+        return;
+    }
+    if(![self.bankcard.phoneNumber isMobile]) {
+        [self showToast:@"手机号不合法"];
+        [telTf becomeFirstResponder];
+        return;
+    }
+    if(self.bankcard.provinceid == 0 || self.bankcard.cityid == 0) {
+        [self showToast:@"请选择银行的地址信息"];
+        return;
+    }
+    if(self.bankcard.bankId == 0 || self.bankcard.branchBankId == 0) {
+        [self showToast:@"请选择银行"];
+        return;
+    }
+    if(self.bankcard.id != 0) {
+        url = @"/account/updateBankCard";
+        [params setObject:[NSString stringWithFormat:@"%ld", self.bankcard.id] forKey:@"id"];
+    }else {
+        url = @"/account/bindBankCard";
+    }
+    [params setObject:self.bankcard.realName forKey:@"realName"];
+    [params setObject:self.bankcard.cardNum forKey:@"cardNum"];
+    [params setObject:self.bankcard.phoneNumber forKey:@"phoneNumber"];
+    [params setObject:[NSString stringWithFormat:@"%ld", self.bankcard.branchBankId] forKey:@"branchBankId"];
+    [params setObject:[NSString stringWithFormat:@"%ld", self.bankcard.businessType] forKey:@"businessType"];
+    [RSHttp payRequestWithURL:url params:params httpMethod:@"POST" success:^(NSDictionary *data) {
+        [self showToast:@"保存成功"];
+        isEdited = NO;
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self alertView:errmsg];
+    }];
 }
 
 -(void)returnAddress:(NSString *)address aId:(NSString *)aId
 {
     if (tag == 10000) {
-        cityId = aId;
-        [proBtn setTitle:address forState:UIControlStateNormal];
+        if([aId integerValue] != self.bankcard.provinceid) {
+            self.bankcard.provinceid = [aId integerValue];
+            self.bankcard.provincename = address;
+            self.bankcard.cityname = @"";
+            self.bankcard.cityid = 0;
+            self.bankcard.branchBankName = @"";
+            self.bankcard.branchBankId = 0;
+            isEdited = YES;
+        }
     }
     if (tag == 10001) {
-        bankId = aId;
-        [cityBtn setTitle:address forState:UIControlStateNormal];
+        if([aId integerValue] != self.bankcard.cityid) {
+            self.bankcard.cityid = [aId integerValue];
+            self.bankcard.cityname = address;
+            self.bankcard.branchBankName = @"";
+            self.bankcard.branchBankId = 0;
+            isEdited = YES;
+        }
     }
     if (tag == 10002) {
-        bankChildId = aId;
-        [bankBtn setTitle:address forState:UIControlStateNormal];
+        if([aId integerValue] != self.bankcard.bankId) {
+            self.bankcard.bankName = address;
+            self.bankcard.bankId = [aId integerValue];
+            self.bankcard.branchBankName = @"";
+            self.bankcard.branchBankId = 0;
+            isEdited = YES;
+        }
     }
     if (tag == 10003) {
-        [bankChildBtn setTitle:address forState:UIControlStateNormal];
+        if([aId integerValue] != self.bankcard.branchBankId) {
+            self.bankcard.branchBankId = [aId integerValue];
+            self.bankcard.branchBankName = address;
+            isEdited = YES;
+        }
     }
     if (tag == 10004) {
-        [taskTypeBtn setTitle:address forState:UIControlStateNormal];
+        self.bankcard.businessType = [aId integerValue];
+        isEdited = YES;
     }
-    branchBankId = aId;
-    [idArr replaceObjectAtIndex:tag-10000 withObject:aId];
-    [indexArr replaceObjectAtIndex:tag-10000 withObject:address];
-    
+    [self refreshView];
 }
 
 -(void)proBtn:(id)sender
@@ -397,16 +337,6 @@
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
     openAcount.titleString = @"开户省份";
-    [indexArr replaceObjectAtIndex:1 withObject:@""];
-    [indexArr replaceObjectAtIndex:2 withObject:@""];
-    [indexArr replaceObjectAtIndex:3 withObject:@""];
-    [cityBtn setTitle:@"" forState:UIControlStateNormal];
-    [bankBtn setTitle:@"" forState:UIControlStateNormal];
-    [bankChildBtn setTitle:@"" forState:UIControlStateNormal];
-    [idArr replaceObjectAtIndex:1 withObject:@""];
-    [idArr replaceObjectAtIndex:2 withObject:@""];
-    [idArr replaceObjectAtIndex:3 withObject:@""];
-
     [self.navigationController pushViewController:openAcount animated:YES];
 
 }
@@ -417,18 +347,8 @@
     openAcount.delegate = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
-    idOne = openAcount.Id = idArr[0];
     openAcount.titleString = @"开户城市";
-    if ([idOne isEqual:@""]) {
-        [self alertView:@"请从省份开始选择"];
-        return;
-    }
-    [indexArr replaceObjectAtIndex:2 withObject:@""];
-    [indexArr replaceObjectAtIndex:3 withObject:@""];
-    [bankBtn setTitle:@"" forState:UIControlStateNormal];
-    [bankChildBtn setTitle:@"" forState:UIControlStateNormal];
-    [idArr replaceObjectAtIndex:2 withObject:@""];
-    [idArr replaceObjectAtIndex:3 withObject:@""];
+    openAcount.Id = [NSString stringWithFormat:@"%ld", self.bankcard.provinceid];
     [self.navigationController pushViewController:openAcount animated:YES];
     
 }
@@ -439,18 +359,8 @@
     openAcount.delegate = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
-    openAcount.Id = idArr[0];
     openAcount.titleString = @"开户银行";
-    idOne = idArr[0];
-    idTwo = idArr[1];
-    if ([idOne isEqual:@""]||[idTwo isEqual:@""]) {
-        [self alertView:@"请从省份开始选择"];
-        return;
-    }
-    [indexArr replaceObjectAtIndex:3 withObject:@""];
-    [bankChildBtn setTitle:@"" forState:UIControlStateNormal];
-    [idArr replaceObjectAtIndex:3 withObject:@""];
-    [bankChildBtn setTitle:@"" forState:UIControlStateNormal];
+    openAcount.Id = [NSString stringWithFormat:@"%ld", self.bankcard.provinceid];
     [self.navigationController pushViewController:openAcount animated:YES];
     
 }
@@ -461,15 +371,8 @@
     openAcount.delegate = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
-    openAcount.idArr = idArr;
     openAcount.titleString = @"开户支行";
-    idOne = idArr[0];
-    idTwo = idArr[1];
-    idThree = idArr[2];
-    if ([idOne isEqual:@""]||[idTwo isEqual:@""]||[idThree isEqual:@""]) {
-        [self alertView:@"请从省份开始选择"];
-        return;
-    }
+    openAcount.idArr = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%ld", self.bankcard.provinceid], [NSString stringWithFormat:@"%ld", self.bankcard.cityid], [NSString stringWithFormat:@"%ld", self.bankcard.bankId], nil];
     [self.navigationController pushViewController:openAcount animated:YES];
     
 }
@@ -487,48 +390,60 @@
 //格式化银行账号
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (textField == bankTf) {
-        NSString *text = [bankTf text];
-        
-        NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789\b"];
-        string = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
-        if ([string rangeOfCharacterFromSet:[characterSet invertedSet]].location != NSNotFound) {
-            return NO;
-        }
-        
-        text = [text stringByReplacingCharactersInRange:range withString:string];
-        text = [text stringByReplacingOccurrencesOfString:@" " withString:@""];
-        
-        NSString *newString = @"";
-        while (text.length > 0) {
-            NSString *subString = [text substringToIndex:MIN(text.length, 4)];
-            newString = [newString stringByAppendingString:subString];
-            if (subString.length == 4) {
-                newString = [newString stringByAppendingString:@" "];
-            }
-            text = [text substringFromIndex:MIN(text.length, 4)];
-        }
-        
-        newString = [newString stringByTrimmingCharactersInSet:[characterSet invertedSet]];
-        
-        // 限制长度
-        if (newString.length >= 27) {
-            return NO;
-        }
-        [bankTf setText:newString];
-        
-        return NO;
-        
+    //如果是银行卡号或者手机号
+    if (textField == bankTf ) {
+        self.bankcard.cardNum = textField.text;
+    } else if(textField == telTf) {
+        self.bankcard.phoneNumber = textField.text;
+    } else if(textField == nameTf){
+        self.bankcard.realName = nameTf.text;
+    }
+    isEdited = YES;
+    return YES;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self hideKeyboard];
+    if(textField == bankTf) {
+        [nameTf becomeFirstResponder];
+    } else if (textField == nameTf) {
+        [telTf becomeFirstResponder];
     }
     return YES;
 }
 
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField
+-(void) textFieldDidEndEditing:(UITextField *)textField
 {
-    [textField resignFirstResponder];
-    return YES;
+    self.bankcard.cardNum = bankTf.text;
+    self.bankcard.realName = nameTf.text;
+    self.bankcard.phoneNumber = telTf.text;
 }
 
+-(void) hideKeyboard
+{
+    [nameTf resignFirstResponder];
+    [bankTf resignFirstResponder];
+    [telTf resignFirstResponder];
+    self.bankcard.cardNum = bankTf.text;
+    self.bankcard.realName = nameTf.text;
+    self.bankcard.phoneNumber = telTf.text;
+}
 
+-(void) didClickLeft
+{
+    if(isEdited) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您还没有保存，确定退出么？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+        [alert show];
+    } else {
+        [super didClickLeft];
+    }
+}
+
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 0) {
+        [super didClickLeft];
+    }
+}
 @end

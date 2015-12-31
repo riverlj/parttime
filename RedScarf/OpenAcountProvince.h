@@ -8,10 +8,8 @@
 
 #import "BaseViewController.h"
 #import "MyProtocol.h"
-#import "MJRefreshFooterView.h"
-#import "MJRefreshHeaderView.h"
 
-@interface OpenAcountProvince : BaseViewController<MJRefreshBaseViewDelegate>
+@interface OpenAcountProvince : BaseViewController
 
 @property(nonatomic,strong)UISearchBar *searchBar;
 @property(nonatomic,strong)NSArray *array;

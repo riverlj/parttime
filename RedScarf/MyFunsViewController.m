@@ -13,7 +13,6 @@
 @implementation MyFunsViewController
 {
     NSMutableArray *dataArray;
-    MJRefreshFooterView *footView;
     int pageNum;
 }
 
@@ -28,9 +27,6 @@
     self.title = @"我的粉丝";
     self.view.backgroundColor = [UIColor whiteColor];
     dataArray = [NSMutableArray array];
-    self.navigationController.navigationBar.hidden = NO;
-//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
-    self.tabBarController.tabBar.hidden = YES;
     pageNum = 1;
     [self getMessage];
     [self navigationBar];
@@ -39,33 +35,33 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:[NSNumber numberWithInt:10] forKey:@"pageSize"];
     [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
     
     [RSHttp requestWithURL:@"/promotionActivity/index/fansDetial" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        pageNum ++;
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         dic = [data objectForKey:@"msg"];
         
-        dataArray = [dic objectForKey:@"fansDetail"];
+        NSInteger i = 0;
+        for (NSDictionary *temp in [dic objectForKey:@"fansDetail"]) {
+            [dataArray addObject:temp];
+            i++;
+        }
         
         UILabel *label = (UILabel *)[self.view viewWithTag:201];
         label.text = [NSString stringWithFormat:@"粉丝下单累计总金额:%@",[dic objectForKey:@"fansOrderTotalAccount"]];
-        [footView endRefreshing];
         [self.tableView reloadData];
+        [self.tableView.mj_footer endRefreshing];
+        if(i < 10) {
+            self.tableView.mj_footer.hidden = YES;
+        }
     } failure:^(NSInteger code, NSString *errmsg) {
+        [self.tableView.mj_footer endRefreshing];
+        [self showToast:errmsg];
     }];
 }
-//上拉刷新
--(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
-{
-    pageNum += 1;
-    [self getMessage];
-}
-
 
 -(void)initTableView
 {
@@ -81,9 +77,7 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     
-    footView = [[MJRefreshFooterView alloc] init];
-    footView.delegate = self;
-    footView.scrollView = self.tableView;
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMessage)];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

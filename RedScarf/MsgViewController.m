@@ -7,7 +7,6 @@
 //
 
 #import "MsgViewController.h"
-#import "TaskViewController.h"
 #import "SuggestionViewController.h"
 #import "GoPeiSongViewController.h"
 
@@ -19,7 +18,6 @@
 {
     NSArray *titleArray;
     NSMutableArray *msgArray,*statusArray,*idArray;
-    MJRefreshFooterView *footView;
     int pageNum;
 }
 
@@ -44,38 +42,28 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:[NSNumber numberWithInt:pageNum] forKey:@"pageNum"];
     [params setObject:[NSNumber numberWithInt:10] forKey:@"pageSize"];
     [RSHttp requestWithURL:@"/user/message" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        for (NSDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
+        pageNum ++;
+        NSArray *list = [[data objectForKey:@"body"] objectForKey:@"list"];
+        for (NSDictionary *dic in list) {
             [msgArray addObject:dic];
-        }
-        
-        for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
             [statusArray addObject:[dic objectForKey:@"status"]];
             [idArray addObject:[dic objectForKey:@"id"]];
         }
-        [footView endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         [self.tableView reloadData];
+        if([list count] < 10) {
+            [self.tableView.mj_footer endRefreshingWithNoMoreData];
+        }
     } failure:^(NSInteger code, NSString *errmsg) {
-        [footView endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        [self showToast:errmsg];
     }];
 }
 
--(void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
-{
-    if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) {
-        
-    }else{
-        pageNum += 1;
-        [self getMessage];
-    }
-    
-}
 
 -(void)initTableView
 {
@@ -84,10 +72,7 @@
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = color242;
     [self.view addSubview:self.tableView];
-    
-    footView = [[MJRefreshFooterView alloc] init];
-    footView.delegate = self;
-    footView.scrollView = self.tableView;
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMessage)];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -17,7 +17,10 @@
 - (NSComparisonResult)versionStringCompare:(NSString *)other;
 - (NSString *)addString:(NSString *)string every:(NSInteger)charCount;
 - (NSDictionary *)parseURLParams;//把url中的参数转成NSDictionary
-
+- (BOOL)isCardNum;
+- (BOOL)isEmail;
+- (BOOL)isCharacter;
+- (BOOL)isMobile;
 
 //URLencode
 + (NSString*)URLencode:(NSString*)originalString stringEncoding:(NSStringEncoding)stringEncoding;
@@ -29,5 +32,6 @@
 + (NSString *)moneyStringWithNumber:(NSNumber *)floatNumber;// 将价格变成字符串，前面加人民币符号
 + (NSString *)stringWithFloat:(float)number;
 + (NSString *)moneyStringWithFloat:(float)number;
+
 
 @end

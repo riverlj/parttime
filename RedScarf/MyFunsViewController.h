@@ -7,9 +7,6 @@
 //
 
 #import "BaseViewController.h"
-#import "MJRefreshFooterView.h"
-#import "MJRefreshHeaderView.h"
 
-@interface MyFunsViewController : BaseViewController<MJRefreshBaseViewDelegate>
-
+@interface MyFunsViewController : BaseViewController
 @end

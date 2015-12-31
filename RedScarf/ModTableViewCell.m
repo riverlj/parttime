@@ -15,7 +15,6 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
         self.addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         self.addressLabel.numberOfLines = 0;
         self.addressLabel.textAlignment = NSTextAlignmentLeft;
@@ -29,11 +28,11 @@
         self.modifyBtn.backgroundColor = MakeColor(79, 136, 251);
         self.modifyBtn.layer.cornerRadius = 5;
         self.modifyBtn.layer.masksToBounds = YES;
-        NSLog(@"~~%f",self.contentView.frame.size.width);
         [self.contentView addSubview:self.modifyBtn];
         
     }
     return self;
 }
+
 
 @end

@@ -19,8 +19,6 @@
     [self tableView];
 }
 - (void)viewDidUnload {
-    _footer = nil;
-    _header = nil;
     self.tableView = nil;
     [super viewDidUnload];
 }
@@ -31,36 +29,12 @@
     [self.tableView reloadData];
 }
 
-- (MJRefreshFooterView *)footer
-{
-    if (_footer == nil){
-        _footer = [MJRefreshFooterView footer];
-        _footer.scrollView = self.tableView;
-    }
-    return _footer;
-}
-
-- (MJRefreshHeaderView *) header {
-    if(_header == nil) {
-        _header = [MJRefreshHeaderView header];
-        _header.scrollView = self.tableView;
-    }
-    return _header;
-}
-
-
-- (void)doneWithView:(MJRefreshBaseView *)refreshView
-{
-    // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-    [self.tableView reloadData];
-    [refreshView endRefreshing];
-}
 
 
 - (UITableView *)tableView {
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:self.tableStyle];
-        _tableView.backgroundColor = [UIColor clearColor];
+        _tableView.backgroundColor = color_gray_f3f5f7;
         _tableView.backgroundView = nil;
         _tableView.delegate = self;
         _tableView.dataSource = self;

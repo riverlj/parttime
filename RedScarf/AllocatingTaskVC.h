@@ -9,7 +9,7 @@
 #import "BaseViewController.h"
 #import "JudgeTableViewName.h"
 
-@interface AllocatingTaskVC : BaseViewController<JudgeTableViewName>
+@interface AllocatingTaskVC : BaseViewController
 
 @property(nonatomic,assign)int num;
 @property(nonatomic,strong)UITableView *taskTableView;
@@ -26,7 +26,4 @@
 
 //判断是不是从已分配跳的界面
 @property(nonatomic,assign)int number;
-
-@property(nonatomic,assign)id<JudgeTableViewName>delegate;
-
 @end

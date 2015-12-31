@@ -14,38 +14,24 @@
     NSMutableArray *typeArr;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self comeBack:nil];
-    [super viewWillAppear:animated];
-}
 
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
     self.title = @"账单详情";
-    self.navigationController.navigationBar.hidden = NO;
-    self.tabBarController.tabBar.hidden = YES;
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = left;
     salaryArr = [NSMutableArray array];
     typeArr = [NSMutableArray arrayWithObjects:@"底薪",@"提成",@"推广费",@"奖金",@"提成调整",@"推广费调整",@"总计", nil];
+    UIView *view = [[UIView alloc] init];
+    self.tableView.tableFooterView = view;
     [self getMessage];
-    [self initTableView];
 }
 
 -(void)getMessage
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:self.deatilSalary forKey:@"date"];
     [RSHttp requestWithURL:@"/salary/date" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
-            NSLog(@"dic = %@",dic);
             if ([dic objectForKey:@"basis"]) {
                 [salaryArr addObject:[dic objectForKey:@"basis"]];
             }
@@ -72,22 +58,10 @@
         }
         [self.tableView reloadData];
     } failure:^(NSInteger code, NSString *errmsg) {
+        [self showToast:errmsg];
     }];
 }
 
-
--(void)initTableView
-{
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 20)];
-    head.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:head];
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(60, 80, kUIScreenWidth-120, kUIScreenHeigth-60)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    UIView *view = [[UIView alloc] init];
-    self.tableView.tableFooterView = view;
-    [self.view addSubview:self.tableView];
-}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

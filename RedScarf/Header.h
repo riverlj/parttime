@@ -86,4 +86,5 @@
 
 #import "RSHttp.h"
 #import "RSCategory.h"
+#import "MJRefresh.h"
 #endif

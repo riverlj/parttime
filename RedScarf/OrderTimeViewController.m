@@ -14,6 +14,7 @@
 
 @implementation OrderTimeViewController
 {
+    UIScrollView *scrollView;
     BOOL isEdited;
     NSMutableArray *dateArr;
 }
@@ -22,12 +23,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"配送时间";
-    self.view = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     isEdited = NO;
-    [self.view setBackgroundColor:[UIColor whiteColor]];
-    ((UIScrollView *)self.view).contentSize = CGSizeMake(0, kUIScreenHeigth);
-    self.view.userInteractionEnabled = YES;
-    ((UIScrollView *)self.view).scrollEnabled = YES;
+    [scrollView setBackgroundColor:color_gray_f3f5f7];
+    scrollView.contentSize = CGSizeMake(0, kUIScreenHeigth);
+    scrollView.userInteractionEnabled = YES;
+    scrollView.scrollEnabled = YES;
+    [self.view addSubview:scrollView];
     [self comeBack:nil];
     
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
@@ -55,8 +57,8 @@
             cal.delegate = self;
             top += cal.height;
             [cal setSelectedArr:[[[dic objectForKey:@"days"] componentsSeparatedByString: @","] mutableCopy]];
-            [self.view addSubview:cal];
-            ((UIScrollView *)self.view).contentSize = CGSizeMake(0, cal.bottom + 64);
+            [scrollView addSubview:cal];
+            scrollView.contentSize = CGSizeMake(0, cal.bottom + 64);
         }
         [self hidHUD];
     } failure:^(NSInteger code, NSString *errmsg) {
@@ -95,7 +97,7 @@
         return;
     }
     NSMutableArray *dataArr = [NSMutableArray array];
-    for(UIView *view in [self.view subviews]) {
+    for(UIView *view in [scrollView subviews]) {
         if([view isKindOfClass:[RSCalendar class]]) {
             RSCalendar *cal = (RSCalendar *)view;
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];

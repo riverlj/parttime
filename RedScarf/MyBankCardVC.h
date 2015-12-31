@@ -8,7 +8,9 @@
 
 #import "BaseViewController.h"
 #import "MyProtocol.h"
+#import "RSBankCardModel.h"
 
 @interface MyBankCardVC : BaseViewController<MyProtocol>
+@property(nonatomic, strong) RSBankCardModel *bankcard;
 
 @end
