@@ -155,8 +155,14 @@
     NSString *str = [NSString stringWithFormat:@"%@",model.apartmentName];
     
     CGSize size = CGSizeMake(kUIScreenWidth-80, 1000);
-    CGSize labelSize = [str sizeWithFont:label.font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    label.frame = CGRectMake(35, 12, labelSize.width, labelSize.height);
+    NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    NSDictionary *attributes = @{NSFontAttributeName:label.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
+    CGRect rect = [str boundingRectWithSize:size options:options attributes:attributes context:nil];
+
+    
+    label.frame = CGRectMake(35, 12, rect.size.width, rect.size.height);
     label.text = str;
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(label.frame.size.width+label.frame.origin.x+5, 15, 12, 12)];
@@ -213,6 +219,7 @@
         [lengthArr addObject:[NSNumber numberWithUnsignedInteger:str.length]];
         NSLog(@"str length = %lu",(unsigned long)str.length);
     }
+    str = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     //数量和餐品颜色
     NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:str];
     for (int i = 0; i < lengthArr.count; i++) {
@@ -227,12 +234,8 @@
         [noteStr addAttribute:NSForegroundColorAttributeName value:colorblue range:tagRange];
 
     }
-    
-    cell.addLabel.frame = CGRectMake(45, 0, 200, 50);
-    cell.foodLabel.frame = CGRectMake(45, cell.addLabel.frame.size.height+cell.addLabel.frame.origin.y, kUIScreenWidth-30, 40);
-    cell.addLabel.font = textFont15;
+
     cell.addLabel.text = [NSString stringWithFormat:@"%@(%@)",[model objectForKey:@"room"],[model objectForKey:@"taskNum"]];
-    cell.foodLabel.font = [UIFont systemFontOfSize:12];
     [cell setIntroductionText:noteStr];
     
     cell.btn.tag = indexPath.row;

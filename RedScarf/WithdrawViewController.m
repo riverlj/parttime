@@ -290,15 +290,16 @@
             [params setObject:[defaults objectForKey:@"uuid"] forKey:@"macAddr"];
         }
         //提现接口
+        [weakSelf showHUD:@"加载中"];
         [RSHttp payRequestWithURL:@"/pay/withdraw" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
             [weakSelf alertView:@"提现成功"];
             SubmitViewController *submitVC = [[SubmitViewController alloc] init];
             submitVC.title = @"提交";
             [weakSelf.navigationController pushViewController:submitVC animated:YES];
+            [weakSelf hidHUD];
         } failure:^(NSInteger code, NSString *errmsg) {
-            if ([[NSString stringWithFormat:@"%@",errmsg] isEqualToString:@"该账户已被锁定"] || [[NSString stringWithFormat:@"%@",errmsg] isEqualToString:@"4"]) {
-                [weakSelf alertView:@"该账户已被锁定"];
-            }else if([[NSString stringWithFormat:@"%@",errmsg] isEqualToString:@"余额不足"]){
+            [weakSelf hidHUD];
+            if ([errmsg isKindOfClass:[NSString class]]) {
                 [weakSelf alertView:@"余额不足"];
             }else{
                 UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"还有%d次输入机会",4-[errmsg intValue]] delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:@"重试", nil];

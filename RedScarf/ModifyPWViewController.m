@@ -172,7 +172,7 @@
     [RSHttp requestWithURL:@"/user/loginPwd" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
         [self alertView:@"修改成功"];
         LoginViewController *login = [[LoginViewController alloc] init];
-        [app setRoorViewController:login];
+        [app setRootViewController:login];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self alertView:errmsg];
     }];

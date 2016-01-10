@@ -8,6 +8,6 @@
 
 #import "BaseViewController.h"
 
-@interface AddMembersViewController : BaseViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,NSURLConnectionDataDelegate>
+@interface AddMembersViewController : BaseViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,NSURLConnectionDataDelegate,UITextFieldDelegate, UIActionSheetDelegate>
 
 @end

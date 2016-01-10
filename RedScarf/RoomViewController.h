@@ -8,7 +8,7 @@
 
 #import "RSTableViewController.h"
 
-@interface RoomViewController : RSTableViewController
+@interface RoomViewController : RSTableViewController<UIActionSheetDelegate>
 
 @property(nonatomic,strong)NSString *titleStr;
 @property(nonatomic,strong)NSString *aId;

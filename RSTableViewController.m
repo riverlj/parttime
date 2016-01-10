@@ -101,6 +101,10 @@
     }else {
         model = [_models objectAtIndex:indexPath.row];
     }
+    //如果设置了无点击效果,则不做任务处理
+    if(!model.isSelectable) {
+        return;
+    }
     
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     id target = [model getTarget];

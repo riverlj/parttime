@@ -6,9 +6,9 @@
 //
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 
-@interface TeamMembersViewController : BaseViewController
+@interface TeamMembersViewController : RSTableViewController<UISearchDisplayDelegate>
 @property(nonatomic,strong)UISearchBar *searchBar;
 @property(nonatomic,strong)NSArray *array;
 @property(nonatomic,strong)NSMutableArray *filteredArray;

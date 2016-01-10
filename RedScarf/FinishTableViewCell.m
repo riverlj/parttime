@@ -20,8 +20,8 @@
         [self.bgView addSubview:self.nameLabel];
         [self.bgView addSubview:self.chuLiLabel];
         [self.bgView addSubview:self.statusImage];
-        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.statusImage.bottom, self.bgView.width, 0.5)];
-        [line setBackgroundColor:color155];
+        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(self.nameLabel.left, self.statusImage.bottom, self.bgView.width - 2*self.nameLabel.left, 0.5)];
+        [line setBackgroundColor:color_gray_e8e8e8];
         [self.bgView addSubview:line];
         [self.bgView addSubview:self.telLabel];
         [self.bgView addSubview:self.foodLabel];
@@ -105,11 +105,11 @@
     if(_numberLabel) {
         return _numberLabel;
     }
-    _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.buyerLabel.left, self.foodLabel.bottom+12, self.bgView.width - self.buyerLabel.left, 25)];
+    _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.buyerLabel.left, self.foodLabel.bottom+12, self.bgView.width - self.buyerLabel.left, 40)];
     _numberLabel.textColor = MakeColor(243, 171, 64);
     _numberLabel.font = textFont12;
-    UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _numberLabel.width, 0.5)];
-    [line setBackgroundColor:color155];
+    UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _numberLabel.width - 18, 0.5)];
+    [line setBackgroundColor:color_gray_e8e8e8];
     [_numberLabel addSubview:line];
     return _numberLabel;
 }
@@ -139,10 +139,16 @@
 {
     self.foodLabel.text = text;
     CGSize size = CGSizeMake(self.foodLabel.width, 1000);
-    CGSize labelSize = [self.foodLabel.text sizeWithFont:self.foodLabel.font constrainedToSize:size lineBreakMode:NSLineBreakByClipping];
-    self.foodLabel.height = labelSize.height;
-    self.numberLabel.top = self.foodLabel.bottom + 12;
-    self.bgView.height = self.numberLabel.bottom + 15;
+
+    NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    NSDictionary *attributes = @{NSFontAttributeName:self.foodLabel.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
+    CGRect rect = [text boundingRectWithSize:size options:options attributes:attributes context:nil];
+
+    self.foodLabel.height = rect.size.height+10;
+    self.numberLabel.top = self.foodLabel.bottom;
+    self.bgView.height = self.numberLabel.bottom;
     self.height = self.bgView.height + 10;
 }
 

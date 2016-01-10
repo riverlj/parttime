@@ -22,6 +22,7 @@
     [super viewDidLoad];
     self.useHeaderRefresh = YES;
     self.useFooterRefresh = YES;
+    self.title = @"历史任务";
     self.url = @"/task/taskByStatus";
     self.status = @"";
     statusArr = [NSArray arrayWithObjects:

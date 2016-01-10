@@ -8,7 +8,7 @@
 
 #import "RSRefreshTableViewController.h"
 
-@interface FinishViewController : RSRefreshTableViewController
+@interface FinishViewController : RSRefreshTableViewController<UISearchBarDelegate>
 @property(nonatomic,strong)NSString *status;
 @property(nonatomic,strong)UISearchBar *searchBar;
 @property(nonatomic, strong)UIView *btnView;

@@ -6,11 +6,9 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSRefreshTableViewController.h"
 
-@interface SeparateViewController : BaseViewController
-@property(nonatomic,strong)NSMutableArray *dataArray;
-
-@property(nonatomic,strong) NSString *partTime;
-
+@interface SeparateViewController : RSRefreshTableViewController
+@property(nonatomic, strong) UIView  *titleView;
+@property(nonatomic, strong) UIView *footView;
 @end

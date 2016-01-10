@@ -19,7 +19,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self comeBack:nil];
-    self.view.backgroundColor = color242;
     if ([self.title isEqualToString:@"提交"]) {
         [self initView];
     }

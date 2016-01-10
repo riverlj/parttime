@@ -17,7 +17,6 @@
 @implementation LevelViewController
 {
     NSString *currentGrow,*todayGrow,*rankGrow;
-    UITableView *rankTableView;
     NSArray *rankArr,*imageArr,*growArr;
 }
 
@@ -25,7 +24,6 @@
     [super viewDidLoad];
     self.title = @"我的等级";
     [self comeBack:nil];
-    self.view.backgroundColor = color242;
     
     rankArr = [NSArray arrayWithObjects:@"等级", @"先锋队员",@"一道杠",@"两道杠",@"三道杠",@"四道杠",@"五道杠",@"老前辈", nil];
     imageArr = [NSArray arrayWithObjects:@"勋章", @"level0",@"level1",@"level2",@"level3",@"level4",@"level5",@"level6", nil];
@@ -41,7 +39,7 @@
     
     if ([defaults objectForKey:@"token"]) {
         [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
-        [self showAlertHUD:@"正在加载"];
+        [self showHUD:@"正在加载"];
         [RSHttp requestWithURL:@"/user/growth" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
             [self hidHUD];
             NSDictionary *dict = [data valueForKey:@"msg"];
@@ -87,13 +85,16 @@
 -(void)initView
 {
     RSAccountModel *account = [RSAccountModel sharedAccount];
-    UIScrollView *bgView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:bgView];
-    bgView.contentSize = CGSizeMake(0, kUIScreenHeigth*1.6);
-    bgView.userInteractionEnabled = YES;
-    bgView.tag = 1000;
+   
+    self.tableView.left = 18;
+    self.tableView.width = kUIScreenWidth - 36;
+    self.tableView.layer.cornerRadius = 5;
+    self.tableView.layer.masksToBounds = YES;
     
-    UIView *levelView = [[UIView alloc] initWithFrame:CGRectMake(18, 14, kUIScreenWidth-36, 73)];
+    
+    UIView *bgView = [[UIView alloc] init];
+    
+    UIView *levelView = [[UIView alloc] initWithFrame:CGRectMake(0, 14, self.tableView.width, 73)];
     levelView.backgroundColor = [UIColor whiteColor];
     [bgView addSubview:levelView];
 
@@ -173,18 +174,11 @@
     [label sizeToFit];
     showView.height = label.height + 26;
     [showView addSubview:label];
+    bgView.height = showView.bottom + 18;
 
-    rankTableView = [[UITableView alloc] initWithFrame:CGRectMake(levelView.left, showView.bottom+18, levelView.width, ([rankArr count] + 1) * 40)];
-    rankTableView.delegate = self;
-    rankTableView.dataSource = self;
+    self.tableView.tableHeaderView = bgView;
     UIView *foot = [[UIView alloc] init];
-    rankTableView.tableFooterView = foot;
-    rankTableView.layer.borderColor = color232.CGColor;
-    rankTableView.layer.borderWidth = 0.5;
-    rankTableView.layer.cornerRadius = 5;
-    rankTableView.layer.masksToBounds = YES;
-    [bgView addSubview:rankTableView];
-    
+    self.tableView.tableFooterView = foot;
 }
 
 -(UIImageView *) levelIconView
@@ -264,6 +258,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth-36, 40)];
+    view.backgroundColor = [UIColor whiteColor];
     [view addTapAction:@selector(toggleTableView) target:self];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(16, 14, 80, 15)];
     label.text = @"等级划分";
@@ -352,16 +347,19 @@
 
 -(void) toggleTableView
 {
-    if(rankTableView.height == 40) {
+    if([rankArr count] != 0) {
         [UIView animateWithDuration:0.5 animations:^{
-            rankTableView.height = ([rankArr count]+1) * 40;
+            self.models = [rankArr mutableCopy];
+            rankArr = [NSArray array];
+            [self.tableView reloadData];
         }];
-        [rankTableView viewWithTag:11110].transform = CGAffineTransformMakeRotation(M_PI*1/2);
+        [self.tableView viewWithTag:11110].transform = CGAffineTransformMakeRotation(M_PI*1/2);
     } else {
         [UIView animateWithDuration:0.5 animations:^{
-            rankTableView.height =  40;
+            rankArr = [self.models copy];
+            [self.tableView reloadData];
         }];
-        [rankTableView viewWithTag:11110].transform = CGAffineTransformMakeRotation(M_PI*3/2);
+        [self.tableView viewWithTag:11110].transform = CGAffineTransformMakeRotation(M_PI*3/2);
     }
 }
 

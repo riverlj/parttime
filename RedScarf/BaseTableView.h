@@ -19,8 +19,6 @@
 
 -(void)alertView:(NSString *)msg;
 
--(void)showAlertHUD:(NSString*)title;
-
 //显示加载
 - (void)showHUD:(NSString *)title;
 //隐藏加载

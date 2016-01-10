@@ -16,39 +16,41 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, kUIScreenWidth-30, self.frame.size.height-10)];
+        self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 10, kUIScreenWidth-36, 50)];
         self.backgroundColor = [UIColor whiteColor];
         self.bgImageView.layer.cornerRadius = 5;
         self.bgImageView.layer.masksToBounds = YES;
+        self.bgImageView.userInteractionEnabled = YES;
         [self.contentView addSubview:self.bgImageView];
         
-        self.addLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 200, 50)];
-        self.addLabel.font = [UIFont systemFontOfSize:18];
-        self.addLabel.textColor = MakeColor(75, 75, 75);
+        self.addLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 200, 15)];
+        self.addLabel.font = textFont15;
+        self.addLabel.textColor = color_black_333333;
+        [self.bgImageView addSubview:self.addLabel];
+
+        self.detailBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.detailBtn.frame = CGRectMake(self.bgImageView.width-60, 0, 60, 45);
+        [self.detailBtn setTitle:@"详情" forState:UIControlStateNormal];
+        [self.detailBtn setTitleColor:color_blue_5999f8 forState:UIControlStateNormal];
+        [self.bgImageView addSubview:self.detailBtn];
+
         
-        [self.contentView addSubview:self.addLabel];
-        
-        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, self.addLabel.frame.size.height+self.addLabel.frame.origin.y, kUIScreenWidth-30, 40)];
-        self.foodLabel.font = [UIFont systemFontOfSize:14];
-        self.foodLabel.textColor = MakeColor(180, 180, 180);
+        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.addLabel.left, self.addLabel.bottom + 15, self.bgImageView.width - 36, 12)];
+        self.foodLabel.font = textFont12;
         self.foodLabel.numberOfLines = 0;
-        [self.contentView addSubview:self.foodLabel];
+        [self.bgImageView addSubview:self.foodLabel];
         
         self.btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.btn.frame = CGRectMake(kUIScreenWidth/2-35, 30, 70, 30);
+        self.btn.frame = CGRectMake(0, self.foodLabel.bottom + 15, 70, 30);
+        self.btn.centerX = self.bgImageView.width/2;
+        self.btn.titleLabel.font = textFont15;
+        self.btn.titleLabel.textColor = [UIColor whiteColor];
         [self.btn setTitle:@"送达" forState:UIControlStateNormal];
         self.btn.layer.masksToBounds = YES;
         self.btn.layer.cornerRadius = 5;
         [self.btn setBackgroundColor:MakeColor(89, 146, 251)];
         [self.btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.contentView addSubview:self.btn];
-        
-        
-        self.detailBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.detailBtn.frame = CGRectMake(kUIScreenWidth-80, 20, 60, 30);
-        [self.detailBtn setTitle:@"详情" forState:UIControlStateNormal];
-        [self.detailBtn setTitleColor:MakeColor(69, 126, 251) forState:UIControlStateNormal];
-        [self.contentView addSubview:self.detailBtn];
+        [self.bgImageView addSubview:self.btn];
     }
     
     return self;
@@ -56,20 +58,16 @@
 
 -(void)setIntroductionText:(NSMutableAttributedString*)text
 {
-    CGRect frame = [self frame];
-    
-//    self.foodLabel.text = text;
     [self.foodLabel setAttributedText:text];
-    self.foodLabel.numberOfLines = 10;
-    CGSize size = CGSizeMake(kUIScreenWidth-70, 1000);
+    CGSize size = CGSizeMake(self.foodLabel.width, 1000);
     
-    CGSize labelSize = [self.foodLabel.text sizeWithFont:self.foodLabel.font constrainedToSize:size lineBreakMode:NSLineBreakByClipping];
+    NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
+    CGRect rect = [text boundingRectWithSize:size options:options context:nil];
     
-    self.foodLabel.frame = CGRectMake(self.foodLabel.frame.origin.x, self.foodLabel.frame.origin.y, labelSize.width, labelSize.height);
-    frame.size.height = labelSize.height+100;
-    self.bgImageView.frame = CGRectMake(15, 10, kUIScreenWidth-30, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+40);
-    self.btn.frame = CGRectMake(kUIScreenWidth/2-45, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+12, 90, 30);
-    self.frame = frame;
+    self.foodLabel.height = rect.size.height+10;
+    self.btn.top = self.foodLabel.bottom + 12;
+    self.bgImageView.height = self.btn.bottom + 8;
+    self.height = self.bgImageView.bottom;
 }
 
 @end

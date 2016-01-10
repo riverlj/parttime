@@ -10,7 +10,7 @@
 #import "MyProtocol.h"
 #import "RSBankCardModel.h"
 
-@interface MyBankCardVC : BaseViewController<MyProtocol>
+@interface MyBankCardVC : BaseViewController<MyProtocol, UITextFieldDelegate>
 @property(nonatomic, strong) RSBankCardModel *bankcard;
 
 @end

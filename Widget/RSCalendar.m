@@ -15,10 +15,10 @@
         self.layer.borderColor = color_gray_cccccc.CGColor;
         self.layer.borderWidth = 0.5;
         [self setTitle:@"" forState:UIControlStateDisabled];
-        [self setTitleColor:color_black_222222 forState:UIControlStateNormal];
+        [self setBackgroundColor:color_gray_f3f5f7];
+        [self setTitleColor:color_black_666666 forState:UIControlStateNormal];
         [self setTitleColor:color_gray_cccccc forState:UIControlStateDisabled];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [self setBackgroundColor:[UIColor whiteColor]];
     }
     return self;
 }
@@ -30,10 +30,10 @@
         self.layer.borderColor = color_gray_cccccc.CGColor;
         self.layer.borderWidth = 0.5;
         [self setTitle:@"" forState:UIControlStateDisabled];
-        [self setTitleColor:color_black_222222 forState:UIControlStateNormal];
+        [self setTitleColor:color_black_666666 forState:UIControlStateNormal];
         [self setTitleColor:color_gray_cccccc forState:UIControlStateDisabled];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [self setBackgroundColor:[UIColor whiteColor]];
+        [self setBackgroundColor:color_gray_f3f5f7];
     }
     return self;
 }
@@ -130,24 +130,24 @@
     [super setFrame:frame];
     cellWidth = self.width/7;
     self.contentView.width = self.width;
-    self.contentView.height = cellWidth * weeks  + cellWidth/2;
+    self.contentView.height = cellWidth * weeks  + 3*cellWidth/5;
 }
 
 -(void) setDate:(NSDate *)date
 {
     _date = date;
-    self.headView.text = [self.date stringFromDateWithFormat:@"yyyy年MM月"];
-    self.headView.frame = CGRectMake(0, 0, self.width, cellWidth/2);
-    self.contentView.frame = CGRectMake(0, self.headView.height, self.width, self.height-self.headView.height);
-    //周数
-    weeks = [self.date numberOfWeeksInCurrentMonth];
-    cellWidth = self.width/7;
-    self.contentView.width = self.width;
-    self.contentView.height = cellWidth * weeks  + cellWidth/2;
     if([_contentView superview]) {
         [_contentView removeFromSuperview];
     }
     _contentView = nil;
+    self.headView.text = [self.date stringFromDateWithFormat:@"  yyyy年MM月"];
+    //周数
+    weeks = [self.date numberOfWeeksInCurrentMonth];
+    cellWidth = self.width/7;
+    //设置日期时把之前的contentView清空
+    self.contentView.frame = CGRectMake(0, self.headView.height, self.width, self.height-self.headView.height);
+    self.contentView.width = self.width;
+    self.contentView.height = cellWidth * weeks  + cellWidth/5*3;
     [self addSubview:self.contentView];
 }
 
@@ -167,8 +167,7 @@
     if(_date) {
         return _date;
     }
-    NSString *dateString = [NSDate formatNow:@"yyyy-MM-dd"];
-    [self setDate:[NSDate dateFromString:dateString]];
+    _date = [NSDate date];
     return _date;
 }
 
@@ -177,9 +176,14 @@
     if(_headView) {
         return _headView;
     }
-    _headView = [[UILabel alloc] init];
+    _headView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, 48)];
+    UIImageView *line = [[UIImageView alloc]initWithFrame:CGRectMake(0, 15, 3, 18)];
+    [line setBackgroundColor:color_blue_5999f8];
+    [_headView addSubview:line];
     _headView.text = [self.date stringFromDateWithFormat:@"yyyy年MM月"];
-    _headView.textAlignment = NSTextAlignmentCenter;
+    _headView.textAlignment = NSTextAlignmentLeft;
+    _headView.font = textFont18;
+    _headView.textColor = color_blue_5999f8;
     _headView.backgroundColor = [UIColor clearColor];
     return _headView;
 }
@@ -191,7 +195,6 @@
         return _contentView;
     }
     _contentView = [[UIView alloc] initWithFrame:CGRectMake(0, self.headView.bottom, self.width, self.height)];
-    //[_contentView setBackgroundColor:[UIColor whiteColor]];
     NSDate *startDate = [self.date firstDayOfCurrentMonth];
     NSDate *lastDate = [self.date lastDayOfCurrentMonth];
     NSInteger delta = [startDate getWeekIntValueWithDate] - 1;
@@ -209,7 +212,7 @@
     NSDateComponents *curComp = [self.date YMDComponents];
     NSArray *dict = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六"];
     for(NSInteger i =0 ; i<[dict count]; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cellWidth, cellWidth/2)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cellWidth, 3*cellWidth/5)];
         label.backgroundColor = color_gray_e8e8e8;
         label.text = dict[i];
         label.textColor = color_black_666666;
@@ -238,7 +241,7 @@
         }
         [btn addTarget:self action:@selector(tapBtn:) forControlEvents:UIControlEventTouchUpInside];
         btn.left = j * cellWidth;
-        btn.top = i * cellWidth + cellWidth/2;
+        btn.top = i * cellWidth + cellWidth/5*3;
         [_contentView addSubview:btn];
         temp = [temp dateByAddingTimeInterval:86400];
         total ++;

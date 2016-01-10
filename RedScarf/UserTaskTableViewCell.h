@@ -9,6 +9,7 @@
 #import "RSTableViewCell.h"
 
 @interface UserTaskTableViewCell : RSTableViewCell
+@property(nonatomic, strong)UIImageView *bgView;
 @property(nonatomic,strong)UILabel *titleLabel;
 @property(nonatomic, weak) UITableViewController *delegate;
 @end

@@ -10,7 +10,6 @@
 #import "MBProgressHUD.h"
 #import "UIView+ViewController.h"
 #import "Header.h"
-#import "UIViewExt.h"
 @implementation BaseTableView
 
 /*
@@ -56,13 +55,7 @@
     [self.hud setYOffset:-40];
     self.hud.labelText = title;
 }
--(void)showAlertHUD:(NSString*)title{
-    [self.hud hide:NO];
-    self.hud.labelText = title;
-    self.hud.dimBackground = YES;
-    self.hud.mode=MBProgressHUDModeCustomView;
-    [self.hud hide:YES afterDelay:1.5];
-}
+
 //隐藏加载、
 - (void)hidHUD {
     [self.hud hide:YES];
@@ -126,4 +119,14 @@
     
 }
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+-(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    return cell;
+}
 @end

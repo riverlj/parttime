@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 
-@interface ModifyPWViewController : BaseViewController
+@interface ModifyPWViewController : BaseViewController<UITextFieldDelegate>
 
 @property(nonatomic ,strong)NSString *titleString;
 @property(nonatomic ,strong)NSString *idString;

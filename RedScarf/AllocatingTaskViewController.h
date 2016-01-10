@@ -8,11 +8,10 @@
 
 #import "RSRefreshTableViewController.h"
 
-@interface AllocatingTaskViewController : RSRefreshTableViewController
+@interface AllocatingTaskViewController : RSRefreshTableViewController<UISearchDisplayDelegate>
 
-@property(nonatomic,assign)int num;
 @property(nonatomic,strong)UISearchBar *searchBar;
-@property(nonatomic,strong)UISearchDisplayController *searchaDisplay;
+@property(nonatomic,strong)UISearchDisplayController *searchDisplay;
 @property(nonatomic,strong)NSString *aId;
 @property(nonatomic,strong)NSString *room;
 @property(nonatomic,strong)NSString *userId;

@@ -87,4 +87,5 @@
 #import "RSHttp.h"
 #import "RSCategory.h"
 #import "MJRefresh.h"
+#import "UIKit+AFNetworking.h"
 #endif

@@ -19,21 +19,10 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = color242;
         [self.contentView addSubview:self.groundImage];
-        
-        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 10, 250, 35)];
-        self.nameLabel.font = [UIFont systemFontOfSize:16];
         [self.groundImage addSubview:self.nameLabel];
-
         [self.groundImage addSubview:self.foodLabel];
-        
-
         [self.groundImage addSubview:self.numberLabel];
-        self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-120, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 110, 30)];
-        self.dateLabel.textColor = MakeColor(187, 186, 193);
-
-        self.dateLabel.font = [UIFont systemFontOfSize:12];
         [self.groundImage addSubview:self.dateLabel];
-        
         [self.groundImage addSubview:self.roundBtn];
     }
     
@@ -58,8 +47,9 @@
     if(_nameLabel) {
         return _nameLabel;
     }
-    _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 10, 250, 35)];
-    _nameLabel.font = textFont16;
+    _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(51, 10, self.groundImage.width - 51 - 15, 35)];
+    _nameLabel.font = textFont15;
+    _nameLabel.textColor = color_black_333333;
     return _nameLabel;
 }
 
@@ -68,7 +58,7 @@
     if(_groundImage) {
         return _groundImage;
     }
-    _groundImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, kUIScreenWidth-30, 115)];
+    _groundImage = [[UIImageView alloc] initWithFrame:CGRectMake(18, 15, kUIScreenWidth-36, 127)];
     _groundImage.backgroundColor = [UIColor whiteColor];
     _groundImage.layer.cornerRadius = 5;
     _groundImage.layer.masksToBounds = YES;
@@ -81,7 +71,7 @@
     if(_foodLabel) {
         return _foodLabel;
     }
-    _foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, self.nameLabel.frame.size.height+self.nameLabel.frame.origin.y, kUIScreenWidth-80, 30)];
+    _foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.nameLabel.left, self.nameLabel.bottom, self.nameLabel.width, 30)];
     _foodLabel.textColor = MakeColor(180, 180, 180);
     _foodLabel.numberOfLines = 0;
     _foodLabel.font = [UIFont systemFontOfSize:12];
@@ -94,7 +84,7 @@
     if(_dateLabel) {
         return _dateLabel;
     }
-    _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-120, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 110, 30)];
+    _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-120, self.foodLabel.bottom, 110, 30)];
     _dateLabel.textColor = MakeColor(187, 186, 193);
     _dateLabel.font = textFont12;
     return _dateLabel;
@@ -111,27 +101,25 @@
     _roundBtn.layer.cornerRadius = 10;
     _roundBtn.layer.masksToBounds = YES;
     [_roundBtn setImage:[UIImage imageNamed:@"xuanzhong"] forState:UIControlStateSelected];
-    [_roundBtn setImage:nil forState:UIControlStateNormal];
+    [_roundBtn setImage:[UIImage imageNamed:@"weixuanzhong"] forState:UIControlStateNormal];
     return _roundBtn;
 }
 
 
 -(void)setIntroductionText:(NSMutableAttributedString*)text
 {
-    CGRect frame = [self frame];
     [self.foodLabel setAttributedText:text];
+    CGSize size = CGSizeMake(self.foodLabel.width, 1000);
     
-    self.foodLabel.numberOfLines = 10;
-    CGSize size = CGSizeMake(kUIScreenWidth-75, 1000);
+    NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
+    CGRect rect = [text boundingRectWithSize:size options:options context:nil];
+    self.foodLabel.height = rect.size.height+10;
     
-    CGSize labelSize = [self.foodLabel.text sizeWithFont:self.foodLabel.font constrainedToSize:size lineBreakMode:NSLineBreakByClipping];
-    
-    self.foodLabel.frame = CGRectMake(self.foodLabel.frame.origin.x, self.foodLabel.frame.origin.y, labelSize.width, labelSize.height);
-    frame.size.height = labelSize.height+100;
-    self.dateLabel.frame = CGRectMake(kUIScreenWidth-120, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 110, 30);
-    self.numberLabel.frame = CGRectMake(45, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y, 180, 30);
-    self.groundImage.frame = CGRectMake(15, 10, kUIScreenWidth-30, self.foodLabel.frame.size.height+self.foodLabel.frame.origin.y+40);
-    self.frame = frame;
+    self.dateLabel.top = self.foodLabel.bottom;
+    self.numberLabel.top = self.dateLabel.top;
+    self.groundImage.height = self.numberLabel.bottom + 12;
+    self.roundBtn.centerY = self.groundImage.height/2;
+    self.height = self.groundImage.bottom;
 }
 
 -(void) setModel:(RSModel *)model
@@ -154,6 +142,7 @@
             [tagArr addObject:[NSNumber numberWithUnsignedInteger:tagStr.length]];
             [lengthArr addObject:[NSNumber numberWithUnsignedInteger:contentStr.length]];
         }
+        contentStr = [contentStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         //数量和餐品颜色
         NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:contentStr];
         for (int i = 0; i < lengthArr.count; i++) {

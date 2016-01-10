@@ -22,7 +22,7 @@
 @property (nonatomic,assign)UITableViewStyle tableStyle;
 @property (nonatomic,strong)NSMutableArray *models;//不含section信息
 @property (nonatomic,strong)NSMutableArray *sections;//section的title数组，数量可以小于items的组数
-@property (nonatomic,weak)id/*<MTTableViewControllerDelegate>*/ delegate;
+@property (nonatomic,weak)id<MTTableViewControllerDelegate> delegate;
 
 - (id)initWithStyle:(UITableViewStyle)tableStyle;
 @end

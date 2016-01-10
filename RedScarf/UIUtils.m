@@ -13,10 +13,6 @@
 @implementation UIUtils
 
 + (BOOL)checkPhoneNumInput:(NSString *)text{
-//    NSString *regex =@"(13[0-9]|0[1-9]|0[1-9][0-9]|0[1-9][0-9][0-9]|15[0-9]|18[02356789]|17[02356789])\\d{8}";
-//    NSPredicate *mobileTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-//    return [mobileTest evaluateWithObject:text];
-    
     NSString *phoneRegex = @"^((13[0-9])|(15[^4,\\D])|(14[0,0-9])|(17[0,0-9])|(18[0,0-9]))\\d{8}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
     return [phoneTest evaluateWithObject:text];

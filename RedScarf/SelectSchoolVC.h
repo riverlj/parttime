@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 #import "MyProtocol.h"
 
 
-@interface SelectSchoolVC : BaseViewController
+@interface SelectSchoolVC : RSTableViewController<UISearchDisplayDelegate>
 
 @property(nonatomic,strong)UITableView *schoolTableView;
 @property(nonatomic,strong)UISearchBar *searchBar;
@@ -20,6 +20,6 @@
 @property(nonatomic,strong)NSMutableArray *dataArray;
 @property(nonatomic,strong)NSMutableArray *nameArray;
 
-@property(nonatomic,assign)id<MyProtocol>delegate;
+@property(nonatomic,assign)id<MyProtocol>delegate1;
 
 @end

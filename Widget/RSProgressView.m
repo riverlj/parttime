@@ -50,23 +50,6 @@
     animation.duration = 1.0;
     animation.beginTime = CACurrentMediaTime() + 1.0;
     [self.frontView pop_addAnimation:animation forKey:@"go"];
-    /*_animatableModel = [[AnimatableModel alloc] init];
-    [_animatableModel pop_addAnimation:animation forKey:@"easeOut"];
-    POPDecayAnimation *framePOP = [POPDecayAnimation animationWithPropertyNamed:kPOPViewBounds];
-    //framePOP.springSpeed = 1.0f;
-    //framePOP.springBounciness = 5.0f;
-    //framePOP.beginTime = CACurrentMediaTime() + 1.0f;
-    framePOP.dynamicsFriction = 3.0f;
-    framePOP.dynamicsTension = 10;
-    framePOP.dynamicsMass = 1.5;
-    //framePOP.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 0, 0)];
-    //framePOP.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, self.width*self.progress, self.height)];
-    [framePOP setCompletionBlock:^(POPAnimation * anim , BOOL finish) {
-        if (finish) {
-            //self.frontView.frame = CGRectMake(0, 0, self.width*self.progress, self.height);
-        }
-    }];
-    [self.frontView pop_addAnimation:framePOP forKey:@"go"];*/
 }
 
 

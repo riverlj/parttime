@@ -6,12 +6,12 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSRefreshTableViewController.h"
 #import "ModifyMemberViewController.h"
 
 
 
-@interface MemberDetailViewController : BaseViewController<ReturnPhoneNumber>
+@interface MemberDetailViewController : RSRefreshTableViewController<ReturnPhoneNumber>
 
 @property(nonatomic,strong)NSString *memberId;
 

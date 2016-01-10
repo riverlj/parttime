@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 
 @protocol ModifyPMViewControllerDelegate <NSObject>
 
@@ -14,10 +14,10 @@
 
 @end
 
-@interface ModifyPMViewController : BaseViewController<UIPickerViewDataSource,UIPickerViewDelegate>
+@interface ModifyPMViewController : RSTableViewController<UIPickerViewDataSource,UIPickerViewDelegate>
 
 @property(nonatomic,strong) NSString *judgeStr;
-@property(nonatomic,assign)id<ModifyPMViewControllerDelegate>delegate;
+@property(nonatomic,assign)id<ModifyPMViewControllerDelegate>delegate1;
 @property(nonatomic,strong) NSString *schoolId;
 @property(nonatomic,strong)NSString *currentAddress;
 

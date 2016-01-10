@@ -8,28 +8,25 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
-#import "Header.h"
 #import "RSHttp.h"
 #import "AppDelegate.h"
 #import "UIUtils.h"
 #import "BaiduMobStat.h"
+#import "RSTipsView.h"
 
-@interface BaseViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate,UISearchDisplayDelegate,UIActionSheetDelegate,UISearchBarDelegate,UIAlertViewDelegate,UITextFieldDelegate>
+@interface BaseViewController : UIViewController<UIAlertViewDelegate>
 {
     UIView *_tipView;
 }
 
 @property(nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong)MBProgressHUD *hud;
+@property (nonatomic, strong) RSTipsView *tips;
 
 -(void)alertView:(NSString *)msg;
-
 -(void)comeBack:(UIColor *)color;
-
 -(void)navigationBar;
 
-
--(void)showAlertHUD:(NSString*)title;
 //hud
 //显示加载
 - (void)showHUD:(NSString *)title;

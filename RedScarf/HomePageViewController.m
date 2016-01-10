@@ -12,7 +12,6 @@
 #import "CheckTaskViewController.h"
 #import "PromotionViewController.h"
 #import "TeamViewController.h"
-#import "AllocatingTaskVC.h"
 #import "GoPeiSongViewController.h"
 #import "SeparateViewController.h"
 #import "OrderRangeViewController.h"
@@ -157,27 +156,11 @@
 
 -(void)getHomeMsg
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *token = [defaults objectForKey:@"token"];
-    if (token.length) {
-        [dic setObject:token forKey:@"token"];
-    }
     [RSHttp requestWithURL:@"/resource/appMenu" params:dic httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSMutableArray *tabCount = [data objectForKey:@"msg"];
-        app.array = tabCount;
-        for (NSDictionary *dic in tabCount) {
-            app.count = [NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]];
-        }
-        
-        if([data objectForKey:@"msg"]) {
-            [self initHomeView:[data objectForKey:@"msg"]];
-        }else {
-            [self alertView:@"数据错误"];
-        }
+        [self initHomeView:[data objectForKey:@"msg"]];
     } failure:^(NSInteger code, NSString *errmsg) {
-        [self alertView:errmsg];
+        [self showToast:errmsg];
     }];
 }
 
@@ -197,9 +180,7 @@
 
 -(void)getBannerView
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
     [params setObject:@"1" forKey:@"pageNum"];
     [params setObject:@"3" forKey:@"pageSize"];
     [RSHttp requestWithURL:@"/user/banners" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
@@ -219,21 +200,28 @@
         return _cycleScrollView;
     }
     _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame: CGRectMake(0, 0, kUIScreenWidth, kUIScreenWidth*300/750) imageURLStringsGroup:nil];
+    _cycleScrollView.height = 0;
     _cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     _cycleScrollView.delegate = self;
     _cycleScrollView.dotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
-    _cycleScrollView.placeholderImage = [UIImage imageNamed:@"placeholder"];
+    _cycleScrollView.backgroundColor = color_gray_f3f5f7;
     return _cycleScrollView;
 }
 
 -(void)initBannerView
 {
-    if (imagesURLStrings.count == 1) {
+    if(imagesURLStrings.count == 0) {
         self.cycleScrollView.infiniteLoop = NO;
         self.cycleScrollView.autoScroll = NO;
+        self.cycleScrollView.height = 0;
+    } else if (imagesURLStrings.count == 1) {
+        self.cycleScrollView.infiniteLoop = NO;
+        self.cycleScrollView.autoScroll = NO;
+        self.cycleScrollView.height = kUIScreenWidth*300/750;
      }else {
          self.cycleScrollView.infiniteLoop = YES;
          self.cycleScrollView.autoScroll = YES;
+         self.cycleScrollView.height = kUIScreenWidth*300/750;
      }
      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
          self.cycleScrollView.imageURLStringsGroup = imagesURLStrings;

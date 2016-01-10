@@ -23,12 +23,9 @@
 
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
     self.title = @"推广费总金额";
-    self.view.backgroundColor = [UIColor whiteColor];
     dataArray = [NSMutableArray array];
-    self.navigationController.navigationBar.hidden = NO;
-//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
-    self.tabBarController.tabBar.hidden = YES;
     [self getMessage];
     [self navigationBar];
     [self initTableView];
@@ -56,10 +53,9 @@
 
 -(void)initTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 5, kUIScreenWidth-30, kUIScreenHeigth-5)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
+    self.tableView.left = 18;
+    self.tableView.width = kUIScreenWidth - 2* self.tableView.left;
+    self.tableView.tableFooterView = [UIView new];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -136,11 +132,4 @@
     
     return cell;
 }
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-
 @end

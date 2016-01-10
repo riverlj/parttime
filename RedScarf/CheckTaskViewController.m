@@ -27,13 +27,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"查看排班";
+    [self.tips setTitle:@"排班" withImg:@"meiyoupaiban"];
     apartmentArray = [NSMutableArray array];
     userArray = [NSMutableArray array];
     dateArray = [NSMutableArray array];
     tag = 0;
     [self initTableView];
     [self getMessage];
-
 }
 
 -(void)getMessage
@@ -47,7 +47,10 @@
         [self hidHUD];
         NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
         if (![arr count]) {
-            [self.view addSubview:[self named:@"meiyoupaiban" text:@"排班"]];
+            [self.tips setFrame:CGRectMake(0, 0, self.tableView.width, self.tableView.height)];
+            [self.tableView addSubview:self.tips];
+        } else {
+            [self.tips removeFromSuperview];
         }
         
         [dateArray removeAllObjects];
@@ -67,23 +70,27 @@
 
 -(void)initTableView
 {
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 45)];
-    headView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:headView];
+    self.tableView.left = 15;
+    self.tableView.width = kUIScreenWidth - 30;
+    self.tableView.layer.cornerRadius = 5;
+    self.tableView.layer.masksToBounds = YES;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, self.tableView.width, 45)];
     
     UIButton *befBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    befBtn.frame = CGRectMake(0, 0, kUIScreenWidth/3, 45);
+    befBtn.frame = CGRectMake(0, 0, self.tableView.width/3, 45);
     [befBtn addTarget:self action:@selector(didClickBef) forControlEvents:UIControlEventTouchUpInside];
     [befBtn setTitle:@"< 前一天" forState:UIControlStateNormal];
     [headView addSubview:befBtn];
     
     UIButton *afBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    afBtn.frame = CGRectMake(kUIScreenWidth/3*2, 0, kUIScreenWidth/3, 45);
+    afBtn.frame = CGRectMake(self.tableView.width/3*2, 0, self.tableView.width/3, 45);
     [afBtn addTarget:self action:@selector(didClickAf) forControlEvents:UIControlEventTouchUpInside];
     [afBtn setTitle:@"后一天 >" forState:UIControlStateNormal];
     [headView addSubview:afBtn];
     
-    dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/3, 0, kUIScreenWidth/3,45)];
+    dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/3, 0, self.tableView.width/3,45)];
     //获取日期
     NSDate *date = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -94,15 +101,9 @@
     dateLabel.textAlignment = NSTextAlignmentCenter;
     [headView addSubview:dateLabel];
 
-    
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 119, kUIScreenWidth-30, kUIScreenHeigth-120)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.layer.cornerRadius = 5;
-    self.tableView.layer.masksToBounds = YES;
+    self.tableView.tableHeaderView = headView;
     UIView *foot = [[UIView alloc] init];
     self.tableView.tableFooterView = foot;
-    [self.view addSubview:self.tableView];
 }
 
 -(void)didClickBef
@@ -143,33 +144,24 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 45;
+    return 55;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 10;
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(15, 0, kUIScreenWidth-30, 10)];
-    footerView.backgroundColor = bgcolor;
-    
-    return footerView;
-    
-}
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     TeamModel *model = [[TeamModel alloc] init];
     model = [dateArray objectAtIndex:section];
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 45)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 55)];
     headView.backgroundColor = [UIColor whiteColor];
     headView.userInteractionEnabled = YES;
     
-    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 0, 50, 45)];
+    UIImageView *sep = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, headView.width, 10)];
+    [sep setBackgroundColor:color_gray_f3f5f7];
+    [headView addSubview:sep];
+    
+    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 10, 50, 45)];
     [headView addSubview:img];
     if (model.users.count) {
         img.image = [UIImage imageNamed:@"youren2x"];
@@ -179,11 +171,7 @@
 
     }
     
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 44, kUIScreenWidth-30, 0.6)];
-    line.backgroundColor = MakeColor(188, 188, 193);
-    [headView addSubview:line];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kUIScreenWidth, 45)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, kUIScreenWidth, 45)];
     label.text = model.apartmentName;
     [headView addSubview:label];
     
@@ -223,35 +211,10 @@
     phoneLabel.font = textFont14;
     phoneLabel.textColor = color155;
     phoneLabel.text = [dic objectForKey:@"mobilePhone"];
-    
+   
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(18, 0, tableView.width - 18, 0.6)];
+    line.backgroundColor = color_gray_e8e8e8;
+    [cell addSubview:line];
     return cell;
 }
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
-
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

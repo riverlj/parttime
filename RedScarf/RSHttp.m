@@ -101,7 +101,7 @@
         [NSUserDefaults clearValueForKey:@"token"];
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         LoginViewController *loginVC = [[LoginViewController alloc] init];
-        [app setRoorViewController:loginVC];
+        [app setRootViewController:loginVC];
     }
     NSString *errmsg = [error.userInfo valueForKey:@"NSLocalizedDescription"];
     failure(error.code, errmsg);

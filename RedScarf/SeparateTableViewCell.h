@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "RSTableViewCell.h"
 
-@interface SeparateTableViewCell : UITableViewCell
+@interface SeparateTableViewCell : RSTableViewCell
 
 @property(nonatomic,strong)UILabel *typeLabel;
 @property(nonatomic,strong)UILabel *foodLabel;

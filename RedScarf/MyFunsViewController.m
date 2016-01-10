@@ -24,8 +24,8 @@
 
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
     self.title = @"我的粉丝";
-    self.view.backgroundColor = [UIColor whiteColor];
     dataArray = [NSMutableArray array];
     pageNum = 1;
     [self getMessage];
@@ -65,18 +65,16 @@
 
 -(void)initTableView
 {
+    self.tableView.left = 18;
+    self.tableView.width = kUIScreenWidth - 2*self.tableView.left;
     UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 64, kUIScreenWidth, 40)];
     countLabel.text = @"粉丝下单累计总金额:0";
     countLabel.tag = 201;
     countLabel.textColor = MakeColor(87, 87, 87);
     countLabel.font = [UIFont systemFontOfSize:12];
-    [self.view addSubview:countLabel];
+    self.tableView.tableHeaderView = countLabel;
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 104, kUIScreenWidth-30, kUIScreenHeigth-5)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
-    
+    self.tableView.tableFooterView = [UIView new];
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMessage)];
 }
 

@@ -23,7 +23,7 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self getMessage];
+    [self beginHttpRequest];
 }
 
 
@@ -31,27 +31,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = bgcolor;
+    self.url = @"/team/user/";
     msgDictionary = [NSMutableDictionary dictionary];
     self.title = @"详细信息";
     [self comeBack:nil];
-    //[self getMessage];
-    //[self initView];
 }
 
--(void)getMessage
+
+-(void)beforeHttpRequest
 {
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValue:self.memberId forKey:@"id"];
-    [self showHUD:@"正在加载"];
-    [RSHttp requestWithURL:@"/team/user/" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        [self.view removeAllSubviews];
-        msgDictionary = [data objectForKey:@"msg"];
-        [self initView];
-        [self hidHUD];
-    } failure:^(NSInteger code, NSString *errmsg) {
-        [self alertView:errmsg];
-        [self hidHUD];
-    }];
+    [super beforeHttpRequest];
+    [self.params setValue:self.memberId forKey:@"id"];
+}
+
+-(void) afterHttpSuccess:(NSDictionary *)data
+{
+    [self.view removeAllSubviews];
+    msgDictionary = [data objectForKey:@"msg"];
+    [self initView];
 }
 
 -(void)initView
@@ -60,7 +57,9 @@
     [self.view addSubview:bgView];
     
     UIImageView *headView = [[UIImageView alloc] initWithFrame:CGRectMake(25, 25, 70, 70)];
-    headView.image = [UIImage imageNamed:@"touxiang"];
+    [headView setImageWithURL:[NSURL URLWithString:[[msgDictionary objectForKey:@"url"] urlWithHost:nil]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    headView.layer.cornerRadius = headView.width/2;
+    headView.clipsToBounds = YES;
     [bgView addSubview:headView];
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 33, 70, 35)];
@@ -141,8 +140,6 @@
             [Btn setBackgroundColor:MakeColor(85, 130, 255)];
             [Btn setTitle:@"打电话" forState:UIControlStateNormal];
             [Btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            UIImage *im = [[UIImage imageNamed:@"dianhua"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-//            img.image = im;
         }
         if (i == 1) {
             Btn.tag = 10001;
@@ -181,14 +178,13 @@
 {
     UIButton *btn = (UIButton *)sender;
     ModifyMemberViewController *modifyMemberVC = [[ModifyMemberViewController alloc] init];
-    modifyMemberVC.delegate = self;
+    modifyMemberVC.delegate1 = self;
     if (btn.tag == 1000) {
         modifyMemberVC.title = @"修改电话";
         modifyMemberVC.phoneString = [msgDictionary objectForKey:@"mobilePhone"];
          [self.navigationController pushViewController:modifyMemberVC animated:YES];
     }
     if (btn.tag == 1001) {
-//        modifyMemberVC.title = @"修改配送时间";
         OrderTimeViewController *orderTimeVC = [[OrderTimeViewController alloc] init];
         orderTimeVC.username = [msgDictionary objectForKey:@"username"];
         [self.navigationController pushViewController:orderTimeVC animated:YES];
@@ -200,25 +196,4 @@
     }
    
 }
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

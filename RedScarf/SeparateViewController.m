@@ -7,10 +7,12 @@
 //
 
 #import "SeparateViewController.h"
-#import "HeadDisTableView.h"
 #import "GoPeiSongViewController.h"
 #import "SeparateTableViewCell.h"
 #import "RSAccountModel.h"
+#import "RSRadioGroup.h"
+#import "RSSubTitleView.h"
+#import "RSTaskModel.h"
 
 @interface SeparateViewController ()
 
@@ -18,264 +20,175 @@
 
 @implementation SeparateViewController
 {
-    HeadDisTableView *headTableView;
-    RSAccountModel *model;
+    RSAccountModel *account;
+    
+    RSRadioGroup *group;
+    NSArray *btnArr;
 }
 
--(void)viewWillAppear:(BOOL)animated
+-(UIView *)titleView
 {
-    [self comeBack:nil];
-    [super viewWillAppear:animated];
+    if(_titleView) {
+        return _titleView;
+    }
+    _titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 40)];
+    _titleView.backgroundColor = [UIColor whiteColor];
+
+    _titleView.layer.borderColor = color_gray_e8e8e8.CGColor;
+    _titleView.layer.borderWidth = 1.0;
+    group = [[RSRadioGroup alloc] init];
+    
+    NSInteger i = 0;
+    for (NSDictionary *dic in btnArr) {
+        RSSubTitleView *title = [[RSSubTitleView alloc] initWithFrame:CGRectMake(0, 0, _titleView.width/[btnArr count], _titleView.height)];
+        title.left = i*title.width;
+        [title setTitle:[dic valueForKey:@"title"] forState:UIControlStateNormal];
+        [title addTarget:self action:@selector(didClickBtn:) forControlEvents:UIControlEventTouchUpInside];
+        title.tag = i;
+        [_titleView addSubview:title];
+        [group addObj:title];
+        if(i == 0) {
+            [self didClickBtn:title];
+        }
+        i ++;
+    }
+    return _titleView;
 }
 
-- (void)viewDidLoad {
+-(void) viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    model = [RSAccountModel sharedAccount];
     self.title = @"分餐点";
-    if ([model isCEO]) {
-        [self initSeparateBtn];
-        [self initView];
-    }else{
-        [self initTableView];
-        [self initBtn];
+    [self.tips setTitle:@"暂时没有餐品哦〜" withImg:@"meiyoucanpin"];
+    self.tableView.tableFooterView = [UIView new];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    account = [RSAccountModel sharedAccount];
+    
+    NSMutableDictionary *schoolDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"学校详情", @"title", @"/task/distPointMeals", @"url", @"0", @"refresh", @"1", @"pageNum", [NSMutableArray array], @"models", nil];
+    NSMutableDictionary *personDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"个人取餐", @"title", @"/task/assignedTask/content/v2", @"url", @"1", @"refresh", @"1", @"pageNum", [NSMutableArray array], @"models", nil];
+   
+    if([account isCEO]) {
+        btnArr = [NSArray arrayWithObjects:schoolDic, personDic, nil];
+    } else {
+        btnArr = [NSArray arrayWithObjects:personDic, nil];
     }
     
+    if([account isCEO]) {
+        if(![self.titleView superview]) {
+            [self.view addSubview:self.titleView];
+            self.tableView.top = self.titleView.height ;
+            self.tableView.height = kUIScreenHeigth - self.titleView.height;
+        }
+        self.tableView.tableFooterView = nil;
+    } else {
+        if([self.titleView superview]) {
+            [self.titleView removeFromSuperview];
+            self.tableView.frame = self.view.bounds;
+        }
+        self.tableView.tableFooterView = self.footView;
+    }
 }
 
--(void)initTableView
+-(void) beforeHttpRequest
 {
-    headTableView.tag = 999;
-    if ([model isCEO]) {
-         headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 124,kUIScreenWidth-20, kUIScreenHeigth-245)];
-    }else{
-         headTableView = [[HeadDisTableView alloc] initWithFrame:CGRectMake(10, 20,kUIScreenWidth-20, kUIScreenHeigth-130)];
-    }
-    
-    UIView *foot = [[UIView alloc] init];
-    headTableView.tableFooterView = foot;
-    headTableView.backgroundColor = color242;
-    [self.view addSubview:headTableView];
+    [super beforeHttpRequest];
+    [self hidHUD];
+    [self showHUD:@"加载中"];
 }
 
--(void)initSeparateBtn
+-(void) afterProcessHttpData:(NSInteger)before afterCount:(NSInteger)after
 {
-    for (int i = 0; i < 2; i++) {
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2*i, 63.5, kUIScreenWidth/2, 40)];
-        [self.view addSubview:btn];
-        
-        btn.layer.borderColor = color232.CGColor;
-        btn.layer.borderWidth = 0.5;
-        btn.backgroundColor = [UIColor whiteColor];
-        btn.titleLabel.font = textFont14;
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        
-        if (i == 0) {
-            btn.tag = 100;
-            [btn setTitleColor:colorblue forState:UIControlStateNormal];
-            [btn setTitle:@"学校详情" forState:UIControlStateNormal];
-        }
-        if (i == 1) {
-            btn.tag = 101;
-            [btn setTitle:@"个人取餐" forState:UIControlStateNormal];
-        }
-        [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:UIControlEventTouchUpInside];
-    }
+    [super afterProcessHttpData:before afterCount:after];
+    [[btnArr objectAtIndex:[group selectedIndex]] setValue:self.models forKey:@"models"];
+    [[btnArr objectAtIndex:[group selectedIndex]] setValue:[NSString stringWithFormat:@"%ld", self.pageNum] forKey:@"pageNum"];
 }
 
 -(void)didClickBtn:(id)sender
 {
-    UIButton *btn = (UIButton *)sender;
-    if (btn.tag == 100) {
-        
-        UIButton *button = (UIButton *)[self.view viewWithTag:101];
-        if ([btn.titleLabel.textColor isEqual:[UIColor blackColor]]) {
-            [btn setTitleColor:colorblue forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        }else{
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [button setTitleColor:colorblue forState:UIControlStateNormal];
+    if([sender isKindOfClass:[RSSubTitleView class]]) {
+        RSSubTitleView *title = (RSSubTitleView *) sender;
+        [group setSelectedIndex:title.tag];
+        self.url = [[btnArr objectAtIndex:title.tag] valueForKey:@"url"];
+        self.useFooterRefresh = [[[btnArr objectAtIndex:title.tag] valueForKey:@"refresh"] boolValue];
+        self.useHeaderRefresh = YES;
+        self.models = [[btnArr objectAtIndex:title.tag] valueForKey:@"models"];
+        self.pageNum = [[[btnArr objectAtIndex:title.tag] valueForKey:@"pageNum"] integerValue];
+        if([self.models count] == 0) {
+            [self beginHttpRequest];
         }
-        
-        [[self.view viewWithTag:666] removeFromSuperview];
-        [[self.view viewWithTag:777] removeFromSuperview];
-        [[self.view viewWithTag:888] removeFromSuperview];
-        [headTableView removeFromSuperview];
-        [self initView];
+        [self.tips removeFromSuperview];
     }
-    if (btn.tag == 101) {
-        UIButton *button = (UIButton *)[self.view viewWithTag:100];
-        if ([btn.titleLabel.textColor isEqual:[UIColor blackColor]]) {
-            [btn setTitleColor:colorblue forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        }else{
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [button setTitleColor:colorblue forState:UIControlStateNormal];
-        }
-        [self.tableView removeFromSuperview];
-        [self initTableView];
-        [self initBtn];
-
-    }
-}
-
--(void)initView
-{
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 104,kUIScreenWidth-20, kUIScreenHeigth-130)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    //self.tableView.backgroundColor = color242;
-    self.dataArray = [NSMutableArray array];
-    UIView *foot = [[UIView alloc] init];
-    self.tableView.tableFooterView = foot;
-    [self.view addSubview:self.tableView];
-    [self getMessage];
-}
-
--(void)getMessage
-{
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [RSHttp requestWithURL:@"/task/distPointMeals" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
-        if (![arr count]) {
-            [self.view addSubview:[self named:@"meiyoucanpin" text:@"餐品"]];
-        }
-        
-        [self.dataArray removeAllObjects];
-        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
-            [self.dataArray addObject:dic];
-        }
-        [self.tableView reloadData];
-    } failure:^(NSInteger code, NSString *errmsg) {
-    }];
-}
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return self.dataArray.count;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    NSMutableDictionary *dic = [self.dataArray objectAtIndex:section];
-    NSMutableArray *contentList = [dic objectForKey:@"contentList"];
-    return contentList.count;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 80;
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    NSMutableDictionary *dic = [self.dataArray objectAtIndex:section];
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth-20, 80)];
-    //view.backgroundColor = color242;
-    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, kUIScreenWidth-20, 30)];
-    name.text = [dic objectForKey:@"name"];
-    name.textColor = color155;
-    name.font = textFont16;
-    [view addSubview:name];
-    
-    for (int i = 0; i < 3; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/3*i, 30, (kUIScreenWidth-20)/3, 30)];
-        [view addSubview:label];
-        label.backgroundColor = color234;
-        label.textColor = color155;
-        label.font = textFont14;
-        label.textAlignment = NSTextAlignmentCenter;
-        if (i == 0) {
-            label.frame = CGRectMake(0, 50, (kUIScreenWidth-20)/5*2, 30);
-            label.text = @"套餐编号";
-        }
-        if (i == 1) {
-            label.frame = CGRectMake((kUIScreenWidth-20)/5*2, 50, (kUIScreenWidth-20)/5*2, 30);
-            label.text = @"菜品名称";
-        }
-        if (i == 2) {
-            label.frame = CGRectMake((kUIScreenWidth-20)/5*4, 50, (kUIScreenWidth-20)/5, 30);
-            label.text = @"数量";
-        }
-    }
-    return view;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SeparateTableViewCell *cell = (SeparateTableViewCell *)[self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
     
-    return cell.frame.size.height;
+    return cell.height;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//http成功返回时
+-(void) afterHttpSuccess:(NSDictionary *)data
 {
-    static NSString *identifier = @"identifier3";
-    SeparateTableViewCell *cell = [[SeparateTableViewCell alloc] init];
-    if (cell == nil) {
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    id taskData = [data objectForKey:@"msg"];
+    if([taskData isKindOfClass:[NSDictionary class]] && [taskData objectForKey:@"date"]) {
+        for (NSDictionary *dic in [taskData objectForKey:@"list"]) {
+            NSError *error ;
+            RSDistributionTaskModel *model = [MTLJSONAdapter modelOfClass:[RSDistributionTaskModel class] fromJSONDictionary:dic error:&error];
+            if([model.tasks count] > 0) {
+                [model addHeader];
+                [self.models addObject:model];
+            }
+        }
+    } else {
+        for (NSDictionary *dic in taskData) {
+            RSAssignedTaskModel *model = [MTLJSONAdapter modelOfClass:[RSAssignedTaskModel class] fromJSONDictionary:dic error:nil];
+            if([model.tasks count]>0) {
+                [model addHeader];
+                [self.models addObject:model];
+            }
+        }
     }
-    NSMutableDictionary *contentDic = [self.dataArray objectAtIndex:indexPath.section];
-    
-    NSMutableArray *contentList = [contentDic objectForKey:@"contentList"];
-    
-    if (contentList.count) {
-        NSMutableDictionary *dic = [contentList objectAtIndex:indexPath.row];
-        
-        cell.typeLabel.text = [dic objectForKey:@"tag"];
-        
-        NSString *str = [NSString stringWithFormat:@"%@",[dic objectForKey:@"content"]];
-        [cell setIntroductionText:str];
-        
-        cell.numLabel.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"count"]];
-        
-        UIView *midLineView = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/5*2, 0, 0.5, cell.foodLabel.frame.size.height)];
-        midLineView.backgroundColor = color234;
-        [cell.contentView addSubview:midLineView];
-        UIView *midLineView1 = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-20)/5*4, 0, 0.5, cell.foodLabel.frame.size.height)];
-        midLineView1.backgroundColor = color234;
-        [cell.contentView addSubview:midLineView1];
-
-    }
-    
-    return cell;
 }
 
--(void)initBtn
+-(UIView *)footView
 {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-30, kUIScreenHeigth-110, 60, 15)];
+    if(_footView) {
+        return _footView;
+    }
+    _footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 75, 149)];
+    _footView.centerX = kUIScreenWidth/2;
+    
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 54, _footView.width, 15)];
     label.textAlignment = NSTextAlignmentCenter;
-    label.tag = 666;
     label.font  =textFont12;
     label.textColor = color155;
     label.text = @"早餐领完?";
-    [self.view addSubview:label];
+    [_footView addSubview:label];
     
-    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-42, kUIScreenHeigth-90, 75, 75)];
+    
+    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, label.bottom + 5, 75, 75)];
     image.backgroundColor = MakeColor(195, 224, 250);
-    image.tag = 777;
     image.layer.cornerRadius = 37;
     image.layer.masksToBounds = YES;
-    [self.view addSubview:image];
+    [_footView addSubview:image];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [btn addTarget:self action:@selector(didClickPeiSong) forControlEvents:UIControlEventTouchUpInside];
-    btn.tag = 888;
     [btn setTitle:@"qusongcan2" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
-    btn.frame = CGRectMake(kUIScreenWidth/2-39.5, kUIScreenHeigth-87.5, 70, 70);
+    btn.frame = CGRectMake(2.5, label.bottom + 7.5, 70, 70);
     [btn setBackgroundImage:[UIImage imageNamed:@"qupeisong2x"] forState:UIControlStateNormal];
-    [self.view addSubview:btn];
+    [_footView addSubview:btn];
+    return _footView;
 }
 
 -(void)didClickPeiSong
 {
     GoPeiSongViewController *goPeiSongVC = [[GoPeiSongViewController alloc] init];
     [[BaiduMobStat defaultStat] logEvent:@"qusongcan2" eventLabel:@"button2"];
-
+    
     [self.navigationController pushViewController:goPeiSongVC animated:YES];
 }
-
-
 @end

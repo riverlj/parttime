@@ -333,7 +333,7 @@
 -(void)proBtn:(id)sender
 {
     OpenAcountProvince *openAcount = [[OpenAcountProvince alloc] init];
-    openAcount.delegate = self;
+    openAcount.delegate1 = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
     openAcount.titleString = @"开户省份";
@@ -344,7 +344,7 @@
 -(void)cityBtn:(id)sender
 {
     OpenAcountProvince *openAcount = [[OpenAcountProvince alloc] init];
-    openAcount.delegate = self;
+    openAcount.delegate1 = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
     openAcount.titleString = @"开户城市";
@@ -356,7 +356,7 @@
 -(void)bankBtn:(id)sender
 {
     OpenAcountProvince *openAcount = [[OpenAcountProvince alloc] init];
-    openAcount.delegate = self;
+    openAcount.delegate1 = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
     openAcount.titleString = @"开户银行";
@@ -368,7 +368,7 @@
 -(void)bankChildBtn:(id)sender
 {
     OpenAcountProvince *openAcount = [[OpenAcountProvince alloc] init];
-    openAcount.delegate = self;
+    openAcount.delegate1 = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
     openAcount.titleString = @"开户支行";
@@ -381,7 +381,7 @@
 {
     OpenAcountProvince *openAcount = [[OpenAcountProvince alloc] init];
     openAcount.titleString = @"账号类型";
-    openAcount.delegate = self;
+    openAcount.delegate1 = self;
     UIButton *btn = (UIButton *)sender;
     tag = btn.tag;
     [self.navigationController pushViewController:openAcount animated:YES];

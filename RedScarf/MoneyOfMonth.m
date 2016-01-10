@@ -70,9 +70,7 @@
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"已结算金额\n%@",settledSum]];
         [str addAttribute:NSForegroundColorAttributeName value:color155 range:NSMakeRange(0,5)];
         money.attributedText = str;
-        
-        //            money.text = [NSString stringWithFormat:@"已结算金额\n%@",settledSum];
-        
+                
         unsettledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"msg"] objectForKey:@"unsettledSum"]];
         UILabel *money1 = (UILabel *)[self.view viewWithTag:7777];
         money1.text = [NSString stringWithFormat:@"未结算金额\n%@",unsettledSum];
@@ -99,8 +97,6 @@
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"已结算金额\n%@",settledSum]];
         [str addAttribute:NSForegroundColorAttributeName value:color155 range:NSMakeRange(0,5)];
         money.attributedText = str;
-        
-        //            money.text = [NSString stringWithFormat:@"已结算金额\n%@",settledSum];
         
         unsettledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"msg"] objectForKey:@"unsettledSum"]];
         UILabel *money1 = (UILabel *)[self.view viewWithTag:7777];
@@ -186,8 +182,12 @@
     weijisuanLabel.textColor = color155;
     weijisuanLabel.font = textFont14;
     [midView addSubview:weijisuanLabel];
+    //[midView setBackgroundColor:[UIColor redColor]];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, midView.frame.size.height+midView.frame.origin.y+15, kUIScreenWidth-30, kUIScreenHeigth-242)];
+    self.tableView.frame = CGRectMake(15, midView.bottom - kUITabBarHeight + 15, kUIScreenWidth-30, 0);
+    self.tableView.height = kUIScreenHeigth - self.tableView.top;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    /*self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, midView.frame.size.height+midView.frame.origin.y+15, kUIScreenWidth-30, kUIScreenHeigth-242)];
    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -195,7 +195,7 @@
     self.tableView.layer.borderColor = color242.CGColor;
     UIView *foot = [[UIView alloc] init];
     self.tableView.tableFooterView = foot;
-    [self.view addSubview:self.tableView];
+    [self.view addSubview:self.tableView];*/
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

@@ -6,16 +6,16 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 @protocol ReturnPhoneNumber <NSObject>
 
 -(void)returnNumber:(NSString *)number;
 
 @end
-@interface ModifyMemberViewController : BaseViewController
+@interface ModifyMemberViewController : RSTableViewController
 
 @property(nonatomic,strong)NSString *phoneString;
 @property(nonatomic,strong)NSString *username;
-@property(nonatomic,strong)id<ReturnPhoneNumber>delegate;
+@property(nonatomic,weak)id<ReturnPhoneNumber>delegate1;
 
 @end

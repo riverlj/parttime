@@ -211,7 +211,7 @@
         [defaults setObject:app.tocken forKey:@"token"];
         [defaults synchronize];
         baseTabVC = [[BaseTabbarViewController alloc] init];
-        [app setRoorViewController:baseTabVC];
+        [app setRootViewController:baseTabVC];
     } failure:^(NSInteger code, NSString *errmsg) {
         [weakSelf hidHUD];
         [weakSelf alertView:errmsg];

@@ -27,4 +27,8 @@
 -(void) afterHttpSuccess:(NSDictionary *)data;
 // 在网络失败返回时调用该方法
 -(void) afterHttpFailure:(NSInteger)code  errmsg:(NSString *)errmsg;
+
+//常规情况下，这两个方法不需要重写
+-(void) beforeProcessHttpData;
+-(void) afterProcessHttpData:(NSInteger)before afterCount:(NSInteger) after;
 @end

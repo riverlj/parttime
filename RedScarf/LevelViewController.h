@@ -6,10 +6,10 @@
 //  Copyright © 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 #import "RSProgressView.h"
 
-@interface LevelViewController : BaseViewController
+@interface LevelViewController : RSTableViewController
 
 //进度条
 @property(nonatomic, strong) RSProgressView *progressView;

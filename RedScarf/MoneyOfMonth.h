@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 
-@interface MoneyOfMonth : BaseViewController<UIPickerViewDataSource,UIPickerViewDelegate>
+@interface MoneyOfMonth : RSTableViewController<UITextFieldDelegate>
 
 @property(nonatomic,strong)NSString *salary;
 

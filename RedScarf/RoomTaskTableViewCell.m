@@ -9,15 +9,18 @@
 #import "RoomTaskTableViewCell.h"
 #import "Model.h"
 #import "BaiduMobStat.h"
-#import "AllocatingTaskVC.h"
-
+#import "AllocatingTaskViewController.h"
 @implementation RoomTaskTableViewCell
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 12, kUIScreenWidth/2, 30)];
+        self.width = kUIScreenWidth - 36;
+        self.layer.cornerRadius = 5;
+        self.layer.masksToBounds = YES;
+        
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 9, self.width*2/5, 30)];
         self.titleLabel.numberOfLines = 0;
         self.titleLabel.textAlignment = NSTextAlignmentLeft;
         self.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -31,7 +34,7 @@
         
         self.btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self.btn setTitleColor:[UIColor  whiteColor] forState:UIControlStateNormal];
-        self.btn.frame = CGRectMake(kUIScreenWidth-115, 7, 90, 30);
+        self.btn.frame = CGRectMake(self.width-98, 7, 80, 30);
         self.btn.backgroundColor = MakeColor(79, 136, 251);
         self.btn.layer.cornerRadius = 5;
         self.btn.layer.masksToBounds = YES;
@@ -43,9 +46,15 @@
 -(void) setTitle:(NSString *)title
 {
     CGSize size = CGSizeMake(self.titleLabel.width, 30);
-    CGSize labelSize = [title sizeWithFont:self.titleLabel.font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    self.titleLabel.height = labelSize.height;
-    self.height = self.titleLabel.height + 24;
+ 
+    NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    NSDictionary *attributes = @{NSFontAttributeName:self.titleLabel.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
+    CGRect rect = [title boundingRectWithSize:size options:options attributes:attributes context:nil];
+
+    self.titleLabel.height = rect.size.height;
+    self.height = self.titleLabel.height + 32;
     self.titleLabel.centerY = self.height/2;
     self.subTitleLabel.centerY = self.height/2;
     self.btn.centerY = self.height/2;
@@ -70,11 +79,10 @@
     if(self.delegate) {
         [[BaiduMobStat defaultStat] logEvent:@"分 配" eventLabel:@"button3"];
         Model *model = (Model *) self.model;
-        AllocatingTaskVC *allocaVC = [[AllocatingTaskVC alloc] init];
+        AllocatingTaskViewController *allocaVC = [[AllocatingTaskViewController alloc] init];
         allocaVC.aId = model.aId;
         allocaVC.userId = model.userId;
-        allocaVC.num = 1;
-        allocaVC.number = 0;
+        allocaVC.room = model.room;
         [self.delegate.navigationController pushViewController:allocaVC animated:YES];
     }
 }

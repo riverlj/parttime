@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface DoPassWordViewController : BaseViewController
+@interface DoPassWordViewController : BaseViewController<UITextFieldDelegate>
 
 @property(nonatomic,strong)NSString *telNum;
 

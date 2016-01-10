@@ -118,10 +118,10 @@
             }
         }
 
-        [self.delegate returnAddress:[NSString stringWithFormat:@"%@ (%@)",name,aId] aId:aId];
+        [self.delegate1 returnAddress:[NSString stringWithFormat:@"%@ (%@)",name,aId] aId:aId];
     }else{
         dic = [self.dataArray objectAtIndex:indexPath.row];
-        [self.delegate returnAddress:[NSString stringWithFormat:@"%@ (%@)",[dic objectForKey:@"name"],[dic objectForKey:@"aId"]] aId:[dic objectForKey:@"aId"]];
+        [self.delegate1 returnAddress:[NSString stringWithFormat:@"%@ (%@)",[dic objectForKey:@"name"],[dic objectForKey:@"aId"]] aId:[dic objectForKey:@"aId"]];
 
     }
     

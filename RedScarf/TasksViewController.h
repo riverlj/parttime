@@ -8,8 +8,7 @@
 
 #import "RSRefreshTableViewController.h"
 
-@interface TasksViewController : RSRefreshTableViewController
-
-@property(nonatomic)NSInteger searchType;
+@interface TasksViewController : RSRefreshTableViewController<UISearchBarDelegate>
 @property(nonatomic,strong)UISearchBar *searchBar;
+@property(nonatomic) NSInteger searchType;
 @end

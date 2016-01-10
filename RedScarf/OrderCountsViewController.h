@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 
-@interface OrderCountsViewController : BaseViewController
+@interface OrderCountsViewController : RSTableViewController
 
 @end

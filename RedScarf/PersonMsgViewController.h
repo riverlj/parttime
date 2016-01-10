@@ -6,24 +6,19 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "ModifyPMViewController.h"
 
-@interface PersonMsgViewController : BaseViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,ModifyPMViewControllerDelegate>
+@interface PersonMsgViewController : RSTableViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,ModifyPMViewControllerDelegate, UIActionSheetDelegate>
 {
     AVCaptureSession *_AVSession;
 }
 @property (nonatomic,strong)AVCaptureSession *AVSession;
-
 @property(nonatomic,strong) NSMutableArray *personMsgArray;
-
 @property(nonatomic,strong) NSString *schoolId;
-
 @property(nonatomic,strong) NSString *position;
-
 @property(nonatomic,strong) NSString *headUrl;
-
 
 //调用相机
 - (void)didClickCamera:(id)sender;

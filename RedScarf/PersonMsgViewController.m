@@ -10,8 +10,8 @@
 #import "LoginViewController.h"
 #import "ModifyPMViewController.h"
 #import "ModifyPWViewController.h"
-#import "Base64ForImage.h"
 #import "RSAccountModel.h"
+#import "RSHeadView.h"
 
 @interface PersonMsgViewController ()
 
@@ -19,7 +19,7 @@
 
 @implementation PersonMsgViewController
 {
-    UIImageView *headView;
+    RSHeadView *headView;
     NSString *judgeGender,*headString;
 }
 
@@ -27,7 +27,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self comeBack:nil];
-    // Do any additional setup after loading the view.
     self.title = @"个人资料";
     [self initTableView];
 }
@@ -86,6 +85,7 @@
         }
         [self.tableView reloadData];
     } failure:^(NSInteger code, NSString *errmsg) {
+        [self showToast:errmsg];
     }];
 }
 
@@ -93,51 +93,27 @@
 
 -(void)initTableView
 {
-    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
-    scroll.contentSize = CGSizeMake(0, kUIScreenHeigth*1.2);
-    [self.view addSubview:scroll];
-    
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, kUIScreenWidth, 350)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = color_gray_f3f5f7;
-    UIView *view = [[UIView alloc] init];
-    self.tableView.tableFooterView = view;
-    [scroll addSubview:self.tableView];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kUIScreenWidth, 80)];
     bgView.backgroundColor = [UIColor whiteColor];
-    [scroll addSubview:bgView];
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 100, 40)];
     nameLabel.text = @"修改头像";
     nameLabel.font = textFont14;
     [bgView addSubview:nameLabel];
     
-    headView = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 5, 70, 70)];
-    if ([self.headUrl rangeOfString:@"http"].location != NSNotFound) {
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.headUrl]]];
-        headView.image = image;
-    }else{
-        headView.image = [UIImage imageNamed:@"touxiang"];
-    }
-    
-    headView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHead:)];
-    tap.numberOfTapsRequired = 1;
-    [headView addGestureRecognizer:tap];
-    headView.layer.masksToBounds = YES;
-    headView.layer.cornerRadius = 35;
+    headView = [[RSHeadView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 5, 70, 70)];
+    [headView addTapAction:@selector(didClickHead:) target:self];
     [bgView addSubview:headView];
     
-    if ([self.position isEqualToString:@"ceo"]) {
-        UIImageView *ceoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(headView.frame.origin.x+headView.frame.size.width/2-10, headView.frame.origin.y+headView.frame.size.height-8, 20, 10)];
-        ceoImageView.image = [UIImage imageNamed: @"ceo"];
-        [bgView addSubview:ceoImageView];
-    }
-    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.width, 60)];
     UIButton *loginOutBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    loginOutBtn.frame = CGRectMake(70, self.tableView.frame.size.height+self.tableView.frame.origin.y+20, kUIScreenWidth-140, 40);
+    loginOutBtn.frame = CGRectMake(70, self.tableView.height+self.tableView.y+20, kUIScreenWidth-140, 40);
+    loginOutBtn.centerX = view.width/2;
+    loginOutBtn.centerY = view.height/2;
     [loginOutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
     loginOutBtn.layer.masksToBounds = YES;
     loginOutBtn.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -145,9 +121,10 @@
     [loginOutBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [loginOutBtn setBackgroundColor:colorrede5];
     [loginOutBtn addTarget:self action:@selector(loginOut) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:loginOutBtn];
     
-    [scroll addSubview:loginOutBtn];
-    
+    self.tableView.tableHeaderView = bgView;
+    self.tableView.tableFooterView = view;
 }
 
 //更换👦
@@ -228,7 +205,7 @@
     //更换头像
     UIImage *image1 = [info objectForKey:UIImagePickerControllerEditedImage];
     
-    headView.image = image1;
+    headView.headimgView.image = image1;
     
     headString = [self image2String:image1];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -258,8 +235,7 @@
     
     NSData* pictureData = UIImageJPEGRepresentation(image,0.3);//进行图片压缩从0.0到1.0（0.0表示最大压缩，质量最低);
     
-    NSString* pictureDataString = [pictureData base64Encoding];//图片转码成为base64Encoding，
-    
+    NSString* pictureDataString = [pictureData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     return pictureDataString;
 }
 
@@ -413,7 +389,7 @@
                 modifyVC.judgeStr = @"major";
                 modifyVC.schoolId = self.schoolId;
             }
-            modifyVC.delegate = self;
+            modifyVC.delegate1 = self;
             [self.navigationController pushViewController:modifyVC animated:YES];
         }
         if (indexPath.section == 1) {
@@ -462,7 +438,7 @@
     [NSUserDefaults clearValueForKey:@"token"];
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     LoginViewController *loginVC = [[LoginViewController alloc] init];
-    [app setRoorViewController:loginVC];
+    [app setRootViewController:loginVC];
 }
 
 

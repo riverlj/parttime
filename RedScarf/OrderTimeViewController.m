@@ -51,7 +51,7 @@
         CGFloat top = 0;
         for(NSDictionary *dic in [data objectForKey:@"msg"]) {
             NSDate *date =[NSDate dateFromString:[NSString stringWithFormat:@"%@-%@-01", [dic objectForKey:@"year"], [dic objectForKey:@"month"]]];
-            RSCalendar *cal = [[RSCalendar alloc] initWithFrame:CGRectMake(18, 0, kUIScreenWidth-36, kUIScreenWidth-36)];
+            RSCalendar *cal = [[RSCalendar alloc] initWithFrame:CGRectMake(18, 0, kUIScreenWidth-36, kUIScreenWidth * 7.8/7)];
             cal.date = date;
             cal.top = top;
             cal.delegate = self;
@@ -63,7 +63,7 @@
         [self hidHUD];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self hidHUD];
-        [self alertView:errmsg];
+        [self showToast:errmsg];
     }];
 }
 

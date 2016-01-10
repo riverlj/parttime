@@ -92,7 +92,7 @@
 -(void)didClick
 {
     SelectSchoolVC *selectVC = [[SelectSchoolVC alloc] init];
-    selectVC.delegate = self;
+    selectVC.delegate1 = self;
     [self.navigationController pushViewController:selectVC animated:YES];
 }
 

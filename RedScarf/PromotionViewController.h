@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "RSTableViewController.h"
 
-@interface PromotionViewController : BaseViewController
+@interface PromotionViewController : RSTableViewController
 
 @property(nonatomic,strong)UITableView *listTableView;
 

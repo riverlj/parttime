@@ -8,7 +8,6 @@
 
 #import "BaseViewController.h"
 #import "Header.h"
-#import "UIViewExt.h"
 #import "UIView+ViewController.h"
 
 @interface BaseViewController ()
@@ -89,17 +88,10 @@
     [self.hud show:YES];
 }
 
--(void)showAlertHUD:(NSString*)title{
-    self.hud = nil;
-    self.hud.labelText = title;
-    self.hud.dimBackground = YES;
-    self.hud.mode=MBProgressHUDModeCustomView;
-    [self.hud show:YES];
-    [self.hud hide:YES afterDelay:1.5];
-}
 //隐藏加载、
 - (void)hidHUD {
     [self.hud hide:YES];
+    self.hud = nil;
 }
 
 
@@ -141,16 +133,24 @@
 
 -(void)showToast:(NSString *)str
 {
-    self.hud.yOffset = kUIScreenHeigth/2;
     self.hud.labelText = str;
     self.hud.mode = MBProgressHUDModeText;
     [self.hud showAnimated:YES whileExecutingBlock:^{
-        self.hud.yOffset = -(kUIScreenHeigth/2 - 150);
         sleep(1);
     } completionBlock:^{
         [self.hud removeFromSuperview];
         self.hud = nil;
     }];
     
+}
+
+-(RSTipsView *) tips
+{
+    if(_tips) {
+        return _tips;
+    }
+    _tips = [[RSTipsView alloc] initWithFrame:self.view.bounds];
+    [_tips setTitle:@"暂时没有数据哦" withImg:@"kongrenwu"];
+    return _tips;
 }
 @end

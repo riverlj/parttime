@@ -24,6 +24,7 @@
 
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
     self.title = @"推广总下单数";
     dataArray = [NSMutableArray array];
     [self getMessage];
@@ -61,10 +62,9 @@
 
 -(void)initTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 5, kUIScreenWidth-30, kUIScreenHeigth-5)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
+    self.tableView.left = 18;
+    self.tableView.width = kUIScreenWidth - 2*self.tableView.left;
+    self.tableView.tableFooterView = [UIView new];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

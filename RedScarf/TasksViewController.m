@@ -28,6 +28,7 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"任务";
     self.useFooterRefresh = YES;
     self.useHeaderRefresh = YES;
     btnArr = @[
@@ -36,15 +37,20 @@
             ];
     [self initButton];
     
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 115, kUIScreenWidth, 51)];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(18, 15, kUIScreenWidth, 63)];
     self.searchBar.delegate = self;
     [self.searchBar setBarTintColor:color242];
     [self.searchBar.layer setBorderColor:color242.CGColor];
     [self.searchBar.layer setBorderWidth:1.0];
     self.searchBar.placeholder = @"搜索配送人";
+    self.searchBar.backgroundColor = color_gray_f3f5f7;
+    self.searchBar.barTintColor = color_gray_f3f5f7;
+
     
     UIView *view = [[UIView alloc] init];
     self.tableView.tableFooterView = view;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView addTapAction:@selector(searchBarCancelButtonClicked:) target:self];
 }
 
 
@@ -60,14 +66,15 @@
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [self setSearchType:self.searchType];
+    [self.searchBar resignFirstResponder];
 }
 
 -(void)initButton
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 51)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 40)];
     view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view];
-    view.layer.borderColor = MakeColor(187, 186, 193).CGColor;
+    view.layer.borderColor = color_gray_e8e8e8.CGColor;
     view.layer.borderWidth = 1.0;
     group = [[RSRadioGroup alloc] init];
     
@@ -94,6 +101,7 @@
         RSSubTitleView *title = (RSSubTitleView *) sender;
         [group setSelectedIndex:title.tag];
         self.searchType = [group selectedIndex];
+        [self.tips removeFromSuperview];
     }
 }
 
@@ -108,6 +116,7 @@
         [self.params setValue:self.searchBar.text forKey:@"name"];
         self.tableView.tableHeaderView = self.searchBar;
     }
+    self.models = [NSMutableArray array];
     [self.tableView.mj_header beginRefreshing];
 
 }

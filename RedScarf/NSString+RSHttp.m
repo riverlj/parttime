@@ -103,6 +103,23 @@
     return paragrmsDict;
 }
 
+-(NSDictionary *) parseUrl
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"", @"protocol",
+                                 @"", @"path", [NSDictionary dictionary], @"params", nil];
+    NSArray *pagramArray = [self componentsSeparatedByString:@"://"];
+    NSString *tempStr;
+    if([pagramArray count] > 1) {
+        [dict setObject:pagramArray[0] forKey:@"protocol"];
+        tempStr = pagramArray[1];
+    } else {
+        tempStr = pagramArray[0];
+    }
+    [dict setObject:[tempStr parseHostFromURLString] forKey:@"path"];
+    [dict setObject:[tempStr parseURLParams] forKey:@"params"];
+    return [dict copy];
+}
+
 -(NSString *) parseHostFromURLString
 {
     NSArray *pagramArray = [self componentsSeparatedByString:@"?"];

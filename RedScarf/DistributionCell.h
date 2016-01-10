@@ -6,18 +6,13 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "RSTableViewCell.h"
 
-@interface DistributionCell : UITableViewCell
+@interface DistributionCell : RSTableViewCell
 
-@property(nonatomic,strong)UILabel *addLabel;
-@property(nonatomic,strong)UILabel *foodLabel;
-@property(nonatomic,strong)UIButton *btn;
+@property(nonatomic,strong)UILabel *nameLabel;
 @property(nonatomic,strong)UIImageView *groundImage;
-@property(nonatomic,strong)UIView *line;
-
 @property(nonatomic,strong)UILabel *rightLabel;
-
--(void)setIntroductionText:(NSString*)text;
+@property(nonatomic, strong)NSMutableArray *labelArr;
 
 @end

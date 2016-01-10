@@ -44,7 +44,6 @@
     if ([self.judgeStr isEqualToString:@"major"]) {
         self.title = @"修改学校专业";
         
-        [self initTableView];
         [self getMessage];
     }
     if ([self.judgeStr isEqualToString:@"address"]) {
@@ -57,6 +56,7 @@
         self.title = @"修改密码";
     }
     [self navigationBar];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 -(void)navigationBar
@@ -103,10 +103,8 @@
 
 -(void)getMessage
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
-    app.tocken = [UIUtils replaceAdd:app.tocken];
     url = @"/team/apartments";
     if ([self.judgeStr isEqualToString:@"major"]) {
         url = @"/user/department/";
@@ -194,13 +192,6 @@
     }
 }
 
--(void)initTableView
-{
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
-}
 
 #pragma mark -- tableViewDelegate
 
@@ -221,11 +212,9 @@
 {
     
     if ([self.judgeStr isEqualToString:@"major"]) {
-    
         //根据学院id获取专业
          NSMutableDictionary *dic = array[indexPath.row];
         [self getMajor:[dic objectForKey:@"id"]];
-        
     }
 }
 
@@ -279,9 +268,9 @@
         [self hidHUD];
         [self alertView:@"修改成功"];
         if ([self.judgeStr isEqualToString:@"name"]) {
-            [self.delegate returnString:nameTf.text gender:sex judge:@"name"];
+            [self.delegate1 returnString:nameTf.text gender:sex judge:@"name"];
         }else{
-            [self.delegate returnString:[addressArray[major] objectForKey:@"name"] gender:nil judge:@"address"];
+            [self.delegate1 returnString:[addressArray[major] objectForKey:@"name"] gender:nil judge:@"address"];
         }
         [self.navigationController popViewControllerAnimated:YES];
     } failure:^(NSInteger code, NSString *errmsg) {
@@ -410,10 +399,4 @@
     return [dic objectForKey:@"name"];
 }
 
-
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 @end

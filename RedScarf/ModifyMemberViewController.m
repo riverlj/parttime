@@ -39,6 +39,7 @@
 -(void)initView
 {
     if ([self.title isEqualToString:@"修改电话"]) {
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
 //        right.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = right;
@@ -98,12 +99,7 @@
 
 -(void)modifyRange
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth-64)];
-//    self.tableView.userInteractionEnabled = NO;
     userEnable = NO;
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
 }
 
 #pragma mark -- tableViewDelegate
@@ -198,10 +194,10 @@
             [defaults synchronize];
             
             LoginViewController *loginVC = [[LoginViewController alloc] init];
-            [app setRoorViewController:loginVC];
+            [app setRootViewController:loginVC];
         }
         
-        [self.delegate returnNumber:modifyTf.text];
+        [self.delegate1 returnNumber:modifyTf.text];
         [self.navigationController popViewControllerAnimated:YES];
         [self hidHUD];
     } failure:^(NSInteger code, NSString *errmsg) {
@@ -235,25 +231,4 @@
         [self.tableView reloadData];
     }
 }
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

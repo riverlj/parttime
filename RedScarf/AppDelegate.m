@@ -99,7 +99,7 @@
     }
 }
 
-- (void)setRoorViewController:(UIViewController *)rootVC
+- (void)setRootViewController:(UIViewController *)rootVC
 {
 
     self.window.rootViewController = rootVC;

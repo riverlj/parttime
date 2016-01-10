@@ -10,6 +10,15 @@
 
 @implementation RSModel
 
+-(instancetype) init
+{
+    self = [super init];
+    if(self) {
+        self.isSelectable = YES;
+    }
+    return self;
+}
+
 -(NSString *) getClassName
 {
     return [[self class] description];

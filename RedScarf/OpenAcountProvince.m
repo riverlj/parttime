@@ -127,10 +127,10 @@
     if ([self.title isEqualToString:@"账号类型"]) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         if ([cell.textLabel.text isEqualToString:@"对公业务"]) {
-            [self.delegate returnAddress:@"对公业务" aId:@"1"];
+            [self.delegate1 returnAddress:@"对公业务" aId:@"1"];
         }
         if ([cell.textLabel.text isEqualToString:@"对私业务"]) {
-            [self.delegate returnAddress:@"对私业务" aId:@"0"];
+            [self.delegate1 returnAddress:@"对私业务" aId:@"0"];
         }
         
     }else{
@@ -141,7 +141,7 @@
         }else{
             dic = [self.dataArray objectAtIndex:indexPath.row];
         }
-        [self.delegate returnAddress:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]] aId:[dic objectForKey:@"id"]];
+        [self.delegate1 returnAddress:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]] aId:[dic objectForKey:@"id"]];
     }
     
     [self didClickLeft];

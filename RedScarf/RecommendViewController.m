@@ -21,12 +21,9 @@
 
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
     self.title = @"我要推荐";
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.navigationController.navigationBar.hidden = NO;
-//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
-    self.tabBarController.tabBar.hidden = YES;
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     [self navigationBar];
     [self initView];
 }
@@ -82,5 +79,8 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void) didFinishGetUMSocialDataResponse:(UMSocialResponseEntity *)response
+{
 
+}
 @end

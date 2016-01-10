@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 #import "UMSocial.h"
-@interface RecommendViewController : BaseViewController<UMSocialDataDelegate,UMSocialUIDelegate>
+@interface RecommendViewController : BaseViewController<UMSocialDataDelegate,UMSocialUIDelegate, UITextFieldDelegate>
 
 @property(nonatomic,strong)NSString *code;
 

@@ -8,7 +8,6 @@
 
 #import "AddMembersViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "Base64ForImage.h"
 
 @interface AddMembersViewController ()
 
@@ -467,9 +466,7 @@
 -(NSString *) image2String:(UIImage *)image{
     
     NSData* pictureData = UIImageJPEGRepresentation(image,0.3);//进行图片压缩从0.0到1.0（0.0表示最大压缩，质量最低);
-
-    NSString* pictureDataString = [pictureData base64Encoding];//图片转码成为base64Encoding，
-
+    NSString* pictureDataString = [pictureData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     return pictureDataString;
 }
 -(NSData *) image2Data:(UIImage *) image
