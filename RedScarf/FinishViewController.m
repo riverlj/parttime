@@ -27,8 +27,8 @@
     self.status = @"";
     statusArr = [NSArray arrayWithObjects:
                 @{@"name":@"全  部", @"status":@""},
-                @{@"name":@"已完成", @"status":@"FINISHED"},
-                @{@"name":@"未完成", @"status":@"UNDELIVERED"}
+                @{@"name":@"已送达", @"status":@"FINISHED"},
+                @{@"name":@"未送达", @"status":@"UNDELIVERED"}
                  , nil];
     self.hideBtnView = YES;
     
@@ -37,10 +37,11 @@
     [self.searchBar.layer setBorderColor:MakeColor(241, 241, 241).CGColor];
     [self.searchBar.layer setBorderWidth:1.0];
     self.searchBar.delegate = self;
-    self.searchBar.placeholder = @"请输入用户手机号搜索";
+    self.searchBar.placeholder = @"根据收货人手机号搜索";
+    self.searchBar.barTintColor = color_gray_f3f5f7;
+    self.searchBar.backgroundColor = color_gray_f3f5f7;
     self.searchBar.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    [self.searchBar setBarTintColor:MakeColor(241, 241, 241)];
-
+    
     UIView *foot = [[UIView alloc] init];
     self.tableView.tableFooterView = foot;
     self.tableView.tableHeaderView = self.searchBar;
@@ -48,8 +49,25 @@
     [self.tableView.mj_header beginRefreshing];
     [self.tableView addTapAction:@selector(searchBarCancelButtonClicked:) target:self];
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithTitle:@"全 部" style:UIBarButtonItemStylePlain target:self action:@selector(didClickRight:)];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
     self.navigationItem.rightBarButtonItem = item;
+}
+
+-(UIButton *)rightBtn
+{
+    if(_rightBtn) {
+        return _rightBtn;
+    }
+    _rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _rightBtn.frame = CGRectMake(0, 0, 74, 44);
+    _rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    [_rightBtn setTitle:@"全  部" forState:UIControlStateNormal];
+    [_rightBtn setTitleColor:color_black_666666 forState:UIControlStateNormal];
+    _rightBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 57, 0, -57);
+    _rightBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -17, 0, 17);
+    [_rightBtn setImage:[UIImage imageNamed:@"shaixuan"] forState:UIControlStateNormal];
+    [_rightBtn addTarget:self action:@selector(didClickRight:) forControlEvents:UIControlEventTouchUpInside];
+    return _rightBtn;
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -100,6 +118,11 @@
     }
     [super afterHttpSuccess:data];
 }
+
+-(void) afterProcessHttpData:(NSInteger)before afterCount:(NSInteger)after
+{
+    [super afterProcessHttpData:before afterCount:after];
+ }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -157,7 +180,7 @@
 -(void)statusSelected:(id)sender
 {
     UIButton *btn = (UIButton *)sender;
-    self.navigationItem.rightBarButtonItem.title = btn.titleLabel.text;
+    [self.rightBtn setTitle:btn.titleLabel.text forState:UIControlStateNormal];
     for(NSDictionary *dic in statusArr) {
         if([[dic objectForKey:@"name"] isEqualToString:btn.titleLabel.text]) {
             self.status = [dic objectForKey:@"status"];

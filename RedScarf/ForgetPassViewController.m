@@ -125,8 +125,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:tf.text forKey:@"mobilePhone"];
     [params setObject:tf1.text forKey:@"validCode"];
-    [params setObject:tf2.text forKey:@"newPwd"];
-    [params setObject:tf3.text forKey:@"reNewPwd"];
+    [params setObject:[tf2.text sha1] forKey:@"newPwd"];
+    [params setObject:[tf3.text sha1] forKey:@"reNewPwd"];
     [RSHttp requestWithURL:@"/user/password" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
         [self alertView:@"修改成功"];
         [self.navigationController popViewControllerAnimated:YES];

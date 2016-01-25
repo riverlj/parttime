@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RSTableViewCell.h"
+#import "RSCatchline.h"
 
 @interface FinishTableViewCell : RSTableViewCell
 
@@ -19,7 +20,7 @@
 @property(nonatomic,strong)UILabel *addressLabel;
 @property(nonatomic,strong)UILabel *foodLabel;
 @property(nonatomic,strong)UILabel *numberLabel;
-@property(nonatomic, strong) UIImageView *statusImage;
+@property(nonatomic, strong) RSCatchline *statusImage;
 
 -(void)setIntroductionText:(NSString*)text;
 

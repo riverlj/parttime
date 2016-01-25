@@ -134,6 +134,10 @@
     if(after == 0) {
         if(![self.tips superview]) {
             [self.tips setFrame:CGRectMake(0, 0, self.tableView.width, self.tableView.height)];
+            //修改tips 的位置，防止遮住搜索框等表格头
+            if(self.tableView.tableHeaderView) {
+                self.tips.top = self.tableView.tableHeaderView.height;
+            }
             [self.tableView addSubview:self.tips];
         }
     } else {

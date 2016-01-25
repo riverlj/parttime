@@ -51,9 +51,14 @@
 #define color_gray_e8e8e8 MakeColor(0xe8, 0xe8, 0xe8)
 //主要用于背景色
 #define color_gray_f3f5f7 MakeColor(0xf3, 0xf5, 0xf7)
+//灰色标题色
+#define color_gray_eeeedf2 MakeColor(0xee, 0xee, 0xf2)
 
+
+#define color_blue_287dd8 MakeColor(0x28, 0x7d, 0xd8)
 //常规红色
 #define color_red_e54545 MakeColor(0xe5, 0x45, 0x45)
+#define color_red_f9494b MakeColor(0xf9, 0x49, 0x4b)
 //常规绿色
 #define color_green_65cb99 MakeColor(0x65, 0xcb, 0x99)
 
@@ -66,6 +71,7 @@
 #define textFont8 [UIFont systemFontOfSize:8]
 #define textFont10 [UIFont systemFontOfSize:10]
 #define textFont12 [UIFont systemFontOfSize:12]
+#define textFont13 [UIFont systemFontOfSize:13]
 #define textFont14 [UIFont systemFontOfSize:14]
 #define textFont15 [UIFont systemFontOfSize:15]
 #define textFont16 [UIFont systemFontOfSize:16]
@@ -87,5 +93,5 @@
 #import "RSHttp.h"
 #import "RSCategory.h"
 #import "MJRefresh.h"
-#import "UIKit+AFNetworking.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 #endif

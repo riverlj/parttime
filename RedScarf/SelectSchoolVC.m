@@ -23,7 +23,6 @@
     [self comeBack:nil];
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
     self.searchBar.placeholder = @"搜索配送人/楼栋";
-//    [self.searchBar setBarTintColor:MakeColor(244, 245, 246)];
     self.searchaDisplay = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     self.searchaDisplay.searchResultsDelegate = self;
     self.searchaDisplay.searchResultsDataSource = self;

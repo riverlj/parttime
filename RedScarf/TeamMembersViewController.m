@@ -20,13 +20,17 @@
     NSMutableArray *nameArray;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self getMessage];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"团队成员";
     [self comeBack:nil];
-    self.navigationController.navigationBar.hidden = NO;
-    self.tabBarController.tabBar.hidden = YES;
     //添加成员
     UIImage *img= [[UIImage imageNamed:@"addmember"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(addMember)];
@@ -34,14 +38,13 @@
     listArray = [NSMutableArray array];
     nameArray = [NSMutableArray array];
     [self initTableView];
-    [self getMessage];
 }
 
 -(void)addMember
 {
     AddMembersViewController *addMembersVC = [[AddMembersViewController alloc] init];
-    [self presentViewController:addMembersVC animated:YES completion:nil];
-//    [self.navigationController pushViewController:addMembersVC animated:YES];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addMembersVC];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 -(void)getMessage
@@ -73,7 +76,7 @@
 -(void)initTableView
 {
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
-    self.searchBar.placeholder = @"搜索";
+    self.searchBar.placeholder = @"根据姓名／手机号码搜索";
     [self.searchBar.layer setBorderColor:color242.CGColor];
     [self.searchBar.layer setBorderWidth:1.0];
     [self.searchBar setBarTintColor:color242];
@@ -82,9 +85,6 @@
     self.searchaDisplay.searchResultsDataSource = self;
     self.searchaDisplay.delegate = self;
 
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     self.tableView.tableHeaderView = self.searchBar;
     [self.view addSubview:self.tableView];
 }
@@ -107,11 +107,11 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        cell = [[UITableViewCell alloc] init];
     }
-
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     NSMutableDictionary *dic;
     
     UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kUIScreenWidth-100, 40)];
@@ -141,14 +141,12 @@
     }
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(kUIScreenWidth-55, 20, 0.5, 20)];
-    line.backgroundColor = color155;
+    line.backgroundColor = color_gray_e8e8e8;
     [cell.contentView addSubview:line];
     
     UIImageView *detail = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-40, 20, 20, 20)];
-    detail.image = [UIImage imageNamed:@"xiangqing"];
+    detail.image = [UIImage imageNamed:@"icon_info"];
     [cell.contentView addSubview:detail];
-    
-    
     return cell;
 }
 
@@ -204,20 +202,5 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -18,8 +18,8 @@
         self.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor clearColor];
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 15, 200, 16)];
-        self.titleLabel.textColor  = color155;
-        self.titleLabel.font = textFont16;
+        self.titleLabel.textColor  = color_black_333333;
+        self.titleLabel.font = textFont15;
         [self.contentView addSubview:self.titleLabel];
         
         UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.titleLabel.top, 3, self.titleLabel.height)];

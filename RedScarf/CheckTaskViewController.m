@@ -8,6 +8,7 @@
 
 #import "CheckTaskViewController.h"
 #import "TeamModel.h"
+#import "RSCatchline.h"
 
 @interface CheckTaskViewController ()
 
@@ -20,6 +21,7 @@
     NSMutableArray *dateArray;
     int tag;
     UILabel *dateLabel;
+    NSDate *curDate;
 }
 
 
@@ -76,16 +78,17 @@
     self.tableView.layer.masksToBounds = YES;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, self.tableView.width, 45)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 45)];
+    [headView setBackgroundColor:[UIColor whiteColor]];
     
     UIButton *befBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    befBtn.frame = CGRectMake(0, 0, self.tableView.width/3, 45);
+    befBtn.frame = CGRectMake(0, 0, kUIScreenWidth/3, 45);
     [befBtn addTarget:self action:@selector(didClickBef) forControlEvents:UIControlEventTouchUpInside];
     [befBtn setTitle:@"< 前一天" forState:UIControlStateNormal];
     [headView addSubview:befBtn];
     
     UIButton *afBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    afBtn.frame = CGRectMake(self.tableView.width/3*2, 0, self.tableView.width/3, 45);
+    afBtn.frame = CGRectMake(kUIScreenWidth/3*2, 0, kUIScreenWidth/3, 45);
     [afBtn addTarget:self action:@selector(didClickAf) forControlEvents:UIControlEventTouchUpInside];
     [afBtn setTitle:@"后一天 >" forState:UIControlStateNormal];
     [headView addSubview:afBtn];
@@ -100,8 +103,10 @@
     dateLabel.text = dateStr;
     dateLabel.textAlignment = NSTextAlignmentCenter;
     [headView addSubview:dateLabel];
-
-    self.tableView.tableHeaderView = headView;
+    [self.view addSubview:headView];
+    
+    self.tableView.top = headView.height;
+    self.tableView.height = kUIScreenHeigth - headView.height;
     UIView *foot = [[UIView alloc] init];
     self.tableView.tableFooterView = foot;
 }
@@ -161,17 +166,15 @@
     [sep setBackgroundColor:color_gray_f3f5f7];
     [headView addSubview:sep];
     
-    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 10, 50, 45)];
-    [headView addSubview:img];
-    if (model.users.count) {
-        img.image = [UIImage imageNamed:@"youren2x"];
-
-    }else{
-        img.image = [UIImage imageNamed:@"wurn2x"];
-
+    RSCatchline *cacheLine = [[RSCatchline alloc] initWithFrame:CGRectMake(self.tableView.width - 50, 10, 50, 45)];
+    if(model.users.count) {
+        [cacheLine setTitle:@"有人" withBgColor:color_blue_5999f8];
+    } else {
+        [cacheLine setTitle:@"无人" withBgColor:color_red_e54545];
     }
+    [headView addSubview:cacheLine];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, kUIScreenWidth, 45)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, kUIScreenWidth-36 - 15 - cacheLine.width/2, 45)];
     label.text = model.apartmentName;
     [headView addSubview:label];
     
@@ -182,7 +185,6 @@
 {
     TeamModel *model = [[TeamModel alloc] init];
     model = [dateArray objectAtIndex:section];
-    NSLog(@"model.users.count= %lu  sectin = %ld",(unsigned long)model.users.count,(long)section);
     return model.users.count;
 }
 
@@ -198,7 +200,7 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     TeamModel *model = [[TeamModel alloc] init];
     model = [dateArray objectAtIndex:indexPath.section];
     
@@ -212,7 +214,7 @@
     phoneLabel.textColor = color155;
     phoneLabel.text = [dic objectForKey:@"mobilePhone"];
    
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(18, 0, tableView.width - 18, 0.6)];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 0.6)];
     line.backgroundColor = color_gray_e8e8e8;
     [cell addSubview:line];
     return cell;

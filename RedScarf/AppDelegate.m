@@ -61,6 +61,7 @@
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];
             dic = [data objectForKey:@"body"];
             NSString *versionStr = [dic objectForKey:@"version"];
+            NSString *content = [dic objectForKey:@"content"];
             
             //当前版本
             NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
@@ -69,7 +70,7 @@
             updateUrl = [dic objectForKey:@"url"];
 
             if (![versionStr isEqualToString:app_Version]) {
-                UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
+                UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
                 [aler show];
             }
         } failure:^(NSInteger code, NSString *errmsg) {

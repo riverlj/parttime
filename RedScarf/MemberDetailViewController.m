@@ -9,7 +9,7 @@
 #import "MemberDetailViewController.h"
 #import "ModifyMemberViewController.h"
 #import "OrderTimeViewController.h"
-
+#import "RSUIView.h"
 @interface MemberDetailViewController ()
 
 @end
@@ -57,7 +57,7 @@
     [self.view addSubview:bgView];
     
     UIImageView *headView = [[UIImageView alloc] initWithFrame:CGRectMake(25, 25, 70, 70)];
-    [headView setImageWithURL:[NSURL URLWithString:[[msgDictionary objectForKey:@"url"] urlWithHost:nil]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    [headView sd_setImageWithURL:[NSURL URLWithString:[[msgDictionary objectForKey:@"url"] urlWithHost:nil]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
     headView.layer.cornerRadius = headView.width/2;
     headView.clipsToBounds = YES;
     [bgView addSubview:headView];
@@ -83,45 +83,34 @@
     addressLabel.text = [[msgDictionary objectForKey:@"apartment"] objectForKey:@"name"];
     [bgView addSubview:addressLabel];
     
+    
     for (int i = 0; i < 3; i++) {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        btn.frame = CGRectMake(0, 110+i*51, kUIScreenWidth, 50);
-        btn.backgroundColor = [UIColor whiteColor];
-        btn.titleLabel.textAlignment = NSTextAlignmentLeft;
-        [bgView addSubview:btn];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 110+i*51, 70, 50)];
-        label.textAlignment = NSTextAlignmentLeft;
-        label.font = textFont16;
-        [bgView addSubview:label];
-        
-        UIImageView *detailView = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-30,  110+i*51+18, 10, 15)];
-        detailView.image = [UIImage imageNamed:@"you2x"];
-        [bgView addSubview:detailView];
-        
-        if (i == 0) {
-            btn.tag = 1000;
-            UILabel *telLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-140, 110, 110, 50)];
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"TableViewCell"];
+        cell.tag = 1000 + i;
+        cell.height = 50;
+        cell.width = kUIScreenWidth;
+        cell.top = i*50 + 110;
+        cell.textLabel.textColor = color_black_333333;
+        [cell setBackgroundColor:[UIColor whiteColor]];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if(i==0) {
+            [cell addSubview:[RSUIView lineWithFrame:CGRectMake(0, 0, kUIScreenWidth, 0.5)]];
+            cell.textLabel.text = @"电话";
             if (phoneText.length) {
-                telLabel.text = phoneText;
+                cell.detailTextLabel.text = phoneText;
             }else{
-                telLabel.text = [msgDictionary objectForKey:@"mobilePhone"];
+                cell.detailTextLabel.text = [msgDictionary objectForKey:@"mobilePhone"];
             }
-            
-            telLabel.font = textFont14;
-            telLabel.textColor = MakeColor(193, 193, 193);
-            [bgView addSubview:telLabel];
-            label.text = @"电话";
+        } else if(i==1) {
+            [cell addSubview:[RSUIView lineWithFrame:CGRectMake(18, 0, kUIScreenWidth, 0.5)]];
+            cell.textLabel.text = @"配送时间";
+        } else {
+            [cell addSubview:[RSUIView lineWithFrame:CGRectMake(18, 0, kUIScreenWidth, 0.5)]];
+            cell.textLabel.text = @"配送范围";
+            [cell addSubview:[RSUIView lineWithFrame:CGRectMake(0, cell.height - 0.5, kUIScreenWidth, 0.5)]];
         }
-        if (i == 1) {
-            btn.tag = 1001;
-            label.text = @"配送时间";
-        }
-        if (i == 2) {
-            btn.tag = 1002;
-            label.text = @"配送范围";
-        }
-        [btn addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell addTapAction:@selector(didClick:) target:self];
+        [bgView addSubview:cell];
     }
     
     for (int i = 0; i < 2; i++) {
@@ -143,7 +132,6 @@
         }
         if (i == 1) {
             Btn.tag = 10001;
-            img.image = [UIImage imageNamed:@"duanxin"];
             [Btn setBackgroundColor:[UIColor whiteColor]];
             [Btn setTitle:@"发短信" forState:UIControlStateNormal];
             [Btn setTitleColor:color155 forState:UIControlStateNormal];
@@ -176,7 +164,7 @@
 
 -(void)didClick:(id)sender
 {
-    UIButton *btn = (UIButton *)sender;
+    UIView *btn = ((UITapGestureRecognizer *)sender).view;
     ModifyMemberViewController *modifyMemberVC = [[ModifyMemberViewController alloc] init];
     modifyMemberVC.delegate1 = self;
     if (btn.tag == 1000) {

@@ -13,13 +13,16 @@
 #import "TransactionViewController.h"
 #import "DoPassWordViewController.h"
 #import "BankCardsViewController.h"
+#import "RSBankCardModel.h"
+#import "MyBankCardVC.h"
 
-@interface WithdrawViewController ()<ZCTradeViewDelegate,UIAlertViewDelegate,UITextFieldDelegate>
+@interface WithdrawViewController ()<ZCTradeViewDelegate,UIAlertViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (nonatomic,strong)ZCTradeView *zctView;
 @property (nonatomic,copy)NSString *str;
 @property (nonatomic,copy)NSString *cardId;
 @property (nonatomic,assign) int passWordNum;
+@property (nonatomic, strong) UIView *pickerView;
 
 @end
 
@@ -28,10 +31,11 @@
     UITextField *input;
     UIView *bgBlackView;
     UIView *promptView;
-//    __block int passWordNum;
     BOOL moreTimesOrNo;
     NSString *cardNum;
-//    __block NSString *cardId;
+    UILabel *mLabel;
+    NSArray *bankCards;
+    UILabel *cardLabel;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -43,6 +47,26 @@
     } failure:^(NSInteger code, NSString *errmsg) {
         [self alertView:errmsg];
     }];
+    mLabel.text = [NSString stringWithFormat:@"¥%.2f",[self.salary floatValue]/100];
+    //获取cardList
+    [RSHttp payRequestWithURL:@"/account/queryBankCard" params:@{} httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self hidHUD];
+        bankCards = [NSMutableArray array];
+        if([data objectForKey:@"body"]) {
+            NSError *error;
+            bankCards = [NSArray arrayWithArray:[MTLJSONAdapter modelsOfClass:[RSBankCardModel class] fromJSONArray:[data objectForKey:@"body"] error:&error]];
+            if([bankCards count]) {
+                if(!cardNum || [cardNum isEqualToString:@""]) {
+                    cardNum = [NSString stringWithFormat:@"%@",[[[data objectForKey:@"body"] objectAtIndex:0] objectForKey:@"cardNum"]];
+                    self.cardId = [NSString stringWithFormat:@"%@",[[[data objectForKey:@"body"] objectAtIndex:0] objectForKey:@"id"]];
+                }
+            }
+        }
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
+        [self showToast:errmsg];
+    }];
+
     [super viewWillAppear:animated];
 }
 
@@ -58,6 +82,29 @@
     [self getCardMsg];
 }
 
+-(UIView *)pickerView
+{
+    if(_pickerView) {
+        return _pickerView;
+    }
+    _pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth-216, kUIScreenWidth, 216)];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, _pickerView.width, 40);
+    [btn setBackgroundColor:color_blue_5999f8];
+    [btn setTitle:@"确定" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(removePicker) forControlEvents:UIControlEventTouchUpInside];
+    [_pickerView addSubview:btn];
+
+    UIPickerView *pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, btn.bottom, _pickerView.width, _pickerView.height-btn.bottom)];
+    pickerView.userInteractionEnabled = YES;
+    pickerView.delegate = self;
+    pickerView.dataSource = self;
+    pickerView.backgroundColor = [UIColor whiteColor];
+    [_pickerView addSubview:pickerView];
+    return _pickerView;
+}
+
 //获取银行卡信息
 -(void)getCardMsg
 {
@@ -67,6 +114,7 @@
 
     [RSHttp payRequestWithURL:@"/account/queryBankCard" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSArray *arr = [data objectForKey:@"body"];
+        cardNum = @"";
         if (arr.count) {
             cardNum = [NSString stringWithFormat:@"%@",[[[data objectForKey:@"body"] objectAtIndex:0] objectForKey:@"cardNum"]];
             self.cardId = [NSString stringWithFormat:@"%@",[[[data objectForKey:@"body"] objectAtIndex:0] objectForKey:@"id"]];
@@ -95,12 +143,12 @@
     showLabel.font = textFont14;
     [bgView addSubview:showLabel];
     
-    UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width/2-40, 25, 80, 31)];
-    moneyLabel.text = [NSString stringWithFormat:@"¥%.2f",[self.salary floatValue]/100];
-    moneyLabel.textColor = colorgreen65;
-    moneyLabel.textAlignment = NSTextAlignmentCenter;
-    moneyLabel.font = textFont14;
-    [bgView addSubview:moneyLabel];
+    mLabel = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width/2-40, 25, 80, 31)];
+    mLabel.text = [NSString stringWithFormat:@"¥%.2f",[self.salary floatValue]/100];
+    mLabel.textColor = colorgreen65;
+    mLabel.textAlignment = NSTextAlignmentCenter;
+    mLabel.font = textFont14;
+    [bgView addSubview:mLabel];
     
     for (int i = 0; i < 4; i++) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, (bgView.frame.size.height+bgView.frame.origin.y+18)+(i*50), kUIScreenWidth, 50)];
@@ -149,6 +197,7 @@
             [self.view addSubview:plainLabel];
         }
         if (i == 2) {
+            cardLabel = label;
             label.text = [NSString stringWithFormat:@"    银行卡：%@",cardNum];
             label.userInteractionEnabled = YES;
             label.backgroundColor = [UIColor whiteColor];
@@ -200,8 +249,16 @@
 
 -(void)selectBank
 {
-    BankCardsViewController *bankcards = [[BankCardsViewController alloc] init];
-    [self.navigationController pushViewController:bankcards animated:YES];
+    //如果当前没有银行卡，跳转到银行卡添加页
+    if([bankCards count] <= 0) {
+        MyBankCardVC *vc = [MyBankCardVC new];
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+    if(![self.pickerView superview]) {
+        [self.view addSubview:self.pickerView];
+    }
+    [input resignFirstResponder];
 }
 
 -(void)didClickTianXianJILu
@@ -286,23 +343,23 @@
         [params setObject:passWord forKey:@"payPwd"];
         [params setObject:money forKey:@"totalFee"];
         [params setObject:weakSelf.cardId forKey:@"bankCardId"];
-        if ([defaults objectForKey:@"uuid"]) {
-            [params setObject:[defaults objectForKey:@"uuid"] forKey:@"macAddr"];
-        }
+        [params setObject:[UIDevice utm_content] forKey:@"macAddr"];
+        
         //提现接口
         [weakSelf showHUD:@"加载中"];
         [RSHttp payRequestWithURL:@"/pay/withdraw" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
             [weakSelf alertView:@"提现成功"];
             SubmitViewController *submitVC = [[SubmitViewController alloc] init];
             submitVC.title = @"提交";
+            weakSelf.salary = [NSString stringWithFormat:@"%0.2f", [self.salary floatValue] - [[params objectForKey:@"totalFee"] floatValue]];
             [weakSelf.navigationController pushViewController:submitVC animated:YES];
             [weakSelf hidHUD];
         } failure:^(NSInteger code, NSString *errmsg) {
             [weakSelf hidHUD];
             if ([errmsg isKindOfClass:[NSString class]]) {
-                [weakSelf alertView:@"余额不足"];
+                [weakSelf alertView:errmsg];
             }else{
-                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"还有%d次输入机会",4-[errmsg intValue]] delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:@"重试", nil];
+                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"还有%d次输入机会",[errmsg intValue]] delegate:blockSelf cancelButtonTitle:@"确定" otherButtonTitles:@"重试", nil];
                 weakSelf.passWordNum--;
                 [al show];
             }
@@ -431,37 +488,38 @@
     [super viewWillDisappear:animated];
 }
 
-//判断日期是今天，昨天还是明天
--(NSString *)compareDate:(NSDate *)date{
-    
-    NSTimeInterval secondsPerDay = 24 * 60 * 60;
-    NSDate *today = [[NSDate alloc] init];
-    NSDate *tomorrow, *yesterday;
-    
-    tomorrow = [today dateByAddingTimeInterval: secondsPerDay];
-    yesterday = [today dateByAddingTimeInterval: -secondsPerDay];
-    
-    // 10 first characters of description is the calendar date:
-    NSString * todayString = [[today description] substringToIndex:10];
-    NSString * yesterdayString = [[yesterday description] substringToIndex:10];
-    NSString * tomorrowString = [[tomorrow description] substringToIndex:10];
-    
-    NSString * dateString = [[date description] substringToIndex:10];
-    
-    if ([dateString isEqualToString:todayString])
-    {
-        return @"今天";
-    } else if ([dateString isEqualToString:yesterdayString])
-    {
-        return @"昨天";
-    }else if ([dateString isEqualToString:tomorrowString])
-    {
-        return @"明天";
-    }
-    else
-    {
-        return dateString;
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return bankCards.count;
+}
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    RSBankCardModel *model = bankCards[row];
+    if([model.cardNum length] >= 4) {
+        return [NSString stringWithFormat:@"%@(%@)", model.bankName, [model.cardNum substringFromIndex:(model.cardNum.length - 4)]];
+    } else {
+        return [NSString stringWithFormat:@"%@(%@)", model.bankName, model.cardNum];
     }
 }
 
+-(void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if([bankCards count] > 0) {
+        RSBankCardModel *model = bankCards[row];
+        self.cardId = [NSString stringWithFormat:@"%ld", model.id];
+        cardNum = model.cardNum;
+    }
+}
+
+-(void) removePicker
+{
+    [self.pickerView removeFromSuperview];
+    cardLabel.text = [NSString stringWithFormat:@"    银行卡：%@",cardNum];
+}
 @end

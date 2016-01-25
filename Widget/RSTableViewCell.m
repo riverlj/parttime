@@ -9,7 +9,6 @@
 #import "RSTableViewCell.h"
 
 @implementation RSTableViewCell
-@synthesize model = _model;
 
 -(void) setModel:(RSModel *)model
 {

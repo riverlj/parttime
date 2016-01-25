@@ -84,11 +84,11 @@
 
 -(void) fenPei
 {
-    NSString *msg = @"";
+    NSString *msg = @"是否确认分配？";
     if(indexModel && !indexModel.present) {
         msg = @"该同学当天不出勤，你确定分配给他么？";
     }
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"取消分配" otherButtonTitles:@"确认分配", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     alertView.delegate = self;
     [alertView show];
 }

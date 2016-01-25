@@ -39,17 +39,15 @@
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(18, 15, kUIScreenWidth, 63)];
     self.searchBar.delegate = self;
-    [self.searchBar setBarTintColor:color242];
     [self.searchBar.layer setBorderColor:color242.CGColor];
     [self.searchBar.layer setBorderWidth:1.0];
-    self.searchBar.placeholder = @"搜索配送人";
+    self.searchBar.placeholder = @"根据姓名／手机号码搜索";
     self.searchBar.backgroundColor = color_gray_f3f5f7;
     self.searchBar.barTintColor = color_gray_f3f5f7;
 
     
     UIView *view = [[UIView alloc] init];
     self.tableView.tableFooterView = view;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView addTapAction:@selector(searchBarCancelButtonClicked:) target:self];
 }
 
@@ -112,13 +110,22 @@
     self.url = [[btnArr objectAtIndex:searchType] objectForKey:@"url"];
     if(searchType == 0) {
         self.tableView.tableHeaderView = nil;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     } else {
-        [self.params setValue:self.searchBar.text forKey:@"name"];
         self.tableView.tableHeaderView = self.searchBar;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     self.models = [NSMutableArray array];
     [self.tableView.mj_header beginRefreshing];
 
+}
+
+-(void) beforeHttpRequest
+{
+    [super beforeHttpRequest];
+    if(_searchType == 1) {
+        [self.params setValue:self.searchBar.text forKey:@"name"];
+    }
 }
 
 -(void) afterHttpSuccess:(NSDictionary *)data

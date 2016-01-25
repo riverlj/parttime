@@ -6,10 +6,16 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "RSTableViewController.h"
+#import "RSRefreshTableViewController.h"
 
-@interface PromotionViewController : RSTableViewController
+@interface PromotionViewController : RSRefreshTableViewController
 
-@property(nonatomic,strong)UITableView *listTableView;
+@end
 
+
+@interface RSTitleView : UIView
+
+@property(nonatomic, strong) UILabel *numLabel;
+@property(nonatomic, strong) UILabel *titleLabel;
+@property(nonatomic, strong) NSString *vcName;
 @end

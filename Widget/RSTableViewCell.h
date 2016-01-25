@@ -10,7 +10,6 @@
 #import "RSModel.h"
 
 @interface RSTableViewCell : UITableViewCell{
-    RSModel *_model;
 }
 @property (nonatomic,strong)RSModel *model;
 @property (nonatomic) BOOL isSelectable;

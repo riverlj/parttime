@@ -22,6 +22,7 @@
 #import "LevelViewController.h"
 #import "RSAccountModel.h"
 #import "MyprofileModel.h"
+#import "MyprofileCell.h"
 
 @interface MyViewController ()
 {
@@ -29,6 +30,7 @@
     NSArray *imageArr;
     NSMutableDictionary *infoDic;
     UIImageView *headImage;
+    MyprofileModel *clearModel;
 }
 
 @end
@@ -76,6 +78,7 @@
     imageArr = [NSArray arrayWithObjects:@"time",@"anwei", nil];
     [self getMessage];
     [self initTableView];
+    [self getUserStatus];
 }
 
 
@@ -87,6 +90,32 @@
         NSError *error = nil;
         RSAccountModel *model = [MTLJSONAdapter modelOfClass:[RSAccountModel class] fromJSONDictionary:infoDic error:&error];
         [model save];
+        [self.tableView reloadData];
+    } failure:^(NSInteger code, NSString *errmsg) {
+    }];
+}
+
+-(void) getUserStatus
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [RSHttp requestWithURL:@"/user/identification" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSInteger status = [[[data valueForKey:@"msg"] valueForKey:@"identificationStatus"] integerValue];
+        //判断status
+        for(NSArray *arr in self.models) {
+            for(MyprofileModel *model in arr) {
+                if([model.title isEqualToString:@"实名认证"]) {
+                    if(status == 1) {
+                        model.subtitle = [[NSAttributedString alloc]initWithString:@"待审核" attributes:[NSDictionary dictionaryWithObjectsAndKeys:color_black_666666, NSForegroundColorAttributeName, textFont15, NSFontAttributeName, nil]];
+                    } else if(status == 3) {
+                        model.subtitle = [[NSAttributedString alloc]initWithString:@"未通过" attributes:[NSDictionary dictionaryWithObjectsAndKeys:color_red_e54545, NSForegroundColorAttributeName, textFont15, NSFontAttributeName, nil]];
+                    } else if(status == 2) {
+                        model.subtitle = [[NSAttributedString alloc]initWithString:@"已认证" attributes:[NSDictionary dictionaryWithObjectsAndKeys:color_green_1fc15e, NSForegroundColorAttributeName, textFont15, NSFontAttributeName, nil]];
+                    } else {
+                        model.subtitle = [[NSAttributedString alloc]initWithString:@""];
+                    }
+                }
+            }
+        }
         [self.tableView reloadData];
     } failure:^(NSInteger code, NSString *errmsg) {
     }];
@@ -119,6 +148,8 @@
     [self.models addObject:innerItems3];
     
     NSMutableArray *innerItems4 = [NSMutableArray array];
+    model = [[MyprofileModel alloc] initWithTitle:@"实名认证" icon:@"user_certify" vcName:@"UserCertViewController"];
+    [innerItems4 addObject:model];
     model = [[MyprofileModel alloc] initWithTitle:@"配送时间" icon:@"time" vcName:@"OrderTimeViewController"];
     [innerItems4 addObject:model];
     model = [[MyprofileModel alloc] initWithTitle:@"配送范围" icon:@"anwei" vcName:@"OrderRangeViewController"];
@@ -130,6 +161,11 @@
     [innerItems5 addObject:model];
     model = [[MyprofileModel alloc] initWithTitle:@"意见反馈" icon:@"fankui2x" vcName:@"SuggestionViewController"];
     [innerItems5 addObject:model];
+    NSInteger size = [[SDImageCache sharedImageCache] getSize];
+    model = [[MyprofileModel alloc] initWithTitle:@"清除缓存" icon:@"icon_clearmem" vcName:@""];
+    model.subtitle = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%0.2fM", 1.0*size/1000000] attributes:[NSDictionary dictionaryWithObjectsAndKeys:color_black_666666, NSForegroundColorAttributeName, textFont15, NSFontAttributeName, nil]];
+    [innerItems5 addObject:model];
+    [model setSelectAction:@selector(clearCache:) target:self];
     [self.models addObject:innerItems5];
     self.sections = [NSMutableArray array];
 }
@@ -147,49 +183,33 @@
     MyprofileModel *model = [[self.models objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if(model.vcName && ![model.vcName isEqualToString:@""]) {
         UIViewController *vc = [[NSClassFromString(model.vcName) alloc] init];
-        //下一个页面依赖本页面的数据，下次重构
-        if([model.vcName isEqualToString:@"PersonMsgViewController"]) {
-            PersonMsgViewController *personVC = (PersonMsgViewController *)vc;
-            personVC.personMsgArray = [NSMutableArray array];
-            NSMutableDictionary *info = [infoDic objectForKey:@"userInfo"];
-            if (info) {
-                personVC.headUrl =  [info objectForKey:@"url"];
-                
-                [personVC.personMsgArray addObject:[info objectForKey:@"realName"]];
-                NSMutableDictionary *apartmentDic = [info objectForKey:@"apartment"];
-                //地址
-                [personVC.personMsgArray addObject:[apartmentDic objectForKey:@"name"]];
-                //学校
-                [personVC.personMsgArray addObject:[[apartmentDic objectForKey:@"school"] objectForKey:@"name"]];
-                personVC.schoolId = [[apartmentDic objectForKey:@"school"] objectForKey:@"id"];
-                
-                [personVC.personMsgArray addObject:[info objectForKey:@"mobilePhone"]];
-                [personVC.personMsgArray addObject:[info objectForKey:@"idCardNo"]];
-                [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardNo"]];
-                [personVC.personMsgArray addObject:@"密码"];
-                [personVC.personMsgArray addObject:[info objectForKey:@"sex"]];
-                [personVC.personMsgArray addObject:[info objectForKey:@"idCardUrl1"]];
-                
-                if ([info objectForKey:@"idCardUrl2"] != nil) {
-                    [personVC.personMsgArray addObject:[info objectForKey:@"idCardUrl2"]];
-                }else{
-                    [personVC.personMsgArray addObject:@""];
-                }
-                
-                [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl1"]];
-                if ([info objectForKey:@"studentIdCardUrl2"] != nil) {
-                    [personVC.personMsgArray addObject:[info objectForKey:@"studentIdCardUrl2"]];
-                }else{
-                    [personVC.personMsgArray addObject:@""];
-                }
-                
-                if (![[info objectForKey:@"position"] isEqualToString:@"校园兼职"]) {
-                    personVC.position = @"ceo";
-                }
-            }
-        }
         [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    
+}
+
+//清空缓存
+-(void) clearCache:(MyprofileModel *)model
+{
+    if([model isKindOfClass:[MyprofileModel class]]) {
+        clearModel = (MyprofileModel *)model;
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"你确定要清空缓存？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alertView show];
     }
 }
 
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 1) {
+        [[SDImageCache sharedImageCache] clearDisk];
+        [self showToast:@"清理成功"];
+        if(clearModel) {
+            clearModel.subtitle = [[NSAttributedString alloc]initWithString:@"0M" attributes:[NSDictionary dictionaryWithObjectsAndKeys:color_black_666666, NSForegroundColorAttributeName, textFont15, NSFontAttributeName, nil]];
+            [self.tableView reloadData];
+        }
+    }
+}
 @end
+

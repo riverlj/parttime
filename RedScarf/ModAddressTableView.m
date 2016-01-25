@@ -89,7 +89,6 @@
     [RSHttp requestWithURL:@"/task/unstandardAddr" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self.dataArr removeAllObjects];
         for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
-            NSLog(@"dic = %@",dic);
             [self.dataArr addObject:dic];
         }
         [self reloadData];

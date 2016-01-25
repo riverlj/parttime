@@ -26,7 +26,7 @@
         self.bgView.userInteractionEnabled = YES;
         [self.contentView addSubview:self.bgView];
         
-        UIImageView *lineView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 16, 3, 16)];
+        UIImageView *lineView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 16, 3, 16)];
         [lineView setBackgroundColor:color_blue_5999f8];
         [self.bgView addSubview:lineView];
         
@@ -72,6 +72,7 @@
             temp.aId = [dic objectForKey:@"apartmentId"];
             temp.userId = m.userId;
             RoomTaskTableViewCell *cell = [[RoomTaskTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:temp.cellClassName];
+            cell.width = self.bgView.width;
             [cell setModel:temp];
             cell.width = kUIScreenWidth;
             cell.top = bottom;

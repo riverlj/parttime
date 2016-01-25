@@ -21,13 +21,6 @@
     NSMutableArray *imgArray;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self comeBack:nil];
-    self.tabBarController.tabBar.hidden = NO;
-    [super viewWillAppear:animated];
-}
-
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -35,10 +28,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    [self comeBack:nil];
     self.title = @"团队";
-//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
     titleArray = [NSMutableArray arrayWithObjects:@"团队成员",@"查看排班", nil];
     imgArray = [NSMutableArray arrayWithObjects:@"chengyuan2x",@"paiban2x", nil];
     [self initTableView];

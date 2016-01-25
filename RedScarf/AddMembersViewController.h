@@ -2,12 +2,17 @@
 //  AddMembersViewController.h
 //  RedScarf
 //
-//  Created by zhangb on 15/9/23.
-//  Copyright (c) 2015年 zhangb. All rights reserved.
+//  Created by lishipeng on 16/1/13.
+//  Copyright © 2016年 zhangb. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "AddMemberViewController.h"
 
-@interface AddMembersViewController : BaseViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,NSURLConnectionDataDelegate,UITextFieldDelegate, UIActionSheetDelegate>
+@interface AddMembersViewController : AddMemberViewController<UIPickerViewDelegate, UIPickerViewDataSource>
+
+@property(nonatomic, strong) RSInputField *phoneTextField;
+@property(nonatomic, strong) RSInputField *buildingTextField;
+@property(nonatomic, strong) UIPickerView *pickerView;
+@property(nonatomic, strong) UIButton *doneToolbar;
 
 @end

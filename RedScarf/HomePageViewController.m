@@ -200,10 +200,9 @@
         return _cycleScrollView;
     }
     _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame: CGRectMake(0, 0, kUIScreenWidth, kUIScreenWidth*300/750) imageURLStringsGroup:nil];
-    _cycleScrollView.height = 0;
     _cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     _cycleScrollView.delegate = self;
-    _cycleScrollView.dotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
+    //_cycleScrollView.dotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
     _cycleScrollView.backgroundColor = color_gray_f3f5f7;
     return _cycleScrollView;
 }
@@ -213,15 +212,12 @@
     if(imagesURLStrings.count == 0) {
         self.cycleScrollView.infiniteLoop = NO;
         self.cycleScrollView.autoScroll = NO;
-        self.cycleScrollView.height = 0;
     } else if (imagesURLStrings.count == 1) {
         self.cycleScrollView.infiniteLoop = NO;
         self.cycleScrollView.autoScroll = NO;
-        self.cycleScrollView.height = kUIScreenWidth*300/750;
      }else {
          self.cycleScrollView.infiniteLoop = YES;
          self.cycleScrollView.autoScroll = YES;
-         self.cycleScrollView.height = kUIScreenWidth*300/750;
      }
      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
          self.cycleScrollView.imageURLStringsGroup = imagesURLStrings;

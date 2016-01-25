@@ -23,6 +23,8 @@
     typeArr = [NSMutableArray arrayWithObjects:@"底薪",@"提成",@"推广费",@"奖金",@"提成调整",@"推广费调整",@"总计", nil];
     UIView *view = [[UIView alloc] init];
     self.tableView.tableFooterView = view;
+    self.tableView.left = 18;
+    self.tableView.width = kUIScreenWidth - 2* self.tableView.left;
     [self getMessage];
 }
 
@@ -70,10 +72,10 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(60, 0, kUIScreenWidth-120, 30)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(60, 0, self.tableView.width, 30)];
     view.backgroundColor = MakeColor(240, 240, 240);
 
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-120)/2, 0, 1, 30)];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(self.tableView.width/2, 0, 1, 30)];
     line.backgroundColor = MakeColor(229, 229, 229);
     [view addSubview:line];
     for (int i=0; i<2; i++) {
@@ -82,7 +84,7 @@
         label.textColor = MakeColor(87, 87, 87);
         label.font = [UIFont systemFontOfSize:12];
 
-        label.frame = CGRectMake((kUIScreenWidth-120)/2*i, 0,(kUIScreenWidth-120)/2 , 30);
+        label.frame = CGRectMake(self.tableView.width/2*i, 0,self.tableView.width/2 , 30);
         if (i==0) {
             label.text = @"类型";
         }
@@ -120,7 +122,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake((kUIScreenWidth-120)/2, 0, 1, 40)];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(self.tableView.width/2, 0, 1, 40)];
     line.backgroundColor = MakeColor(229, 229, 229);
     [cell.contentView addSubview:line];
     for (int i=0; i<2; i++) {
@@ -129,7 +131,7 @@
         label.textColor = MakeColor(87, 87, 87);
         label.font = [UIFont systemFontOfSize:12];
         
-        label.frame = CGRectMake((kUIScreenWidth-120)/2*i, 0,(kUIScreenWidth-120)/2 , 40);
+        label.frame = CGRectMake(self.tableView.width/2*i, 0,self.tableView.width/2 , 40);
         if (i==0) {
             label.text = typeArr[indexPath.row];
         }

@@ -25,6 +25,7 @@
 -(void) viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"银行卡列表";
     self.tableView.tableFooterView = [UIView new];
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"新增" style:UIBarButtonItemStylePlain target:self action:@selector(didClickRight)];
     [self.navigationItem setRightBarButtonItem:right];

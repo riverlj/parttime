@@ -13,4 +13,6 @@
 @property(nonatomic,strong)UISearchBar *searchBar;
 @property(nonatomic, strong)UIView *btnView;
 @property(nonatomic) BOOL hideBtnView;
+
+@property(nonatomic, strong)UIButton *rightBtn;
 @end

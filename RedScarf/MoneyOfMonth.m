@@ -305,7 +305,7 @@
     
     UIButton *detailBtn = [[UIButton alloc] initWithFrame:CGRectMake(jiesuanDate.frame.origin.x+jiesuanDate.frame.size.width+5, 12, 15, 15)];
     [cell.contentView addSubview:detailBtn];
-    [detailBtn setBackgroundImage:[UIImage imageNamed:@"xiangqin"] forState:UIControlStateNormal];
+    [detailBtn setBackgroundImage:[UIImage imageNamed:@"icon_info"] forState:UIControlStateNormal];
      detailBtn.tag = indexPath.row;
     [detailBtn addTarget:self action:@selector(DetailMoneyOfMonth:) forControlEvents:UIControlEventTouchUpInside];
     return cell;

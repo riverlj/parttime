@@ -19,27 +19,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self comeBack:nil];
-    if ([self.title isEqualToString:@"提交"]) {
-        [self initView];
-    }
-    if ([self.title isEqualToString:@"提现详情"]) {
-        [self initDetailView];
-    }
-    
+    self.title = @"提交";
+    [self initView];
 }
 
 -(void)initView
 {
-    UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 80, kUIScreenWidth-40, 195)];
-    if (kUIScreenWidth == 320) {
-        bgView.frame = CGRectMake(20, 80, kUIScreenWidth-40, 155);
-    }
-    bgView.backgroundColor = [UIColor whiteColor];
-    bgView.layer.masksToBounds = YES;
-    bgView.layer.cornerRadius = 8;
+    UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 80, kUIScreenWidth-40, (kUIScreenWidth - 36)*197.0/339)];
     bgView.image = [UIImage imageNamed:@"tijiaochengong"];
-    bgView.layer.borderColor = color234.CGColor;
-    bgView.layer.borderWidth = 0.8;
     [self.view addSubview:bgView];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -60,8 +47,4 @@
     [self.navigationController pushViewController:transactionVC animated:YES];
 }
 
--(void)initDetailView
-{
-    
-}
 @end

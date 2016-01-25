@@ -25,7 +25,7 @@
     self.title = @"配送时间";
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     isEdited = NO;
-    [scrollView setBackgroundColor:color_gray_f3f5f7];
+    [scrollView setBackgroundColor:MakeColor(0xf5, 0xf5, 0xf9)];
     scrollView.contentSize = CGSizeMake(0, kUIScreenHeigth);
     scrollView.userInteractionEnabled = YES;
     scrollView.scrollEnabled = YES;

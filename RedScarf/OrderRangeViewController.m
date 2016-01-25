@@ -7,7 +7,7 @@
 //
 
 #import "OrderRangeViewController.h"
-
+#import "RSCatchLine.h"
 @interface OrderRangeViewController ()
 
 @end
@@ -31,12 +31,13 @@
 
 -(void)initTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 15, kUIScreenWidth-30, kUIScreenHeigth)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     UIView *foot = [[UIView alloc] init];
     self.tableView.tableFooterView = foot;
-    [self.view addSubview:self.tableView];
+    self.tableView.left = 18;
+    self.tableView.width = kUIScreenWidth - 36;
+    self.tableView.top = 10;
+    self.tableView.layer.cornerRadius = 10;
+    self.tableView.clipsToBounds = YES;
 }
 
 -(void)getMessage
@@ -75,29 +76,33 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return 49;
 }
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+
     if (cell == nil) {
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        cell =[[UITableViewCell alloc] init];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     NSMutableDictionary *dic = [addressArray objectAtIndex:indexPath.row];
     
     cell.textLabel.text = [dic objectForKey:@"name"];
+    cell.textLabel.left = 13;
+    cell.textLabel.textColor = color_black_666666;
     
     NSString *select = idArray[0];
     NSArray *arr = [select componentsSeparatedByString:@","];
     for (NSString *str in arr) {
         if ([str isEqualToString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]]) {
-            UIImageView *finishImage = [[UIImageView alloc] initWithFrame:CGRectMake(kUIScreenWidth-50, 0, 50, 50)];
-            [cell.contentView addSubview:finishImage];
-            finishImage.image = [UIImage imageNamed:@"peisong2x"];
+            RSCatchline *cacheLine = [[RSCatchline alloc] initWithFrame:CGRectMake(kUIScreenWidth-50 - 36, 0, 49, 49)];
+            [cacheLine setTitle:@" 配送" withBgColor:color_blue_287dd8];
+            [cell.contentView addSubview:cacheLine];
         }
     }
     

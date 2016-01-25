@@ -12,10 +12,9 @@
 {
     self = [super init];
     if(self) {
-        self.layer.borderColor = color_gray_cccccc.CGColor;
+        self.layer.borderColor = MakeColor(0xe9, 0xe8, 0xed).CGColor;
         self.layer.borderWidth = 0.5;
         [self setTitle:@"" forState:UIControlStateDisabled];
-        [self setBackgroundColor:color_gray_f3f5f7];
         [self setTitleColor:color_black_666666 forState:UIControlStateNormal];
         [self setTitleColor:color_gray_cccccc forState:UIControlStateDisabled];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
@@ -33,7 +32,6 @@
         [self setTitleColor:color_black_666666 forState:UIControlStateNormal];
         [self setTitleColor:color_gray_cccccc forState:UIControlStateDisabled];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [self setBackgroundColor:color_gray_f3f5f7];
     }
     return self;
 }
@@ -176,7 +174,7 @@
     if(_headView) {
         return _headView;
     }
-    _headView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, 48)];
+    _headView = [[UILabel alloc] initWithFrame:CGRectMake(-18, 0, self.width, 48)];
     UIImageView *line = [[UIImageView alloc]initWithFrame:CGRectMake(0, 15, 3, 18)];
     [line setBackgroundColor:color_blue_5999f8];
     [_headView addSubview:line];
@@ -213,7 +211,7 @@
     NSArray *dict = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六"];
     for(NSInteger i =0 ; i<[dict count]; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cellWidth, 3*cellWidth/5)];
-        label.backgroundColor = color_gray_e8e8e8;
+        label.backgroundColor = color_gray_eeeedf2;
         label.text = dict[i];
         label.textColor = color_black_666666;
         label.textAlignment = NSTextAlignmentCenter;

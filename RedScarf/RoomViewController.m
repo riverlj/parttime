@@ -14,6 +14,9 @@
 #import "RoomMissionModel.h"
 
 @implementation RoomViewController
+{
+    NSArray *reasonArr;
+}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -24,9 +27,6 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.navigationBar.hidden = NO;
-    self.view.backgroundColor = color242;
-    self.tabBarController.tabBar.hidden = YES;
     self.title = self.titleStr;
     self.dataArray = [NSMutableArray array];
     _models = [NSMutableArray array];
@@ -135,7 +135,7 @@
 -(void)didClickDoBtn
 {
     [[BaiduMobStat defaultStat] logEvent:@"已送达" eventLabel:@"button4"];
-    [self alertView:@"确认送达"];
+    [self alertView:@"请确认所有商品都已送到，点击后将提示用户领取"];
 }
 
 -(void)alertView:(NSString *)msg
@@ -148,46 +148,35 @@
 -(void)didClickNotBtn
 {
     [[BaiduMobStat defaultStat] logEvent:@"遇到问题" eventLabel:@"button5"];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"提示" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"餐品不够",@"送错或漏送",@"餐品腐坏",@"餐品破损",@"其他", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"请选择未送达的原因" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"餐品不够",@"送错或漏送",@"餐品腐坏",@"餐品破损",@"其它", nil];
     [actionSheet showInView:self.view];
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSString *reason;
-    switch (buttonIndex) {
-        case 0:
-        {
-            reason = @"餐品不够";
-            [[BaiduMobStat defaultStat] logEvent:@"餐品不够" eventLabel:@"button"];
-        }
-            break;
-        case 1:
-        {
-            reason = @"送错或漏送";
-            [[BaiduMobStat defaultStat] logEvent:@"送错或漏送" eventLabel:@"button"];
-        }
-            break;
-        case 2:
-        {
-            reason = @"餐品腐坏";
-            [[BaiduMobStat defaultStat] logEvent:@"餐品腐坏" eventLabel:@"button"];
-        }
-            break;
-        case 3:
-        {
-            reason = @"餐品破损";
-            [[BaiduMobStat defaultStat] logEvent:@"餐品破损" eventLabel:@"button"];
-        }
-            break;
-        case 4:
-        {
-            reason = @"其他";
-            [[BaiduMobStat defaultStat] logEvent:@"其他" eventLabel:@"button"];
-        }
-            break;
-        default:
-            return;
+    reasonArr = [NSArray arrayWithObjects:@"餐品不够",@"送错或漏送",@"餐品腐坏",@"餐品破损",@"其它", nil];
+    if([reasonArr objectAtIndex:buttonIndex]) {
+        reason = [reasonArr objectAtIndex:buttonIndex];
+        [[BaiduMobStat defaultStat] logEvent:reason eventLabel:@"button"];
+    } else {
+        return;
+    }
+    if([reason isEqualToString:@"其它"]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请输入未送达的原因" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        alertView.tag =1;
+        [alertView show];
+    } else {
+        [self sendUndeliverReason:reason];
+    }
+}
+
+-(void) sendUndeliverReason:(NSString *) reason
+{
+    if([reason isEqualToString:@""]) {
+        [self showToast:@"未送达原因不能为空"];
+        return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:reason forKey:@"reason"];
@@ -217,7 +206,7 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if(buttonIndex == 0) {
+    if(!alertView.tag && buttonIndex == 0) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         [params setObject:@"2" forKey:@"source"];
         NSMutableArray *tempArr = [NSMutableArray array];
@@ -242,6 +231,11 @@
             [self hidHUD];
             [self showToast:errmsg];
         }];
+    }
+    if(alertView.tag == 1 && buttonIndex == 1) {
+        UITextField *textField = [alertView textFieldAtIndex:0];
+        NSString *reason = textField.text;
+        [self sendUndeliverReason:reason];
     }
 }
 

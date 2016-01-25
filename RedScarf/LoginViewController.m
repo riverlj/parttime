@@ -89,15 +89,6 @@
     UIImageView *leftImage;
     nameField = [[UITextField alloc] initWithFrame:CGRectMake(58, logoView.bottom+20, scrolView.width-116, 45)];
     leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(0,11, 64, nameField.height-22)];
-   /* if (kUIScreenHeigth == 480) {
-        nameField = [[UITextField alloc] initWithFrame:CGRectMake(58, logoView.frame.origin.y+logoView.frame.size.height+20, self.view.frame.size.width-116, 45)];
-        leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(20,12, 20, nameField.frame.size.height-22)];
-
-    }else{
-        nameField = [[UITextField alloc] initWithFrame:CGRectMake(58, logoView.frame.origin.y+logoView.frame.size.height+25, self.view.frame.size.width-116, 50)];
-        leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(20,11, 26, nameField.frame.size.height-22)];
-
-    }*/
     nameField.layer.borderColor = MakeColor(214, 214, 214).CGColor;
     nameField.layer.borderWidth = 1.0;
     nameField.layer.cornerRadius = 4;
@@ -113,15 +104,6 @@
     [scrolView addSubview:nameField];
     
     UIImageView *left;
-    /*if (kUIScreenHeigth == 480) {
-        passField = [[UITextField alloc] initWithFrame:CGRectMake(58, nameField.frame.origin.y+nameField.frame.size.height+10, self.view.frame.size.width-116, 45)];
-        left = [[UIImageView alloc] initWithFrame:CGRectMake(20,12, 18, passField.frame.size.height-22)];
-
-    }else{
-        passField = [[UITextField alloc] initWithFrame:CGRectMake(58, nameField.frame.origin.y+nameField.frame.size.height+15, self.view.frame.size.width-116, 50)];
-        left = [[UIImageView alloc] initWithFrame:CGRectMake(20,11, 24, passField.frame.size.height-22)];
-
-    }*/
     passField = [[UITextField alloc] initWithFrame:CGRectMake(nameField.left, nameField.bottom+10, nameField.width, nameField.height)];
     left = [[UIImageView alloc] initWithFrame:CGRectMake(0,11, 64, passField.height-22)];
     passField.layer.borderColor = MakeColor(214, 214, 214).CGColor;
@@ -203,11 +185,6 @@
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         app.tocken = [data objectForKey:@"msg"];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *string = [self uuid];
-        NSString *uuid = [defaults objectForKey:@"uuid"];
-        if (!uuid.length) {
-            [defaults setObject:string forKey:@"uuid"];
-        }
         [defaults setObject:app.tocken forKey:@"token"];
         [defaults synchronize];
         baseTabVC = [[BaseTabbarViewController alloc] init];
@@ -218,14 +195,6 @@
     }];
 }
 
--(NSString*) uuid {
-    CFUUIDRef puuid = CFUUIDCreate( nil );
-    CFStringRef uuidString = CFUUIDCreateString( nil, puuid );
-    NSString * result = (NSString *)CFBridgingRelease(CFStringCreateCopy( NULL, uuidString));
-    CFRelease(puuid);
-    CFRelease(uuidString);
-    return result;
-}
 
 -(void)ForgetPassWord
 {

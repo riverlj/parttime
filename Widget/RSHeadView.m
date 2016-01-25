@@ -8,7 +8,6 @@
 
 #import "RSHeadView.h"
 #import "RSAccountModel.h"
-#import "UIImageView+AFNetworking.h"
 
 
 #define  HEAD_POSTIONVIEW_WIDTH 24
@@ -40,7 +39,7 @@
 {
     RSAccountModel *model = [RSAccountModel sharedAccount];
     if([model isValid]) {
-        [self.headimgView setImageWithURL:[NSURL URLWithString:model.headImg] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+        [self.headimgView sd_setImageWithURL:[NSURL URLWithString:model.headImg] placeholderImage:[UIImage imageNamed:@"touxiang"]];
         if([model isCEO]) {
             if(![self.positionView superview]) {
                 [self addSubview:self.positionView];

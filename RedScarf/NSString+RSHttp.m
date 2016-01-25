@@ -7,10 +7,25 @@
 //
 
 #import "NSString+RSHttp.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @implementation NSString(RSHttp)
 - (NSString *)append:(NSString *)string {
     return [NSString stringWithFormat:@"%@%@",self,string];
+}
+
+-(NSString *) sha1
+{
+    const char *cstr = [self UTF8String];
+    //使用对应的CC_SHA1,CC_SHA256,CC_SHA384,CC_SHA512的长度分别是20,32,48,64
+    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
+    //使用对应的CC_SHA256,CC_SHA384,CC_SHA512
+    CC_SHA1(cstr,  (CC_LONG)strlen(cstr), digest);
+    NSMutableString* result = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
+        [result appendFormat:@"%02x", digest[i]];
+    }
+    return result;
 }
 
 -(NSString *) urlWithHost:(NSString *)host
@@ -296,8 +311,14 @@
     return [mobileTest evaluateWithObject:self];
 }
 
+-(BOOL)isValidName {
+    NSString *regex = @"[\u4e00-\u9fa5,·]{2,14}|[A-Z,a-z]{2,14}";
+    NSPredicate *mobileTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [mobileTest evaluateWithObject:self];
+}
+
 -(BOOL)isMobile{
-    NSString *regex =  @"[0-9]{11}";
+    NSString *regex =  @"1[0-9]{10}$";
     NSPredicate *mobileTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
     return [mobileTest evaluateWithObject:self];
 }

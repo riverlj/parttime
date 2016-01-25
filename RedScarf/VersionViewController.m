@@ -103,9 +103,10 @@
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];
             dic = [data objectForKey:@"body"];
             NSString *versionStr = [dic objectForKey:@"version"];
+            NSString *content = [dic objectForKey:@"content"];
             url = [dic objectForKey:@"url"];
             if (![versionStr isEqualToString:app_Version]) {
-                UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:@"新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
+                UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
                 [aler show];
             }else{
                 [self alertView:@"当前为最新版本"];

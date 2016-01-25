@@ -20,7 +20,10 @@
 - (BOOL)isCardNum;
 - (BOOL)isEmail;
 - (BOOL)isCharacter;
+- (BOOL)isValidName;
 - (BOOL)isMobile;
+
+-(NSString *) sha1;
 
 //URLencode
 + (NSString*)URLencode:(NSString*)originalString stringEncoding:(NSStringEncoding)stringEncoding;

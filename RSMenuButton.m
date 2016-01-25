@@ -7,7 +7,6 @@
 //
 
 #import "RSMenuButton.h"
-#import "UIImageView+AFNetworking.h"
 
 @implementation RSMenuButton
 -(instancetype) init
@@ -18,7 +17,7 @@
         [self addSubview:self.label];
         [self addSubview:self.image];
         [self.layer setBorderWidth:0.5]; //边框宽度
-        UIColor *color = MakeColor(0xdc, 0xde, 0xd4);
+        UIColor *color = color_gray_e8e8e8;
         [self.layer setBorderColor:color.CGColor]; //边框颜色
     }
     return self;
@@ -58,17 +57,17 @@
     return _circleView;
 }
 
--(void)setFrame:(CGRect)frame
+-(void) layoutSubviews
 {
-    [super setFrame:frame];
     self.image.width = self.width/3;
     self.image.height = self.height/3;
     self.image.left = (self.width - self.image.width)/2;
     self.image.top = (self.height - self.image.height - self.label.height - self.height/10)/2;
     self.label.top = self.image.bottom + self.height/10;
     self.label.width = self.width;
-    self.circleView.bottom = self.image.top;
-    self.circleView.left = self.image.right;
+    self.circleView.right = self.width - 18;
+    self.circleView.top = 18;
+
 }
 
 -(void) setMenuid:(NSInteger)menuid
@@ -104,7 +103,7 @@
 {
     self.label.text = title;
     if([image hasPrefix:@"http://"]) {
-        [self.image setImageWithURL:[NSURL URLWithString:image]];
+        [self.image sd_setImageWithURL:[NSURL URLWithString:image]];
     } else {
         self.image.image = [UIImage imageNamed:image];
     }

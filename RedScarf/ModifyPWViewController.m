@@ -8,7 +8,6 @@
 
 #import "ModifyPWViewController.h"
 #import "LoginViewController.h"
-#import "UIImageView+AFNetworking.h"
 
 @interface ModifyPWViewController ()
 
@@ -89,21 +88,21 @@
     
     for (int i = 0; i < 2; i++) {
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake((kUIScreenWidth-60)/2*i+(i+1)*20, 210, (kUIScreenWidth-60)/2, 90)];
-        img.image = [UIImage imageNamed:@"sn"];
+        UIImage *placeholder = [UIImage imageNamed:@"upload"];
         
         if ([self.titleString isEqualToString:@"查看身份证"]) {
             if (i == 0) {
-                [img setImageWithURL:[NSURL URLWithString:self.idUrl1]];
+                [img sd_setImageWithURL:[NSURL URLWithString:self.idUrl1] placeholderImage:placeholder];
             }
             if (i == 1) {
-                [img setImageWithURL:[NSURL URLWithString:self.idUrl2]];
+                [img sd_setImageWithURL:[NSURL URLWithString:self.idUrl2] placeholderImage:placeholder];
             }
         }else{
             if (i == 0) {
-                [img setImageWithURL:[NSURL URLWithString:self.studentUrl1]];
+                [img sd_setImageWithURL:[NSURL URLWithString:self.studentUrl1] placeholderImage:placeholder];
             }
             if (i == 1) {
-                [img setImageWithURL:[NSURL URLWithString:self.studentUrl2]];
+                [img sd_setImageWithURL:[NSURL URLWithString:self.studentUrl2] placeholderImage:placeholder];
             }
 
         }
@@ -206,10 +205,6 @@
 }
 
 #pragma mark 结束时恢复界面高度
-//-(void)textFieldDidEndEditing:(UITextField *)textField
-//{
-//    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-//}
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -217,25 +212,5 @@
     
     [self.view endEditing:YES];
 }
-
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

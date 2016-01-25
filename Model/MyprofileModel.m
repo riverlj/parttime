@@ -16,6 +16,7 @@
     self.imgName = imgName;
     self.vcName = vcName;
     self.cellHeight = 48;
+    self.subtitle = [[NSAttributedString alloc]initWithString:@""];
     return self;
 }
 

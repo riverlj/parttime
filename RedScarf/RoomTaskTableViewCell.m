@@ -10,17 +10,18 @@
 #import "Model.h"
 #import "BaiduMobStat.h"
 #import "AllocatingTaskViewController.h"
+#import "BuildingTaskViewController.h"
 @implementation RoomTaskTableViewCell
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.width = kUIScreenWidth;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.width = kUIScreenWidth - 36;
         self.layer.cornerRadius = 5;
         self.layer.masksToBounds = YES;
         
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 9, self.width*2/5, 30)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 9, self.width*2/5, 30)];
         self.titleLabel.numberOfLines = 0;
         self.titleLabel.textAlignment = NSTextAlignmentLeft;
         self.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -53,12 +54,17 @@
     NSDictionary *attributes = @{NSFontAttributeName:self.titleLabel.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
     CGRect rect = [title boundingRectWithSize:size options:options attributes:attributes context:nil];
 
-    self.titleLabel.height = rect.size.height;
+    self.titleLabel.height = rect.size.height + 10;
+    if(self.titleLabel.width > rect.size.width) {
+        self.titleLabel.width = rect.size.width;
+        self.subTitleLabel.left = self.titleLabel.right + 11;
+    }
     self.height = self.titleLabel.height + 32;
     self.titleLabel.centerY = self.height/2;
     self.subTitleLabel.centerY = self.height/2;
     self.btn.centerY = self.height/2;
     self.titleLabel.text = title;
+    self.btn.right = self.width - 18;
 }
 
 
@@ -68,9 +74,11 @@
     if([model isKindOfClass:[Model class]]) {
         Model *m = (Model *)model;
         [self setTitle:m.apartmentName];
-        self.subTitleLabel.text = [NSString stringWithFormat:@"%@份", m.taskNum];
+        self.subTitleLabel.text = [NSString stringWithFormat:@"%@单", m.taskNum];
         [self.btn setTitle:@"分配" forState:UIControlStateNormal];
         [self.btn addTarget:self action:@selector(fenPei:) forControlEvents:UIControlEventTouchUpInside];
+        [self.titleLabel addTapAction:@selector(buildingTasks:) target:self];
+        [self.subTitleLabel addTapAction:@selector(buildingTasks:) target:self];
     }
 }
 
@@ -84,6 +92,17 @@
         allocaVC.userId = model.userId;
         allocaVC.room = model.room;
         [self.delegate.navigationController pushViewController:allocaVC animated:YES];
+    }
+}
+
+-(void) buildingTasks:(id)sender
+{
+    if(self.delegate) {
+        Model *model = (Model *) self.model;
+        BuildingTaskViewController *vc = [[BuildingTaskViewController alloc] init];
+        vc.aId = [model.aId integerValue];
+        vc.userId = [model.userId integerValue];
+        [self.delegate.navigationController pushViewController:vc animated:YES];
     }
 }
 @end

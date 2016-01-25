@@ -170,7 +170,7 @@
     [bgView addSubview:img];
     
     UILabel *count = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-40, 8, 30, 30)];
-    count.text = [NSString stringWithFormat:@"%@份",model.taskNum];
+    count.text = [NSString stringWithFormat:@"%@单",model.taskNum];
     count.textColor = color155;
     count.font = textFont12;
     [bgView addSubview:count];
@@ -217,7 +217,6 @@
         
         str = [str stringByAppendingFormat:@"%@   %@ (%@份) \n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
         [lengthArr addObject:[NSNumber numberWithUnsignedInteger:str.length]];
-        NSLog(@"str length = %lu",(unsigned long)str.length);
     }
     str = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     //数量和餐品颜色
@@ -235,7 +234,7 @@
 
     }
 
-    cell.addLabel.text = [NSString stringWithFormat:@"%@(%@)",[model objectForKey:@"room"],[model objectForKey:@"taskNum"]];
+    cell.addLabel.text = [NSString stringWithFormat:@"%@(%@单)",[model objectForKey:@"room"],[model objectForKey:@"taskNum"]];
     [cell setIntroductionText:noteStr];
     
     cell.btn.tag = indexPath.row;
@@ -266,7 +265,7 @@
     
     self.aId = model.aId;
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:nil delegate:self cancelButtonTitle:@"取消确认" otherButtonTitles:@"确认送达", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请确认所有商品都已送到，点击后将提示用户领取" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     [alertView show];
 }
 //详情

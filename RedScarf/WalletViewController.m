@@ -21,6 +21,17 @@
     NSString *salary;
     NSString *pwdStatus;
     NSString *telNum;
+    NSInteger status;
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if([NSUserDefaults getValue:@"withdrawToken"] && ![[NSUserDefaults getValue:@"withdrawToken"] isEqualToString:@""]) {
+        [self getMessage];
+    } else {
+        [self getToken];
+    }
 }
 
 - (void)viewDidLoad {
@@ -37,10 +48,12 @@
 -(void)getToken
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [self showHUD:@"加载中"];
     [RSHttp requestWithURL:@"/user/token/finance" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [NSUserDefaults setValue:[data objectForKey:@"body"] forKey:@"withdrawToken"];
         [self getMessage];
     } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
         [self showToast:errmsg];
     }];
 }
@@ -49,13 +62,13 @@
 -(void)getMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [self showHUD:@"加载中"];
     [RSHttp payRequestWithURL:@"/account/accountInfo" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self hidHUD];
         NSMutableDictionary *dic = [data objectForKey:@"body"];
         salary = [NSString stringWithFormat:@"%@",[dic objectForKey:@"money"]];
         pwdStatus = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pwdStatus"]];
         telNum = [NSString stringWithFormat:@"%@",[dic objectForKey:@"phoneNumber"]];
+        status = [[dic objectForKey:@"status"] integerValue];
         [self generageModels];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self hidHUD];
@@ -137,6 +150,10 @@
 
 -(void)didClickTianXian
 {
+    if(status == 2) {
+        [self showToast:@"当前账号已经被冻结"];
+        return;
+    }
     WithdrawViewController *withdrawVC = [[WithdrawViewController alloc] init];
     withdrawVC.pwdStatus = pwdStatus;
     withdrawVC.telNum = telNum;

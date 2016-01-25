@@ -15,141 +15,155 @@
 #import "RecommendViewController.h"
 #import "MyFunsViewController.h"
 #import "RuleOfActive.h"
+#import "RSUIView.h"
+#import "PromotionModel.h"
 
-@implementation PromotionViewController
-{
-    NSMutableArray *dataArray;
-    NSMutableArray *nameArray;
-    NSMutableArray *orderArray;
-    NSMutableArray *countArray;
-    NSMutableArray *photoArray;
-    NSMutableArray *telArray;
+
+@implementation PromotionViewController {
     NSString *code;
-
-
+    RSTitleView *fansView;
+    RSTitleView *totalMoneyView;
+    RSTitleView *totalOrderView;
 }
 
--(void)viewWillAppear:(BOOL)animated
+-(void) viewDidLoad
 {
-    [self comeBack:nil];
-    [super viewWillAppear:animated];
-}
-
--(void)viewDidLoad
-{
+    [super viewDidLoad];
+    self.url = @"/promotionActivity/index";
+    self.useFooterRefresh = YES;
     self.title = @"推广活动";
-    self.view.backgroundColor = [UIColor whiteColor];
-
-    self.navigationController.navigationBar.hidden = NO;
-//    self.navigationController.navigationBar.barTintColor = MakeColor(32, 102, 208);
-    self.tabBarController.tabBar.hidden = YES;
-    dataArray = [NSMutableArray array];
-    nameArray = [NSMutableArray array];
-    orderArray = [NSMutableArray array];
-    countArray = [NSMutableArray array];
-    telArray = [NSMutableArray array];
-
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 140, kUIScreenWidth, 1)];
-    lineView.backgroundColor = MakeColor(240, 240, 240);
-    [self.view addSubview:lineView];
-    [self getMessage];
-    [self navigationBar];
-    [self initBtn];
-    [self initTableView];
+    [self comeBack:nil];
+    [self.tips setTitle:@"" withImg:nil];
+    self.tableView.tableHeaderView = [self headView];
+    self.tableView.tableFooterView = [UIView new];
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    [self beginHttpRequest];
 }
 
--(void)getMessage
+-(void) afterHttpSuccess:(NSDictionary *)data
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:[NSNumber numberWithInt:30] forKey:@"pageSize"];
-    [params setObject:[NSNumber numberWithInt:1] forKey:@"pageNum"];
-    app.tocken = [UIUtils replaceAdd:app.tocken];
-    [RSHttp requestWithURL:@"/promotionActivity/index" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSMutableDictionary *dic = [data objectForKey:@"msg"];
-        NSLog(@"dic = %@",dic);
-        dataArray = [dic objectForKey:@"otherUsers"];
-        for (NSMutableDictionary *dic1 in [dic objectForKey:@"otherUsers"]) {
-            [nameArray addObject:[dic1 objectForKey:@"otherUserName"]];
-            [telArray addObject:[dic1 objectForKey:@"otherUserPhone"]];
-            [orderArray addObject:[dic1 objectForKey:@"otherUserYestdayOrder"]];
-            [countArray addObject:[dic1 objectForKey:@"otherUserTotalOrder"]];
-        }
-        code = [dic objectForKey:@"cdkey"];
-        for (int i = 0; i < 3; i++) {
-            UILabel *label = (UILabel *)[self.view viewWithTag:1000+i];
-            if (i==0) {
-                label.text = [dic objectForKey:@"fansTotal"];
-            }
-            if (i==1) {
-                label.text = [dic objectForKey:@"promoteAccount"];
-            }
-            if (i==2) {
-                label.text = [dic objectForKey:@"orderTotal"];
-            }
-        }
-        [self initArray];
-        [self.listTableView reloadData];
-    } failure:^(NSInteger code, NSString *errmsg) {
-    }];
+    NSDictionary *dic = [data objectForKey:@"msg"];
+    code = [dic valueForKey:@"cdkey"];
+    fansView.numLabel.text = [dic valueForKey:@"fansTotal"];
+    totalMoneyView.numLabel.text = [dic valueForKey:@"promoteAccount"];
+    totalOrderView.numLabel.text = [dic valueForKey:@"orderTotal"];
+    NSInteger i = [self.models count];
+    for(NSDictionary *temp in [dic objectForKey:@"otherUsers"]) {
+        i++;
+        PromotionModel *model = [MTLJSONAdapter modelOfClass:[PromotionModel class] fromJSONDictionary:temp error:nil];
+        model.rank = i;
+        [self.models addObject:model];
+    }
 }
 
--(void)initBtn
+-(void) afterProcessHttpData:(NSInteger)before afterCount:(NSInteger)after
 {
-    NSArray *pictureArr = [NSArray arrayWithObjects:@"tuijian@2x",@"fensi@2x",@"guize@2x", nil];
-    for (int i = 0; i < 3; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(i*kUIScreenWidth/3, 80, kUIScreenWidth/3, 25)];
-        label.textAlignment = NSTextAlignmentCenter;
-        [self.view addSubview:label];
+    if(before == 0 && after != 0) {
+        PromotionModel *head = [[PromotionModel alloc]init];
+        head.name = @"姓名";
+        head.mobile = @"电话";
+        head.orderCnt = @"昨日下单";
+        head.promotionCnt = @"推广总数";
+        [self.models insertObject:head atIndex:0];
+        head.isSelectable = NO;
+        [self.tableView reloadData];
+    }
+    [super afterProcessHttpData:before afterCount:after];
+}
 
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.view addSubview:btn];
-        [btn setTitleColor:MakeColor(75, 75, 75) forState:UIControlStateNormal];
-        btn.frame = CGRectMake(i*kUIScreenWidth/3, 105, kUIScreenWidth/3, 25);
-        btn.titleLabel.font = [UIFont systemFontOfSize:13];
-        
-        UIImageView *picture = [[UIImageView alloc] initWithFrame:CGRectMake((kUIScreenWidth-40)/3*i+10*(i+1), 150, (kUIScreenWidth-40)/3, 75)];
-        picture.userInteractionEnabled = YES;
-        [self.view addSubview:picture];
-        
-        if (i == 0) {
-            [btn setTitle:@"推荐粉丝总数" forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(didClickFunsBtn:) forControlEvents:UIControlEventTouchUpInside];
-            label.tag = 1000+i;
-            label.text = @"0";
-            
-            picture.image = [UIImage imageNamed:pictureArr[i]];
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickRecommend)];
-            tap.numberOfTapsRequired = 1;
-            [picture addGestureRecognizer:tap];
-        }
-        if (i == 1) {
-            [btn setTitle:@"推广费总金额" forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(didClickTotalMoneyBtn:) forControlEvents:UIControlEventTouchUpInside];
-            
-            label.text = @"0";
-            label.tag = 1000+i;
-            picture.image = [UIImage imageNamed:pictureArr[i]];
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickMyFuns)];
-            tap.numberOfTapsRequired = 1;
-            [picture addGestureRecognizer:tap];
-        }
-        if (i == 2) {
-            [btn setTitle:@"推广总下单数" forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(didClickOrderCount:) forControlEvents:UIControlEventTouchUpInside];
-            
-            label.text = @"0";
-            label.tag = 1000+i;
-            picture.image = [UIImage imageNamed:pictureArr[i]];
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickRuleOfActive)];
-            tap.numberOfTapsRequired = 1;
-            [picture addGestureRecognizer:tap];
-        }
-        
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake((i+1)*kUIScreenWidth/3, 80, 1, 45)];
-        line.backgroundColor = MakeColor(240, 240, 240);
-        [self.view addSubview:line];
-        
+-(UIView *) headView
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 200)];
+    fansView = [[RSTitleView alloc] initWithFrame:CGRectMake(0, 0, view.width/3, 73)];
+    fansView.titleLabel.text = @"推荐粉丝总数";
+    fansView.vcName = @"FunsViewController";
+    [fansView addTapAction:@selector(didclickTitle:) target:self];
+    [view addSubview: fansView];
+    totalMoneyView = [[RSTitleView alloc] initWithFrame:CGRectMake(fansView.right, fansView.top, fansView.width, fansView.height)];
+    totalMoneyView.titleLabel.text = @"推广费总额";
+    totalMoneyView.vcName = @"TotalMoneyViewController";
+    [totalMoneyView addTapAction:@selector(didclickTitle:) target:self];
+    [totalMoneyView addSubview:[RSUIView lineWithFrame:CGRectMake(0, 15, 0.8, totalMoneyView.height-30)]];
+    [view addSubview:totalMoneyView];
+    totalOrderView = [[RSTitleView alloc] initWithFrame:CGRectMake(totalMoneyView.right, totalMoneyView.top, totalMoneyView.width, totalMoneyView.height)];
+    totalOrderView.titleLabel.text = @"推广下单数";
+    [totalOrderView addTapAction:@selector(didclickTitle:) target:self];
+    totalOrderView.vcName = @"OrderCountsViewController";
+    [totalOrderView addSubview:[RSUIView lineWithFrame:CGRectMake(0, 15, 0.8, totalOrderView.height-30)]];
+    [view addSubview:totalOrderView];
+    
+    
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(18, fansView.bottom + 11, (kUIScreenWidth - 36 - 20)/3, 79)];
+    btn.backgroundColor = MakeColor(0xff, 0x6f, 0x5c);
+    btn.layer.cornerRadius = 8;
+    btn.clipsToBounds = YES;
+    [btn setTitle:@"我要推荐" forState:UIControlStateNormal];
+    btn.titleLabel.font = textFont13;
+    btn.imageView.width = 30;
+    btn.imageView.height = 30;
+    btn.imageEdgeInsets = UIEdgeInsetsMake(-11.5, (btn.width-btn.imageView.width)/2, 11.5, (btn.width-btn.imageView.width)/2);
+    btn.titleEdgeInsets = UIEdgeInsetsMake(20, -30, -20, 0);
+    [btn setImage:[UIImage imageNamed:@"icon_good"] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(didClickRecommend) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:btn];
+    
+    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(btn.right + 10, btn.top, btn.width, btn.height)];
+    [btn1 setBackgroundColor:MakeColor(0x58, 0xb1, 0xed)];
+    btn1.layer.cornerRadius = 8;
+    btn1.clipsToBounds = YES;
+    [btn1 setTitle:@"我的粉丝" forState:UIControlStateNormal];
+    btn1.titleLabel.font = textFont13;
+    btn1.imageView.width = 30;
+    btn1.imageView.height = 30;
+    [btn1 addTarget:self action:@selector(didClickMyFuns) forControlEvents:UIControlEventTouchUpInside];
+    btn1.imageEdgeInsets = UIEdgeInsetsMake(-11.5, (btn.width-btn.imageView.width)/2, 11.5, (btn.width-btn.imageView.width)/2);
+    btn1.titleEdgeInsets = UIEdgeInsetsMake(20, -30, -20, 0);
+    [btn1 setImage:[UIImage imageNamed:@"icon_fans"] forState:UIControlStateNormal];
+    [view addSubview:btn1];
+    
+    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(btn1.right + 10, btn.top, btn.width, btn.height)];
+    [btn2 setBackgroundColor:MakeColor(0x62, 0xc4, 0x7b)];
+    btn2.layer.cornerRadius = 8;
+    btn2.clipsToBounds = YES;
+    [btn2 setTitle:@"活动规则" forState:UIControlStateNormal];
+    btn2.titleLabel.font = textFont13;
+    btn2.imageView.width = 30;
+    btn2.imageView.height = 30;
+    [btn2 addTarget:self action:@selector(didClickRuleOfActive) forControlEvents:UIControlEventTouchUpInside];
+    btn2.imageEdgeInsets = UIEdgeInsetsMake(-11.5, (btn.width-btn.imageView.width)/2, 11.5, (btn.width-btn.imageView.width)/2);
+    btn2.titleEdgeInsets = UIEdgeInsetsMake(20, -30, -20, 0);
+    [btn2 setImage:[UIImage imageNamed:@"icon_star"] forState:UIControlStateNormal];
+    [view addSubview:btn2];
+    
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-50, btn2.bottom+ 33, 100, 14)];
+    label.textAlignment = NSTextAlignmentLeft;
+    label.textColor = MakeColor(87, 87, 87);
+    label.text = @"推广大比拼";
+    label.font = [UIFont systemFontOfSize:14];
+    [label sizeToFit];
+    label.centerX = kUIScreenWidth /2+5;
+    [view addSubview:label];
+    
+    UIImageView *blueview = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 5, 10)];
+    blueview.layer.cornerRadius = 2.5;
+    blueview.clipsToBounds = YES;
+    blueview.backgroundColor = btn1.backgroundColor;
+    blueview.right = label.left - 5;
+    blueview.centerY = label.centerY;
+    [view addSubview:blueview];
+    
+    view.height = blueview.bottom + 14;
+    return view;
+}
+
+-(void)didclickTitle:(id)sender
+{
+    UITapGestureRecognizer *reg = (UITapGestureRecognizer *)sender;
+    if([reg.view isKindOfClass:[RSTitleView class]]) {
+        RSTitleView *titleView = (RSTitleView *) reg.view;
+        UIViewController *vc = [[NSClassFromString(titleView.vcName) alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -172,162 +186,30 @@
     ruleOfActiveVC.title = @"活动规则";
     [self.navigationController pushViewController:ruleOfActiveVC animated:YES];
 }
+@end
 
--(void)initTableView
+
+@implementation RSTitleView
+-(instancetype) initWithFrame:(CGRect)frame
 {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-50, 250, 100, 10)];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = MakeColor(87, 87, 87);
-    label.text = @"推广大比拼";
-    label.font = [UIFont systemFontOfSize:14];
-    [self.view addSubview:label];
-    
-    UIImageView *headView = [[UIImageView alloc] initWithFrame:CGRectMake(label.frame.origin.x+5, 250, 5, 10)];
-    headView.image = [UIImage imageNamed:@"juxing@2x"];
-    [self.view addSubview:headView];
-
-    self.listTableView = [[UITableView alloc] initWithFrame:CGRectMake(15, 275, kUIScreenWidth-30, kUIScreenHeigth-275)];
-
-    self.listTableView.delegate = self;
-    self.listTableView.dataSource = self;
-    UIView *view = [[UIView alloc] init];
-    self.listTableView.tableFooterView = view;
-    [self.view addSubview:self.listTableView];
-    //轮播
-//    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(LoopPlayback) userInfo:nil repeats:YES];
-}
-
--(void)initArray
-{
-    photoArray = [NSMutableArray arrayWithObjects:@"1@2x",@"2@2x",@"3@2x", nil];
-
-    for (int i = 3; i < nameArray.count; i++) {
-        [photoArray addObject:[NSString stringWithFormat:@"%d",i+1]];
+    self = [super initWithFrame:frame];
+    if(self) {
+        self.backgroundColor = [UIColor whiteColor];
+        self.numLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, self.width, 15)];
+        self.numLabel.textAlignment = NSTextAlignmentCenter;
+        self.numLabel.textColor = color_black_333333;
+        self.numLabel.font = textFont15;
+        [self addSubview:self.numLabel];
+        
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.numLabel.bottom + 11, self.width, 12)];
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        self.titleLabel.textColor = color_black_666666;
+        self.titleLabel.font = textFont12;
+        [self addSubview:self.titleLabel];
+        UIImageView *line = [RSUIView lineWithFrame:CGRectMake(0, self.height - 0.5, self.width, 0.5)];
+        [self addSubview:line];
     }
+    return self;
 }
-//循环播放
--(void)LoopPlayback
-{
-    if (photoArray.count>5) {
-        [photoArray addObject:[photoArray objectAtIndex:0]];
-        [photoArray removeObjectAtIndex:0];
-        [nameArray addObject:[nameArray objectAtIndex:0]];
-        [nameArray removeObjectAtIndex:0];
-        [orderArray addObject:[orderArray objectAtIndex:0]];
-        [orderArray removeObjectAtIndex:0];
-        [countArray addObject:[countArray objectAtIndex:0]];
-        [countArray removeObjectAtIndex:0];
-        [telArray addObject:[telArray objectAtIndex:0]];
-        [telArray removeObjectAtIndex:0];
-    }
-
-    [self.listTableView reloadData];
-}
-
--(void)didClickFunsBtn:(id)sender
-{
-    FunsViewController *funsVC = [[FunsViewController alloc] init];
-    [self.navigationController pushViewController:funsVC animated:YES];
-}
-
--(void)didClickTotalMoneyBtn:(id)sender
-{
-    TotalMoneyViewController *totalMoneyVC = [[TotalMoneyViewController alloc] init];
-    [self.navigationController pushViewController:totalMoneyVC animated:YES];
-}
-
--(void)didClickOrderCount:(id)sender
-{
-    OrderCountsViewController *orderCountVC = [[OrderCountsViewController alloc] init];
-    [self.navigationController pushViewController:orderCountVC animated:YES];
-}
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(15, 0, kUIScreenWidth-30, 30)];
-    view.backgroundColor = MakeColor(240, 240, 240);
-    for (int i = 0; i < 4; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(i*view.frame.size.width/4, 0, view.frame.size.width/4, 30)];
-        [view addSubview:label];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = MakeColor(87, 87, 87);
-        label.font = [UIFont systemFontOfSize:14];
-        if (i == 0) {
-            label.text = @"姓名";
-        }
-        if (i == 1) {
-            label.text = @"电话号";
-        }
-        if (i == 2) {
-            label.text = @"昨日下单";
-        }
-        if (i == 3) {
-            label.text = @"推广总数";
-        }
-    }
-    
-    return view;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 30;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 40;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return nameArray.count;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *identifier = @"identifier";
-    ListCell *cell = [[ListCell alloc] init];
-    if (cell == nil) {
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    }
-    
-    if ([photoArray[indexPath.row] isEqualToString:@"1@2x"]||[photoArray[indexPath.row] isEqualToString:@"2@2x"]||[photoArray[indexPath.row] isEqualToString:@"3@2x"]) {
-        cell.photoView.hidden = NO;
-        cell.sort.hidden = YES;
-        cell.photoView.image = [UIImage imageNamed:photoArray[indexPath.row]];
-
-    }else
-    {
-        cell.photoView.hidden = YES;
-        cell.sort.hidden = NO;
-        cell.sort.text = photoArray[indexPath.row];
-
-    }
-    cell.name.text = [NSString stringWithFormat:@"%@",nameArray[indexPath.row]];
-    cell.telLabel.text = [NSString stringWithFormat:@"%@",telArray[indexPath.row]];
-    cell.order.text = [NSString stringWithFormat:@"%@",orderArray[indexPath.row]];
-    cell.totalCount.text = [NSString stringWithFormat:@"%@",countArray[indexPath.row]];
-    
-    return cell;
-}
-
--(void)navigationBar
-{
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comeback"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
-    left.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = left;
-}
-
--(void)didClickLeft
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 
 @end

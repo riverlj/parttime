@@ -80,7 +80,16 @@
     return nil;
 }
 
+-(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
+}
 
+-(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view  = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+    return view;
+}
 
 #pragma mark -
 #pragma mark UITableViewDelegate

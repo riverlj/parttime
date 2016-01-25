@@ -12,7 +12,8 @@
 - (id)initWithTitle:(NSString *)title {
     self = [super init];
     if (self) {
-        NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] initWithString:title];
+        NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] init];
+        
         self.str = attriString;
     }
     

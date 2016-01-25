@@ -29,24 +29,20 @@
     [self comeBack:nil];
     self.title = @"个人资料";
     [self initTableView];
-}
-
-
--(void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     [self getMessage];
 }
-
 
 -(void)getMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [self showHUD:@"加载中"];
     [RSHttp requestWithURL:@"/user/info" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [self hidHUD];
         NSDictionary *infoDic = [data objectForKey:@"msg"];
         NSError *error = nil;
         RSAccountModel *model = [MTLJSONAdapter modelOfClass:[RSAccountModel class] fromJSONDictionary:infoDic error:&error];
         [model save];
+        self.personMsgArray = [NSMutableArray array];
         NSDictionary *info = [infoDic objectForKey:@"userInfo"];
         if(info) {
             self.headUrl =  [info objectForKey:@"url"];
@@ -85,6 +81,7 @@
         }
         [self.tableView reloadData];
     } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
         [self showToast:errmsg];
     }];
 }
@@ -96,6 +93,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = color_gray_f3f5f7;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.top = 10;
     
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kUIScreenWidth, 80)];
     bgView.backgroundColor = [UIColor whiteColor];
@@ -103,15 +101,16 @@
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 100, 40)];
     nameLabel.text = @"修改头像";
     nameLabel.font = textFont14;
+    nameLabel.textColor = color_black_333333;
     [bgView addSubview:nameLabel];
     
     headView = [[RSHeadView alloc] initWithFrame:CGRectMake(kUIScreenWidth-80, 5, 70, 70)];
     [headView addTapAction:@selector(didClickHead:) target:self];
     [bgView addSubview:headView];
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.width, 60)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.width, 100)];
     UIButton *loginOutBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    loginOutBtn.frame = CGRectMake(70, self.tableView.height+self.tableView.y+20, kUIScreenWidth-140, 40);
+    loginOutBtn.frame = CGRectMake(70, 60, kUIScreenWidth-140, 44);
     loginOutBtn.centerX = view.width/2;
     loginOutBtn.centerY = view.height/2;
     [loginOutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
@@ -161,9 +160,7 @@
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self presentViewController:picker animated:YES completion:nil];
     } else{
-        //
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"你没有摄像头" delegate:self cancelButtonTitle:@"Drat!" otherButtonTitles:@"取消", nil];
-        [alert show];
+        [self alertView:@"当前没有摄像头或没有权限打开摄像头"];
     }
 }
 
@@ -187,8 +184,7 @@
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:picker animated:YES completion:nil];
     }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"你没有摄像头" delegate:nil cancelButtonTitle:@"Drat!" otherButtonTitles:nil];
-        [alert show];
+        [self alertView:@"没有权限打开图片库"];
     }
     
 }
@@ -242,7 +238,7 @@
 #pragma mark -- tableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -252,22 +248,14 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 0;
-
-    }
     return 10;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 2) {
+    if (section == 1) {
         return 1;
     }
-    if (section == 1) {
-        return 2;
-    }
-
     return 4;
 }
 
@@ -284,15 +272,15 @@
     if (cell == nil) {
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     }
-    cell.textLabel.font = [UIFont systemFontOfSize:15];
-    cell.textLabel.textColor = MakeColor(91, 91, 91);
+    cell.textLabel.font = textFont15;
+    cell.textLabel.textColor = color_black_333333;
     
     if (indexPath.section == 0) {
         
         UILabel *headLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 0, kUIScreenWidth-100, 45)];
         [cell.contentView addSubview:headLabel];
         headLabel.font = textFont14;
-        headLabel.textColor = MakeColor(91, 91, 91);
+        headLabel.textColor = MakeColor(0x99, 0x99, 0x99);
         headLabel.textAlignment = NSTextAlignmentRight;
         if (self.personMsgArray.count) {
              headLabel.text = self.personMsgArray[indexPath.row];
@@ -300,6 +288,7 @@
         
         UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kUIScreenWidth/2-30, 45)];
         nameLabel.font = textFont15;
+        nameLabel.textColor = color_black_333333;
         [cell.contentView addSubview:nameLabel];
         
         if (indexPath.row == 0) {
@@ -344,17 +333,9 @@
     [cell.contentView addSubview:label];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:13];
-    label.textColor = MakeColor(213, 213, 213);
+    label.textColor = color_black_333333;
     
     if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"身份证信息";
-        }
-        if (indexPath.row == 1) {
-             cell.textLabel.text = @"学生证信息";
-        }
-    }
-    if (indexPath.section == 2) {
          cell.textLabel.text = @"修改密码";
        }
     
@@ -392,28 +373,7 @@
             modifyVC.delegate1 = self;
             [self.navigationController pushViewController:modifyVC animated:YES];
         }
-        if (indexPath.section == 1) {
-            if (indexPath.row == 0) {
-                modifyPW.titleString = @"查看身份证";
-                modifyPW.idString = self.personMsgArray[4];
-                modifyPW.idUrl1 = self.personMsgArray[8];
-                if (self.personMsgArray[9]) {
-                    modifyPW.idUrl2 = self.personMsgArray[9];
-                }
-
-            }
-            if (indexPath.row == 1) {
-                modifyPW.titleString = @"查看学生证";
-                modifyPW.idString = self.personMsgArray[5];
-                modifyPW.studentUrl1 = self.personMsgArray[10];
-                if (self.personMsgArray[11]) {
-                    modifyPW.studentUrl2 = self.personMsgArray[11];
-                }
-
-            }
-            [self.navigationController pushViewController:modifyPW animated:YES];
-        }
-        if (indexPath.section == 2) {
+         if (indexPath.section == 1) {
             modifyPW.titleString = @"修改密码";
             [self.navigationController pushViewController:modifyPW animated:YES];
         }

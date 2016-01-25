@@ -25,6 +25,8 @@
     [super viewDidLoad];
     self.delegate = self;
     [self setHidesBottomBarWhenPushed:YES];
+    self.tabBar.layer.borderWidth = 0.5;
+    self.tabBar.layer.borderColor = color_gray_e8e8e8.CGColor;
     [self setViewController];
 }
 
@@ -63,7 +65,9 @@
         return _btn;
     }
     //圆形
-    _btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-25, kUIScreenHeigth-80, 60, 60)];
+    _btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-25, kUIScreenHeigth-74, 60, 60)];
+    _btn.centerX = kUIScreenWidth/2;
+    _btn.centerY = kUIScreenHeigth - self.tabBar.height;
     _btn.layer.cornerRadius = 30;
     [_btn setBackgroundImage:[UIImage imageNamed:@"去送餐2x"] forState:UIControlStateNormal];
     _btn.layer.masksToBounds = YES;

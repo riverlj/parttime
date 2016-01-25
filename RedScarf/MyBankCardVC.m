@@ -243,7 +243,7 @@
         [nameTf becomeFirstResponder];
         return;
     }
-    if(![self.bankcard.realName isCharacter]) {
+    if(![self.bankcard.realName isValidName]) {
         [self showToast:@"姓名不合法"];
         [nameTf becomeFirstResponder];
         return;

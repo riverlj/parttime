@@ -35,9 +35,10 @@
         [self.bgImageView addSubview:self.detailBtn];
 
         
-        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.addLabel.left, self.addLabel.bottom + 15, self.bgImageView.width - 36, 12)];
+        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.addLabel.left, self.addLabel.bottom + 15, self.bgImageView.width - 41 - self.detailBtn.width, 12)];
         self.foodLabel.font = textFont12;
         self.foodLabel.numberOfLines = 0;
+        self.foodLabel.lineBreakMode = NSLineBreakByCharWrapping;
         [self.bgImageView addSubview:self.foodLabel];
         
         self.btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -67,7 +68,10 @@
     self.foodLabel.height = rect.size.height+10;
     self.btn.top = self.foodLabel.bottom + 12;
     self.bgImageView.height = self.btn.bottom + 8;
+    self.detailBtn.height = self.bgImageView.height;
+    self.detailBtn.titleEdgeInsets = UIEdgeInsetsMake( 20 - self.detailBtn.height/2, 0, self.detailBtn.height/2 -20 , 0);
     self.height = self.bgImageView.bottom;
+    
 }
 
 @end

@@ -11,6 +11,7 @@
 @interface MyprofileModel : RSModel
 //标题
 @property(nonatomic, strong) NSString *title;
+@property(nonatomic, strong) NSAttributedString *subtitle;
 //图片
 @property(nonatomic, strong) NSString *imgName;
 //需要跳转的vc的名字

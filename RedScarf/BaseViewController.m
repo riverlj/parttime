@@ -19,6 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = color_gray_f3f5f7;
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:color_black_333333,NSForegroundColorAttributeName, textFont18, NSFontAttributeName, nil];
+    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
 }
 
 
@@ -56,9 +58,6 @@
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
     left.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = left;
-    
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:color,NSForegroundColorAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
 }
 
 
@@ -135,6 +134,7 @@
 {
     self.hud.labelText = str;
     self.hud.mode = MBProgressHUDModeText;
+    self.hud.yOffset = -100;
     [self.hud showAnimated:YES whileExecutingBlock:^{
         sleep(1);
     } completionBlock:^{

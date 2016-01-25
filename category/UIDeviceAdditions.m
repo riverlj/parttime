@@ -13,6 +13,8 @@
 #include <net/if_dl.h>
 #import <ifaddrs.h>
 #import <sys/utsname.h>
+#import "FCUUID.h"
+
 @implementation UIDevice(HardWare)
 +(NSString *) utm_campaign
 {
@@ -26,12 +28,7 @@
 
 +(NSString *) utm_content
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [defaults objectForKey:@"uuid"];
-    if(uuid) {
-        return uuid;
-    }
-    return @"";
+    return [FCUUID uuidForDevice];
 }
 
 + (NSString *)networkStatus
@@ -97,7 +94,14 @@
 
 + (NSString *)modelName
 {
-    return [[UIDevice currentDevice].model stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSMutableArray *arr = [NSMutableArray array];
+    //第一参数为系统号
+    [arr addObject:@"ios"];
+    //第二参数为系统版本
+    [arr addObject:[[UIDevice currentDevice] systemVersion]];
+    //第三参数为机型
+    [arr addObject:[[[UIDevice currentDevice] model]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    return [arr componentsJoinedByString:@"|"];
 }
 
 + (NSString *)clientVersion {

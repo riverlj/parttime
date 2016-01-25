@@ -27,8 +27,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     apartmentsArray = [NSMutableArray array];
     selectedArray = [NSMutableArray array];
     indexArr = [NSMutableArray array];
@@ -38,10 +36,9 @@
 
 -(void)initView
 {
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     if ([self.title isEqualToString:@"修改电话"]) {
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
-//        right.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = right;
         [self modifyPhone];
     }
@@ -82,7 +79,6 @@
 -(void)getMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    self.username = [self.username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [params setObject:self.username forKey:@"username"];
     [self showHUD:@"正在加载"];
     [RSHttp requestWithURL:@"/team/user/setting/addr" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
