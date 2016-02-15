@@ -15,36 +15,36 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.width = kUIScreenHeigth;
-        self.typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 0,(kUIScreenWidth-36)*2/6, 35)];
+        self.bgView = [[UIView alloc] initWithFrame:CGRectMake(18, 0, kUIScreenWidth - 36, 35)];
+        [self.bgView setBackgroundColor:[UIColor whiteColor]];
+        [self.contentView addSubview:self.bgView];
+        
+        self.typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,self.bgView.width*2/6, 35)];
         self.typeLabel.textColor = colorblue;
         self.typeLabel.font = textFont12;
-        self.typeLabel.backgroundColor = [UIColor whiteColor];
         self.typeLabel.numberOfLines = 0;
         self.typeLabel.textAlignment = NSTextAlignmentCenter;
         self.typeLabel.layer.borderColor = color_gray_e8e8e8.CGColor;
         self.typeLabel.layer.borderWidth = 0.5;
-        [self.contentView addSubview:self.typeLabel];
+        [self.bgView addSubview:self.typeLabel];
         
-        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.typeLabel.right, self.typeLabel.top, (kUIScreenWidth-36)*3/6, self.typeLabel.height)];
+        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.typeLabel.right, self.typeLabel.top, self.bgView.width*3/6, self.typeLabel.height)];
         self.foodLabel.textColor = color155;
         self.foodLabel.numberOfLines = 0;
         self.foodLabel.font = textFont12;
-        self.foodLabel.backgroundColor = [UIColor whiteColor];
         self.foodLabel.textAlignment = NSTextAlignmentCenter;
         self.foodLabel.layer.borderColor = color_gray_e8e8e8.CGColor;
         self.foodLabel.layer.borderWidth = 0.5;
-        [self.contentView addSubview:self.foodLabel];
+        [self.bgView addSubview:self.foodLabel];
         
-        self.numLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.foodLabel.right, self.foodLabel.top, (kUIScreenWidth-36)/6, self.foodLabel.height)];
+        self.numLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.foodLabel.right, self.foodLabel.top, self.bgView.width/6, self.foodLabel.height)];
         self.numLabel.textColor = color155;
         self.numLabel.font = textFont12;
         self.numLabel.numberOfLines = 0;
         self.numLabel.textAlignment = NSTextAlignmentCenter;
-        self.numLabel.backgroundColor = [UIColor whiteColor];
         self.numLabel.layer.borderColor = color_gray_e8e8e8.CGColor;
         self.numLabel.layer.borderWidth = 0.5;
-        [self.contentView addSubview:self.numLabel];
+        [self.bgView addSubview:self.numLabel];
     }
     return self;
 }
@@ -64,6 +64,7 @@
     self.foodLabel.height = rect.size.height + 20;
     self.typeLabel.height = self.foodLabel.height;
     self.numLabel.height = self.foodLabel.height;
+    self.bgView.height = self.foodLabel.height;
     self.height = self.foodLabel.height;
 }
 
@@ -75,10 +76,8 @@
         self.numLabel.text = m.count;
         [self setIntroductionText:m.content];
         if(!model.isSelectable) {
-            [self.typeLabel setBackgroundColor:color_gray_eeeedf2];
             [self.typeLabel setTextColor:color_black_666666];
-            [self.numLabel setBackgroundColor:color_gray_eeeedf2];
-            [self.foodLabel setBackgroundColor:color_gray_eeeedf2];
+            [self.bgView setBackgroundColor:color_gray_eeeedf2];
         }
     }
     [super setModel:model];

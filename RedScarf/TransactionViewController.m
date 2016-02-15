@@ -85,19 +85,7 @@
     if ([self.title isEqualToString:@"提现纪录"]) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         dic = [bodyArray objectAtIndex:indexPath.row];
-        if ([[dic objectForKey:@"status"] intValue] == 0) {
-            [self alertView:@"提现申请正在审核中"];
-        }
-        if ([[dic objectForKey:@"status"] intValue] == 1) {
-            [self alertView:@"提现申请正在打款"];
-        }
-        if ([[dic objectForKey:@"status"] intValue] == 2) {
-            [self alertView:@"银行卡信息有误，请更改"];
-        }
-        if ([[dic objectForKey:@"status"] intValue] == 3) {
-            [self alertView:@"提现已成功"];
-        }
-
+        [self alertView:[dic valueForKey:@"returnMessage"]];
     }
     
 }

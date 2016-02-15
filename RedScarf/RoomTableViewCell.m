@@ -84,7 +84,7 @@
     if(_dateLabel) {
         return _dateLabel;
     }
-    _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-120, self.foodLabel.bottom, 110, 30)];
+    _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.groundImage.width - 135, self.foodLabel.bottom, 130, 30)];
     _dateLabel.textColor = MakeColor(187, 186, 193);
     _dateLabel.font = textFont12;
     return _dateLabel;

@@ -9,7 +9,7 @@
 #import "RSTableViewCell.h"
 
 @interface SeparateTableViewCell : RSTableViewCell
-
+@property(nonatomic, strong) UIView *bgView;
 @property(nonatomic,strong)UILabel *typeLabel;
 @property(nonatomic,strong)UILabel *foodLabel;
 @property(nonatomic,strong)UILabel *numLabel;

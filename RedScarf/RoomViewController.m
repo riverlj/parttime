@@ -156,7 +156,7 @@
 {
     NSString *reason;
     reasonArr = [NSArray arrayWithObjects:@"餐品不够",@"送错或漏送",@"餐品腐坏",@"餐品破损",@"其它", nil];
-    if([reasonArr objectAtIndex:buttonIndex]) {
+    if(buttonIndex < [reasonArr count]) {
         reason = [reasonArr objectAtIndex:buttonIndex];
         [[BaiduMobStat defaultStat] logEvent:reason eventLabel:@"button"];
     } else {
