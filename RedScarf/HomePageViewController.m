@@ -55,7 +55,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [RSHttp requestWithURL:@"/task/waitAssignTask" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSArray *taskArray = [data objectForKey:@"msg"];
+        NSArray *taskArray = [data objectForKey:@"data"];
         RSMenuButton *btn = [self getMenuBtnById:801];
         if(btn) {
             if(taskArray.count > 0) {
@@ -72,7 +72,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [RSHttp requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSArray *separateArray = [data objectForKey:@"msg"];
+        NSArray *separateArray = [data objectForKey:@"data"];
         RSMenuButton *btn = [self getMenuBtnById:802];
         if(btn) {
             if(separateArray.count > 0) {
@@ -111,7 +111,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [RSHttp requestWithURL:@"/user/info" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSDictionary *infoDic = [data objectForKey:@"msg"];
+        NSDictionary *infoDic = [data objectForKey:@"body"];
         NSError *error = nil;
         RSAccountModel *model = [MTLJSONAdapter modelOfClass:[RSAccountModel class] fromJSONDictionary:infoDic error:&error];
         [model save];
@@ -158,7 +158,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [RSHttp requestWithURL:@"/resource/appMenu" params:dic httpMethod:@"GET" success:^(NSDictionary *data) {
-        [self initHomeView:[data objectForKey:@"msg"]];
+        [self initHomeView:[data objectForKey:@"body"]];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self showToast:errmsg];
     }];
@@ -184,7 +184,7 @@
     [params setObject:@"1" forKey:@"pageNum"];
     [params setObject:@"3" forKey:@"pageSize"];
     [RSHttp requestWithURL:@"/user/banners" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+        for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
             [imagesURLStrings addObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"url"]]];
             [imageUrlArray addObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"linkUrl"]]];
         }

@@ -145,7 +145,7 @@
     [self showHUD:@"加载中..."];
     [RSHttp requestWithURL:@"/team/apartments" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self hidHUD];
-        pickerArray = [[data objectForKey:@"msg"] objectForKey:@"apartments"];
+        pickerArray = [[data objectForKey:@"body"] objectForKey:@"apartments"];
         
     } failure:^(NSInteger code, NSString *errmsg) {
         [self hidHUD];

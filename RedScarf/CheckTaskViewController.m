@@ -47,7 +47,7 @@
     [self showHUD:@"正在加载"];
     [RSHttp requestWithURL:@"/team/schedule/" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self hidHUD];
-        NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
+        NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"body"] objectForKey:@"list"]];
         if (![arr count]) {
             [self.tips setFrame:CGRectMake(0, 0, self.tableView.width, self.tableView.height)];
             [self.tableView addSubview:self.tips];
@@ -56,7 +56,7 @@
         }
         
         [dateArray removeAllObjects];
-        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+        for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
             TeamModel *model = [[TeamModel alloc] init];
             model.users = [dic objectForKey:@"users"];
             model.apartmentName = [dic objectForKey:@"apartmentName"];

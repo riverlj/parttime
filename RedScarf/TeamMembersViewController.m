@@ -55,14 +55,14 @@
     [params setValue:@"-1" forKey:@"pageNum"];
     [self showHUD:@"正在加载"];
     [RSHttp requestWithURL:@"/user/teamMembers/" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
+        NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"body"] objectForKey:@"list"]];
         if (![arr count]) {
             [self.view addSubview:[self named:@"meiyouchengyuan" text:@"成员"]];
         }
         
         [listArray removeAllObjects];
         [nameArray removeAllObjects];
-        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+        for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
             [listArray addObject:dic];
             [nameArray addObject:[dic objectForKey:@"realName"]];
         }

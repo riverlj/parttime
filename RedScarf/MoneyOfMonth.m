@@ -65,17 +65,17 @@
         [settleArray removeAllObjects];
         [salayArray removeAllObjects];
         [settledDateArray removeAllObjects];
-        settledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"msg"] objectForKey:@"settledSum"]];
+        settledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"body"] objectForKey:@"settledSum"]];
         UILabel *money = (UILabel *)[self.view viewWithTag:6666];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"已结算金额\n%@",settledSum]];
         [str addAttribute:NSForegroundColorAttributeName value:color155 range:NSMakeRange(0,5)];
         money.attributedText = str;
                 
-        unsettledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"msg"] objectForKey:@"unsettledSum"]];
+        unsettledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"body"] objectForKey:@"unsettledSum"]];
         UILabel *money1 = (UILabel *)[self.view viewWithTag:7777];
         money1.text = [NSString stringWithFormat:@"未结算金额\n%@",unsettledSum];
         
-        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+        for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
             NSLog(@"dic = %@",dic);
             [eveydayArray addObject:[dic objectForKey:@"date"]];
             [salayArray addObject:[dic objectForKey:@"sum"]];
@@ -92,17 +92,17 @@
         [settleArray removeAllObjects];
         [salayArray removeAllObjects];
         [settledDateArray removeAllObjects];
-        settledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"msg"] objectForKey:@"settledSum"]];
+        settledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"body"] objectForKey:@"settledSum"]];
         UILabel *money = (UILabel *)[self.view viewWithTag:6666];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"已结算金额\n%@",settledSum]];
         [str addAttribute:NSForegroundColorAttributeName value:color155 range:NSMakeRange(0,5)];
         money.attributedText = str;
         
-        unsettledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"msg"] objectForKey:@"unsettledSum"]];
+        unsettledSum = [NSString stringWithFormat:@"%@",[[data objectForKey:@"body"] objectForKey:@"unsettledSum"]];
         UILabel *money1 = (UILabel *)[self.view viewWithTag:7777];
         money1.text = [NSString stringWithFormat:@"未结算金额\n%@",unsettledSum];
         
-        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+        for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
             NSLog(@"dic = %@",dic);
             [eveydayArray addObject:[dic objectForKey:@"date"]];
             [salayArray addObject:[dic objectForKey:@"sum"]];

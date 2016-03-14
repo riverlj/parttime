@@ -33,7 +33,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:self.deatilSalary forKey:@"date"];
     [RSHttp requestWithURL:@"/salary/date" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+        for (NSMutableDictionary *dic in [data objectForKey:@"body"]) {
             if ([dic objectForKey:@"basis"]) {
                 [salaryArr addObject:[dic objectForKey:@"basis"]];
             }

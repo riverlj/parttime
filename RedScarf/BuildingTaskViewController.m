@@ -52,7 +52,7 @@
 
 -(void) afterHttpSuccess:(NSDictionary *)data
 {
-    for(NSDictionary *dic in [data valueForKey:@"msg"]) {
+    for(NSDictionary *dic in [data valueForKey:@"body"]) {
         NSError *error;
         BuildingTaskModel *model = [MTLJSONAdapter modelOfClass:[BuildingTaskModel class] fromJSONDictionary:dic error:&error];
         [self.models addObject:model];

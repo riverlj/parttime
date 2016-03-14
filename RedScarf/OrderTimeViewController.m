@@ -49,7 +49,7 @@
     [self showHUD:@"正在加载"];
     [RSHttp requestWithURL:url params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         CGFloat top = 0;
-        for(NSDictionary *dic in [data objectForKey:@"msg"]) {
+        for(NSDictionary *dic in [data objectForKey:@"body"]) {
             NSDate *date =[NSDate dateFromString:[NSString stringWithFormat:@"%@-%@-01", [dic objectForKey:@"year"], [dic objectForKey:@"month"]]];
             RSCalendar *cal = [[RSCalendar alloc] initWithFrame:CGRectMake(18, 0, kUIScreenWidth-36, kUIScreenWidth * 7.8/7)];
             cal.date = date;

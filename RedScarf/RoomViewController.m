@@ -42,7 +42,7 @@
     [params setObject:self.room forKey:@"room"];
     [params setObject:@"2" forKey:@"source"];
     [RSHttp requestWithURL:@"/task/assignedTask/customerDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+        for (NSMutableDictionary *dic in [data objectForKey:@"body"]) {
             NSError *error = nil;
             RoomMissionModel *model = [MTLJSONAdapter modelOfClass:[RoomMissionModel class] fromJSONDictionary:dic error:&error];
             if(model) {

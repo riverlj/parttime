@@ -51,31 +51,23 @@
 
 -(void)UpdateVersion
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    if ([defaults objectForKey:@"token"]) {
-        [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
-        [params setObject:@"2" forKey:@"type"];
-        [RSHttp requestWithURL:@"/user/version" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-            dic = [data objectForKey:@"body"];
-            NSString *versionStr = [dic objectForKey:@"version"];
-            NSString *content = [dic objectForKey:@"content"];
-            
-            //当前版本
-            NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-            CFShow((__bridge CFTypeRef)(infoDictionary));
-            NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-            updateUrl = [dic objectForKey:@"url"];
 
-            if (![versionStr isEqualToString:app_Version]) {
-                UIAlertView * aler=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
-                [aler show];
+    [RSHttp mobileRequestWithURL:@"/mobile/version/" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSMutableDictionary *dic = [data objectForKey:@"body"];
+        NSString *content = [dic valueForKey:@"content"];
+        updateUrl = [dic valueForKey:@"url"];
+        if ([[dic valueForKey:@"forceUpdate"] boolValue]) {
+            UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
+            [alert show];
+        } else {
+            if([dic valueForKey:@"showUpdate"]) {
+                UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
+                [alert show];
             }
-        } failure:^(NSInteger code, NSString *errmsg) {
-        }];
-    }
+        }
+    } failure:^(NSInteger code, NSString *errmsg) {
+    }];
 }
 
 -(void)BaiduMobStat
@@ -94,7 +86,7 @@
     
     if (buttonIndex==0) {
         if(!updateUrl) {
-            updateUrl = @"itms-services://?action=download-manifest&url=https://passport.honglingjinclub.com/downlod/RedScarf.plist";
+            updateUrl = @"itms-services://?action=download-manifest&url=https://pay.honglingjinclub.com/PList/RedScarf.plist";
         }
         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:updateUrl]];
     }

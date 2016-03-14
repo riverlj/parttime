@@ -41,7 +41,7 @@
 
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [RSHttp requestWithURL:@"/promotionActivity/index/orderNum" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+        for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
             [dataArray addObject:dic];
         }
         [self.tableView reloadData];
@@ -49,7 +49,7 @@
     }];
     
     [RSHttp requestWithURL:@"/promotionActivity/index/orderNum" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        for (NSMutableDictionary *dic in [[data objectForKey:@"msg"] objectForKey:@"list"]) {
+        for (NSMutableDictionary *dic in [[data objectForKey:@"body"] objectForKey:@"list"]) {
             NSLog(@"dic = %@",dic);
             [dataArray addObject:dic];
         }

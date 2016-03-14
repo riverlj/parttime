@@ -82,11 +82,13 @@
 
 #ifdef DEBUG
 #define  REDSCARF_BASE_URL @"http://test.jianzhi.honglingjinclub.com"
-#define  REDSCARF_PAY_URL @"https://paytest.honglingjinclub.com"
+#define  REDSCARF_PAY_URL @"http://paytest.honglingjinclub.com"
+#define  REDSCARF_MOBILE_URL @"http://lsp.dev.honglingjinclub.com"
 #else
 //正式
 #define  REDSCARF_BASE_URL @"http://jianzhi.honglingjinclub.com"
 #define  REDSCARF_PAY_URL @"https://pay.honglingjinclub.com"
+#define  REDSCARF_MOBILE_URL @"http://weixin.honglingjinclub.com"
 #endif
 
 

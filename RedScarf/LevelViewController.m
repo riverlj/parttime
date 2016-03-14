@@ -42,7 +42,7 @@
         [self showHUD:@"正在加载"];
         [RSHttp requestWithURL:@"/user/growth" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
             [self hidHUD];
-            NSDictionary *dict = [data valueForKey:@"msg"];
+            NSDictionary *dict = [data valueForKey:@"body"];
             NSInteger cgrowth = [[dict valueForKey:@"currentGrowth"]intValue];
             NSString *crank = [dict valueForKey:@"currentRank"];
             NSInteger maxgrowth = [[dict valueForKey:@"maxGrowth"] intValue];

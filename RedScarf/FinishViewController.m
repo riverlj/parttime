@@ -37,7 +37,7 @@
     [self.searchBar.layer setBorderColor:MakeColor(241, 241, 241).CGColor];
     [self.searchBar.layer setBorderWidth:1.0];
     self.searchBar.delegate = self;
-    self.searchBar.placeholder = @"根据收货人手机号搜索";
+    self.searchBar.placeholder = @"输入姓名、手机号或楼栋";
     self.searchBar.barTintColor = color_gray_f3f5f7;
     self.searchBar.backgroundColor = color_gray_f3f5f7;
     self.searchBar.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
@@ -99,7 +99,7 @@
 
 -(void) afterHttpSuccess:(NSDictionary *)data
 {
-    NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"msg"] objectForKey:@"list"]];
+    NSArray *arr = [NSArray arrayWithArray:[[data objectForKey:@"body"] objectForKey:@"list"]];
     for (NSMutableDictionary *dic in arr) {
         Model *model = [[Model alloc] init];
         model.nameStr = [dic objectForKey:@"username"];

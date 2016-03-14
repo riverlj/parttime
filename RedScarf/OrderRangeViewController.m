@@ -50,8 +50,8 @@
     }
     
     [RSHttp requestWithURL:@"/user/setting/addr" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        addressArray = [[data objectForKey:@"msg"] objectForKey:@"apartments"];
-        [idArray addObject:[[data objectForKey:@"msg"] objectForKey:@"selectedApartments"]];
+        addressArray = [[data objectForKey:@"body"] objectForKey:@"apartments"];
+        [idArray addObject:[[data objectForKey:@"body"] objectForKey:@"selectedApartments"]];
         [self.tableView reloadData];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self alertView:errmsg];

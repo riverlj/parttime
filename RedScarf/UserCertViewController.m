@@ -173,7 +173,7 @@
         [formData appendPartWithFormData:[self image2Data:[info objectForKey:UIImagePickerControllerEditedImage]]  name:@"picture"];
     } success:^(NSDictionary *data) {
         currentImgView.highlighted = YES;
-        [currentImgView sd_setImageWithURL:[data objectForKey:@"msg"]];
+        [currentImgView sd_setImageWithURL:[data objectForKey:@"body"]];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self showToast:@"图片上传失败"];
     }];
@@ -185,7 +185,7 @@
     [self showHUD:@"加载中..."];
     [RSHttp requestWithURL:@"/user/identification" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self hidHUD];
-        NSDictionary *dict = [data objectForKey:@"msg"];
+        NSDictionary *dict = [data objectForKey:@"body"];
         self.nameTextField.textField.text = [dict valueForKey:@"realName"];
         self.idCardTextField.textField.text = [dict valueForKey:@"idCardNo"];
         self.stuCardTextField.textField.text = [dict valueForKey:@"studentIdCardNo"];

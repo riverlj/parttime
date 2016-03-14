@@ -82,8 +82,8 @@
     [params setObject:self.username forKey:@"username"];
     [self showHUD:@"正在加载"];
     [RSHttp requestWithURL:@"/team/user/setting/addr" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        apartmentsArray = [[data objectForKey:@"msg"] objectForKey:@"apartments"];
-        NSString *selectedApartments = [[data objectForKey:@"msg"] objectForKey:@"selectedApartments"];
+        apartmentsArray = [[data objectForKey:@"body"] objectForKey:@"apartments"];
+        NSString *selectedApartments = [[data objectForKey:@"body"] objectForKey:@"selectedApartments"];
         selectedArray = [[selectedApartments componentsSeparatedByString:@","] copy];
         [self.tableView reloadData];
         [self hidHUD];

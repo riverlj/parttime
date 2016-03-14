@@ -42,7 +42,7 @@
     [RSHttp requestWithURL:@"/promotionActivity/index/fansDetial" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         pageNum ++;
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        dic = [data objectForKey:@"msg"];
+        dic = [data objectForKey:@"body"];
         
         NSInteger i = 0;
         for (NSDictionary *temp in [dic objectForKey:@"fansDetail"]) {

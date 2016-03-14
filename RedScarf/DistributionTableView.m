@@ -59,12 +59,12 @@
     [self showHUD:@"正在加载"];
     [RSHttp requestWithURL:@"/task/assignedTask/apartmentAndCount" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self hidHUD];
-        NSArray *arr = [NSArray arrayWithArray:[data objectForKey:@"msg"]];
+        NSArray *arr = [NSArray arrayWithArray:[data objectForKey:@"body"]];
         if (![arr count]) {
             [self addSubview:[self named:@"kongrenwu" text:@"任务"]];
         }
         [self.addressArr removeAllObjects];
-        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+        for (NSMutableDictionary *dic in [data objectForKey:@"body"]) {
             NSLog(@"dic = %@",dic);
             Model *model = [[Model alloc] init];
             model.apartmentName = [dic objectForKey:@"apartmentName"];
@@ -93,7 +93,7 @@
         [self.roomArr removeAllObjects];
         for (Model *model in self.addressArr) {
             if ([model.aId isEqualToString:sender]) {
-                model.apartmentsArr = [[data objectForKey:@"msg"] mutableCopy];
+                model.apartmentsArr = [[data objectForKey:@"body"] mutableCopy];
             }
         }
         [self reloadData];

@@ -47,7 +47,7 @@
 -(void) afterHttpSuccess:(NSDictionary *)data
 {
     [self.view removeAllSubviews];
-    msgDictionary = [data objectForKey:@"msg"];
+    msgDictionary = [data objectForKey:@"body"];
     [self initView];
 }
 

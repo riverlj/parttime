@@ -35,4 +35,9 @@ constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
 
 + (void) processSuccess:(void (^)(NSDictionary *data)) success operation:(AFHTTPRequestOperation *)op response:(id)responseObject failure:(void (^)(NSInteger code, NSString *errmsg))failure;
 + (void) processFailure:(void (^)(NSInteger code, NSString *errmsg))failure operation:(AFHTTPRequestOperation *)op error:(NSError *)error;
++(void)mobileRequestWithURL:(NSString *)urlstring
+                     params:(NSMutableDictionary *)params
+                 httpMethod:(NSString *)httpMethod
+                    success:(void (^)(NSDictionary *))success
+                    failure:(void (^)(NSInteger, NSString *))failure;
 @end

@@ -161,7 +161,7 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     
     [RSHttp requestWithURL:@"/task/allApartmentBySchoolId" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+        for (NSMutableDictionary *dic in [data objectForKey:@"body"]) {
             NSLog(@"dic = %@",dic);
             [self.dataArray addObject:dic];
             [self.nameArray addObject:[dic objectForKey:@"name"]];

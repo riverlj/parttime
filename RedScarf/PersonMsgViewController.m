@@ -38,7 +38,7 @@
     [self showHUD:@"加载中"];
     [RSHttp requestWithURL:@"/user/info" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self hidHUD];
-        NSDictionary *infoDic = [data objectForKey:@"msg"];
+        NSDictionary *infoDic = [data objectForKey:@"body"];
         NSError *error = nil;
         RSAccountModel *model = [MTLJSONAdapter modelOfClass:[RSAccountModel class] fromJSONDictionary:infoDic error:&error];
         [model save];
@@ -210,7 +210,7 @@
     [dic setObject:[defaults objectForKey:@"token"] forKey:@"token"];
     [RSHttp requestWithURL:@"/user/picBase64" params:dic httpMethod:@"POST" success:^(NSDictionary *data) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        [params setObject:[data objectForKey:@"msg"] forKey:@"url"];
+        [params setObject:[data objectForKey:@"body"] forKey:@"url"];
         [params setObject:[defaults objectForKey:@"token"] forKey:@"token"];
         [RSHttp requestWithURL:@"/user/portrait" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
             [self alertView:@"设置成功"];

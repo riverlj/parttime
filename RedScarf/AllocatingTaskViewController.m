@@ -54,7 +54,7 @@
 
 -(void) afterHttpSuccess:(NSDictionary *)data
 {
-    for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+    for (NSMutableDictionary *dic in [data objectForKey:@"body"]) {
         Model *model = [[Model alloc] init];
         model.username = [dic objectForKey:@"username"];
         model.tasksArr = [dic objectForKey:@"apartments"];

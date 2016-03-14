@@ -88,7 +88,7 @@
     app.tocken = [UIUtils replaceAdd:app.tocken];
     [RSHttp requestWithURL:@"/task/unstandardAddr" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self.dataArr removeAllObjects];
-        for (NSMutableDictionary *dic in [data objectForKey:@"msg"]) {
+        for (NSMutableDictionary *dic in [data objectForKey:@"body"]) {
             [self.dataArr addObject:dic];
         }
         [self reloadData];

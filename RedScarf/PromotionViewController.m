@@ -42,7 +42,7 @@
 
 -(void) afterHttpSuccess:(NSDictionary *)data
 {
-    NSDictionary *dic = [data objectForKey:@"msg"];
+    NSDictionary *dic = [data objectForKey:@"body"];
     code = [dic valueForKey:@"cdkey"];
     fansView.numLabel.text = [dic valueForKey:@"fansTotal"];
     totalMoneyView.numLabel.text = [dic valueForKey:@"promoteAccount"];

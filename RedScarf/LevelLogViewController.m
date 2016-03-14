@@ -28,7 +28,7 @@
     [self showHUD:@"加载中"];
     [RSHttp requestWithURL:@"/user/growth/log" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSMutableArray *models = [NSMutableArray array];
-        for(NSDictionary *dict in [data valueForKey:@"msg"]) {
+        for(NSDictionary *dict in [data valueForKey:@"body"]) {
             LevelLogModel *model = [MTLJSONAdapter modelOfClass:[LevelLogModel class] fromJSONDictionary:dict error:nil];
             [models addObject:model];
         }

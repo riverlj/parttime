@@ -86,7 +86,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [RSHttp requestWithURL:@"/user/info" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        infoDic = [data objectForKey:@"msg"];
+        infoDic = [data objectForKey:@"body"];
         NSError *error = nil;
         RSAccountModel *model = [MTLJSONAdapter modelOfClass:[RSAccountModel class] fromJSONDictionary:infoDic error:&error];
         [model save];
@@ -99,7 +99,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [RSHttp requestWithURL:@"/user/identification" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSInteger status = [[[data valueForKey:@"msg"] valueForKey:@"identificationStatus"] integerValue];
+        NSInteger status = [[[data valueForKey:@"body"] valueForKey:@"identificationStatus"] integerValue];
         //判断status
         for(NSArray *arr in self.models) {
             for(MyprofileModel *model in arr) {

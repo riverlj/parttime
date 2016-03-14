@@ -60,7 +60,7 @@
     [super viewDidLoad];
     self.title = @"分餐点";
     [self.tips setTitle:@"暂时没有餐品哦〜" withImg:@"meiyoucanpin"];
-    self.tableView.tableFooterView = [UIView new];
+    self.tableView.tableFooterView = self.footView;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     account = [RSAccountModel sharedAccount];
     
@@ -79,13 +79,11 @@
             self.tableView.top = self.titleView.height ;
             self.tableView.height = kUIScreenHeigth - self.titleView.height;
         }
-        self.tableView.tableFooterView = nil;
     } else {
         if([self.titleView superview]) {
             [self.titleView removeFromSuperview];
             self.tableView.frame = self.view.bounds;
         }
-        self.tableView.tableFooterView = self.footView;
     }
 }
 
@@ -130,7 +128,7 @@
 //http成功返回时
 -(void) afterHttpSuccess:(NSDictionary *)data
 {
-    id taskData = [data objectForKey:@"msg"];
+    id taskData = [data objectForKey:@"body"];
     if([taskData isKindOfClass:[NSDictionary class]] && [taskData objectForKey:@"date"]) {
         for (NSDictionary *dic in [taskData objectForKey:@"list"]) {
             NSError *error ;

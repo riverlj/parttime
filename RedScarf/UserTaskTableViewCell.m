@@ -64,6 +64,7 @@
         [attrStr setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color_black_222222, NSForegroundColorAttributeName, textFont16, NSFontAttributeName, nil] range:NSMakeRange(0, [m.username length])];
         self.titleLabel.attributedText = attrStr;
         CGFloat bottom = self.titleLabel.bottom+16;
+        [self clearSubCell];
         for(NSDictionary *dic in m.tasksArr) {
             Model *temp = [[Model alloc]init];
             temp.cellClassName = @"RoomTaskTableViewCell";
@@ -82,6 +83,17 @@
         }
         self.bgView.height = bottom;
         self.height = self.bgView.height + 18;
+    }
+}
+
+//清除subcell
+-(void) clearSubCell
+{
+    self.bottom = self.titleLabel.bottom + 16;
+    for(UIView * view in self.bgView.subviews) {
+        if([view isKindOfClass:[RSTableViewCell class]]) {
+            [view removeFromSuperview];
+        }
     }
 }
 @end

@@ -42,6 +42,7 @@
         self.titleLabel.text = [NSString stringWithFormat:@"%@", m.name];
         tasks = m.tasks;
     }
+    [self clearSubCell];
     CGFloat bottom = self.titleLabel.bottom + 10;
     for (RSTaskModel *task in tasks) {
         RSTableViewCell *cell = [task getCell];
@@ -53,4 +54,14 @@
     [super setModel:model];
 }
 
+//清除subcell
+-(void) clearSubCell
+{
+    self.bottom = self.titleLabel.bottom + 10;
+    for(UIView * view in self.contentView.subviews) {
+        if([view isKindOfClass:[RSTableViewCell class]]) {
+            [view removeFromSuperview];
+        }
+    }
+}
 @end

@@ -38,12 +38,12 @@
         [self.bgView addSubview:self.foodLabel];
         
         self.numLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.foodLabel.right, self.foodLabel.top, self.bgView.width/6, self.foodLabel.height)];
-        self.numLabel.textColor = color155;
         self.numLabel.font = textFont12;
         self.numLabel.numberOfLines = 0;
         self.numLabel.textAlignment = NSTextAlignmentCenter;
         self.numLabel.layer.borderColor = color_gray_e8e8e8.CGColor;
         self.numLabel.layer.borderWidth = 0.5;
+        self.numLabel.textColor = colorblue;
         [self.bgView addSubview:self.numLabel];
     }
     return self;
@@ -78,6 +78,7 @@
         if(!model.isSelectable) {
             [self.typeLabel setTextColor:color_black_666666];
             [self.bgView setBackgroundColor:color_gray_eeeedf2];
+            [self.numLabel setTextColor:color_black_666666];
         }
     }
     [super setModel:model];

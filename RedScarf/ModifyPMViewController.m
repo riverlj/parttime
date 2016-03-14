@@ -112,9 +112,9 @@
     
     [RSHttp requestWithURL:url params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         if ([self.judgeStr isEqualToString:@"major"]) {
-            array = [data objectForKey:@"msg"];
+            array = [data objectForKey:@"body"];
         }else{
-            addressArray = [[data objectForKey:@"msg"] objectForKey:@"apartments"];
+            addressArray = [[data objectForKey:@"body"] objectForKey:@"apartments"];
             [self initPickerView];
         }
         [self.tableView reloadData];
@@ -291,7 +291,7 @@
     [params setObject:departmentId forKey:@"departmentId"];
     
     [RSHttp requestWithURL:@"/user/major" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        majorArray = [data objectForKey:@"msg"];
+        majorArray = [data objectForKey:@"body"];
         [self initPickerView];
     } failure:^(NSInteger code, NSString *errmsg) {
         

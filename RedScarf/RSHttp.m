@@ -128,6 +128,18 @@
     [self baseRequestWithURL:urlstring params:params httpMethod:httpMethod success:success failure:failure constructingBodyWithBlock:nil];
 }
 
++(void)mobileRequestWithURL:(NSString *)urlstring
+                  params:(NSMutableDictionary *)params
+              httpMethod:(NSString *)httpMethod
+                 success:(void (^)(NSDictionary *))success
+                 failure:(void (^)(NSInteger, NSString *))failure
+{
+    urlstring = [urlstring urlWithHost:REDSCARF_MOBILE_URL];
+    [self baseRequestWithURL:urlstring params:params httpMethod:httpMethod success:success failure:failure constructingBodyWithBlock:nil];
+}
+
+
+
 +(void) postDataWithURL:(NSString *)urlstring params:(NSMutableDictionary *)params constructingBodyWithBlock:(void (^)(id<AFMultipartFormData>))block success:(void (^)(NSDictionary *))success failure:(void (^)(NSInteger, NSString *))failure
 {
     urlstring = [urlstring urlWithHost:REDSCARF_BASE_URL];

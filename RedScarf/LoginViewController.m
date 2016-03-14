@@ -183,7 +183,7 @@
     [RSHttp requestWithURL:@"/auth" params:dic httpMethod:@"POST" success:^(NSDictionary *data) {
         [weakSelf hidHUD];
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        app.tocken = [data objectForKey:@"msg"];
+        app.tocken = [data objectForKey:@"body"];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:app.tocken forKey:@"token"];
         [defaults synchronize];

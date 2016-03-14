@@ -155,7 +155,6 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
 
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (!codeTextField.text.length) {
         [self alertView:@"请输入手机验证码"];
         return;
