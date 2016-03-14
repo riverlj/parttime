@@ -61,8 +61,8 @@
             UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
             [alert show];
         } else {
-            if([dic valueForKey:@"showUpdate"]) {
-                UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
+            if([[dic valueForKey:@"showUpdate"] boolValue]) {
+                UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:@"更新" otherButtonTitles:@"取消", nil];
                 [alert show];
             }
         }

@@ -103,9 +103,11 @@
             UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:nil otherButtonTitles:@"更新", nil];
             [alert show];
         } else {
-            if([dic valueForKey:@"showUpdate"]) {
-                UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
+            if([[dic valueForKey:@"showUpdate"] boolValue]) {
+                UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提示" message:content delegate:self cancelButtonTitle:@"更新" otherButtonTitles:@"取消", nil];
                 [alert show];
+            } else {
+                [self showToast:@"当前版本已是最新版本"];
             }
         }
     } failure:^(NSInteger code, NSString *errmsg) {
@@ -114,7 +116,7 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    if (buttonIndex==1) {
+    if (buttonIndex==0) {
         if(!url) {
             url = @"itms-services://?action=download-manifest&url=https://pay.honglingjinclub.com/PList/RedScarf.plist";
         }

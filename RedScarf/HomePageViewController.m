@@ -55,7 +55,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [RSHttp requestWithURL:@"/task/waitAssignTask" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSArray *taskArray = [data objectForKey:@"data"];
+        NSArray *taskArray = [data objectForKey:@"body"];
         RSMenuButton *btn = [self getMenuBtnById:801];
         if(btn) {
             if(taskArray.count > 0) {
@@ -72,7 +72,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [RSHttp requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSArray *separateArray = [data objectForKey:@"data"];
+        NSArray *separateArray = [data objectForKey:@"body"];
         RSMenuButton *btn = [self getMenuBtnById:802];
         if(btn) {
             if(separateArray.count > 0) {

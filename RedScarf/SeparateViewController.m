@@ -60,7 +60,7 @@
     [super viewDidLoad];
     self.title = @"分餐点";
     [self.tips setTitle:@"暂时没有餐品哦〜" withImg:@"meiyoucanpin"];
-    self.tableView.tableFooterView = self.footView;
+    self.tableView.tableFooterView = [UIView new];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     account = [RSAccountModel sharedAccount];
     
@@ -113,6 +113,11 @@
         self.pageNum = [[[btnArr objectAtIndex:title.tag] valueForKey:@"pageNum"] integerValue];
         if([self.models count] == 0) {
             [self beginHttpRequest];
+        }
+        if(title.tag == 1) {
+            self.tableView.tableFooterView = self.footView;
+        } else {
+            self.tableView.tableFooterView = [UIView new];
         }
         [self.tips removeFromSuperview];
     }
