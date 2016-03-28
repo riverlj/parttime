@@ -123,4 +123,24 @@
         }
     }
 }
+
+- (void)setUrl:(NSString *)url{
+    _url = url;
+    NSDictionary *urlDict = @{
+                          @"rsparttime://task/taskManager" : @"TasksViewController",
+                          @"rsparttime://task/finishedTask" : @"FinishViewController",
+                          @"rsparttime://task/ceoDisPos" : @"SeparateViewController",
+                          @"rsparttime://team/schedule" : @"CheckTaskViewController",
+                          @"rsparttime://team/member" : @"TeamMembersViewController",
+                          @"rsparttime://user/promotion" : @"PromotionViewController",
+                          @"rsparttime://task/userDisPos" : @"SeparateViewController",
+                          @"rsparttime://user/settingTime" :@"OrderTimeViewController",
+                          @"rsparttime://user/settingAddr" : @"OrderRangeViewController"
+                        };
+    if([urlDict valueForKey:url]) {
+        _vcUrl = [urlDict valueForKey:url];
+    } else {
+        _vcUrl = nil;
+    }
+}
 @end

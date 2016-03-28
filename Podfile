@@ -9,3 +9,4 @@ pod 'UMengSocial', '~> 4.4'
 pod 'MBProgressHUD', '~> 0.9.1'
 pod 'MJRefresh', '~> 3.0.8'
 pod 'FCUUID'
+pod 'ReactiveCocoa’, ‘~4.0.4-alpha-4’

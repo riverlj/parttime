@@ -50,6 +50,9 @@
     _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(51, 10, self.groundImage.width - 51 - 15, 35)];
     _nameLabel.font = textFont15;
     _nameLabel.textColor = color_black_333333;
+    _nameLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneNumberClicked:)];
+    [_nameLabel addGestureRecognizer:tap];
     return _nameLabel;
 }
 
@@ -84,7 +87,7 @@
     if(_dateLabel) {
         return _dateLabel;
     }
-    _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.groundImage.width - 135, self.foodLabel.bottom, 130, 30)];
+    _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.groundImage.width - 105, self.foodLabel.bottom, 100, 30)];
     _dateLabel.textColor = MakeColor(187, 186, 193);
     _dateLabel.font = textFont12;
     return _dateLabel;
@@ -122,6 +125,13 @@
     self.height = self.groundImage.bottom;
 }
 
+- (void)phoneNumberClicked:(UIGestureRecognizer *)sender{
+    UILabel *nameAndPhoneLable = (UILabel *)sender.view;
+    NSString *nameAndPhoneStr = nameAndPhoneLable.text;
+    NSString *phoneStr = [nameAndPhoneStr substringWithRange:NSMakeRange(nameAndPhoneStr.length - 11, 11)];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", phoneStr]]];
+}
+
 -(void) setModel:(RSModel *)model
 {
     if([model isKindOfClass:[RoomMissionModel class]]) {
@@ -131,37 +141,60 @@
         }else {
             [self.roundBtn setSelected:NO];
         }
-        self.nameLabel.text = [NSString stringWithFormat:@"%@:%@",room.name,room.mobile];
+        
+        NSString *nameAndPhone = [NSString stringWithFormat:@"%@:%@",room.name,room.mobile];
+        
+        NSString *phoneStr = room.mobile;
+        NSString *nameStr = room.name;
+       
+        //数量和餐品颜色
+        NSMutableAttributedString *nameAndPhoneAttStr = [[NSMutableAttributedString alloc] initWithString:nameAndPhone];
+        NSRange tag1Range = NSMakeRange(nameStr.length+1, phoneStr.length);
+        
+        [nameAndPhoneAttStr addAttribute:NSForegroundColorAttributeName value:colorblue range:tag1Range];
+        [self.nameLabel setAttributedText:nameAndPhoneAttStr];
+        
         //content是个数组
         NSString *contentStr = @"";
         NSMutableArray *lengthArr = [NSMutableArray array];
-        NSMutableArray *tagArr = [NSMutableArray array];
+        NSMutableArray *countArr = [NSMutableArray array];
         for (NSDictionary *content in room.content) {
-            contentStr = [contentStr stringByAppendingFormat:@"%@  %@  (%@份)\n",[content objectForKey:@"tag"],[content objectForKey:@"content"],[content objectForKey:@"count"]];
-            NSString *tagStr = [NSString stringWithFormat:@"%@",[content objectForKey:@"tag"] ];
-            [tagArr addObject:[NSNumber numberWithUnsignedInteger:tagStr.length]];
-            [lengthArr addObject:[NSNumber numberWithUnsignedInteger:contentStr.length]];
+            contentStr = [contentStr stringByAppendingFormat:@"%@                 (%@份)\n",[content objectForKey:@"tag"],[content objectForKey:@"count"]];
+            
+            NSString *countStr = [NSString stringWithFormat:@"%@",[content objectForKey:@"count"]];
+            
+            [countArr addObject:[NSNumber numberWithUnsignedInteger:countStr.length+3]];
+            [lengthArr addObject:[NSNumber numberWithUnsignedInteger:contentStr.length-1]];
         }
         contentStr = [contentStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         //数量和餐品颜色
         NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:contentStr];
+        
         for (int i = 0; i < lengthArr.count; i++) {
             //份数颜色
-            int tagLength = [[tagArr objectAtIndex:i] intValue];
-            NSRange tagRange;
-            if (i == 0) {
-                tagRange = NSMakeRange(0, tagLength);
-            }else{
-                tagRange = NSMakeRange([[lengthArr objectAtIndex:i-1] intValue], tagLength);
-            }
-            
+            int tagLength = [[countArr objectAtIndex:i] intValue];
+            int contentLength = [[lengthArr objectAtIndex:i]intValue];
+            NSRange tagRange = NSMakeRange(contentLength-tagLength, tagLength);
             [noteStr addAttribute:NSForegroundColorAttributeName value:colorblue range:tagRange];
             
         }
         [self setIntroductionText:noteStr];
         self.numberLabel.text = [NSString stringWithFormat:@"任务编号:%@",room.snid];
-        self.dateLabel.text = room.date;
+        self.dateLabel.text = [room.date substringWithRange:NSMakeRange(0, 10)];
+        
     }
+    
+    
+}
+
+- (NSDate *)extractDate:(NSDate *)date {
+    //get seconds since 1970
+    NSTimeInterval interval = [date timeIntervalSince1970];
+    int daySeconds = 24 * 60 * 60;
+    //calculate integer type of days
+    NSInteger allDays = interval / daySeconds;
+    
+    return [NSDate dateWithTimeIntervalSince1970:allDays * daySeconds];
 }
 
 

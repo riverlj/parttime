@@ -96,4 +96,5 @@
 #import "RSCategory.h"
 #import "MJRefresh.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "ReactiveCocoa.h"
 #endif

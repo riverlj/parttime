@@ -16,6 +16,8 @@
 @property(nonatomic) BOOL redPot;
 @property(nonatomic, strong) NSString *url;
 @property(nonatomic) NSInteger menuid;
+@property (nonatomic, copy)NSString *vcUrl;
+
 
 
 -(void) setTitle:(NSString *)title image:(NSString *)image redPot:(BOOL)redPot;

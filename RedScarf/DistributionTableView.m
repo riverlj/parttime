@@ -199,39 +199,32 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = MakeColor(242, 242, 248);
     cell.bgImageView.backgroundColor = [UIColor whiteColor];
-    NSString *str = @"";
+    NSString *contentStr = @"";
     NSMutableArray *lengthArr = [NSMutableArray array];
-    NSMutableArray *tagArr = [NSMutableArray array];
+    NSMutableArray *countArr = [NSMutableArray array];
     Model *mo = self.addressArr[indexPath.section];
     
     self.roomArr = mo.apartmentsArr;
     NSMutableDictionary *model = [self.roomArr objectAtIndex:indexPath.row];
     for (NSMutableDictionary *dic in [[self.roomArr objectAtIndex:indexPath.row] objectForKey:@"content"]) {
         
-        UILabel *tag = [[UILabel alloc] init];
-        tag.text = [dic objectForKey:@"tag"];
-        tag.textColor = colorblue;
+        contentStr = [contentStr stringByAppendingFormat:@"%@                 (%@份)\n",[dic objectForKey:@"tag"],[dic objectForKey:@"count"]];
         
-        NSString *tagStr = [NSString stringWithFormat:@"%@",[dic objectForKey:@"tag"] ];
-        [tagArr addObject:[NSNumber numberWithUnsignedInteger:tagStr.length]];
+        NSString *countStr = [NSString stringWithFormat:@"%@",[dic objectForKey:@"count"]];
         
-        str = [str stringByAppendingFormat:@"%@   %@ (%@份) \n",[dic objectForKey:@"tag"],[dic objectForKey:@"content"],[dic objectForKey:@"count"]];
-        [lengthArr addObject:[NSNumber numberWithUnsignedInteger:str.length]];
+        [countArr addObject:[NSNumber numberWithUnsignedInteger:countStr.length+3]];
+        [lengthArr addObject:[NSNumber numberWithUnsignedInteger:contentStr.length-1]];
+        
     }
-    str = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    contentStr = [contentStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     //数量和餐品颜色
-    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:str];
+    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:contentStr];
     for (int i = 0; i < lengthArr.count; i++) {
-        int tagLength = [[tagArr objectAtIndex:i] intValue];
-        NSRange tagRange;
-        if (i == 0) {
-            tagRange = NSMakeRange(0, tagLength);
-        }else{
-            tagRange = NSMakeRange([[lengthArr objectAtIndex:i-1] intValue], tagLength);
-        }
-        
+        //份数颜色
+        int tagLength = [[countArr objectAtIndex:i] intValue];
+        int contentLength = [[lengthArr objectAtIndex:i]intValue];
+        NSRange tagRange = NSMakeRange(contentLength-tagLength, tagLength);
         [noteStr addAttribute:NSForegroundColorAttributeName value:colorblue range:tagRange];
-
     }
 
     cell.addLabel.text = [NSString stringWithFormat:@"%@(%@单)",[model objectForKey:@"room"],[model objectForKey:@"taskNum"]];

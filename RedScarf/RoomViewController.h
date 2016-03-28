@@ -6,15 +6,13 @@
 //  Copyright (c) 2015年 zhangb. All rights reserved.
 //
 
-#import "RSTableViewController.h"
+#import "RSRefreshTableViewController.h"
+#import "DetailTroubleViewController.h"
 
-@interface RoomViewController : RSTableViewController<UIActionSheetDelegate>
+@interface RoomViewController : RSRefreshTableViewController<UIActionSheetDelegate, SubmitSuccessDelegate>
 
 @property(nonatomic,strong)NSString *titleStr;
 @property(nonatomic,strong)NSString *aId;
 @property(nonatomic,strong)NSString *room;
 @property(nonatomic,strong)NSString *sn;
-
-@property(nonatomic,strong)NSMutableArray *dataArray;
-
 @end

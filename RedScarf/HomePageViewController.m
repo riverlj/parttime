@@ -46,9 +46,45 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self getTaskMessage];
-    [self getSeparateMessage];
-    [self getStatus];
+    [self getRedDot];
+//    [self getSeparateMessage];
+//    [self getStatus];
     [super viewWillAppear:animated];
+}
+
+- (void)getRedDot{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [RSHttp requestWithURL:@"/resource/redDot" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        
+        UIImage *image;
+
+        NSDictionary *messageDic = [[data objectForKey:@"body"] objectForKey:@"message"];
+        NSInteger redDoc = [[messageDic objectForKey:@"redDot"] integerValue];
+        if (redDoc > 0) {
+            //消息提示
+            image = [[UIImage imageNamed:@"lingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        }else {
+            image = [[UIImage imageNamed:@"konglingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        }
+        UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
+        self.navigationItem.rightBarButtonItem = r;
+        
+        NSArray *commonArr = [[data objectForKey:@"body"] objectForKey:@"common"];
+        for (NSDictionary *dic in commonArr) {
+            NSString *url = [dic objectForKey:@"url"];
+            RSMenuButton *btn = [self getMenuBtnByUrl:url];
+            NSInteger redDot = [[dic objectForKey:@"redDot"]integerValue];
+            NSLog(@"redDot = %zd", redDot);
+            if (redDot > 0) {
+                [btn setRedPot:YES];
+            }else{
+                [btn setRedPot:NO];
+            }
+        }
+
+    } failure:^(NSInteger code, NSString *errmsg) {
+    }];
+
 }
 
 -(void)getTaskMessage
@@ -154,10 +190,26 @@
     return nil;
 }
 
+-(RSMenuButton*) getMenuBtnByUrl:(NSString *) url
+{
+    for(UIView *subView in self.listScrollView.subviews) {
+        if([subView isKindOfClass:[RSMenuButton class]]) {
+            RSMenuButton *btn = (RSMenuButton *)subView;
+            NSLog(@"%@", btn.url);
+            NSRange range = [btn.url rangeOfString:url];
+            if(range.location!= NSNotFound) {
+                return btn;
+            }
+        }
+    }
+    return nil;
+}
+
 -(void)getHomeMsg
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [RSHttp requestWithURL:@"/resource/appMenu" params:dic httpMethod:@"GET" success:^(NSDictionary *data) {
+    [dic setValue:@"0" forKey:@"parentId"];
+    [RSHttp requestWithURL:@"/resource/appMenu/child" params:dic httpMethod:@"GET" success:^(NSDictionary *data) {
         [self initHomeView:[data objectForKey:@"body"]];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self showToast:errmsg];
@@ -249,8 +301,9 @@
         NSInteger line = total/columns;
         RSMenuButton *button = [[RSMenuButton alloc] init];
         button.frame = CGRectMake(weight*column, self.cycleScrollView.height + line * weight, weight, weight);
-        [button setTitle:[dict valueForKey:@"menu"] image:[dict valueForKey:@"pic-79-79"] redPot:NO];
+        [button setTitle:[dict valueForKey:@"name"] image:[dict valueForKey:@"iosIco"] redPot:NO];
         button.menuid = [[dict valueForKey:@"id"] intValue];
+        button.url = [dict valueForKey:@"url"];
         [self.listScrollView addSubview:button];
         [button addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
         if(button.bottom > maxHeight) {
@@ -273,8 +326,8 @@
             bannerVC.title = btn.label.text;
             bannerVC.urlString = btn.url;
             [self.navigationController pushViewController:bannerVC animated:YES];
-        } else {
-            UIViewController *vc = [[NSClassFromString(btn.url) alloc] init];
+        } else if([btn.url hasPrefix:@"rsparttime://"]){
+            UIViewController *vc = [[NSClassFromString(btn.vcUrl) alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

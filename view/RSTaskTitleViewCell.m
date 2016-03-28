@@ -20,6 +20,9 @@
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 15, 200, 16)];
         self.titleLabel.textColor  = color_black_333333;
         self.titleLabel.font = textFont15;
+        self.titleLabel.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneNumberClicked:)];
+        [self.titleLabel addGestureRecognizer:tap];
         [self.contentView addSubview:self.titleLabel];
         
         UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.titleLabel.top, 3, self.titleLabel.height)];
@@ -36,7 +39,15 @@
     if([model isKindOfClass:[RSAssignedTaskModel class]]) {
         RSAssignedTaskModel *m = (RSAssignedTaskModel *) model;
         tasks = m.tasks;
-        self.titleLabel.text = [NSString stringWithFormat:@"%@：%@", m.nickname, m.mobile];
+        
+        NSString *nameAndPhone = [NSString stringWithFormat:@"%@：%@", m.nickname, m.mobile];
+        NSMutableAttributedString *titleStr = [[NSMutableAttributedString alloc] initWithString:nameAndPhone];
+        NSRange pRange = NSMakeRange(nameAndPhone.length-m.mobile.length, m.mobile.length);
+        
+        [titleStr addAttribute:NSForegroundColorAttributeName value:colorblue range:pRange];
+        [self.titleLabel setAttributedText:titleStr];
+        
+//        self.titleLabel.text = [NSString stringWithFormat:@"%@：%@", m.nickname, m.mobile];
     } else if ([model isKindOfClass:[RSDistributionTaskModel class]]) {
         RSDistributionTaskModel *m = (RSDistributionTaskModel *) model;
         self.titleLabel.text = [NSString stringWithFormat:@"%@", m.name];
@@ -63,5 +74,12 @@
             [view removeFromSuperview];
         }
     }
+}
+
+- (void)phoneNumberClicked:(UIGestureRecognizer *)sender{
+    UILabel *nameAndPhoneLable = (UILabel *)sender.view;
+    NSString *nameAndPhoneStr = nameAndPhoneLable.text;
+    NSString *phoneStr = [nameAndPhoneStr substringWithRange:NSMakeRange(nameAndPhoneStr.length - 11, 11)];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", phoneStr]]];
 }
 @end

@@ -157,16 +157,10 @@
     [self.models addObject:innerItems4];
     
     NSMutableArray *innerItems5 = [NSMutableArray array];
-    model = [[MyprofileModel alloc] initWithTitle:@"版本管理" icon:@"banbenguanli" vcName:@"VersionViewController"];
+    model = [[MyprofileModel alloc] initWithTitle:@"设置" icon:@"icon_set" vcName:@"SettingViewController"];
     [innerItems5 addObject:model];
-    model = [[MyprofileModel alloc] initWithTitle:@"意见反馈" icon:@"fankui2x" vcName:@"SuggestionViewController"];
-    [innerItems5 addObject:model];
-    NSInteger size = [[SDImageCache sharedImageCache] getSize];
-    model = [[MyprofileModel alloc] initWithTitle:@"清除缓存" icon:@"icon_clearmem" vcName:@""];
-    model.subtitle = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%0.2fM", 1.0*size/1000000] attributes:[NSDictionary dictionaryWithObjectsAndKeys:color_black_666666, NSForegroundColorAttributeName, textFont15, NSFontAttributeName, nil]];
-    [innerItems5 addObject:model];
-    [model setSelectAction:@selector(clearCache:) target:self];
     [self.models addObject:innerItems5];
+
     self.sections = [NSMutableArray array];
 }
 
@@ -190,26 +184,5 @@
     
 }
 
-//清空缓存
--(void) clearCache:(MyprofileModel *)model
-{
-    if([model isKindOfClass:[MyprofileModel class]]) {
-        clearModel = (MyprofileModel *)model;
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"你确定要清空缓存？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        [alertView show];
-    }
-}
-
--(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex == 1) {
-        [[SDImageCache sharedImageCache] clearDisk];
-        [self showToast:@"清理成功"];
-        if(clearModel) {
-            clearModel.subtitle = [[NSAttributedString alloc]initWithString:@"0M" attributes:[NSDictionary dictionaryWithObjectsAndKeys:color_black_666666, NSForegroundColorAttributeName, textFont15, NSFontAttributeName, nil]];
-            [self.tableView reloadData];
-        }
-    }
-}
 @end
 

@@ -14,13 +14,21 @@
     NSInteger refreshMethod;
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.httpMethod = @"GET";
+    }
+    return self;
+}
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
     self.pageNum = 1;
     self.pageSize = 10;
     refreshMethod = 0;
-    self.httpMethod = @"GET";
     self.params = [NSMutableDictionary dictionary];
     self.models = [NSMutableArray array];
 }
@@ -78,6 +86,7 @@
     if(!self.url || [self.url isEqualToString:@""]) {
         return;
     }
+    NSLog(@"%@", self.params);
     [RSHttp requestWithURL:self.url params:self.params httpMethod:self.httpMethod success:^(NSDictionary *data) {
         [self beforeProcessHttpData];
         NSInteger before = [self.models count];
