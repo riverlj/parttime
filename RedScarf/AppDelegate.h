@@ -20,6 +20,6 @@
 - (void)setRootViewController:(UIViewController *)rootVC;
 - (void)setViewController:(UIViewController *)rootVC;
 
-
+- (void)switchRootViewController;
 @end
 

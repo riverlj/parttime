@@ -149,10 +149,11 @@
         if ([str isEqualToString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]]) {
             cell.backgroundColor = MakeColor(254, 254, 254);
             cell.finishImage.hidden = NO;
-            [indexArr addObject:[dic objectForKey:@"id"]];
+            if (![indexArr containsObject:[dic objectForKey:@"id"]]) {
+                [indexArr addObject:[dic objectForKey:@"id"]];
+            }
         }
     }
-    
     return cell;
 }
 
@@ -171,7 +172,6 @@
         [indexArr addObject:[dic objectForKey:@"id"]];
         cell.finishImage.hidden = NO;
     }
-    NSLog(@"indexArr = %@",indexArr);
 }
 
 -(void)didClickDone

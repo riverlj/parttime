@@ -11,4 +11,6 @@
 @interface BuildingTaskViewController : RSRefreshTableViewController
 @property(nonatomic) NSInteger userId;
 @property(nonatomic) NSInteger aId;
+@property (nonatomic, copy)NSString *apartmentName;
+
 @end

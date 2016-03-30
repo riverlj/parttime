@@ -21,12 +21,14 @@
     [super viewDidLoad];
     self.title = @"设置";
     
+    [self setExtraCellLineHidden:self.tableView];
+    
     [self initTableViewData];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self comeBack:nil];
 }
 
@@ -38,21 +40,16 @@
 - (void)initTableViewData {
         self.models = [NSMutableArray array];
     
-        MyprofileModel *model = [[MyprofileModel alloc] initWithTitle:@"我的" icon:@"test" vcName:@"PersonMsgViewController"];
+    MyprofileModel *model = [[MyprofileModel alloc] initWithTitle:@"版本管理" icon:@"banbenguanli" vcName:@"VersionViewController"];
+    [self.models addObject:model];
+    model = [[MyprofileModel alloc] initWithTitle:@"意见反馈" icon:@"fankui2x" vcName:@"SuggestionViewController"];
+    [self.models addObject:model];
+    NSInteger size = [[SDImageCache sharedImageCache] getSize];
+    model = [[MyprofileModel alloc] initWithTitle:@"清除缓存" icon:@"icon_clearmem" vcName:@""];
+    model.subtitle = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%0.2fM", 1.0*size/1000000] attributes:[NSDictionary dictionaryWithObjectsAndKeys:color_black_666666, NSForegroundColorAttributeName, textFont15, NSFontAttributeName, nil]];
+    [model setSelectAction:@selector(clearCache:) target:self];
+    [self.models addObject:model];
 
-        NSMutableArray *innerItems = [NSMutableArray array];
-        model = [[MyprofileModel alloc] initWithTitle:@"版本管理" icon:@"banbenguanli" vcName:@"VersionViewController"];
-        [innerItems addObject:model];
-        model = [[MyprofileModel alloc] initWithTitle:@"意见反馈" icon:@"fankui2x" vcName:@"SuggestionViewController"];
-        [innerItems addObject:model];
-        NSInteger size = [[SDImageCache sharedImageCache] getSize];
-        model = [[MyprofileModel alloc] initWithTitle:@"清除缓存" icon:@"icon_clearmem" vcName:@""];
-        model.subtitle = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%0.2fM", 1.0*size/1000000] attributes:[NSDictionary dictionaryWithObjectsAndKeys:color_black_666666, NSForegroundColorAttributeName, textFont15, NSFontAttributeName, nil]];
-        [innerItems addObject:model];
-        [model setSelectAction:@selector(clearCache:) target:self];
-
-        [self.models addObject:innerItems];
-        self.sections = [NSMutableArray array];
 
 }
 
@@ -78,5 +75,23 @@
     }
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MyprofileModel *model = [self.models objectAtIndex:indexPath.row];
+    if(model.vcName && ![model.vcName isEqualToString:@""]) {
+        UIViewController *vc = [[NSClassFromString(model.vcName) alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    
+}
+
+- (void)setExtraCellLineHidden: (UITableView *)tableView{
+    UIView *view =[ [UIView alloc]init];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
+    [tableView setTableHeaderView:view];
+}
 
 @end

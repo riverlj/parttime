@@ -29,7 +29,7 @@
 {
     [super viewDidLoad];
     self.title = @"任务";
-    self.useFooterRefresh = YES;
+    self.useFooterRefresh = NO;
     self.useHeaderRefresh = YES;
     btnArr = @[
                @{@"title":@"待分配", @"url":@"/task/waitAssignTask"},

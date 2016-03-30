@@ -86,10 +86,11 @@
     if(!self.url || [self.url isEqualToString:@""]) {
         return;
     }
-    NSLog(@"%@", self.params);
+    NSLog(@"请求参数－－－%@", self.params);
     [RSHttp requestWithURL:self.url params:self.params httpMethod:self.httpMethod success:^(NSDictionary *data) {
         [self beforeProcessHttpData];
         NSInteger before = [self.models count];
+        NSLog(@"返回结果－－－%@", data);
         [self afterHttpSuccess:data];
         NSInteger after = [self.models count];
         [self afterProcessHttpData:before afterCount:after];

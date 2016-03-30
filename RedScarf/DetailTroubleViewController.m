@@ -7,6 +7,7 @@
 //
 
 #import "DetailTroubleViewController.h"
+#import "RSPlaceHolderTextView.h"
 
 @interface DetailTroubleViewController ()
 {
@@ -14,7 +15,7 @@
     UIButton *_submitBtn;
     UIButton *_cancelBtn;
 }
-@property (nonatomic, strong)UITextView *textView;
+@property (nonatomic, strong)RSPlaceHolderTextView *textView;
 
 @end
 
@@ -23,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.hidden = YES;
-        
+    
     _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _cancelBtn.frame = CGRectMake(0, 0, 60, 44);
     [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
@@ -50,16 +51,27 @@
             [self showToast:@"请输入未送达原因"];
             return;
         }
+        if (_textView.text.length > self.textMaxLength) {
+            [self showToast:[NSString stringWithFormat:@"最多显示%zd个字",self.textMaxLength]];
+            return;
+        }
 
         [self beginHttpRequest];
     }];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:_submitBtn];
     
-    _textView = [[UITextView alloc]initWithFrame:CGRectMake(10, 74, kUIScreenWidth-20, 200)];
-    _textView.text = self.placeholderText;
+    _textView = [[RSPlaceHolderTextView alloc]initWithFrame:CGRectMake(10, 74, kUIScreenWidth-20, 200)];
+    _textView.placeholder = self.placeholderText;
+    _textView.textColor = color155;
+    _textView.textAlignment = NSTextAlignmentLeft;
+    _textView.font = textFont14;
+    _textView.layer.borderWidth = 0.8;
+    _textView.layer.borderColor = MakeColor(203, 203, 203).CGColor;
+    _textView.layer.masksToBounds = YES;
+    _textView.layer.cornerRadius = 5;
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
-    _textView.delegate = self;
     
     _tipLabel = [[UILabel alloc]init];
     _tipLabel.top = _textView.bottom + 5;
@@ -72,14 +84,21 @@
     _tipLabel.text = [NSString stringWithFormat:@"%zd/%zd",_textView.text.length,self.textMaxLength];
     [self.view addSubview:_tipLabel];
 
-    [[_textView rac_textSignal] subscribeNext:^(NSString* text) {
-        _textView.text = text;
-        if (text.length > self.textMaxLength) {
-            [self showToast:[NSString stringWithFormat:@"最多输入%zd个字",self.textMaxLength]];
-        }
-        _tipLabel.text = [NSString stringWithFormat:@"%zd/%zd",text.length,self.textMaxLength];
+    [[[_textView rac_textSignal] doNext:^(NSString *text) {
         
+    }] subscribeNext:^(NSString* text) {
+        _textView.text = text;
+        _tipLabel.text = [NSString stringWithFormat:@"%zd/%zd",text.length,self.textMaxLength];
+        if (text.length > self.textMaxLength) {
+            NSString *text = _tipLabel.text;
+            NSMutableAttributedString *attr = [[NSMutableAttributedString alloc]initWithString:_tipLabel.text];
+            NSRange range = [text rangeOfString:@"/50"];
+            [attr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, range.location)
+             ];
+            [_tipLabel setAttributedText:attr];
+        }
     }];
+    
     
     [self.view addSubview:_textView];
     
@@ -96,9 +115,6 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [_textView resignFirstResponder];
-    _textView.text = _textView.text.length == 0 ? self.placeholderText : _textView.text;
-    _tipLabel.text = [NSString stringWithFormat:@"%zd/%zd",_textView.text.length,self.textMaxLength];
-
 }
 
 -(void)beforeHttpRequest{
@@ -129,14 +145,5 @@
     [super didReceiveMemoryWarning];
 }
 
-
-
--(void)textViewDidBeginEditing:(UITextView *)textView{
-    if ([_textView.text isEqualToString:self.placeholderText]) {
-        _textView.text = @"";
-    }
-    
-    _tipLabel.text = [NSString stringWithFormat:@"%zd/%zd",textView.text.length,self.textMaxLength];
-}
 
 @end

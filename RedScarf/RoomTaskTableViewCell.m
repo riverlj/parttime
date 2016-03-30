@@ -102,6 +102,7 @@
         BuildingTaskViewController *vc = [[BuildingTaskViewController alloc] init];
         vc.aId = [model.aId integerValue];
         vc.userId = [model.userId integerValue];
+        vc.apartmentName = model.apartmentName;
         [self.delegate.navigationController pushViewController:vc animated:YES];
     }
 }

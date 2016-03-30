@@ -112,12 +112,9 @@
 -(void)setIntroductionText:(NSMutableAttributedString*)text
 {
     [self.foodLabel setAttributedText:text];
-    CGSize size = CGSizeMake(self.foodLabel.width, 1000);
+    CGSize size = [self.foodLabel sizeThatFits:CGSizeMake(self.foodLabel.width, 10000)];
     
-    NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
-    CGRect rect = [text boundingRectWithSize:size options:options context:nil];
-    self.foodLabel.height = rect.size.height+10;
-    
+    self.foodLabel.height = size.height+10;
     self.dateLabel.top = self.foodLabel.bottom;
     self.numberLabel.top = self.dateLabel.top;
     self.groundImage.height = self.numberLabel.bottom + 12;

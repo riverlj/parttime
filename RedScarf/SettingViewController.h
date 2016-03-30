@@ -6,8 +6,8 @@
 //  Copyright © 2016年 zhangb. All rights reserved.
 //
 
-#import "MyViewController.h"
+#import "RSTableViewController.h"
 
-@interface SettingViewController : MyViewController
+@interface SettingViewController : RSTableViewController
 
 @end
