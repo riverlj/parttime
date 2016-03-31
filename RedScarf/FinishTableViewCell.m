@@ -140,12 +140,10 @@
 -(void)setIntroductionText:(NSAttributedString*)text
 {
     self.foodLabel.attributedText = text;
-    CGSize size = CGSizeMake(self.foodLabel.width, 1000);
-
-    NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
-    CGRect rect = [text boundingRectWithSize:size options:options context:nil];
     
-    self.foodLabel.height = rect.size.height+10;
+    CGSize size = [self.foodLabel sizeThatFits:CGSizeMake(self.foodLabel.width, 10000)];
+    
+    self.foodLabel.height = size.height+10;
     self.numberLabel.top = self.foodLabel.bottom + 8;
     self.bgView.height = self.numberLabel.bottom;
     self.height = self.bgView.height + 10;
