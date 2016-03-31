@@ -68,7 +68,7 @@
     self.btn.top = self.foodLabel.bottom + 12;
     self.bgImageView.height = self.btn.bottom + 8;
     self.detailBtn.height = self.foodLabel.bottom;
-    self.detailBtn.titleEdgeInsets = UIEdgeInsetsMake( 20 - self.detailBtn.height/2, self.detailBtn.width/2 -20, self.detailBtn.height/2 -20, 20-self.detailBtn.width/2);
+    self.detailBtn.titleEdgeInsets = UIEdgeInsetsMake( 20 - self.detailBtn.height/2, self.detailBtn.width/2 -25, self.detailBtn.height/2 -20, 25-self.detailBtn.width/2);
     self.height = self.bgImageView.bottom;
     
 }
