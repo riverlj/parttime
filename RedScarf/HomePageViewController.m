@@ -21,6 +21,7 @@
 #import "LoginViewController.h"
 #import "RSMenuButton.h"
 #import "RSAccountModel.h"
+#import "MenuModel.h"
 
 @interface HomePageViewController ()<SDCycleScrollViewDelegate>
 
@@ -48,6 +49,21 @@
     [self getRedDot];
     [super viewWillAppear:animated];
 }
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self.listScrollView addSubview:self.cycleScrollView];
+    [self.view addSubview: self.listScrollView];
+    
+    imagesURLStrings = [NSMutableArray array];
+    imageUrlArray = [NSMutableArray array];
+    
+    self.title = @"首页";
+    [self getHomeMsg];
+    [self getBannerView];
+    [self getUserinfo];
+}
+
 
 - (void)getRedDot{
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -84,23 +100,6 @@
 
 }
 
-
-
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self.listScrollView addSubview:self.cycleScrollView];
-    [self.view addSubview: self.listScrollView];
-
-    imagesURLStrings = [NSMutableArray array];
-    imageUrlArray = [NSMutableArray array];
-
-    self.title = @"首页";
-    [self getHomeMsg];
-    [self getBannerView];
-    [self getUserinfo];
-}
-
 -(void)getUserinfo
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -118,9 +117,8 @@
     for(UIView *subView in self.listScrollView.subviews) {
         if([subView isKindOfClass:[RSMenuButton class]]) {
             RSMenuButton *btn = (RSMenuButton *)subView;
-            NSLog(@"%@", btn.url);
-            NSRange range = [btn.url rangeOfString:url];
-            if(range.location!= NSNotFound) {
+            if([btn.menuModel.url isEqualToString:[NSString stringWithFormat:@"rsparttime://%@",url]]) {
+                NSLog(@"%@", btn.menuModel.url);
                 return btn;
             }
         }
@@ -225,9 +223,16 @@
         NSInteger line = total/columns;
         RSMenuButton *button = [[RSMenuButton alloc] init];
         button.frame = CGRectMake(weight*column, self.cycleScrollView.height + line * weight, weight, weight);
-        [button setTitle:[dict valueForKey:@"name"] image:[dict valueForKey:@"iosIco"] redPot:NO];
-        button.menuid = [[dict valueForKey:@"id"] intValue];
-        button.url = [dict valueForKey:@"url"];
+        
+        MenuModel *menuModel = [[MenuModel alloc]init];
+        menuModel.url = [dict valueForKey:@"url"];
+        menuModel.imgName = [dict valueForKey:@"iosIco"];
+        menuModel.title = [dict valueForKey:@"name"];
+        menuModel.menuId = [dict valueForKey:@"id"];
+
+        button.menuModel = menuModel;
+        button.redPot = NO;
+                            
         [self.listScrollView addSubview:button];
         [button addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
         if(button.bottom > maxHeight) {
@@ -244,14 +249,15 @@
         return ;
     }
     RSMenuButton *btn = (RSMenuButton *)sender;
-    if(btn.url && ![btn.url isEqualToString:@""]) {
-        if([btn.url hasPrefix:@"http://"]) {
+    if(btn.menuModel.url && ![btn.menuModel.url isEqualToString:@""]) {
+        if([btn.menuModel.url hasPrefix:@"http://"]) {
             BannerViewController *bannerVC = [[BannerViewController alloc] init];
-            bannerVC.title = btn.label.text;
-            bannerVC.urlString = btn.url;
+            MenuModel *menuModel = btn.menuModel;
+            bannerVC.title = menuModel.title;
+            bannerVC.urlString = menuModel.url;
             [self.navigationController pushViewController:bannerVC animated:YES];
-        } else if([btn.url hasPrefix:@"rsparttime://"]){
-            UIViewController *vc = [[NSClassFromString(btn.vcUrl) alloc] init];
+        } else if([btn.menuModel.url hasPrefix:@"rsparttime://"]){
+            UIViewController *vc = [[NSClassFromString(btn.menuModel.vcName) alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

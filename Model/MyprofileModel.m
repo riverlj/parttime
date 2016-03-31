@@ -30,22 +30,4 @@
     return self;
 }
 
-- (void)setUrl:(NSString *)url{
-    _url = url;
-    NSDictionary *urlDic = @{
-                             @"rsparttime://user/salary" : @"MoneyOfMonth",
-                             @"rsparttime://user/wallet" : @"WalletViewController",
-                             @"rsparttime://user/grade" : @"LevelViewController",
-                             @"rsparttime://user/auth" : @"UserCertViewController",
-                             @"rsparttime://user/settingTime" : @"OrderTimeViewController",
-                             @"rsparttime://user/settingAddr" : @"OrderRangeViewController",
-                             @"rsparttime://user/setting" : @"SettingViewController"
-                             };
-    if ([urlDic objectForKey:url]) {
-        _vcName = [urlDic objectForKey:url];
-    }else{
-        _vcName = nil;
-    }
-}
-
 @end

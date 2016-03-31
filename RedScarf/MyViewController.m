@@ -23,14 +23,11 @@
 #import "RSAccountModel.h"
 #import "MyprofileModel.h"
 #import "MyprofileCell.h"
+#import "BannerViewController.h"
 
 @interface MyViewController ()
 {
-    NSArray *cellArr;
-    NSArray *imageArr;
     NSMutableDictionary *infoDic;
-    UIImageView *headImage;
-    MyprofileModel *clearModel;
 }
 
 @end
@@ -74,17 +71,10 @@
     [super viewDidLoad];
     self.title = @"我的";
     infoDic = [NSMutableDictionary dictionary];
-    cellArr = [NSArray arrayWithObjects:@"配送时间",@"配送范围", nil];
-    imageArr = [NSArray arrayWithObjects:@"time",@"anwei", nil];
     
     [self initTableView];
-    dispatch_queue_t queue = dispatch_queue_create("com.river.dispatchGetMyDataQueue", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(queue, ^{
-        [self getMyTableData];
-    });
-    dispatch_async(queue, ^{
-        [self getMessage];
-    });
+    [self getMyTableData];
+    [self getMessage];
 }
 
 - (void)getMyTableData{
@@ -98,11 +88,9 @@
             model.cellHeight = 48;
             [self.models addObject:model];
         }
+        [self getUserStatus];
 //        [self.tableView reloadData];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [self getUserStatus];
-        });
-    } failure:^(NSInteger code, NSString *errmsg) {
+        } failure:^(NSInteger code, NSString *errmsg) {
     }];
 }
 
@@ -172,6 +160,15 @@
     if(model.vcName && ![model.vcName isEqualToString:@""]) {
         UIViewController *vc = [[NSClassFromString(model.vcName) alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+    if(model.url && ![model.url isEqualToString:@""]) {
+        if([model.url hasPrefix:@"http://"]) {
+            BannerViewController *bannerVC = [[BannerViewController alloc] init];
+            bannerVC.title = model.title;
+            bannerVC.urlString = model.url;
+            [self.navigationController pushViewController:bannerVC animated:YES];
+        }
         return;
     }
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];

@@ -84,9 +84,7 @@
     _tipLabel.text = [NSString stringWithFormat:@"%zd/%zd",_textView.text.length,self.textMaxLength];
     [self.view addSubview:_tipLabel];
 
-    [[[_textView rac_textSignal] doNext:^(NSString *text) {
-        
-    }] subscribeNext:^(NSString* text) {
+    [[_textView rac_textSignal] subscribeNext:^(NSString* text) {
         _textView.text = text;
         _tipLabel.text = [NSString stringWithFormat:@"%zd/%zd",text.length,self.textMaxLength];
         if (text.length > self.textMaxLength) {

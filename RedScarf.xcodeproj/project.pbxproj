@@ -305,6 +305,7 @@
 		30E2469E1C34F325009A9A58 /* AllocatingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E2469D1C34F325009A9A58 /* AllocatingTaskViewController.m */; };
 		B168833A1CA513A500630E37 /* DetailTroubleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16883391CA513A500630E37 /* DetailTroubleViewController.m */; };
 		B17C46B21CAA6794008874FD /* RSLaunchimageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C46B11CAA6794008874FD /* RSLaunchimageViewController.m */; };
+		B17C46B51CACD23B008874FD /* MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C46B41CACD23B008874FD /* MenuModel.m */; };
 		B1F30BDA1CA92197000E48A1 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F30BD91CA92197000E48A1 /* SettingViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -750,6 +751,8 @@
 		B16883391CA513A500630E37 /* DetailTroubleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTroubleViewController.m; sourceTree = "<group>"; };
 		B17C46B01CAA6794008874FD /* RSLaunchimageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSLaunchimageViewController.h; sourceTree = "<group>"; };
 		B17C46B11CAA6794008874FD /* RSLaunchimageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSLaunchimageViewController.m; sourceTree = "<group>"; };
+		B17C46B31CACD23B008874FD /* MenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuModel.h; sourceTree = "<group>"; };
+		B17C46B41CACD23B008874FD /* MenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuModel.m; sourceTree = "<group>"; };
 		B1F30BD81CA92197000E48A1 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		B1F30BD91CA92197000E48A1 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		E82FAFF956A2BA8C678D65C3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1235,6 +1238,8 @@
 				309F538B1C1C4F2D00249476 /* MyprofileModel.m */,
 				30640FB11C4F74D200CA0198 /* PromotionModel.h */,
 				30640FB21C4F74D200CA0198 /* PromotionModel.m */,
+				B17C46B31CACD23B008874FD /* MenuModel.h */,
+				B17C46B41CACD23B008874FD /* MenuModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -1973,6 +1978,7 @@
 				1DD358191B8D5E98009EF0A5 /* RecommendViewController.m in Sources */,
 				3030B1C81C474E15009FD451 /* RSCatchline.m in Sources */,
 				309F53801C191F3100249476 /* RSProgressView.m in Sources */,
+				B17C46B51CACD23B008874FD /* MenuModel.m in Sources */,
 				300968C51C3BE0BE00C51DA7 /* RSTipsView.m in Sources */,
 				1DD358321B8D9183009EF0A5 /* RuleOfActive.m in Sources */,
 				1DCCFA5D1BB1503300B82609 /* MemberDetailViewController.m in Sources */,
