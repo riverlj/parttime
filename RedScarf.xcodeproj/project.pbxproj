@@ -304,8 +304,8 @@
 		30E246991C34D29C009A9A58 /* UserTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E246981C34D29C009A9A58 /* UserTaskTableViewCell.m */; };
 		30E2469E1C34F325009A9A58 /* AllocatingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E2469D1C34F325009A9A58 /* AllocatingTaskViewController.m */; };
 		B168833A1CA513A500630E37 /* DetailTroubleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16883391CA513A500630E37 /* DetailTroubleViewController.m */; };
-		B17C46B21CAA6794008874FD /* RSLaunchimageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C46B11CAA6794008874FD /* RSLaunchimageViewController.m */; };
 		B17C46B51CACD23B008874FD /* MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C46B41CACD23B008874FD /* MenuModel.m */; };
+		B17FFC6D1CAD30510056A638 /* LaunchimageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */; };
 		B1F30BDA1CA92197000E48A1 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F30BD91CA92197000E48A1 /* SettingViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -749,10 +749,10 @@
 		3414B9B1BB6084335511A390 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B16883381CA513A500630E37 /* DetailTroubleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTroubleViewController.h; sourceTree = "<group>"; };
 		B16883391CA513A500630E37 /* DetailTroubleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTroubleViewController.m; sourceTree = "<group>"; };
-		B17C46B01CAA6794008874FD /* RSLaunchimageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSLaunchimageViewController.h; sourceTree = "<group>"; };
-		B17C46B11CAA6794008874FD /* RSLaunchimageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSLaunchimageViewController.m; sourceTree = "<group>"; };
 		B17C46B31CACD23B008874FD /* MenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuModel.h; sourceTree = "<group>"; };
 		B17C46B41CACD23B008874FD /* MenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuModel.m; sourceTree = "<group>"; };
+		B17FFC6B1CAD30510056A638 /* LaunchimageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchimageViewController.h; sourceTree = "<group>"; };
+		B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchimageViewController.m; sourceTree = "<group>"; };
 		B1F30BD81CA92197000E48A1 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		B1F30BD91CA92197000E48A1 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		E82FAFF956A2BA8C678D65C3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1479,6 +1479,8 @@
 		309F534E1C1035BE00249476 /* Index */ = {
 			isa = PBXGroup;
 			children = (
+				B17FFC6B1CAD30510056A638 /* LaunchimageViewController.h */,
+				B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */,
 				1DD1AAD61BC7570E001BA76A /* HomePageViewController.h */,
 				1DD1AAD71BC7570E001BA76A /* HomePageViewController.m */,
 				1DF3A0DC1BDF50590095DE24 /* MsgViewController.h */,
@@ -1578,8 +1580,6 @@
 				309A8AB21C21B63800E0EE42 /* RSWebView.m */,
 				30E2468E1C337F79009A9A58 /* RSRefreshTableViewController.h */,
 				30E2468F1C337F79009A9A58 /* RSRefreshTableViewController.m */,
-				B17C46B01CAA6794008874FD /* RSLaunchimageViewController.h */,
-				B17C46B11CAA6794008874FD /* RSLaunchimageViewController.m */,
 			);
 			name = BaseView;
 			sourceTree = "<group>";
@@ -2023,6 +2023,7 @@
 				1DD358351B8D9904009EF0A5 /* MoneyOfMonth.m in Sources */,
 				300968BF1C3A16DF00C51DA7 /* RSTaskModel.m in Sources */,
 				309F537D1C1854D700249476 /* RSHeadView.m in Sources */,
+				B17FFC6D1CAD30510056A638 /* LaunchimageViewController.m in Sources */,
 				309F53831C194D0600249476 /* LevelLogViewController.m in Sources */,
 				1D72D66B1B71D7FD00E80D15 /* main.m in Sources */,
 				309F53611C17139B00249476 /* RSCalendar.m in Sources */,
@@ -2064,7 +2065,6 @@
 				1DF3A0DE1BDF50590095DE24 /* MsgViewController.m in Sources */,
 				309F53571C16BFBF00249476 /* NSDate+RSFormatter.m in Sources */,
 				1DCCFA601BB15B8400B82609 /* TeamModel.m in Sources */,
-				B17C46B21CAA6794008874FD /* RSLaunchimageViewController.m in Sources */,
 				B1F30BDA1CA92197000E48A1 /* SettingViewController.m in Sources */,
 				1D24D4B71B76007A00FD39BC /* UIView+ViewController.m in Sources */,
 				300968C21C3A499A00C51DA7 /* RSTaskTitleViewCell.m in Sources */,

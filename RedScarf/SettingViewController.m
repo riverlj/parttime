@@ -26,17 +26,6 @@
     [self initTableViewData];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
-    [self comeBack:nil];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-}
-
 - (void)initTableViewData {
         self.models = [NSMutableArray array];
     

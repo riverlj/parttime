@@ -28,7 +28,6 @@
     _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _cancelBtn.frame = CGRectMake(0, 0, 60, 44);
     [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    _cancelBtn.titleLabel.textColor = [UIColor redColor];
     
     _cancelBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
      [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -67,7 +66,7 @@
     _textView.textAlignment = NSTextAlignmentLeft;
     _textView.font = textFont14;
     _textView.layer.borderWidth = 0.8;
-    _textView.layer.borderColor = MakeColor(203, 203, 203).CGColor;
+    _textView.layer.borderColor = [color_gray_cccccc CGColor];
     _textView.layer.masksToBounds = YES;
     _textView.layer.cornerRadius = 5;
     
@@ -79,7 +78,7 @@
     _tipLabel.height = 30;
     _tipLabel.width = 50;
     _tipLabel.textAlignment = NSTextAlignmentRight;
-    _tipLabel.textColor = [UIColor lightGrayColor];
+    _tipLabel.textColor = color_black_666666;
     _tipLabel.font = [UIFont systemFontOfSize:14];
     _tipLabel.text = [NSString stringWithFormat:@"%zd/%zd",_textView.text.length,self.textMaxLength];
     [self.view addSubview:_tipLabel];
@@ -91,7 +90,7 @@
             NSString *text = _tipLabel.text;
             NSMutableAttributedString *attr = [[NSMutableAttributedString alloc]initWithString:_tipLabel.text];
             NSRange range = [text rangeOfString:@"/50"];
-            [attr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, range.location)
+            [attr addAttribute:NSForegroundColorAttributeName value:color_red_e54545 range:NSMakeRange(0, range.location)
              ];
             [_tipLabel setAttributedText:attr];
         }
@@ -99,8 +98,6 @@
     
     
     [self.view addSubview:_textView];
-    
-    
 
 }
 
@@ -117,22 +114,17 @@
 
 -(void)beforeHttpRequest{
     [super beforeHttpRequest];
-    [self.params setObject:self.sns forKey:@"sns"];
-    [self.params setObject:_textView.text forKey:@"reason"];
-    [self.params setObject:self.firstReasonCode forKey:@"firstReason"];
+    [self.params setValue:self.sns forKey:@"sns"];
+    [self.params setValue:_textView.text forKey:@"reason"];
+    [self.params setValue:self.firstReasonCode forKey:@"firstReason"];
 
 }
 
 - (void)afterHttpSuccess:(NSDictionary *)data{
     [super afterHttpSuccess:data];
-    NSString * code = [data objectForKey:@"code"];
-    if ([code integerValue] == 0) {
-        [self showToast:@"提交成功"];
-        
-        if (self.submitDelegate && [self.submitDelegate respondsToSelector:@selector(submitSuccess)]) {
-            [self.submitDelegate submitSuccess];
-        }
-        
+    [self showToast:@"提交成功"];
+    if (self.submitDelegate && [self.submitDelegate respondsToSelector:@selector(submitSuccess)]) {
+        [self.submitDelegate submitSuccess];
         [self dismissViewControllerAnimated:YES completion:nil];
     }else {
         [self showToast:@"提交失败"];

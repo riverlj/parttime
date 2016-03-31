@@ -6,8 +6,9 @@
 //  Copyright © 2016年 zhangb. All rights reserved.
 //
 
-#import "RSRefreshTableViewController.h"
+#import "BaseViewController.h"
 
-@interface RSLaunchimageViewController : UIViewController
+@interface LaunchimageViewController : BaseViewController
 
 @end
+ 

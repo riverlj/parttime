@@ -13,7 +13,7 @@
 #import "UMSocialQQHandler.h"
 #import "UMSocialWechatHandler.h"
 #import "BaiduMobStat.h"
-#import "RSLaunchimageViewController.h"
+#import "LaunchimageViewController.h"
 
 @interface AppDelegate (){
     NSString *updateUrl;
@@ -29,25 +29,9 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self BaiduMobStat];
-//    AppDelegate *myDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    
     [self UpdateVersion];
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    NSString *token = [defaults objectForKey:@"token"];
-//   
-//    //动态加载启动图
-//    
-//    if (token.length) {
-//        BaseTabbarViewController *baseVC = [[BaseTabbarViewController alloc] init];
-//        myDelegate.tocken = token;
-//        self.window.rootViewController = baseVC;
-//    }else{
-//        //没登陆
-//        LoginViewController *login = [[LoginViewController alloc] init];
-//        self.window.rootViewController = login;
-//    }
-//
-    RSLaunchimageViewController *lanchImageVc = [[RSLaunchimageViewController alloc]init];
+
+    LaunchimageViewController *lanchImageVc = [[LaunchimageViewController alloc]init];
     self.window.rootViewController = lanchImageVc;
     
     [self.window makeKeyAndVisible];
@@ -56,15 +40,11 @@
 }
 
 - (void)switchRootViewController {
-    AppDelegate *myDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *token = [defaults objectForKey:@"token"];
-    
-    //动态加载启动图
+    NSString *token = [NSUserDefaults getValue:@"token"];
     
     if (token.length) {
         BaseTabbarViewController *baseVC = [[BaseTabbarViewController alloc] init];
-        myDelegate.tocken = token;
+        [NSUserDefaults setValue:token forKey:@"token"];
         self.window.rootViewController = baseVC;
     }else{
         //没登陆

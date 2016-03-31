@@ -137,6 +137,19 @@
     
 }
 
++(NSDate *)dateFromString:(NSString *)dateString WithFormatter:(NSString *)formatter
+{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setDateFormat: formatter];
+    
+    NSDate *destDate= [dateFormatter dateFromString:dateString];
+    
+    return destDate;
+    
+}
+
 
 
 //NSDate转NSString

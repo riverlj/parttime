@@ -50,9 +50,7 @@
     _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(51, 10, self.groundImage.width - 51 - 15, 35)];
     _nameLabel.font = textFont15;
     _nameLabel.textColor = color_black_333333;
-    _nameLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneNumberClicked:)];
-    [_nameLabel addGestureRecognizer:tap];
+    [_nameLabel addTapAction:@selector(phoneNumberClicked:) target:self];
     return _nameLabel;
 }
 
@@ -177,22 +175,13 @@
         }
         [self setIntroductionText:noteStr];
         self.numberLabel.text = [NSString stringWithFormat:@"任务编号:%@",room.snid];
-        self.dateLabel.text = [room.date substringWithRange:NSMakeRange(0, 10)];
+        NSDate *date = [NSDate dateFromString:room.date WithFormatter:@"yyyy-MM-dd HH:mm:s"];
+        NSString *dateStr = [date stringFromDateWithFormat:@"yyyy-MM-dd"];
+        self.dateLabel.text = dateStr;
         
     }
     
     
 }
-
-- (NSDate *)extractDate:(NSDate *)date {
-    //get seconds since 1970
-    NSTimeInterval interval = [date timeIntervalSince1970];
-    int daySeconds = 24 * 60 * 60;
-    //calculate integer type of days
-    NSInteger allDays = interval / daySeconds;
-    
-    return [NSDate dateWithTimeIntervalSince1970:allDays * daySeconds];
-}
-
 
 @end

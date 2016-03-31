@@ -6,16 +6,16 @@
 //  Copyright © 2016年 zhangb. All rights reserved.
 //
 
-#import "RSLaunchimageViewController.h"
+#import "LaunchimageViewController.h"
 
-@interface RSLaunchimageViewController ()
+@interface LaunchimageViewController ()
 {
     UIImageView * _imageView;
     UIImageView *launchImageView;
 }
 @end
 
-@implementation RSLaunchimageViewController
+@implementation LaunchimageViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,15 +42,10 @@
 - (void)loadLaunchImage{
 
     NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
-    [params setObject:@"pttms" forKey:@"utm_campaign"];
-    [params setObject:@"ios" forKey:@"utm_media"];
-    [params setObject:@"1.0.0" forKey:@"utm_term"];
     [RSHttp mobileRequestWithURL:@"/mobile/index/loadingimg" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSDictionary *dic = [data objectForKey:@"body"];
-        if ([[data objectForKey:@"code"] integerValue] == 0) {
-            NSString *loadingimgStr = [dic objectForKey:@"loadingimg"];
-            [_imageView sd_setImageWithURL:[NSURL URLWithString:loadingimgStr]];
-        }
+        NSString *loadingimgStr = [dic objectForKey:@"loadingimg"];
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:loadingimgStr]];
     } failure:^(NSInteger code, NSString *errmsg) {
         NSLog(@"%@", errmsg);
     }];
@@ -73,29 +68,13 @@
     return nil;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (void)switchRootViewController{
     AppDelegate *myDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [myDelegate switchRootViewController];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 - (BOOL)prefersStatusBarHidden
 {
-    // iOS7后,[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-    // 已经不起作用了
     return YES;
 }
 

@@ -32,6 +32,7 @@
 - (NSDateComponents *)YMDComponents;
 
 +(NSDate *)dateFromString:(NSString *)dateString;//NSString转NSDate
++(NSDate *)dateFromString:(NSString *)dateString WithFormatter:(NSString *)formatter;
 
 - (NSString *)stringFromDateWithFormat:(NSString *)format;//NSDate转NSString
 

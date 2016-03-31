@@ -20,9 +20,7 @@
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 15, 200, 16)];
         self.titleLabel.textColor  = color_black_333333;
         self.titleLabel.font = textFont15;
-        self.titleLabel.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneNumberClicked:)];
-        [self.titleLabel addGestureRecognizer:tap];
+        [self.titleLabel addTapAction:@selector(phoneNumberClicked:) target:self];
         [self.contentView addSubview:self.titleLabel];
         
         UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.titleLabel.top, 3, self.titleLabel.height)];
@@ -47,7 +45,6 @@
         [titleStr addAttribute:NSForegroundColorAttributeName value:colorblue range:pRange];
         [self.titleLabel setAttributedText:titleStr];
         
-//        self.titleLabel.text = [NSString stringWithFormat:@"%@：%@", m.nickname, m.mobile];
     } else if ([model isKindOfClass:[RSDistributionTaskModel class]]) {
         RSDistributionTaskModel *m = (RSDistributionTaskModel *) model;
         self.titleLabel.text = [NSString stringWithFormat:@"%@", m.name];
