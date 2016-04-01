@@ -40,7 +40,7 @@
         return _telLabel;
     }
     _telLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.headView.left - 10, self.nameLabel.bottom - 5, self.nameLabel.width + 20, 25)];
-    _telLabel.textColor = colorblue;
+    _telLabel.textColor = [UIColor whiteColor];
     _telLabel.textAlignment = NSTextAlignmentCenter;
     _telLabel.font = [UIFont systemFontOfSize:14];
     return _telLabel;

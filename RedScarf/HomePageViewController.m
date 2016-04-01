@@ -149,6 +149,9 @@
     BannerViewController *bannerVC = [[BannerViewController alloc] init];
     bannerVC.title = @"详情";
     bannerVC.urlString = [imageUrlArray objectAtIndex:index];
+    if (bannerVC.urlString.length == 0) {
+        return;
+    }
     [self.navigationController pushViewController:bannerVC animated:YES];
 }
 
@@ -224,12 +227,8 @@
         RSMenuButton *button = [[RSMenuButton alloc] init];
         button.frame = CGRectMake(weight*column, self.cycleScrollView.height + line * weight, weight, weight);
         
-        MenuModel *menuModel = [[MenuModel alloc]init];
-        menuModel.url = [dict valueForKey:@"url"];
-        menuModel.imgName = [dict valueForKey:@"iosIco"];
-        menuModel.title = [dict valueForKey:@"name"];
-        menuModel.menuId = [dict valueForKey:@"id"];
-
+        NSError *error = nil;
+        MenuModel *menuModel = [MTLJSONAdapter modelOfClass:[MenuModel class] fromJSONDictionary:dict error:&error];
         button.menuModel = menuModel;
         button.redPot = NO;
                             

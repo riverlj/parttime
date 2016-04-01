@@ -28,7 +28,7 @@
         self.titleLabel.textColor = MakeColor(75, 75, 75);
         [self.contentView addSubview:self.titleLabel];
         
-        self.subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.right +10, 14, 40, 15)];
+        self.subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.right +10, 14, 40, 30)];
         self.subTitleLabel.font = [UIFont systemFontOfSize:13];
         self.subTitleLabel.textColor = [UIColor grayColor];
         [self.contentView addSubview:self.subTitleLabel];
@@ -65,6 +65,7 @@
     self.btn.centerY = self.height/2;
     self.titleLabel.text = title;
     self.btn.right = self.width - 18;
+    self.subTitleLabel.width = self.btn.left - self.titleLabel.right - 20;
 }
 
 

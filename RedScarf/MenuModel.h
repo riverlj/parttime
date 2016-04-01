@@ -9,7 +9,7 @@
 #import "RSModel.h"
 
 @interface MenuModel : RSModel <MTLJSONSerializing>
-@property (nonatomic, copy)NSString *menuId;
+@property (nonatomic, assign)NSInteger menuId;
 @property (nonatomic, copy)NSString *title;
 @property (nonatomic, copy)NSString *url;
 @property (nonatomic, copy)NSString *imgName;

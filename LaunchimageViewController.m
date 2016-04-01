@@ -29,7 +29,8 @@
     [self.view sendSubviewToBack:launchImageView];
     
     _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth - 70*(kUIScreenWidth)/320)];
-    _imageView.contentMode = UIViewContentModeScaleToFill;
+    _imageView.contentMode = UIViewContentModeScaleAspectFill;
+    _imageView.clipsToBounds = YES;
     [self.view addSubview:_imageView];
     [self loadLaunchImage];
 }

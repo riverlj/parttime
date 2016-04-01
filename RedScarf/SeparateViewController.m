@@ -118,6 +118,9 @@
         if(title.tag == 1) {
             self.tableView.tableFooterView = self.footView;
         } else {
+            self.tableView.tableFooterView = [UIView new];
+        }
+        if (![account isCEO]) {
             self.tableView.tableFooterView = self.footView;
         }
         [self.tips removeFromSuperview];
