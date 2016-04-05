@@ -23,23 +23,24 @@
         self.bgImageView.userInteractionEnabled = YES;
         [self.contentView addSubview:self.bgImageView];
         
-        self.addLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 200, 15)];
-        self.addLabel.font = textFont15;
-        self.addLabel.textColor = color_black_333333;
-        [self.bgImageView addSubview:self.addLabel];
-
         self.detailBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.detailBtn.frame = CGRectMake(self.bgImageView.width-60, 0, 60, 45);
+        self.detailBtn.frame = CGRectMake(0, 0, self.bgImageView.width, 45);
         [self.detailBtn setTitle:@"详情" forState:UIControlStateNormal];
         [self.detailBtn setTitleColor:color_blue_5999f8 forState:UIControlStateNormal];
         [self.bgImageView addSubview:self.detailBtn];
+        
+        self.addLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 200, 15)];
+        self.addLabel.font = textFont15;
+        self.addLabel.textColor = color_black_333333;
+        [self.detailBtn addSubview:self.addLabel];
 
         
-        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.addLabel.left, self.addLabel.bottom + 15, self.bgImageView.width - 41 - self.detailBtn.width, 12)];
+
+        self.foodLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.addLabel.left, self.addLabel.bottom + 15, self.bgImageView.width - 2*self.addLabel.left , 12)];
         self.foodLabel.font = textFont12;
         self.foodLabel.numberOfLines = 0;
         self.foodLabel.lineBreakMode = NSLineBreakByCharWrapping;
-        [self.bgImageView addSubview:self.foodLabel];
+        [self.detailBtn addSubview:self.foodLabel];
         
         self.btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         self.btn.frame = CGRectMake(0, self.foodLabel.bottom + 15, 70, 30);
@@ -60,16 +61,14 @@
 -(void)setIntroductionText:(NSMutableAttributedString*)text
 {
     [self.foodLabel setAttributedText:text];
-    CGSize size = CGSizeMake(self.foodLabel.width, 1000);
     
-    NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
-    CGRect rect = [text boundingRectWithSize:size options:options context:nil];
+    CGSize size = [self.foodLabel sizeThatFits:CGSizeMake(self.foodLabel.width, 10000)];
     
-    self.foodLabel.height = rect.size.height+10;
+    self.foodLabel.height = size.height+10;
     self.btn.top = self.foodLabel.bottom + 12;
     self.bgImageView.height = self.btn.bottom + 8;
-    self.detailBtn.height = self.bgImageView.height;
-    self.detailBtn.titleEdgeInsets = UIEdgeInsetsMake( 20 - self.detailBtn.height/2, 0, self.detailBtn.height/2 -20 , 0);
+    self.detailBtn.height = self.foodLabel.bottom;
+    self.detailBtn.titleEdgeInsets = UIEdgeInsetsMake( 25 - self.detailBtn.height/2, self.detailBtn.width/2 -28, self.detailBtn.height/2 -25, 28-self.detailBtn.width/2);
     self.height = self.bgImageView.bottom;
     
 }

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MenuModel.h"
 
 @interface RSMenuButton : UIButton
 @property(nonatomic, strong) UIImageView *image;
@@ -14,10 +15,8 @@
 @property(nonatomic, strong) UIImageView *circleView;
 
 @property(nonatomic) BOOL redPot;
-@property(nonatomic, strong) NSString *url;
-@property(nonatomic) NSInteger menuid;
 
+@property (nonatomic, strong)MenuModel *menuModel;
 
--(void) setTitle:(NSString *)title image:(NSString *)image redPot:(BOOL)redPot;
 
 @end

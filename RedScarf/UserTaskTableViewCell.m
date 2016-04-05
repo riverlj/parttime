@@ -62,7 +62,14 @@
                                   color_black_666666, NSForegroundColorAttributeName, nil];
         NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@ %@", m.username, m.mobile] attributes:attrDict];
         [attrStr setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color_black_222222, NSForegroundColorAttributeName, textFont16, NSFontAttributeName, nil] range:NSMakeRange(0, [m.username length])];
+        
+        [attrStr setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:colorblue, NSForegroundColorAttributeName, textFont16, NSFontAttributeName, nil] range:NSMakeRange(attrStr.length-m.mobile.length, m.mobile.length)];
+        
         self.titleLabel.attributedText = attrStr;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneNumberClicked:)];
+        self.titleLabel.userInteractionEnabled = YES;
+        [self.titleLabel addGestureRecognizer:tap];
+        
         CGFloat bottom = self.titleLabel.bottom+16;
         [self clearSubCell];
         for(NSDictionary *dic in m.tasksArr) {
@@ -96,4 +103,12 @@
         }
     }
 }
+
+- (void)phoneNumberClicked:(UIGestureRecognizer *)sender{
+    UILabel *nameAndPhoneLable = (UILabel *)sender.view;
+    NSString *nameAndPhoneStr = nameAndPhoneLable.text;
+    NSString *phoneStr = [nameAndPhoneStr substringWithRange:NSMakeRange(nameAndPhoneStr.length - 11, 11)];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", phoneStr]]];
+}
+
 @end

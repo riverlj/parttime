@@ -12,10 +12,14 @@
 #import "UIUtils.h"
 #import "AppDelegate.h"
 #import "RoomMissionModel.h"
+#import "DetailTroubleViewController.h"
 
 @implementation RoomViewController
 {
     NSArray *reasonArr;
+    NSArray *detailReasonArr;
+    NSMutableArray *_checkedArray;
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -27,34 +31,52 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+  
+    reasonArr = [NSArray arrayWithObjects:@"餐品不够",@"找不到地址",@"餐品错误",@"早餐破损",@"其他", nil];
+    detailReasonArr = [NSArray arrayWithObjects:@"请说明不够的餐品名称和数量，不超过50个字",@"请说明未送达原因，不超过50个字",@"请说明错误的餐品名称和数量，不超过50个字",@"请说明破损的餐品名称和数量，不超过50个字",@"请说明未送达原因，不超过50个字", nil];
+
+
     self.title = self.titleStr;
-    self.dataArray = [NSMutableArray array];
     _models = [NSMutableArray array];
     [self initTableView];
     [self initFootBtn];
-    [self getMessage];
+//    [self getMessage];
+    self.url = @"/task/assignedTask/customerDetail";
+    self.httpMethod = @"GET";
+    self.useFooterRefresh = NO;
+    self.useHeaderRefresh = NO;
+    
+    [self beginHttpRequest];
+    
 }
 
--(void)getMessage
-{
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:self.aId forKey:@"aId"];
-    [params setObject:self.room forKey:@"room"];
-    [params setObject:@"2" forKey:@"source"];
-    [RSHttp requestWithURL:@"/task/assignedTask/customerDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        for (NSMutableDictionary *dic in [data objectForKey:@"body"]) {
-            NSError *error = nil;
-            RoomMissionModel *model = [MTLJSONAdapter modelOfClass:[RoomMissionModel class] fromJSONDictionary:dic error:&error];
-            if(model) {
-                [self.models addObject:model];
-                model.content = [dic objectForKey:@"content"];
-                model.checked = NO;
-            }
+-(void)beforeHttpRequest {
+    [super beforeHttpRequest];
+    [self.params setObject:self.aId forKey:@"aId"];
+    [self.params setObject:self.room forKey:@"room"];
+    [self.params setObject:@"2" forKey:@"source"];
+
+}
+
+-(void)afterHttpSuccess:(NSDictionary *)data{
+    NSError *error = nil;
+    for (NSMutableDictionary *dic in [data objectForKey:@"body"]) {
+        RoomMissionModel *model = [MTLJSONAdapter modelOfClass:[RoomMissionModel class] fromJSONDictionary:dic error:&error];
+        if(model) {
+            model.content = [dic objectForKey:@"content"];
+            model.checked = NO;
+            model.cellClassName = @"RoomTableViewCell";
+            [model setSelectAction:@selector(modelSelected:) target:self];
         }
-        [self.tableView reloadData];
-        [self refreshBtn];
-    } failure:^(NSInteger code, NSString *errmsg) {
-    }];
+        [self.models addObject:model];
+    }
+    [super afterHttpSuccess:data];
+}
+
+- (void) modelSelected:(RoomMissionModel *)model {
+    model.checked = !model.checked;
+    [self.tableView reloadData];
+    [self refreshBtn];
 }
 
 -(void)initTableView
@@ -63,19 +85,6 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    RoomTableViewCell *cell = (RoomTableViewCell *)[self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-    return cell.height;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    RoomMissionModel *model = (RoomMissionModel *)[self.models objectAtIndex:indexPath.row];
-    model.checked = !model.checked;
-    [self.tableView reloadData];
-    [self refreshBtn];
-}
 
 //刷新底下的按钮组
 -(void) refreshBtn
@@ -140,7 +149,37 @@
 
 -(void)alertView:(NSString *)msg
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    [[alertView rac_buttonClickedSignal] subscribeNext:^(NSNumber *buttonIndex) {
+        NSInteger index = [buttonIndex integerValue];
+        if(index == 0) {    //已送达
+            NSMutableDictionary *params = [NSMutableDictionary dictionary];
+            [params setObject:@"2" forKey:@"source"];
+            NSMutableArray *tempArr = [NSMutableArray array];
+            NSString *sns = @"";
+            for(RoomMissionModel *model in self.models) {
+                if(model.checked) {
+                    [tempArr addObject:model];
+                    sns = [sns append:[NSString stringWithFormat:@"%@,", model.snid]];
+                }
+            }
+            [params setObject:sns forKey:@"sns"];
+            [self showHUD:@"送达中"];
+            [RSHttp requestWithURL:@"/task/assignedTask/batchFinish" params:params httpMethod:@"PUT" success:^(NSDictionary *data){
+                [self hidHUD];
+                for(RoomMissionModel *model in tempArr) {
+                    [self.models removeObject:model];
+                }
+                [self.tableView reloadData];
+                [self refreshBtn];
+                [self showToast:@"提交成功"];
+            } failure:^(NSInteger code, NSString *errmsg) {
+                [self hidHUD];
+                [self showToast:errmsg];
+            }];
+        }
+
+    }];
     [alertView show];
     return;
 }
@@ -148,95 +187,52 @@
 -(void)didClickNotBtn
 {
     [[BaiduMobStat defaultStat] logEvent:@"遇到问题" eventLabel:@"button5"];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"请选择未送达的原因" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"餐品不够",@"送错或漏送",@"餐品腐坏",@"餐品破损",@"其它", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"请选择未送达的原因" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"餐品不够",@"找不到地址",@"餐品错误",@"早餐破损",@"其他", nil];
+    
+    [[actionSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber* clickedIndex) {
+        int index = [clickedIndex integerValue];
+        if (index != 5) {
+            _checkedArray = [NSMutableArray array];
+            NSString *sns = @"";
+            for(RoomMissionModel *model in self.models) {
+                if(model.checked) {
+                    [_checkedArray addObject:model];
+                    sns = [sns append:[NSString stringWithFormat:@"%@,", model.snid]];
+                }
+            }
+            
+            DetailTroubleViewController *detailTroubleVC = [[DetailTroubleViewController alloc]init];
+            detailTroubleVC.title = reasonArr[index];
+            detailTroubleVC.submitDelegate = self;
+            detailTroubleVC.placeholderText = detailReasonArr[index];
+            detailTroubleVC.textMaxLength = 50;
+            detailTroubleVC.url = @"/task/assignedTask/batchUndelivereReason";
+            detailTroubleVC.httpMethod = @"PUT";
+            detailTroubleVC.firstReasonCode = [NSString stringWithFormat:@"%d", index+1];
+            detailTroubleVC.sns = sns;
+            
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:detailTroubleVC];
+            [self presentViewController:nav animated:YES completion:nil];
+        }
+    }];
+    
     [actionSheet showInView:self.view];
 }
 
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSString *reason;
-    reasonArr = [NSArray arrayWithObjects:@"餐品不够",@"送错或漏送",@"餐品腐坏",@"餐品破损",@"其它", nil];
-    if(buttonIndex < [reasonArr count]) {
-        reason = [reasonArr objectAtIndex:buttonIndex];
-        [[BaiduMobStat defaultStat] logEvent:reason eventLabel:@"button"];
-    } else {
-        return;
+#pragma SubmitSuccessDelegate
+- (void)submitSuccess{
+    for(RoomMissionModel *model in _checkedArray) {
+        [self.models removeObject:model];
     }
-    if([reason isEqualToString:@"其它"]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请输入未送达的原因" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-        alertView.tag =1;
-        [alertView show];
-    } else {
-        [self sendUndeliverReason:reason];
-    }
+    [self.tableView reloadData];
+    [self refreshBtn];
 }
 
--(void) sendUndeliverReason:(NSString *) reason
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([reason isEqualToString:@""]) {
-        [self showToast:@"未送达原因不能为空"];
-        return;
-    }
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:reason forKey:@"reason"];
-    NSMutableArray *tempArr = [NSMutableArray array];
-    NSString *sns = @"";
-    for(RoomMissionModel *model in self.models) {
-        if(model.checked) {
-            [tempArr addObject:model];
-            sns = [sns append:[NSString stringWithFormat:@"%@,", model.snid]];
-        }
-    }
-    [params setObject:sns forKey:@"sns"];
-    [self showHUD:@"处理中"];
-    [RSHttp requestWithURL:@"/task/assignedTask/batchUndelivereReason" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
-        [self hidHUD];
-        for(RoomMissionModel *model in tempArr) {
-            [self.models removeObject:model];
-        }
-        [self.tableView reloadData];
-        [self refreshBtn];
-        [self showToast:@"发送成功"];
-    } failure:^(NSInteger code, NSString *errmsg) {
-        [self hidHUD];
-        [self showToast:errmsg];
-    }];
+    RoomTableViewCell *cell = (RoomTableViewCell *)[self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+    return cell.height;
 }
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(!alertView.tag && buttonIndex == 0) {
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        [params setObject:@"2" forKey:@"source"];
-        NSMutableArray *tempArr = [NSMutableArray array];
-        NSString *sns = @"";
-        for(RoomMissionModel *model in self.models) {
-            if(model.checked) {
-                [tempArr addObject:model];
-                sns = [sns append:[NSString stringWithFormat:@"%@,", model.snid]];
-            }
-        }
-        [params setObject:sns forKey:@"sns"];
-        [self showHUD:@"送达中"];
-        [RSHttp requestWithURL:@"/task/assignedTask/batchFinish" params:params httpMethod:@"PUT" success:^(NSDictionary *data){
-            [self hidHUD];
-            for(RoomMissionModel *model in tempArr) {
-                [self.models removeObject:model];
-            }
-            [self.tableView reloadData];
-            [self refreshBtn];
-            [self showToast:@"提交成功"];
-        } failure:^(NSInteger code, NSString *errmsg) {
-            [self hidHUD];
-            [self showToast:errmsg];
-        }];
-    }
-    if(alertView.tag == 1 && buttonIndex == 1) {
-        UITextField *textField = [alertView textFieldAtIndex:0];
-        NSString *reason = textField.text;
-        [self sendUndeliverReason:reason];
-    }
-}
 
 @end

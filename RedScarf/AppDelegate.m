@@ -13,6 +13,7 @@
 #import "UMSocialQQHandler.h"
 #import "UMSocialWechatHandler.h"
 #import "BaiduMobStat.h"
+#import "LaunchimageViewController.h"
 
 @interface AppDelegate (){
     NSString *updateUrl;
@@ -28,25 +29,28 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self BaiduMobStat];
-    AppDelegate *myDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    
     [self UpdateVersion];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *token = [defaults objectForKey:@"token"];
-   
+
+    LaunchimageViewController *lanchImageVc = [[LaunchimageViewController alloc]init];
+    self.window.rootViewController = lanchImageVc;
+    
+    [self.window makeKeyAndVisible];
+    
+    return YES;
+}
+
+- (void)switchRootViewController {
+    NSString *token = [NSUserDefaults getValue:@"token"];
+    
     if (token.length) {
         BaseTabbarViewController *baseVC = [[BaseTabbarViewController alloc] init];
-        myDelegate.tocken = token;
+        [NSUserDefaults setValue:token forKey:@"token"];
         self.window.rootViewController = baseVC;
     }else{
         //没登陆
         LoginViewController *login = [[LoginViewController alloc] init];
         self.window.rootViewController = login;
     }
-    
-    [self.window makeKeyAndVisible];
-    
-    return YES;
 }
 
 -(void)UpdateVersion

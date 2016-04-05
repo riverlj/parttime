@@ -21,6 +21,7 @@
 #import "LoginViewController.h"
 #import "RSMenuButton.h"
 #import "RSAccountModel.h"
+#import "MenuModel.h"
 
 @interface HomePageViewController ()<SDCycleScrollViewDelegate>
 
@@ -45,66 +46,58 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self getTaskMessage];
-    [self getSeparateMessage];
-    [self getStatus];
+    [self getRedDot];
     [super viewWillAppear:animated];
-}
-
--(void)getTaskMessage
-{
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [RSHttp requestWithURL:@"/task/waitAssignTask" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSArray *taskArray = [data objectForKey:@"body"];
-        RSMenuButton *btn = [self getMenuBtnById:801];
-        if(btn) {
-            if(taskArray.count > 0) {
-                [btn setRedPot:YES];
-            } else {
-                [btn setRedPot:NO];
-            }
-        }
-    } failure:^(NSInteger code, NSString *errmsg) {
-    }];
-}
-
--(void)getSeparateMessage
-{
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [RSHttp requestWithURL:@"/task/assignedTask/content" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        NSArray *separateArray = [data objectForKey:@"body"];
-        RSMenuButton *btn = [self getMenuBtnById:802];
-        if(btn) {
-            if(separateArray.count > 0) {
-                [btn setRedPot:YES];
-            } else {
-                [btn setRedPot:NO];
-            }
-        }
-        btn = [self getMenuBtnById:901];
-        if(btn) {
-            if(separateArray.count > 0) {
-                [btn setRedPot:YES];
-            } else {
-                [btn setRedPot:NO];
-            }
-        }
-    } failure:^(NSInteger code, NSString *errmsg) {
-    }];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.listScrollView addSubview:self.cycleScrollView];
     [self.view addSubview: self.listScrollView];
-
+    
     imagesURLStrings = [NSMutableArray array];
     imageUrlArray = [NSMutableArray array];
-
+    
     self.title = @"首页";
     [self getHomeMsg];
     [self getBannerView];
     [self getUserinfo];
+}
+
+
+- (void)getRedDot{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [RSHttp requestWithURL:@"/resource/redDot" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        
+        UIImage *image;
+
+        NSDictionary *messageDic = [[data objectForKey:@"body"] objectForKey:@"message"];
+        NSInteger redDoc = [[messageDic objectForKey:@"redDot"] integerValue];
+        if (redDoc > 0) {
+            //消息提示
+            image = [[UIImage imageNamed:@"lingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        }else {
+            image = [[UIImage imageNamed:@"konglingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        }
+        UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
+        self.navigationItem.rightBarButtonItem = r;
+        
+        NSArray *commonArr = [[data objectForKey:@"body"] objectForKey:@"common"];
+        for (NSDictionary *dic in commonArr) {
+            NSString *url = [dic objectForKey:@"url"];
+            RSMenuButton *btn = [self getMenuBtnByUrl:url];
+            NSInteger redDot = [[dic objectForKey:@"redDot"]integerValue];
+            NSLog(@"redDot = %zd", redDot);
+            if (redDot > 0) {
+                [btn setRedPot:YES];
+            }else{
+                [btn setRedPot:NO];
+            }
+        }
+
+    } failure:^(NSInteger code, NSString *errmsg) {
+    }];
+
 }
 
 -(void)getUserinfo
@@ -119,34 +112,13 @@
     }];
 }
 
-
--(void)getStatus
-{
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:[NSNumber numberWithInt:1] forKey:@"pageNum"];
-    [params setObject:[NSNumber numberWithInt:10] forKey:@"pageSize"];
-    
-    [RSHttp requestWithURL:@"/user/message" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
-        UIImage *image;
-        if ([[NSString stringWithFormat:@"%@",[[data objectForKey:@"body"] objectForKey:@"unReadTotal"]] isEqualToString:@"0"]) {
-            //消息提示
-            image = [[UIImage imageNamed:@"konglingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        }else
-        {
-            image = [[UIImage imageNamed:@"lingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        }
-        UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
-        self.navigationItem.rightBarButtonItem = r;
-    } failure:^(NSInteger code, NSString *errmsg) {
-    }];
-}
-
--(RSMenuButton*) getMenuBtnById:(NSInteger) menuid
+-(RSMenuButton*) getMenuBtnByUrl:(NSString *) url
 {
     for(UIView *subView in self.listScrollView.subviews) {
         if([subView isKindOfClass:[RSMenuButton class]]) {
             RSMenuButton *btn = (RSMenuButton *)subView;
-            if(btn.menuid == menuid) {
+            if([btn.menuModel.url isEqualToString:[NSString stringWithFormat:@"rsparttime://%@",url]]) {
+                NSLog(@"%@", btn.menuModel.url);
                 return btn;
             }
         }
@@ -157,8 +129,10 @@
 -(void)getHomeMsg
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [RSHttp requestWithURL:@"/resource/appMenu" params:dic httpMethod:@"GET" success:^(NSDictionary *data) {
+    [dic setValue:@"0" forKey:@"parentId"];
+    [RSHttp requestWithURL:@"/resource/appMenu/child" params:dic httpMethod:@"GET" success:^(NSDictionary *data) {
         [self initHomeView:[data objectForKey:@"body"]];
+        [self getRedDot];
     } failure:^(NSInteger code, NSString *errmsg) {
         [self showToast:errmsg];
     }];
@@ -175,6 +149,9 @@
     BannerViewController *bannerVC = [[BannerViewController alloc] init];
     bannerVC.title = @"详情";
     bannerVC.urlString = [imageUrlArray objectAtIndex:index];
+    if (bannerVC.urlString.length == 0) {
+        return;
+    }
     [self.navigationController pushViewController:bannerVC animated:YES];
 }
 
@@ -249,8 +226,12 @@
         NSInteger line = total/columns;
         RSMenuButton *button = [[RSMenuButton alloc] init];
         button.frame = CGRectMake(weight*column, self.cycleScrollView.height + line * weight, weight, weight);
-        [button setTitle:[dict valueForKey:@"menu"] image:[dict valueForKey:@"pic-79-79"] redPot:NO];
-        button.menuid = [[dict valueForKey:@"id"] intValue];
+        
+        NSError *error = nil;
+        MenuModel *menuModel = [MTLJSONAdapter modelOfClass:[MenuModel class] fromJSONDictionary:dict error:&error];
+        button.menuModel = menuModel;
+        button.redPot = NO;
+                            
         [self.listScrollView addSubview:button];
         [button addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
         if(button.bottom > maxHeight) {
@@ -267,14 +248,15 @@
         return ;
     }
     RSMenuButton *btn = (RSMenuButton *)sender;
-    if(btn.url && ![btn.url isEqualToString:@""]) {
-        if([btn.url hasPrefix:@"http://"]) {
+    if(btn.menuModel.url && ![btn.menuModel.url isEqualToString:@""]) {
+        if([btn.menuModel.url hasPrefix:@"http://"]) {
             BannerViewController *bannerVC = [[BannerViewController alloc] init];
-            bannerVC.title = btn.label.text;
-            bannerVC.urlString = btn.url;
+            MenuModel *menuModel = btn.menuModel;
+            bannerVC.title = menuModel.title;
+            bannerVC.urlString = menuModel.url;
             [self.navigationController pushViewController:bannerVC animated:YES];
-        } else {
-            UIViewController *vc = [[NSClassFromString(btn.url) alloc] init];
+        } else if([btn.menuModel.url hasPrefix:@"rsparttime://"]){
+            UIViewController *vc = [[NSClassFromString(btn.menuModel.vcName) alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

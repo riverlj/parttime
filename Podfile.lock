@@ -28,6 +28,13 @@ PODS:
   - MBProgressHUD (0.9.2)
   - MJRefresh (3.0.8)
   - pop (1.0.8)
+  - ReactiveCocoa (2.5):
+    - ReactiveCocoa/UI (= 2.5)
+  - ReactiveCocoa/Core (2.5):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.5)
+  - ReactiveCocoa/UI (2.5):
+    - ReactiveCocoa/Core
   - SDCycleScrollView (1.6):
     - SDWebImage (~> 3.7)
   - SDWebImage (3.7.5):
@@ -43,6 +50,7 @@ DEPENDENCIES:
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh (~> 3.0.8)
   - pop (~> 1.0.7)
+  - ReactiveCocoa
   - SDCycleScrollView (~> 1.3)
   - SDWebImage (~> 3.7.4)
   - UMengSocial (~> 4.4)
@@ -54,6 +62,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: fafde8f18f4afd66b434331a9beb67a6c0264056
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
+  ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   SDCycleScrollView: 436ccec76258f9f280365af5c07b289a71382601
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   UICKeyChainStore: e81dc3b58d56ffaed61ab6669eb97071e53fc377

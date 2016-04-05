@@ -9,6 +9,16 @@
 #import "MyprofileModel.h"
 
 @implementation MyprofileModel
+
++(NSDictionary *)JSONKeyPathsByPropertyKey
+{
+    return @{
+             @"title" : @"name",
+             @"url" : @"url",
+             @"imgName" : @"iosIco",
+             };
+}
+
 -(instancetype) initWithTitle:(NSString *)title icon:(NSString *)imgName vcName:(NSString *)vcName
 {
     self = [self init];

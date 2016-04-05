@@ -16,7 +16,7 @@
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        self.backgroundColor = MakeColor(55, 57, 63);
+        self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"me_background.jpg"]];
         [self.contentView addSubview:self.titleLabel];
         [self.contentView addSubview:self.headView];
         [self.contentView addSubview: self.nameLabel];
@@ -40,7 +40,7 @@
         return _telLabel;
     }
     _telLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.headView.left - 10, self.nameLabel.bottom - 5, self.nameLabel.width + 20, 25)];
-    _telLabel.textColor = colorblue;
+    _telLabel.textColor = [UIColor whiteColor];
     _telLabel.textAlignment = NSTextAlignmentCenter;
     _telLabel.font = [UIFont systemFontOfSize:14];
     return _telLabel;

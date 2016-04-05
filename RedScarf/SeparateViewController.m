@@ -112,12 +112,16 @@
         self.models = [[btnArr objectAtIndex:title.tag] valueForKey:@"models"];
         self.pageNum = [[[btnArr objectAtIndex:title.tag] valueForKey:@"pageNum"] integerValue];
         if([self.models count] == 0) {
+            self.pageNum = 1;
             [self beginHttpRequest];
         }
         if(title.tag == 1) {
             self.tableView.tableFooterView = self.footView;
         } else {
             self.tableView.tableFooterView = [UIView new];
+        }
+        if (![account isCEO]) {
+            self.tableView.tableFooterView = self.footView;
         }
         [self.tips removeFromSuperview];
     }

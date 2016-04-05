@@ -49,20 +49,21 @@
     return self;
 }
 
--(void)setIntroductionText:(NSString*)text
-{
-    self.foodLabel.text = text;
-    self.foodLabel.numberOfLines = 0;
-    CGSize size = CGSizeMake(self.foodLabel.width, 1000);
-    
-    NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-    NSDictionary *attributes = @{NSFontAttributeName:self.foodLabel.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
-    CGRect rect = [text boundingRectWithSize:size options:options attributes:attributes context:nil];
-    
-    self.foodLabel.height = rect.size.height + 20;
-    self.typeLabel.height = self.foodLabel.height;
+- (void)calculateLableHeight:(UILabel *)lable WithText:(NSString *)text{
+    lable.text = text;
+    lable.numberOfLines = 0;
+    lable.lineBreakMode = NSLineBreakByWordWrapping;
+    CGSize size = [lable sizeThatFits:CGSizeMake(self.foodLabel.width, 10000)];
+    lable.height = size.height + 20;
+
+}
+
+- (void) setLablesHeight{
+    if (self.foodLabel.height >= self.typeLabel.height) {
+        self.typeLabel.height = self.foodLabel.height;
+    }else{
+        self.foodLabel.height = self.typeLabel.height;
+    }
     self.numLabel.height = self.foodLabel.height;
     self.bgView.height = self.foodLabel.height;
     self.height = self.foodLabel.height;
@@ -72,9 +73,10 @@
 {
     if([model isKindOfClass:[RSTaskModel class]]) {
         RSTaskModel *m = (RSTaskModel *)model;
-        self.typeLabel.text = m.tag;
-        self.numLabel.text = m.count;
-        [self setIntroductionText:m.content];
+        [self calculateLableHeight:self.typeLabel WithText:m.tag];
+        self.numLabel.text = m.count;   //份数
+        [self calculateLableHeight:self.foodLabel WithText:m.content];
+        [self setLablesHeight];
         if(!model.isSelectable) {
             [self.typeLabel setTextColor:color_black_666666];
             [self.bgView setBackgroundColor:color_gray_eeeedf2];

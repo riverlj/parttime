@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"楼栋详情";
+    self.title = self.apartmentName;
     self.url = @"/task/waitAssignTaskByRoom";
     if(self.userId != 0) {
         self.url = @"/task/assignTaskByRoom";
@@ -44,9 +44,9 @@
 -(void) beforeHttpRequest
 {
     [super beforeHttpRequest];
-    [self.params setObject:[NSString stringWithFormat:@"%ld", self.aId] forKey:@"aId"];
+    [self.params setObject:[NSString stringWithFormat:@"%zd", self.aId] forKey:@"aId"];
     if(self.userId != 0) {
-        [self.params setObject:[NSString stringWithFormat:@"%ld", self.userId] forKey:@"userId"];
+        [self.params setObject:[NSString stringWithFormat:@"%zd", self.userId] forKey:@"userId"];
     }
 }
 
@@ -83,10 +83,10 @@
     AllocatingTaskViewController *vc = [AllocatingTaskViewController new];
     vc.room = [room copy];
     if(self.aId) {
-        vc.aId = [NSString stringWithFormat:@"%ld", self.aId];
+        vc.aId = [NSString stringWithFormat:@"%zd", self.aId];
     }
     if(self.userId) {
-        vc.userId = [NSString stringWithFormat:@"%ld", self.userId];
+        vc.userId = [NSString stringWithFormat:@"%zd", self.userId];
     }
     [self.navigationController pushViewController:vc animated:YES];
 }

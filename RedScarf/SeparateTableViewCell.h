@@ -13,5 +13,4 @@
 @property(nonatomic,strong)UILabel *typeLabel;
 @property(nonatomic,strong)UILabel *foodLabel;
 @property(nonatomic,strong)UILabel *numLabel;
--(void)setIntroductionText:(NSString*)text;
 @end

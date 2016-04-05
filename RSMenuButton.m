@@ -70,44 +70,15 @@
 
 }
 
--(void) setMenuid:(NSInteger)menuid
-{
-    _menuid = menuid;
-    NSDictionary *urlDict = @{
-        @"801":@"TasksViewController",
-        @"802":@"SeparateViewController",
-        @"803":@"FinishViewController",
-        @"804":@"TeamMembersViewController",
-        @"805":@"CheckTaskViewController",
-        @"806":@"PromotionViewController",
-        @"807":@"http://jianzhi.honglingjinclub.com/html/banner/20151113/ceo.html",
-        @"808":@"http://jianzhi.honglingjinclub.com/html/banner/20151026/QandA.html",
-        @"809":@"",
-        @"901":@"SeparateViewController",
-        @"902":@"FinishViewController",
-        @"903":@"OrderTimeViewController",
-        @"904":@"OrderRangeViewController",
-        @"907":@"PromotionViewController",
-        @"906":@"http://jianzhi.honglingjinclub.com/html/banner/20151026/QandA.html",
-        
-    };
-    NSString *idStr = [NSString stringWithFormat:@"%ld", _menuid];
-    if([urlDict valueForKey:idStr]) {
-        _url = [urlDict valueForKey:idStr];
+-(void)setMenuModel:(MenuModel *)menuModel{
+    _menuModel = menuModel;
+    
+    self.label.text = _menuModel.title;
+    if([_menuModel.imgName hasPrefix:@"http://"]) {
+        [self.image sd_setImageWithURL:[NSURL URLWithString:_menuModel.imgName]];
     } else {
-        _url = nil;
+        self.image.image = [UIImage imageNamed:_menuModel.imgName];
     }
-}
-
--(void)setTitle:(NSString *)title image:(NSString *)image redPot:(BOOL)redPot
-{
-    self.label.text = title;
-    if([image hasPrefix:@"http://"]) {
-        [self.image sd_setImageWithURL:[NSURL URLWithString:image]];
-    } else {
-        self.image.image = [UIImage imageNamed:image];
-    }
-    self.redPot = redPot;
 }
 
 -(void) setRedPot:(BOOL)redPot
@@ -123,4 +94,5 @@
         }
     }
 }
+
 @end

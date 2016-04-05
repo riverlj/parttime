@@ -303,6 +303,10 @@
 		30E246961C34C6DD009A9A58 /* RoomTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E246951C34C6DD009A9A58 /* RoomTaskTableViewCell.m */; };
 		30E246991C34D29C009A9A58 /* UserTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E246981C34D29C009A9A58 /* UserTaskTableViewCell.m */; };
 		30E2469E1C34F325009A9A58 /* AllocatingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E2469D1C34F325009A9A58 /* AllocatingTaskViewController.m */; };
+		B168833A1CA513A500630E37 /* DetailTroubleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16883391CA513A500630E37 /* DetailTroubleViewController.m */; };
+		B17C46B51CACD23B008874FD /* MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C46B41CACD23B008874FD /* MenuModel.m */; };
+		B17FFC6D1CAD30510056A638 /* LaunchimageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */; };
+		B1F30BDA1CA92197000E48A1 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F30BD91CA92197000E48A1 /* SettingViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -743,6 +747,14 @@
 		30E2469A1C34F16A009A9A58 /* AllocatingTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllocatingTaskViewController.h; sourceTree = "<group>"; };
 		30E2469D1C34F325009A9A58 /* AllocatingTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllocatingTaskViewController.m; sourceTree = "<group>"; };
 		3414B9B1BB6084335511A390 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		B16883381CA513A500630E37 /* DetailTroubleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTroubleViewController.h; sourceTree = "<group>"; };
+		B16883391CA513A500630E37 /* DetailTroubleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTroubleViewController.m; sourceTree = "<group>"; };
+		B17C46B31CACD23B008874FD /* MenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuModel.h; sourceTree = "<group>"; };
+		B17C46B41CACD23B008874FD /* MenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuModel.m; sourceTree = "<group>"; };
+		B17FFC6B1CAD30510056A638 /* LaunchimageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchimageViewController.h; sourceTree = "<group>"; };
+		B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchimageViewController.m; sourceTree = "<group>"; };
+		B1F30BD81CA92197000E48A1 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		B1F30BD91CA92197000E48A1 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		E82FAFF956A2BA8C678D65C3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4AAF6E7B917F5842B5CBBE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -787,8 +799,8 @@
 				1DD302871B81DB53001B197F /* Model.h */,
 				1DD302881B81DB53001B197F /* Model.m */,
 				30D08B871C23DD4F008706E8 /* RoomMissionModel.h */,
-				30D08B881C23DD4F008706E8 /* RoomMissionModel.m */,
 				300968BD1C3A16DF00C51DA7 /* RSTaskModel.h */,
+				30D08B881C23DD4F008706E8 /* RoomMissionModel.m */,
 				300968BE1C3A16DF00C51DA7 /* RSTaskModel.m */,
 				3030B1D11C48D0FC009FD451 /* BuildingTaskModel.h */,
 				3030B1D21C48D0FC009FD451 /* BuildingTaskModel.m */,
@@ -831,6 +843,8 @@
 				30E2469D1C34F325009A9A58 /* AllocatingTaskViewController.m */,
 				3030B1CE1C48BC58009FD451 /* BuildingTaskViewController.h */,
 				3030B1CF1C48BC58009FD451 /* BuildingTaskViewController.m */,
+				B16883381CA513A500630E37 /* DetailTroubleViewController.h */,
+				B16883391CA513A500630E37 /* DetailTroubleViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -960,6 +974,8 @@
 		1D72D6901B71EC2F00E80D15 /* Myprofile */ = {
 			isa = PBXGroup;
 			children = (
+				B1F30BD81CA92197000E48A1 /* SettingViewController.h */,
+				B1F30BD91CA92197000E48A1 /* SettingViewController.m */,
 				1D72D6981B71EDA300E80D15 /* MyViewController.h */,
 				1D72D6991B71EDA300E80D15 /* MyViewController.m */,
 				1DE0AE0C1B8C59D80092E87C /* controller */,
@@ -1222,6 +1238,8 @@
 				309F538B1C1C4F2D00249476 /* MyprofileModel.m */,
 				30640FB11C4F74D200CA0198 /* PromotionModel.h */,
 				30640FB21C4F74D200CA0198 /* PromotionModel.m */,
+				B17C46B31CACD23B008874FD /* MenuModel.h */,
+				B17C46B41CACD23B008874FD /* MenuModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -1461,6 +1479,8 @@
 		309F534E1C1035BE00249476 /* Index */ = {
 			isa = PBXGroup;
 			children = (
+				B17FFC6B1CAD30510056A638 /* LaunchimageViewController.h */,
+				B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */,
 				1DD1AAD61BC7570E001BA76A /* HomePageViewController.h */,
 				1DD1AAD71BC7570E001BA76A /* HomePageViewController.m */,
 				1DF3A0DC1BDF50590095DE24 /* MsgViewController.h */,
@@ -1676,7 +1696,7 @@
 				TargetAttributes = {
 					1D72D6641B71D7FD00E80D15 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 78WD89EN9R;
+						DevelopmentTeam = HVW9LQ2544;
 						SystemCapabilities = {
 							com.apple.iCloud = {
 								enabled = 0;
@@ -1958,6 +1978,7 @@
 				1DD358191B8D5E98009EF0A5 /* RecommendViewController.m in Sources */,
 				3030B1C81C474E15009FD451 /* RSCatchline.m in Sources */,
 				309F53801C191F3100249476 /* RSProgressView.m in Sources */,
+				B17C46B51CACD23B008874FD /* MenuModel.m in Sources */,
 				300968C51C3BE0BE00C51DA7 /* RSTipsView.m in Sources */,
 				1DD358321B8D9183009EF0A5 /* RuleOfActive.m in Sources */,
 				1DCCFA5D1BB1503300B82609 /* MemberDetailViewController.m in Sources */,
@@ -2002,6 +2023,7 @@
 				1DD358351B8D9904009EF0A5 /* MoneyOfMonth.m in Sources */,
 				300968BF1C3A16DF00C51DA7 /* RSTaskModel.m in Sources */,
 				309F537D1C1854D700249476 /* RSHeadView.m in Sources */,
+				B17FFC6D1CAD30510056A638 /* LaunchimageViewController.m in Sources */,
 				309F53831C194D0600249476 /* LevelLogViewController.m in Sources */,
 				1D72D66B1B71D7FD00E80D15 /* main.m in Sources */,
 				309F53611C17139B00249476 /* RSCalendar.m in Sources */,
@@ -2031,6 +2053,7 @@
 				306D89721C322CA700C9772E /* BankCardsViewController.m in Sources */,
 				3030B1BB1C462082009FD451 /* RSInputField.m in Sources */,
 				3030B1BE1C463978009FD451 /* RSUIView.m in Sources */,
+				B168833A1CA513A500630E37 /* DetailTroubleViewController.m in Sources */,
 				1DF647361BC8DEA900A80A89 /* GoPeiSongViewController.m in Sources */,
 				1D9F36531BE4B96C008315CD /* UIView+Extension.m in Sources */,
 				3030B1C51C465CCF009FD451 /* AddMembersViewController.m in Sources */,
@@ -2042,6 +2065,7 @@
 				1DF3A0DE1BDF50590095DE24 /* MsgViewController.m in Sources */,
 				309F53571C16BFBF00249476 /* NSDate+RSFormatter.m in Sources */,
 				1DCCFA601BB15B8400B82609 /* TeamModel.m in Sources */,
+				B1F30BDA1CA92197000E48A1 /* SettingViewController.m in Sources */,
 				1D24D4B71B76007A00FD39BC /* UIView+ViewController.m in Sources */,
 				300968C21C3A499A00C51DA7 /* RSTaskTitleViewCell.m in Sources */,
 				1D72D6941B71ECE500E80D15 /* BaseTabbarViewController.m in Sources */,
@@ -2212,7 +2236,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2240,7 +2264,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.RedScarf.PartTimeInhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "363cb5f6-943a-48eb-b4cc-75091e21da77";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
