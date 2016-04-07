@@ -44,9 +44,9 @@
 -(void) beforeHttpRequest
 {
     [super beforeHttpRequest];
-    [self.params setObject:[NSString stringWithFormat:@"%zd", self.aId] forKey:@"aId"];
+    [self.params setValue:[NSString stringWithFormat:@"%zd", self.aId] forKey:@"aId"];
     if(self.userId != 0) {
-        [self.params setObject:[NSString stringWithFormat:@"%zd", self.userId] forKey:@"userId"];
+        [self.params setValue:[NSString stringWithFormat:@"%zd", self.userId] forKey:@"userId"];
     }
 }
 

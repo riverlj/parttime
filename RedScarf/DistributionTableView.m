@@ -88,7 +88,7 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     app.tocken = [UIUtils replaceAdd:app.tocken];
-    [params setObject:sender forKey:@"aId"];
+    [params setValue:sender forKey:@"aId"];
     [RSHttp requestWithURL:@"/task/assignedTask/roomDetail" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         [self.roomArr removeAllObjects];
         for (Model *model in self.addressArr) {
@@ -290,9 +290,9 @@
             AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             app.tocken = [UIUtils replaceAdd:app.tocken];
-            [params setObject:self.aId forKey:@"aId"];
-            [params setObject:self.roomNum forKey:@"room"];
-            [params setObject:@"2" forKey:@"source"];
+            [params setValue:self.aId forKey:@"aId"];
+            [params setValue:self.roomNum forKey:@"room"];
+            [params setValue:@"2" forKey:@"source"];
             [self showHUD:@"送达中..."];
             [RSHttp requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
                 [self showToast:@"成功送达"];

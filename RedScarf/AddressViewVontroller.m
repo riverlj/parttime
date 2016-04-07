@@ -105,7 +105,7 @@
     [params setObject:self.tId forKey:@"tId"];
 
     if (addressId) {
-        [params setObject:addressId forKey:@"aId"];
+        [params setValue:addressId forKey:@"aId"];
 
     }else{
         [self alertView:@"请请选择楼栋"];
@@ -117,7 +117,7 @@
         [self alertView:@"房间号只能是小于六位的数字"];
         
     }else{
-        [params setObject:tf.text forKey:@"room"];
+        [params setValue:tf.text forKey:@"room"];
         [RSHttp requestWithURL:@"/task/updateUnstandardAddr" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
             [self alertView:@"修改成功"];
             [self.delegate returnNameOfTableView:@"address"];
