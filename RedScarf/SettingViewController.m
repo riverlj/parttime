@@ -38,7 +38,8 @@
     model.subtitle = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%0.2fM", 1.0*size/1000000] attributes:[NSDictionary dictionaryWithObjectsAndKeys:color_black_666666, NSForegroundColorAttributeName, textFont15, NSFontAttributeName, nil]];
     [model setSelectAction:@selector(clearCache:) target:self];
     [self.models addObject:model];
-
+    
+    [self.tableView reloadData];
 
 }
 
