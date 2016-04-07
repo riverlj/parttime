@@ -52,9 +52,9 @@
 
 -(void)beforeHttpRequest {
     [super beforeHttpRequest];
-    [self.params setObject:self.aId forKey:@"aId"];
-    [self.params setObject:self.room forKey:@"room"];
-    [self.params setObject:@"2" forKey:@"source"];
+    [self.params setValue:self.aId forKey:@"aId"];
+    [self.params setValue:self.room forKey:@"room"];
+    [self.params setValue:@"2" forKey:@"source"];
 
 }
 
@@ -154,7 +154,7 @@
         NSInteger index = [buttonIndex integerValue];
         if(index == 0) {    //已送达
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            [params setObject:@"2" forKey:@"source"];
+            [params setValue:@"2" forKey:@"source"];
             NSMutableArray *tempArr = [NSMutableArray array];
             NSString *sns = @"";
             for(RoomMissionModel *model in self.models) {
@@ -163,7 +163,7 @@
                     sns = [sns append:[NSString stringWithFormat:@"%@,", model.snid]];
                 }
             }
-            [params setObject:sns forKey:@"sns"];
+            [params setValue:sns forKey:@"sns"];
             [self showHUD:@"送达中"];
             [RSHttp requestWithURL:@"/task/assignedTask/batchFinish" params:params httpMethod:@"PUT" success:^(NSDictionary *data){
                 [self hidHUD];

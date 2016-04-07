@@ -53,7 +53,7 @@
     if([model isKindOfClass:[MyprofileModel class]]) {
         MyprofileModel *myprofile = (MyprofileModel *) model;
         self.titleLabel.text = myprofile.title;
-        if ([myprofile.imgName containsString:@"http://"]) {
+        if ([myprofile.imgName hasPrefix:@"http://"]) {
             [self.iconView sd_setImageWithURL:[NSURL URLWithString:myprofile.imgName]];
         }else{
             self.iconView.image = [UIImage imageNamed:myprofile.imgName];
