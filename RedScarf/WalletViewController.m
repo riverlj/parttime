@@ -98,7 +98,7 @@
     [items1 addObject:model];
     
     model = [[RSSingleTitleModel alloc]init];
-    attrStr = [[NSMutableAttributedString alloc]initWithString:@"银行卡" attributes:attrDict];
+    attrStr = [[NSMutableAttributedString alloc]initWithString:@"绑定微信" attributes:attrDict];
     model.str = attrStr;
     [items1 addObject:model];
     [model setSelectAction:@selector(bankcard) target:self];
@@ -123,9 +123,13 @@
 
 -(void)bankcard
 {
-    BankCardsViewController *bankCardVC = [[BankCardsViewController alloc] init];
-    [self.navigationController pushViewController:bankCardVC animated:YES];
+    //构造SendAuthReq结构体
+    SendAuthReq* req =[[SendAuthReq alloc ] init];
+    req.scope = @"snsapi_userinfo" ;
+    req.state = @"123" ;
+    [WXApi sendReq:req];
 }
+
 
 -(void)modifyPass
 {

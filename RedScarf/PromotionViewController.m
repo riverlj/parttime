@@ -8,208 +8,150 @@
 
 #import "PromotionViewController.h"
 #import "Header.h"
-#import "OrderCountsViewController.h"
-#import "FunsViewController.h"
-#import "TotalMoneyViewController.h"
-#import "ListCell.h"
-#import "RecommendViewController.h"
-#import "MyFunsViewController.h"
-#import "RuleOfActive.h"
-#import "RSUIView.h"
-#import "PromotionModel.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialWechatHandler.h"
+#import "XHCustomShareView.h"
 
 
-@implementation PromotionViewController {
-    NSString *code;
-    RSTitleView *fansView;
-    RSTitleView *totalMoneyView;
-    RSTitleView *totalOrderView;
-}
+@interface PromotionViewController()
+@property (nonatomic, strong)UIImageView *wxPublicImageView;
+@property (nonatomic, strong)UILabel *cdkeyLabel;
+@property (nonatomic, strong)UIView *bgcontendView;
+@property (nonatomic, strong)UIButton *shareBtn;
+@property (nonatomic, strong)UIImageView *cdkeybgImageView;
+
+@property (nonatomic, strong)NSString *cdkey;
+
+
+
+@end
+
+@implementation PromotionViewController
+
 
 -(void) viewDidLoad
 {
     [super viewDidLoad];
-    self.url = @"/promotionActivity/index";
-    self.useFooterRefresh = YES;
-    self.title = @"推广活动";
-    [self comeBack:nil];
-    [self.tips setTitle:@"" withImg:nil];
-    self.tableView.tableHeaderView = [self headView];
-    self.tableView.tableFooterView = [UIView new];
-    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    self.title = @"我要推广";
+    self.url = @"/promotionActivity/info";
+    
+    [self.tableView removeFromSuperview];
+    self.view.backgroundColor = MakeColor(0x34, 0x86, 0xfd);
+
+
+    [self.view addSubview:self.bgcontendView];
+    
+    [self.bgcontendView addSubview:self.wxPublicImageView];
+    [self.bgcontendView addSubview:self.cdkeybgImageView];
+    [self.bgcontendView addSubview:self.cdkeyLabel];
+
+    self.bgcontendView.height = self.cdkeyLabel.bottom + 20;
+    [self.view addSubview:self.shareBtn];
+    
     [self beginHttpRequest];
+}
+
+- (UIView *)bgcontendView {
+    if (_bgcontendView) {
+        return _bgcontendView;
+    }
+    
+    _bgcontendView = [[UIView alloc]init];
+    _bgcontendView.frame = CGRectMake(10, 64+15, SCREEN_WIDTH-20, 0);
+    _bgcontendView.backgroundColor = [UIColor whiteColor];
+    _bgcontendView.layer.cornerRadius = 4;
+    _bgcontendView.layer.masksToBounds = YES;
+    return _bgcontendView;
 }
 
 -(void) afterHttpSuccess:(NSDictionary *)data
 {
-    NSDictionary *dic = [data objectForKey:@"body"];
-    code = [dic valueForKey:@"cdkey"];
-    fansView.numLabel.text = [dic valueForKey:@"fansTotal"];
-    totalMoneyView.numLabel.text = [dic valueForKey:@"promoteAccount"];
-    totalOrderView.numLabel.text = [dic valueForKey:@"orderTotal"];
-    NSInteger i = [self.models count];
-    for(NSDictionary *temp in [dic objectForKey:@"otherUsers"]) {
-        i++;
-        PromotionModel *model = [MTLJSONAdapter modelOfClass:[PromotionModel class] fromJSONDictionary:temp error:nil];
-        model.rank = i;
-        [self.models addObject:model];
+    NSDictionary *body = [data valueForKey:@"body"];
+    self.cdkey = [body valueForKey:@"cdkey"];
+    
+    self.cdkeyLabel.text = [NSString stringWithFormat:@"推广码：%@", self.cdkey];
+}
+
+- (UIImageView *)wxPublicImageView {
+    
+    if (_wxPublicImageView) {
+        return _wxPublicImageView;
     }
+    
+    _wxPublicImageView = [[UIImageView alloc] init];
+    
+    _wxPublicImageView.frame = CGRectMake(18, 18, (self.bgcontendView.width - 36), (self.bgcontendView.width - 36));
+    _wxPublicImageView.image = [UIImage imageNamed:@"wxpublic"];
+    _wxPublicImageView.contentMode = UIViewContentModeScaleAspectFill;
+    return _wxPublicImageView;
 }
 
--(void) afterProcessHttpData:(NSInteger)before afterCount:(NSInteger)after
-{
-    if(before == 0 && after != 0) {
-        PromotionModel *head = [[PromotionModel alloc]init];
-        head.name = @"姓名";
-        head.mobile = @"电话";
-        head.orderCnt = @"昨日下单";
-        head.promotionCnt = @"推广总数";
-        [self.models insertObject:head atIndex:0];
-        head.isSelectable = NO;
-        [self.tableView reloadData];
+
+-(UILabel *)cdkeyLabel {
+    if (_cdkeyLabel) {
+        return _cdkeyLabel;
     }
-    [super afterProcessHttpData:before afterCount:after];
+    
+    _cdkeyLabel = [[UILabel alloc]init];
+    
+    _cdkeyLabel.frame = CGRectMake((self.bgcontendView.width-245*(SCREEN_WIDTH/320))/2, self.wxPublicImageView.bottom + 20, 245*(SCREEN_WIDTH/320), 41);
+
+    _cdkeyLabel.textAlignment = NSTextAlignmentCenter;
+    _cdkeyLabel.font = Font(18);
+    _cdkeyLabel.textColor = RS_THRME_COLOR;
+    return _cdkeyLabel;
 }
 
--(UIView *) headView
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 200)];
-    fansView = [[RSTitleView alloc] initWithFrame:CGRectMake(0, 0, view.width/3, 73)];
-    fansView.titleLabel.text = @"推荐粉丝总数";
-    fansView.vcName = @"FunsViewController";
-    [fansView addTapAction:@selector(didclickTitle:) target:self];
-    [view addSubview: fansView];
-    totalMoneyView = [[RSTitleView alloc] initWithFrame:CGRectMake(fansView.right, fansView.top, fansView.width, fansView.height)];
-    totalMoneyView.titleLabel.text = @"推广费总额";
-    totalMoneyView.vcName = @"TotalMoneyViewController";
-    [totalMoneyView addTapAction:@selector(didclickTitle:) target:self];
-    [totalMoneyView addSubview:[RSUIView lineWithFrame:CGRectMake(0, 15, 0.8, totalMoneyView.height-30)]];
-    [view addSubview:totalMoneyView];
-    totalOrderView = [[RSTitleView alloc] initWithFrame:CGRectMake(totalMoneyView.right, totalMoneyView.top, totalMoneyView.width, totalMoneyView.height)];
-    totalOrderView.titleLabel.text = @"推广下单数";
-    [totalOrderView addTapAction:@selector(didclickTitle:) target:self];
-    totalOrderView.vcName = @"OrderCountsViewController";
-    [totalOrderView addSubview:[RSUIView lineWithFrame:CGRectMake(0, 15, 0.8, totalOrderView.height-30)]];
-    [view addSubview:totalOrderView];
-    
-    
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(18, fansView.bottom + 11, (kUIScreenWidth - 36 - 20)/3, 79)];
-    btn.backgroundColor = MakeColor(0xff, 0x6f, 0x5c);
-    btn.layer.cornerRadius = 8;
-    btn.clipsToBounds = YES;
-    [btn setTitle:@"我要推荐" forState:UIControlStateNormal];
-    btn.titleLabel.font = textFont13;
-    btn.imageView.width = 30;
-    btn.imageView.height = 30;
-    btn.imageEdgeInsets = UIEdgeInsetsMake(-11.5, (btn.width-btn.imageView.width)/2, 11.5, (btn.width-btn.imageView.width)/2);
-    btn.titleEdgeInsets = UIEdgeInsetsMake(20, -30, -20, 0);
-    [btn setImage:[UIImage imageNamed:@"icon_good"] forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(didClickRecommend) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:btn];
-    
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(btn.right + 10, btn.top, btn.width, btn.height)];
-    [btn1 setBackgroundColor:MakeColor(0x58, 0xb1, 0xed)];
-    btn1.layer.cornerRadius = 8;
-    btn1.clipsToBounds = YES;
-    [btn1 setTitle:@"我的粉丝" forState:UIControlStateNormal];
-    btn1.titleLabel.font = textFont13;
-    btn1.imageView.width = 30;
-    btn1.imageView.height = 30;
-    [btn1 addTarget:self action:@selector(didClickMyFuns) forControlEvents:UIControlEventTouchUpInside];
-    btn1.imageEdgeInsets = UIEdgeInsetsMake(-11.5, (btn.width-btn.imageView.width)/2, 11.5, (btn.width-btn.imageView.width)/2);
-    btn1.titleEdgeInsets = UIEdgeInsetsMake(20, -30, -20, 0);
-    [btn1 setImage:[UIImage imageNamed:@"icon_fans"] forState:UIControlStateNormal];
-    [view addSubview:btn1];
-    
-    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(btn1.right + 10, btn.top, btn.width, btn.height)];
-    [btn2 setBackgroundColor:MakeColor(0x62, 0xc4, 0x7b)];
-    btn2.layer.cornerRadius = 8;
-    btn2.clipsToBounds = YES;
-    [btn2 setTitle:@"活动规则" forState:UIControlStateNormal];
-    btn2.titleLabel.font = textFont13;
-    btn2.imageView.width = 30;
-    btn2.imageView.height = 30;
-    [btn2 addTarget:self action:@selector(didClickRuleOfActive) forControlEvents:UIControlEventTouchUpInside];
-    btn2.imageEdgeInsets = UIEdgeInsetsMake(-11.5, (btn.width-btn.imageView.width)/2, 11.5, (btn.width-btn.imageView.width)/2);
-    btn2.titleEdgeInsets = UIEdgeInsetsMake(20, -30, -20, 0);
-    [btn2 setImage:[UIImage imageNamed:@"icon_star"] forState:UIControlStateNormal];
-    [view addSubview:btn2];
-    
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth/2-50, btn2.bottom+ 33, 100, 14)];
-    label.textAlignment = NSTextAlignmentLeft;
-    label.textColor = MakeColor(87, 87, 87);
-    label.text = @"推广大比拼";
-    label.font = [UIFont systemFontOfSize:14];
-    [label sizeToFit];
-    label.centerX = kUIScreenWidth /2+5;
-    [view addSubview:label];
-    
-    UIImageView *blueview = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 5, 10)];
-    blueview.layer.cornerRadius = 2.5;
-    blueview.clipsToBounds = YES;
-    blueview.backgroundColor = btn1.backgroundColor;
-    blueview.right = label.left - 5;
-    blueview.centerY = label.centerY;
-    [view addSubview:blueview];
-    
-    view.height = blueview.bottom + 14;
-    return view;
-}
 
--(void)didclickTitle:(id)sender
-{
-    UITapGestureRecognizer *reg = (UITapGestureRecognizer *)sender;
-    if([reg.view isKindOfClass:[RSTitleView class]]) {
-        RSTitleView *titleView = (RSTitleView *) reg.view;
-        UIViewController *vc = [[NSClassFromString(titleView.vcName) alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
+-(UIImageView *)cdkeybgImageView {
+    if (_cdkeybgImageView) {
+        return _cdkeybgImageView;
     }
+    
+    _cdkeybgImageView = [[UIImageView alloc]init];
+    _cdkeybgImageView.frame =  CGRectMake((self.bgcontendView.width-245*(SCREEN_WIDTH/320))/2, self.wxPublicImageView.bottom + 20, 245*(SCREEN_WIDTH/320), 41);
+    _cdkeybgImageView.image = [UIImage imageNamed:@"cdkeybgview"];
+    return _cdkeybgImageView;
 }
 
--(void)didClickRecommend
-{
-    RecommendViewController *recommendVC = [[RecommendViewController alloc] init];
-    recommendVC.code = code;
-    [self.navigationController pushViewController:recommendVC animated:YES];
-}
-
--(void)didClickMyFuns
-{
-    MyFunsViewController *myFunsVC = [[MyFunsViewController alloc] init];
-    [self.navigationController pushViewController:myFunsVC animated:YES];
-}
-
--(void)didClickRuleOfActive
-{
-    RuleOfActive *ruleOfActiveVC = [[RuleOfActive alloc] init];
-    ruleOfActiveVC.title = @"活动规则";
-    [self.navigationController pushViewController:ruleOfActiveVC animated:YES];
-}
-@end
-
-
-@implementation RSTitleView
--(instancetype) initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if(self) {
-        self.backgroundColor = [UIColor whiteColor];
-        self.numLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, self.width, 15)];
-        self.numLabel.textAlignment = NSTextAlignmentCenter;
-        self.numLabel.textColor = color_black_333333;
-        self.numLabel.font = textFont15;
-        [self addSubview:self.numLabel];
-        
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.numLabel.bottom + 11, self.width, 12)];
-        self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.textColor = color_black_666666;
-        self.titleLabel.font = textFont12;
-        [self addSubview:self.titleLabel];
-        UIImageView *line = [RSUIView lineWithFrame:CGRectMake(0, self.height - 0.5, self.width, 0.5)];
-        [self addSubview:line];
+-(UIButton *)shareBtn {
+    if (_shareBtn) {
+        return _shareBtn;
     }
-    return self;
+    
+    _shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _shareBtn.frame = CGRectMake(10, 0, SCREEN_WIDTH-20, 50);
+    
+    [_shareBtn setTitle:@"分享" forState:UIControlStateNormal];
+    [_shareBtn setTitle:@"分享" forState:UIControlStateHighlighted];
+    [_shareBtn setTitleColor:RS_THRME_COLOR forState:UIControlStateHighlighted];
+    [_shareBtn setTitleColor:RS_THRME_COLOR forState:UIControlStateNormal];
+    _shareBtn.titleLabel.font = Font(18);
+    
+    [_shareBtn setBackgroundColor:[UIColor whiteColor]];
+    _shareBtn.layer.cornerRadius = 2;
+    _shareBtn.layer.masksToBounds = YES;
+    CGFloat y = self.view.height - self.bgcontendView.bottom;
+    _shareBtn.y = self.bgcontendView.bottom + (y - _shareBtn.height)/2;
+    
+    @weakify(self)
+    [[_shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self)
+        [UMSocialData defaultData].extConfig.wechatSessionData.url = [NSString stringWithFormat:@"http://test2.dev.honglingjinclub.com/web/extension.html?couponcode=%@", self.cdkey];
+        [UMSocialData defaultData].extConfig.wechatTimelineData.url = [NSString stringWithFormat:@"http://test2.dev.honglingjinclub.com/web/extension.html?couponcode=%@", self.cdkey];
+        [UMSocialData defaultData].extConfig.wechatSessionData.title = @"hi同学，送你一张五折券早餐券";
+        [UMSocialData defaultData].extConfig.wechatTimelineData.title = @"hi同学，送你一张五折券早餐券";
+        [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeWeb;
+         [UMSocialData defaultData].extConfig.wechatSessionData.shareText = @"一直用［爱与红领巾］订早餐，营养好吃不贵邀你来体验，首次预订5折优惠";
+        [UMSocialData defaultData].extConfig.wechatTimelineData.shareText=  @"一直用［爱与红领巾］订早餐，营养好吃不贵邀你来体验，首次预订5折优惠";
+
+        XHCustomShareView *shareView = [XHCustomShareView shareViewWithPresentedViewController:self items:@[UMShareToWechatSession,UMShareToWechatTimeline] title:nil image:[UIImage imageNamed:@"wxpublic.png"] urlResource:nil];
+        shareView.tag = 9876;
+        [[UIApplication sharedApplication].keyWindow addSubview:shareView];
+    }];
+    
+    return _shareBtn;
 }
+
 
 @end

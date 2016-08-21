@@ -44,7 +44,6 @@
 		1D72A8A31C0D8FEC00C2284F /* rank.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D72A8A21C0D8FEC00C2284F /* rank.png */; };
 		1D72D66B1B71D7FD00E80D15 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D66A1B71D7FD00E80D15 /* main.m */; };
 		1D72D66E1B71D7FD00E80D15 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D66D1B71D7FD00E80D15 /* AppDelegate.m */; };
-		1D72D6761B71D7FD00E80D15 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D72D6751B71D7FD00E80D15 /* Images.xcassets */; };
 		1D72D6851B71D7FD00E80D15 /* RedScarfTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D6841B71D7FD00E80D15 /* RedScarfTests.m */; };
 		1D72D6941B71ECE500E80D15 /* BaseTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D6931B71ECE500E80D15 /* BaseTabbarViewController.m */; };
 		1D72D6971B71ED5800E80D15 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D72D6961B71ED5800E80D15 /* BaseViewController.m */; };
@@ -78,7 +77,6 @@
 		1DC69C561BF9DC93003F29BA /* versionicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC69C551BF9DC93003F29BA /* versionicon.png */; };
 		1DC69C581BF9DDAC003F29BA /* erweima.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC69C571BF9DDAC003F29BA /* erweima.png */; };
 		1DC69C5F1BF9F7E1003F29BA /* banbenguanli.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC69C5D1BF9F7E1003F29BA /* banbenguanli.png */; };
-		1DC69C601BF9F7E1003F29BA /* shareerweima.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC69C5E1BF9F7E1003F29BA /* shareerweima.png */; };
 		1DC69D0E1BFB01AF003F29BA /* 5-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC69D0D1BFB01AF003F29BA /* 5-1@2x.png */; };
 		1DC69D131BFB21F5003F29BA /* kongrenwu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC69D101BFB21F5003F29BA /* kongrenwu.png */; };
 		1DC69D141BFB21F5003F29BA /* meiyoucanpin.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC69D111BFB21F5003F29BA /* meiyoucanpin.png */; };
@@ -306,6 +304,10 @@
 		B168833A1CA513A500630E37 /* DetailTroubleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16883391CA513A500630E37 /* DetailTroubleViewController.m */; };
 		B17C46B51CACD23B008874FD /* MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C46B41CACD23B008874FD /* MenuModel.m */; };
 		B17FFC6D1CAD30510056A638 /* LaunchimageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */; };
+		B19F76131D6701F700AE334A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B19F76121D6701F700AE334A /* Images.xcassets */; };
+		B19F76161D69017300AE334A /* XHCustomShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19F76151D69017300AE334A /* XHCustomShareView.m */; };
+		B19F761E1D690D4500AE334A /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B19F761A1D690D4500AE334A /* libWeChatSDK.a */; };
+		B19F76211D6911C100AE334A /* RSToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19F761F1D6911C100AE334A /* RSToastView.m */; };
 		B1F30BDA1CA92197000E48A1 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F30BD91CA92197000E48A1 /* SettingViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -369,7 +371,6 @@
 		1D72D66A1B71D7FD00E80D15 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RedScarf/main.m; sourceTree = "<group>"; };
 		1D72D66C1B71D7FD00E80D15 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = RedScarf/AppDelegate.h; sourceTree = "<group>"; };
 		1D72D66D1B71D7FD00E80D15 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = RedScarf/AppDelegate.m; sourceTree = "<group>"; };
-		1D72D6751B71D7FD00E80D15 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RedScarf/Images.xcassets; sourceTree = "<group>"; };
 		1D72D67E1B71D7FD00E80D15 /* RedScarfTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RedScarfTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D72D6831B71D7FD00E80D15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D72D6841B71D7FD00E80D15 /* RedScarfTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RedScarfTests.m; sourceTree = "<group>"; };
@@ -424,7 +425,6 @@
 		1DC69C551BF9DC93003F29BA /* versionicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = versionicon.png; sourceTree = "<group>"; };
 		1DC69C571BF9DDAC003F29BA /* erweima.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = erweima.png; sourceTree = "<group>"; };
 		1DC69C5D1BF9F7E1003F29BA /* banbenguanli.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banbenguanli.png; sourceTree = "<group>"; };
-		1DC69C5E1BF9F7E1003F29BA /* shareerweima.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareerweima.png; sourceTree = "<group>"; };
 		1DC69D0D1BFB01AF003F29BA /* 5-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "5-1@2x.png"; sourceTree = "<group>"; };
 		1DC69D101BFB21F5003F29BA /* kongrenwu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kongrenwu.png; sourceTree = "<group>"; };
 		1DC69D111BFB21F5003F29BA /* meiyoucanpin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = meiyoucanpin.png; sourceTree = "<group>"; };
@@ -753,6 +753,15 @@
 		B17C46B41CACD23B008874FD /* MenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuModel.m; sourceTree = "<group>"; };
 		B17FFC6B1CAD30510056A638 /* LaunchimageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchimageViewController.h; sourceTree = "<group>"; };
 		B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchimageViewController.m; sourceTree = "<group>"; };
+		B19F76121D6701F700AE334A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RedScarf/Images.xcassets; sourceTree = "<group>"; };
+		B19F76141D69017300AE334A /* XHCustomShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHCustomShareView.h; sourceTree = "<group>"; };
+		B19F76151D69017300AE334A /* XHCustomShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHCustomShareView.m; sourceTree = "<group>"; };
+		B19F761A1D690D4500AE334A /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		B19F761B1D690D4500AE334A /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		B19F761C1D690D4500AE334A /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		B19F761D1D690D4500AE334A /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		B19F761F1D6911C100AE334A /* RSToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSToastView.m; sourceTree = "<group>"; };
+		B19F76221D6911F600AE334A /* RSToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSToastView.h; sourceTree = "<group>"; };
 		B1F30BD81CA92197000E48A1 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		B1F30BD91CA92197000E48A1 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		E82FAFF956A2BA8C678D65C3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -765,6 +774,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DF408EF1BE1BF22000BACA8 /* Foundation.framework in Frameworks */,
+				B19F761E1D690D4500AE334A /* libWeChatSDK.a in Frameworks */,
 				1DF408ED1BE1BF19000BACA8 /* UIKit.framework in Frameworks */,
 				1DDB72E01B8F0D41009AD1D4 /* CoreGraphics.framework in Frameworks */,
 				1DDB72E41B8F0D64009AD1D4 /* CoreTelephony.framework in Frameworks */,
@@ -901,6 +911,7 @@
 		1D72D65C1B71D7FD00E80D15 = {
 			isa = PBXGroup;
 			children = (
+				B19F76171D690D0500AE334A /* Frame */,
 				309F53471C0FF70A00249476 /* App */,
 				309F53491C0FF74300249476 /* Config */,
 				309F53481C0FF72B00249476 /* Controller */,
@@ -1134,7 +1145,6 @@
 				1D41C2821C06FD1B0036E214 /* konglingdang@2x.png */,
 				1D41C27E1C06FC0E0036E214 /* lingdang.png */,
 				1DC69C5D1BF9F7E1003F29BA /* banbenguanli.png */,
-				1DC69C5E1BF9F7E1003F29BA /* shareerweima.png */,
 				1DC69C571BF9DDAC003F29BA /* erweima.png */,
 				1DC69C551BF9DC93003F29BA /* versionicon.png */,
 				1DC69C531BF9DB89003F29BA /* versionbg.png */,
@@ -1263,6 +1273,8 @@
 				309F53911C1C600600249476 /* HeadProfileCell.m */,
 				30640FB41C4F782200CA0198 /* PromotionCell.h */,
 				30640FB51C4F782200CA0198 /* PromotionCell.m */,
+				B19F76141D69017300AE334A /* XHCustomShareView.h */,
+				B19F76151D69017300AE334A /* XHCustomShareView.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -1434,7 +1446,7 @@
 				1D72D66A1B71D7FD00E80D15 /* main.m */,
 				1D72D66C1B71D7FD00E80D15 /* AppDelegate.h */,
 				1D72D66D1B71D7FD00E80D15 /* AppDelegate.m */,
-				1D72D6751B71D7FD00E80D15 /* Images.xcassets */,
+				B19F76121D6701F700AE334A /* Images.xcassets */,
 				1D72D6911B71ECA500E80D15 /* base */,
 				1D24D4501B748FB500FD39BC /* image */,
 				1D72D6811B71D7FD00E80D15 /* RedScarfTests */,
@@ -1587,6 +1599,8 @@
 		309F537A1C18549600249476 /* UIWidget */ = {
 			isa = PBXGroup;
 			children = (
+				B19F76221D6911F600AE334A /* RSToastView.h */,
+				B19F761F1D6911C100AE334A /* RSToastView.m */,
 				309F535F1C17139B00249476 /* RSCalendar.h */,
 				309F53601C17139B00249476 /* RSCalendar.m */,
 				309F537B1C1854D700249476 /* RSHeadView.h */,
@@ -1620,6 +1634,33 @@
 				3414B9B1BB6084335511A390 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B19F76171D690D0500AE334A /* Frame */ = {
+			isa = PBXGroup;
+			children = (
+				B19F76181D690D1500AE334A /* ThreeLibs */,
+			);
+			name = Frame;
+			sourceTree = "<group>";
+		};
+		B19F76181D690D1500AE334A /* ThreeLibs */ = {
+			isa = PBXGroup;
+			children = (
+				B19F76191D690D2600AE334A /* weixin */,
+			);
+			name = ThreeLibs;
+			sourceTree = "<group>";
+		};
+		B19F76191D690D2600AE334A /* weixin */ = {
+			isa = PBXGroup;
+			children = (
+				B19F761A1D690D4500AE334A /* libWeChatSDK.a */,
+				B19F761B1D690D4500AE334A /* WechatAuthSDK.h */,
+				B19F761C1D690D4500AE334A /* WXApi.h */,
+				B19F761D1D690D4500AE334A /* WXApiObject.h */,
+			);
+			name = weixin;
 			sourceTree = "<group>";
 		};
 		E4E0D69113B98B9D1B99DC68 /* Frameworks */ = {
@@ -1769,7 +1810,6 @@
 				1DD3582B1B8D8303009EF0A5 /* 3.png in Resources */,
 				1D24D4AE1B75E58000FD39BC /* 密码.png in Resources */,
 				1D24D4AB1B75E58000FD39BC /* 账户@2x.png in Resources */,
-				1DC69C601BF9F7E1003F29BA /* shareerweima.png in Resources */,
 				1D72A89A1C0D457000C2284F /* level2.png in Resources */,
 				1DE0AE241B8C694D0092E87C /* tuiguan@2x.png in Resources */,
 				1DCC57821BD0A5D300AED986 /* fankui2x.png in Resources */,
@@ -1816,6 +1856,7 @@
 				1D41C2861C0701B00036E214 /* xitongxiaoxi.png in Resources */,
 				1DF6471A1BC7B21400A80A89 /* comeback2x.png in Resources */,
 				1DD238041BCE39F100D26BF2 /* shaixuan@2x.png in Resources */,
+				B19F76131D6701F700AE334A /* Images.xcassets in Resources */,
 				1DF3A0FD1BE06CD10095DE24 /* huifankui.png in Resources */,
 				1DE0AE331B8C81D10092E87C /* tuijian.png in Resources */,
 				1DD2382E1BCE521700D26BF2 /* newwshouye@2x.png in Resources */,
@@ -1890,7 +1931,6 @@
 				1DB7429B1BE361DC00D6496B /* yanzheng@2x.png in Resources */,
 				1DEA806F1B7DD0F20071D956 /* beijing.png in Resources */,
 				1DD1AAF41BC78CF4001BA76A /* 去送餐.png in Resources */,
-				1D72D6761B71D7FD00E80D15 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2035,6 +2075,7 @@
 				1D9F36501BE4B96C008315CD /* NSString+Extension.m in Sources */,
 				1DC69C521BF9D107003F29BA /* VersionViewController.m in Sources */,
 				309A8AAD1C216EDD00E0EE42 /* NSUserDefaults+Token.m in Sources */,
+				B19F76161D69017300AE334A /* XHCustomShareView.m in Sources */,
 				309F535E1C1711B500249476 /* UIView+CustomFrame.m in Sources */,
 				1D9F36551BE4B96C008315CD /* ZCTradeView.m in Sources */,
 				1DD537511BB2CD2F00BF46E6 /* ModifyMemberViewController.m in Sources */,
@@ -2070,6 +2111,7 @@
 				300968C21C3A499A00C51DA7 /* RSTaskTitleViewCell.m in Sources */,
 				1D72D6941B71ECE500E80D15 /* BaseTabbarViewController.m in Sources */,
 				309F538F1C1C51AD00249476 /* MyprofileCell.m in Sources */,
+				B19F76211D6911C100AE334A /* RSToastView.m in Sources */,
 				1D41C28D1C0C41870036E214 /* LevelViewController.m in Sources */,
 				1DE0AE401B8C92150092E87C /* TotalMoneyViewController.m in Sources */,
 				1D9F36541BE4B96C008315CD /* ZCTradeInputView.m in Sources */,
@@ -2219,6 +2261,7 @@
 					"$(PROJECT_DIR)/RedScarf/umeng_ios_social_sdk_4.2.3_arm64_custom/UMSocial_Sdk_Extra_Frameworks/Wechat",
 					"$(PROJECT_DIR)/RedScarf/ios_api/universal-bin",
 					"$(PROJECT_DIR)/RedScarf/ios_api/universal-bin/Release-iphonesimulator",
+					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.RedScarf.PartTimeInhouse;
@@ -2260,6 +2303,7 @@
 					"$(PROJECT_DIR)/RedScarf/umeng_ios_social_sdk_4.2.3_arm64_custom/UMSocial_Sdk_Extra_Frameworks/Wechat",
 					"$(PROJECT_DIR)/RedScarf/ios_api/universal-bin",
 					"$(PROJECT_DIR)/RedScarf/ios_api/universal-bin/Release-iphonesimulator",
+					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.RedScarf.PartTimeInhouse;

@@ -55,16 +55,16 @@
 
 -(void)didClickShareBtn
 {
-    [UMSocialData setAppKey:AppKey];
-    [UMSocialQQHandler setQQWithAppId:@"1104757597" appKey:@"5FWCaDeaGQs5JN5V" url:[NSString stringWithFormat:@"weixin.honglingjinclub.com/activity/pingtaituiguang?exchangecode=%@",self.code]];
-    [UMSocialWechatHandler setWXAppId:@"wxff361bf22a286ed2" appSecret:@"aa909ed684171b3af81e80a09b7c6541" url:[NSString stringWithFormat:@"weixin.honglingjinclub.com/activity/pingtaituiguang?exchangecode=%@",self.code]];
-
-    [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:AppKey
-                                      shareText:[NSString stringWithFormat:@"看完你就懂了！兑换码：%@",self.code]
-                                     shareImage:[UIImage imageNamed:@"shareerweima"]
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToQzone,UMShareToQQ,UMShareToWechatSession,UMShareToWechatTimeline,nil]
-                                       delegate:self];
+//    [UMSocialData setAppKey:AppKey];
+//    [UMSocialQQHandler setQQWithAppId:@"1104757597" appKey:@"5FWCaDeaGQs5JN5V" url:[NSString stringWithFormat:@"weixin.honglingjinclub.com/activity/pingtaituiguang?exchangecode=%@",self.code]];
+//    [UMSocialWechatHandler setWXAppId:@"wxff361bf22a286ed2" appSecret:@"aa909ed684171b3af81e80a09b7c6541" url:[NSString stringWithFormat:@"weixin.honglingjinclub.com/activity/pingtaituiguang?exchangecode=%@",self.code]];
+//
+//    [UMSocialSnsService presentSnsIconSheetView:self
+//                                         appKey:AppKey
+//                                      shareText:[NSString stringWithFormat:@"看完你就懂了！兑换码：%@",self.code]
+//                                     shareImage:[UIImage imageNamed:@"shareerweima"]
+//                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToQzone,UMShareToQQ,UMShareToWechatSession,UMShareToWechatTimeline,nil]
+//                                       delegate:self];
     //微信只分享图片
 //    [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
     //qq空间需要的参数

@@ -14,6 +14,7 @@
 #import "UMSocialWechatHandler.h"
 #import "BaiduMobStat.h"
 #import "LaunchimageViewController.h"
+#import "XHCustomShareView.h"
 
 @interface AppDelegate (){
     NSString *updateUrl;
@@ -34,10 +35,40 @@
     LaunchimageViewController *lanchImageVc = [[LaunchimageViewController alloc]init];
     self.window.rootViewController = lanchImageVc;
     
-    [self.window makeKeyAndVisible];
+     [UMSocialData setAppKey:YOUMENGAPPKEY];
+    [UMSocialWechatHandler setWXAppId:WXAPPKEY appSecret:WXAPPSECRET url:@"http://honglingjinclub.com"];
+    [WXApi registerApp:WXAPPKEY];
     
+//    [self customsizeInterface];
+    [self.window makeKeyAndVisible];
     return YES;
 }
+
+-(void)customsizeInterface
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    //导航样式
+    [[UINavigationBar appearance] setBackgroundImage:[self imageFromColor:RS_THRME_COLOR] forBarMetrics:UIBarMetricsDefault];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                          [UIColor whiteColor], NSForegroundColorAttributeName,
+                                                          [UIFont boldSystemFontOfSize:17.0], NSFontAttributeName, nil]];
+    [[UINavigationBar appearance] setBackgroundColor:RS_THRME_COLOR];
+}
+
+- (UIImage *)imageFromColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 
 - (void)switchRootViewController {
     NSString *token = [NSUserDefaults getValue:@"token"];
@@ -119,13 +150,68 @@
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
+    if ([url.scheme isEqualToString:@"wx725baec806f0cae0"]) {
+        [WXApi handleOpenURL:url delegate:self];
+    }
+    
     return [UMSocialSnsService handleOpenURL:url];
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    if ([url.scheme isEqualToString:@"wx725baec806f0cae0"]) {
+        [WXApi handleOpenURL:url delegate:self];
+    }
+    
     return [UMSocialSnsService handleOpenURL:url];
 }
+
+-(void) onResp:(BaseResp*)resp
+{
+    if ([resp isKindOfClass:SendAuthResp.class]) {
+        SendAuthResp *aresp = (SendAuthResp *)resp;
+        if (aresp.errCode== 0) {
+            NSString *code = aresp.code;
+            //请求token
+            [self getAccess_token:code];
+        }
+    }
+    
+    if ([resp isKindOfClass:SendMessageToWXResp.class]) {
+        SendMessageToWXResp *aresp = (SendMessageToWXResp *)resp;
+        XHCustomShareView *shareView = [self.window viewWithTag:9876];
+        [shareView dismissShareView];
+        if (aresp.errCode == 0) {
+            [[RSToastView shareRSToastView] showToast:@"分享成功"];
+        }else{
+            [[RSToastView shareRSToastView] showToast:@"分享失败"];
+        }
+    }
+}
+
+-(void)getAccess_token:(NSString *)code
+{
+    NSString *url =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code",WXAPPKEY,WXAPPSECRET,code];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURL *zoneUrl = [NSURL URLWithString:url];
+        NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
+        NSData *data = [zoneStr dataUsingEncoding:NSUTF8StringEncoding];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (data) {
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                //微信登陆
+                [RSHttp requestWithURL:@"/user/wxauth" params:dic httpMethod:@"POSTJSON" success:^(NSDictionary *data) {
+                    [[RSToastView shareRSToastView] showToast:@"授权成功"];
+                } failure:^(NSInteger code, NSString *errmsg) {
+                    [[RSToastView shareRSToastView] showToast:errmsg];
+                }];
+                
+            }
+        });
+    });
+}
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {

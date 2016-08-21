@@ -22,9 +22,10 @@ PODS:
     - AFNetworking/NSURLSession
   - FCUUID (1.2.0):
     - UICKeyChainStore (~> 2.1.0)
-  - Mantle (2.0.6):
-    - Mantle/extobjc (= 2.0.6)
-  - Mantle/extobjc (2.0.6)
+  - Mantle (2.0.7):
+    - Mantle/extobjc (= 2.0.7)
+  - Mantle/extobjc (2.0.7)
+  - Masonry (1.0.1)
   - MBProgressHUD (0.9.2)
   - MJRefresh (3.0.8)
   - pop (1.0.9)
@@ -35,11 +36,11 @@ PODS:
   - ReactiveCocoa/no-arc (2.5)
   - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
-  - SDCycleScrollView (1.61):
+  - SDCycleScrollView (1.65):
     - SDWebImage (~> 3.7)
-  - SDWebImage (3.7.5):
-    - SDWebImage/Core (= 3.7.5)
-  - SDWebImage/Core (3.7.5)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
   - UICKeyChainStore (2.1.0)
   - UMengSocial (4.4)
 
@@ -47,6 +48,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.5.1)
   - FCUUID
   - Mantle (~> 2.0.6)
+  - Masonry
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh (~> 3.0.8)
   - pop (~> 1.0.7)
@@ -58,13 +60,14 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
-  Mantle: 299966b00759634931699f69cb6a30b9239b944d
+  Mantle: bc40bb061d8c2c6fb48d5083e04d928c3b7f73d9
+  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: fafde8f18f4afd66b434331a9beb67a6c0264056
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
-  SDCycleScrollView: a002d85b30cfa9d0ac74069cd3973ca19ff4f22f
-  SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
   UMengSocial: aba7296602310385114d82c255539a7bef3b7ab0
 

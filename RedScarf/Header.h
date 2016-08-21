@@ -21,6 +21,8 @@
 
 #define kUIScreenHeigth  [UIScreen mainScreen].bounds.size.height
 #define kUIScreenWidth   [UIScreen mainScreen].bounds.size.width
+#define SCREEN_WIDTH kUIScreenWidth
+#define SCREEN_HEIGHT kUIScreenHeigth
 #define kUITabBarHeight  64
 
 #define RTRectMake(x,y,width,height) CGRectMake(floor(x), floor(y), floor(width), floor(height)) //防止frame出现小数，绘制模糊
@@ -39,8 +41,9 @@
 #define color232 [UIColor colorWithRed:(232/255.0f) green:(232/255.0f) blue:(232/255.0f) alpha:1.0f]
 
 //标准色：格式规范
-//主色，#5999f8 主色，蓝色
-#define color_blue_5999f8 MakeColor(0x59, 0x99, 0xf8)
+//主色，#5999f8 主色，蓝色 1474ff
+#define color_blue_5999f8 MakeColor(0x14, 0x74, 0xff)
+#define RS_THRME_COLOR color_blue_5999f8
 //强调性颜色，多用于大标题
 #define color_black_222222 MakeColor(0x22, 0x22, 0x22)
 //次要信息，辅助性文字，标签栏
@@ -78,10 +81,12 @@
 #define textFont18 [UIFont systemFontOfSize:18]
 #define textFont20 [UIFont systemFontOfSize:20]
 
-#define AppKey @"55ded144e0f55ae8fe0015b8"
+#define YOUMENGAPPKEY @"57b8c08f67e58ee25c004e19"
+#define WXAPPKEY @"wx725baec806f0cae0"
+#define WXAPPSECRET @"74f4ffe983da45d2726895f39171a2de"
 
 #ifdef DEBUG
-#define  REDSCARF_BASE_URL @"http://test.jianzhi.honglingjinclub.com"
+#define  REDSCARF_BASE_URL @"http://plsy.dev.honglingjinclub.com"
 #define  REDSCARF_PAY_URL @"http://paytest.honglingjinclub.com"
 #define  REDSCARF_MOBILE_URL @"http://lsp.dev.honglingjinclub.com"
 #else
@@ -97,4 +102,9 @@
 #import "MJRefresh.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "ReactiveCocoa.h"
-#endif
+#import "Masonry.h"
+#import "UMSocial.h"
+#import "WXApi.h"
+
+#import "RSToastView.h"
+ #endif
