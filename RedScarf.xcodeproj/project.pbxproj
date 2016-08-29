@@ -309,6 +309,8 @@
 		B19F761E1D690D4500AE334A /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B19F761A1D690D4500AE334A /* libWeChatSDK.a */; };
 		B19F76211D6911C100AE334A /* RSToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19F761F1D6911C100AE334A /* RSToastView.m */; };
 		B1F30BDA1CA92197000E48A1 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F30BD91CA92197000E48A1 /* SettingViewController.m */; };
+		B1FFB3071D6A9ACE006CE693 /* BoundAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1FFB3061D6A9ACE006CE693 /* BoundAccountViewController.m */; };
+		B1FFB30A1D6A9DAD006CE693 /* RSTwoTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1FFB3091D6A9DAD006CE693 /* RSTwoTitleCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -764,6 +766,10 @@
 		B19F76221D6911F600AE334A /* RSToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSToastView.h; sourceTree = "<group>"; };
 		B1F30BD81CA92197000E48A1 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		B1F30BD91CA92197000E48A1 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		B1FFB3051D6A9ACE006CE693 /* BoundAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundAccountViewController.h; sourceTree = "<group>"; };
+		B1FFB3061D6A9ACE006CE693 /* BoundAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoundAccountViewController.m; sourceTree = "<group>"; };
+		B1FFB3081D6A9DAD006CE693 /* RSTwoTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTwoTitleCell.h; sourceTree = "<group>"; };
+		B1FFB3091D6A9DAD006CE693 /* RSTwoTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTwoTitleCell.m; sourceTree = "<group>"; };
 		E82FAFF956A2BA8C678D65C3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4AAF6E7B917F5842B5CBBE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1422,6 +1428,8 @@
 			children = (
 				306D896D1C31553C00C9772E /* RSSingleTitleCell.h */,
 				306D896E1C31553C00C9772E /* RSSingleTitleCell.m */,
+				B1FFB3081D6A9DAD006CE693 /* RSTwoTitleCell.h */,
+				B1FFB3091D6A9DAD006CE693 /* RSTwoTitleCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1553,6 +1561,8 @@
 				306D89711C322CA700C9772E /* BankCardsViewController.m */,
 				1DDC5B951BA6CBFD006CC7FF /* MyBankCardVC.h */,
 				1DDC5B961BA6CBFD006CC7FF /* MyBankCardVC.m */,
+				B1FFB3051D6A9ACE006CE693 /* BoundAccountViewController.h */,
+				B1FFB3061D6A9ACE006CE693 /* BoundAccountViewController.m */,
 			);
 			name = Finance;
 			sourceTree = "<group>";
@@ -1998,6 +2008,7 @@
 			files = (
 				1D72D69A1B71EDA300E80D15 /* MyViewController.m in Sources */,
 				1DEA80A21B7E398E0071D956 /* DistributionCell.m in Sources */,
+				B1FFB30A1D6A9DAD006CE693 /* RSTwoTitleCell.m in Sources */,
 				1D9F36431BE467FD008315CD /* WithdrawViewController.m in Sources */,
 				3030B1D01C48BC58009FD451 /* BuildingTaskViewController.m in Sources */,
 				1DD1AAD81BC7570E001BA76A /* HomePageViewController.m in Sources */,
@@ -2044,6 +2055,7 @@
 				1DDC5B971BA6CBFD006CC7FF /* MyBankCardVC.m in Sources */,
 				309F53751C181F3D00249476 /* RSSingleTitleModel.m in Sources */,
 				3030B1D31C48D0FC009FD451 /* BuildingTaskModel.m in Sources */,
+				B1FFB3071D6A9ACE006CE693 /* BoundAccountViewController.m in Sources */,
 				1DB1B3331BAAAA41003EB629 /* PersonMsgViewController.m in Sources */,
 				3001825E1C44C2EA00BC1138 /* SelectSchoolVC.m in Sources */,
 				30E246931C338C5F009A9A58 /* TasksViewController.m in Sources */,

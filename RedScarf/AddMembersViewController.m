@@ -252,16 +252,16 @@
     
     [RSHttp postDataWithURL:@"/user/2" params:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         if(self.id1Img.highlighted){
-            [formData appendPartWithFormData:[self image2Data:self.id1Img.image] name:@"idCardPics"];
+            [formData appendPartWithFormData:[self image2Data:self.id1Img.image] name:@"idCardPics1"];
         }
         if(self.id2Img.highlighted) {
-            [formData appendPartWithFormData:[self image2Data:self.id2Img.image] name:@"idCardPics"];
+            [formData appendPartWithFormData:[self image2Data:self.id2Img.image] name:@"idCardPics2"];
         }
         if(self.stu1Img) {
-            [formData appendPartWithFormData:[self image2Data:self.stu1Img.image] name:@"studentIdCardPics"];
+            [formData appendPartWithFormData:[self image2Data:self.stu1Img.image] name:@"studentIdCardPics1"];
         }
         if(self.stu2Img) {
-            [formData appendPartWithFormData:[self image2Data:self.stu2Img.image] name:@"studentIdCardPics"];
+            [formData appendPartWithFormData:[self image2Data:self.stu2Img.image] name:@"studentIdCardPics2"];
         }
     } success:^(NSDictionary *data) {
         [self hidHUD];

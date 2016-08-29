@@ -69,7 +69,8 @@
         [self.tableView reloadData];
         [self hidHUD];
     } failure:^(NSInteger code, NSString *errmsg) {
-        [self alertView:@"加载失败"];
+        [self hidHUD];
+        [self showToast:errmsg];
     }];
 }
 

@@ -39,24 +39,11 @@
     [UMSocialWechatHandler setWXAppId:WXAPPKEY appSecret:WXAPPSECRET url:@"http://honglingjinclub.com"];
     [WXApi registerApp:WXAPPKEY];
     
-//    [self customsizeInterface];
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
--(void)customsizeInterface
-{
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    
-    //导航样式
-    [[UINavigationBar appearance] setBackgroundImage:[self imageFromColor:RS_THRME_COLOR] forBarMetrics:UIBarMetricsDefault];
-    
-    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                          [UIColor whiteColor], NSForegroundColorAttributeName,
-                                                          [UIFont boldSystemFontOfSize:17.0], NSFontAttributeName, nil]];
-    [[UINavigationBar appearance] setBackgroundColor:RS_THRME_COLOR];
-}
 
 - (UIImage *)imageFromColor:(UIColor *)color {
     CGRect rect = CGRectMake(0, 0, 1, 1);
@@ -203,6 +190,7 @@
                 //微信登陆
                 [RSHttp requestWithURL:@"/user/wxauth" params:dic httpMethod:@"POSTJSON" success:^(NSDictionary *data) {
                     [[RSToastView shareRSToastView] showToast:@"授权成功"];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"UPDATE_WEIXIN_BOUNDING_STATUE" object:nil];
                 } failure:^(NSInteger code, NSString *errmsg) {
                     [[RSToastView shareRSToastView] showToast:errmsg];
                 }];
@@ -210,30 +198,6 @@
             }
         });
     });
-}
-
-
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 

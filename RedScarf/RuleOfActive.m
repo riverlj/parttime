@@ -26,7 +26,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 64, kUIScreenWidth-30, 200)];
     label.numberOfLines = 0;
     label.textColor = color155;
-    label.text = @"Q:薪资是按照什么规则计算的？\n A:y＝x＋0.25a＋0.25b，其中x为底薪，a为任务数，b为地址数\n\n举个例子，某学校的某兼职同学当天将3个任务送达到2个宿舍，底薪为5元。则当天的工资为：\ny＝5＋0.25＊3+0.25*2=6.25元";
+    label.text = @"Q：薪资是按照什么规则计算的？\nA：y=x+0.5a,其中x为底薪，a为任务数。\n\n举个例子：小明同学配送了5个任务，到3个宿舍，底薪为5元，工资为：y=5+0.5*5=7.5元。";
     [self.view addSubview:label];
 }
 -(void)initRule

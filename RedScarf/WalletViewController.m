@@ -11,6 +11,7 @@
 #import "TransactionViewController.h"
 #import "WithdrawViewController.h"
 #import "RSSingleTitleModel.h"
+#import "BoundAccountViewController.h"
 
 @interface WalletViewController ()
 
@@ -26,23 +27,37 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
-    if([NSUserDefaults getValue:@"withdrawToken"] && ![[NSUserDefaults getValue:@"withdrawToken"] isEqualToString:@""]) {
-        [self getMessage];
-    } else {
-        [self getToken];
-    }
+//    [super viewDidAppear:animated];
+//    if([NSUserDefaults getValue:@"withdrawToken"] && ![[NSUserDefaults getValue:@"withdrawToken"] isEqualToString:@""]) {
+//        [self getMessage];
+//    } else {
+//        [self getToken];
+//    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"红领巾钱包";
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXian)];
-    self.navigationItem.rightBarButtonItem = right;
-    UIView *footView = [[UIView alloc] init];
-    self.tableView.tableFooterView = footView;
-    [self generageModels];
-    [self getToken];
+    
+    
+//    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXian)];
+//    self.navigationItem.rightBarButtonItem = right;
+//    UIView *footView = [[UIView alloc] init];
+//    self.tableView.tableFooterView = footView;
+//    [self generageModels];
+//    [self getToken];
+    
+    
+    [self.tableView removeFromSuperview];
+    UIImageView *announceImageView = [[UIImageView alloc]init];
+    announceImageView.image = [UIImage imageNamed:@"announce"];
+    [self.view addSubview:announceImageView];
+    
+    [announceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.mas_equalTo(self.view).with.offset(0);
+        make.size.mas_equalTo(CGSizeMake(156*(SCREEN_WIDTH/320), 148*(SCREEN_WIDTH/320)));
+
+    }];
 }
 //获取支付系统需要的token
 -(void)getToken
@@ -98,7 +113,7 @@
     [items1 addObject:model];
     
     model = [[RSSingleTitleModel alloc]init];
-    attrStr = [[NSMutableAttributedString alloc]initWithString:@"绑定微信" attributes:attrDict];
+    attrStr = [[NSMutableAttributedString alloc]initWithString:@"账号绑定" attributes:attrDict];
     model.str = attrStr;
     [items1 addObject:model];
     [model setSelectAction:@selector(bankcard) target:self];
@@ -123,11 +138,8 @@
 
 -(void)bankcard
 {
-    //构造SendAuthReq结构体
-    SendAuthReq* req =[[SendAuthReq alloc ] init];
-    req.scope = @"snsapi_userinfo" ;
-    req.state = @"123" ;
-    [WXApi sendReq:req];
+    BoundAccountViewController *bactl = [[BoundAccountViewController alloc] init];
+    [self.navigationController pushViewController:bactl animated:YES];
 }
 
 

@@ -58,6 +58,10 @@
         }else{
             self.iconView.image = [UIImage imageNamed:myprofile.imgName];
         }
+        
+        if (myprofile.imgName.length == 0) {
+            self.titleLabel.x = 18;
+        }
         self.detailTextLabel.attributedText = myprofile.subtitle;
     }
 }
