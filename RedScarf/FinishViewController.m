@@ -45,6 +45,7 @@
     UIView *foot = [[UIView alloc] init];
     self.tableView.tableFooterView = foot;
     self.tableView.tableHeaderView = self.searchBar;
+    self.tableView.height += 64;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView.mj_header beginRefreshing];
     [self.tableView addTapAction:@selector(searchBarCancelButtonClicked:) target:self];

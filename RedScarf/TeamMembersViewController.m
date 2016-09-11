@@ -87,6 +87,7 @@
     self.searchaDisplay.delegate = self;
 
     self.tableView.tableHeaderView = self.searchBar;
+    self.tableView.height += 44;
     [self.view addSubview:self.tableView];
 }
 

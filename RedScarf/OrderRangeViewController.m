@@ -36,6 +36,7 @@
     self.tableView.left = 18;
     self.tableView.width = kUIScreenWidth - 36;
     self.tableView.top = 10;
+    self.tableView.height += 49;
     self.tableView.layer.cornerRadius = 10;
     self.tableView.clipsToBounds = YES;
 }

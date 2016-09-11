@@ -18,9 +18,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = color_gray_f3f5f7;
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:color_black_333333,NSForegroundColorAttributeName, textFont18, NSFontAttributeName, nil];
+    self.view.backgroundColor = RS_COLOR_BACKGROUND;
+    
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, textFont18, NSFontAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
+    [self.navigationController.navigationBar setBackgroundImage:[self imageFromColor:RS_THRME_COLOR ] forBarMetrics:UIBarMetricsDefault];
 }
 
 
@@ -54,7 +56,7 @@
 
 -(void)comeBack:(UIColor *)color
 {
-    UIImage *img= [[UIImage imageNamed:@"newfanhui"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *img= [[UIImage imageNamed:@"nav_back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(didClickLeft)];
     left.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = left;
@@ -153,4 +155,16 @@
     [_tips setTitle:@"暂时没有数据哦" withImg:@"kongrenwu"];
     return _tips;
 }
+
+- (UIImage *)imageFromColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 @end

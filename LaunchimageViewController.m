@@ -19,7 +19,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     launchImageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
     NSString *launchImageStr = [self splashImageNameForOrientation:UIDeviceOrientationPortrait];
@@ -74,9 +73,5 @@
     [myDelegate switchRootViewController];
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
 
 @end

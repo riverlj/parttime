@@ -179,6 +179,7 @@
     [params setObject:codeTextField.text forKey:@"verifyCode"];
     [params setObject:passWord.text forKey:@"payPwd"];
     [params setObject:[UIDevice utm_content] forKey:@"macAddr"];
+    [params setObject:[NSString URLencode:[NSUserDefaults getValue:@"withdrawToken"] stringEncoding:NSUTF8StringEncoding] forKey:@"token"];
     [self showHUD:@"正在设置"];
     [RSHttp payRequestWithURL:@"/account/setPayPwd" params:params httpMethod:@"POST" success:^(NSDictionary *data) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

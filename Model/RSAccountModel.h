@@ -33,7 +33,7 @@
 @property (nonatomic) NSInteger status;
 
 @property (nonatomic) NSInteger balance;
-@property (nonatomic) NSInteger salary;
+@property (nonatomic) CGFloat salary;
 
 @property (nonatomic) NSInteger expireTime;
 

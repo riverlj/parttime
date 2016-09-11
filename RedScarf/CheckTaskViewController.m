@@ -74,11 +74,12 @@
 {
     self.tableView.left = 15;
     self.tableView.width = kUIScreenWidth - 30;
+    self.tableView.height += 64;
     self.tableView.layer.cornerRadius = 5;
     self.tableView.layer.masksToBounds = YES;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 45)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 45)];
     [headView setBackgroundColor:[UIColor whiteColor]];
     
     UIButton *befBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];

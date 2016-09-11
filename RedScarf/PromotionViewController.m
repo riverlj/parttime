@@ -47,7 +47,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.tableView removeFromSuperview];
     
-    _contentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64)];
+    _contentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64)];
     [_contentScrollView addSubview:self.bgcontendView];
     _contentScrollView.backgroundColor = MakeColor(0x34, 0x86, 0xfd);
     [self.view addSubview:_contentScrollView];

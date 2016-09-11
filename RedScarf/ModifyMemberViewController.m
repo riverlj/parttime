@@ -32,6 +32,8 @@
     indexArr = [NSMutableArray array];
     [self comeBack:nil];
     [self initView];
+    
+    self.tableView.height += 64;
 }
 
 -(void)initView

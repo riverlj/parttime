@@ -73,7 +73,7 @@
 #pragma mark -- 修改地址
 -(void)initAddress
 {
-    UILabel *currentAddress = [[UILabel alloc] initWithFrame:CGRectMake(25, 69, kUIScreenWidth-50, 40)];
+    UILabel *currentAddress = [[UILabel alloc] initWithFrame:CGRectMake(25, 5, kUIScreenWidth-50, 40)];
     currentAddress.textColor = MakeColor(125, 125, 125);
    
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前地址:%@",self.currentAddress]];
@@ -81,7 +81,7 @@
     currentAddress.attributedText = str;
     [self.view addSubview:currentAddress];
     
-    UIButton *modifyBtn = [[UIButton alloc] initWithFrame:CGRectMake(25, 115, kUIScreenWidth-50, 45)];
+    UIButton *modifyBtn = [[UIButton alloc] initWithFrame:CGRectMake(25, 51, kUIScreenWidth-50, 45)];
     [modifyBtn setTitle:@" 选择楼栋" forState:UIControlStateNormal];
     modifyBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
     [modifyBtn setBackgroundColor:[UIColor whiteColor]];
@@ -124,7 +124,7 @@
 #pragma mark -- 修改姓名
 -(void)modifyName
 {
-    nameTf = [[UITextField alloc] initWithFrame:CGRectMake(25, 84, kUIScreenWidth-50, 40)];
+    nameTf = [[UITextField alloc] initWithFrame:CGRectMake(25, 20, kUIScreenWidth-50, 40)];
     nameTf.text = self.name;
     nameTf.layer.borderColor = MakeColor(230, 230, 230).CGColor;
     nameTf.layer.borderWidth = 1.0;
@@ -132,7 +132,7 @@
     nameTf.layer.cornerRadius = 5;
     [self.view addSubview:nameTf];
     
-    UIView *view = [[UIButton alloc] initWithFrame:CGRectMake(25, 130, kUIScreenWidth-50, 40)];
+    UIView *view = [[UIButton alloc] initWithFrame:CGRectMake(25, 86, kUIScreenWidth-50, 40)];
     view.tag = 1234;
     view.layer.borderWidth = 1.0;
     view.layer.masksToBounds = YES;
@@ -301,7 +301,7 @@
 -(void)initPickerView
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth-190, view.frame.size.width, 40)];
+    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, kUIScreenHeigth-190-64, view.frame.size.width, 40)];
     head.tag = 103;
     head.backgroundColor = MakeColor(244, 245, 246);
     view.userInteractionEnabled = YES;
@@ -321,11 +321,11 @@
     pickerView.delegate = self;
     pickerView.dataSource = self;
     pickerView.backgroundColor = [UIColor whiteColor];
-    pickerView.frame = CGRectMake(0, kUIScreenHeigth-160, kUIScreenWidth, 160);
+    pickerView.frame = CGRectMake(0, kUIScreenHeigth-160-64, kUIScreenWidth, 160);
     [self.view addSubview:pickerView];
     
     UIButton *makeSureBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    makeSureBtn.frame = CGRectMake(0, kUIScreenHeigth-190, kUIScreenWidth, 40);
+    makeSureBtn.frame = CGRectMake(0, kUIScreenHeigth-190-64, kUIScreenWidth, 40);
     makeSureBtn.layer.cornerRadius = 3;
     makeSureBtn.tag = 104;
     makeSureBtn.layer.masksToBounds = YES;

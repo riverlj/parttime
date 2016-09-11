@@ -31,7 +31,7 @@
     if(_titleView) {
         return _titleView;
     }
-    _titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 40)];
+    _titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 40)];
     _titleView.backgroundColor = [UIColor whiteColor];
 
     _titleView.layer.borderColor = color_gray_e8e8e8.CGColor;
@@ -85,6 +85,7 @@
             self.tableView.frame = self.view.bounds;
         }
     }
+    self.tableView.height += 64;
 }
 
 -(void) beforeHttpRequest

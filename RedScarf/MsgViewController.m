@@ -68,6 +68,7 @@
 -(void)initTableView
 {
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
+    self.tableView.height += 64;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = color242;

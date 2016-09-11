@@ -77,7 +77,7 @@
             //消息提示
             image = [[UIImage imageNamed:@"lingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         }else {
-            image = [[UIImage imageNamed:@"konglingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            image = [[UIImage imageNamed:@"konglingdang"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         }
         UIBarButtonItem *r = [[UIBarButtonItem alloc] initWithImage:image landscapeImagePhone:[UIImage imageNamed:@"lingdang"] style:UIBarButtonItemStylePlain target:self action:@selector(didClickMsg:)];
         self.navigationItem.rightBarButtonItem = r;

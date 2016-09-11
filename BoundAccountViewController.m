@@ -32,7 +32,33 @@
     [self.models addObject:self.profileModel];
     
 //    [self.tableView reloadData];
-    self.tableView.tableFooterView = [UIView new];
+    
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0)];
+    
+    UIImage *image = [UIImage imageNamed:@"tip_money"];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 44, image.size.width, image.size.height)];
+    imageView.image = image;
+    imageView.x = (SCREEN_WIDTH - image.size.width)/2;
+    NSLog(@"%@-\n--%@", imageView, image);
+    [contentView addSubview:imageView];
+
+    
+    UILabel *tip1 = [[UILabel alloc] initWithFrame:CGRectMake(0, imageView.bottom+30, SCREEN_WIDTH, 30)];
+    tip1.font = BoldFont(15);
+    tip1.textAlignment = NSTextAlignmentCenter;
+    tip1.text = @"微信账号绑定后，每次提现";
+    tip1.textColor = RS_THRME_COLOR;
+    [contentView addSubview:tip1];
+    
+    UILabel *tip2 = [[UILabel alloc] initWithFrame:CGRectMake(0, tip1.bottom+10, SCREEN_WIDTH, 30)];
+    tip2.font = Font(15);
+    tip2.text = @"工资将会直接提现到你的微信零钱中";
+    tip2.textAlignment = NSTextAlignmentCenter;
+    tip2.textColor = [NSString colorFromHexString:@"7d7d7d"];
+    [contentView addSubview:tip2];
+    
+    contentView.height = tip2.bottom;
+    self.tableView.tableFooterView = contentView;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWexinBoundingStatus) name:@"UPDATE_WEIXIN_BOUNDING_STATUE" object:nil];
     

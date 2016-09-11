@@ -40,10 +40,20 @@
 #define colorblue [UIColor colorWithRed:(79/255.0f) green:(136/255.0f) blue:(251/255.0f) alpha:1.0f]
 #define color232 [UIColor colorWithRed:(232/255.0f) green:(232/255.0f) blue:(232/255.0f) alpha:1.0f]
 
+
+#define RGB(r, g, b) [UIColor colorWithRed:(r/255.0f) green:(g/255.0f) blue:(b/255.0f) alpha:1.0f]
+#define RGBA(r, g, b, a) [UIColor colorWithRed:(r/255.0f) green:(g/255.0f) blue:(b/255.0f) alpha:(a)]
 //标准色：格式规范
 //主色，#5999f8 主色，蓝色 1474ff
 #define color_blue_5999f8 MakeColor(0x14, 0x74, 0xff)
+//主要用于背景色
+#define color_gray_f3f5f7 MakeColor(0xf3, 0xf5, 0xf7)
+
+//USE
 #define RS_THRME_COLOR color_blue_5999f8
+#define RS_COLOR_BACKGROUND color_gray_f3f5f7
+#define RS_Line_Color  RGB(238,238,238)
+
 //强调性颜色，多用于大标题
 #define color_black_222222 MakeColor(0x22, 0x22, 0x22)
 //次要信息，辅助性文字，标签栏
@@ -52,8 +62,7 @@
 #define color_gray_cccccc MakeColor(0xcc, 0xcc, 0xcc)
 //用于次要分线
 #define color_gray_e8e8e8 MakeColor(0xe8, 0xe8, 0xe8)
-//主要用于背景色
-#define color_gray_f3f5f7 MakeColor(0xf3, 0xf5, 0xf7)
+
 //灰色标题色
 #define color_gray_eeeedf2 MakeColor(0xee, 0xee, 0xf2)
 
@@ -96,6 +105,16 @@
 #define  REDSCARF_MOBILE_URL @"http://weixin.honglingjinclub.com"
 #endif
 
+#define iPhone4S ([UIScreen mainScreen].bounds.size.height == 480 ? YES : NO)
+#define iPhone5S ([UIScreen mainScreen].bounds.size.height == 568 ? YES : NO)
+#define iPhone6  ([UIScreen mainScreen].bounds.size.height == 667 ? YES : NO)
+#define iPhone6Plus ([UIScreen mainScreen].bounds.size.height == 736 ? YES : NO)
+
+#define IOS7 ([[[UIDevice currentDevice] systemVersion] floatValue]>=7.0f ? YES : NO)
+#define IOS8 ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0f ? YES : NO)
+#define IOS9 ([[[UIDevice currentDevice] systemVersion] floatValue]>=9.0f ? YES : NO)
+
+
 
 #import "RSHttp.h"
 #import "RSCategory.h"
@@ -105,6 +124,7 @@
 #import "Masonry.h"
 #import "UMSocial.h"
 #import "WXApi.h"
-
+#import "LayOutConfig.h"
 #import "RSToastView.h"
+
  #endif

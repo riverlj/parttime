@@ -37,12 +37,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //改变navigationbar的颜色
-    self.navigationController.navigationBar.barTintColor = MakeColor(26, 30, 37);
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-//    [self.tableView reloadData];
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     self.navigationController.navigationBarHidden = YES;
     self.tableView.top = -20;
 }
@@ -50,22 +44,9 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],NSForegroundColorAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
     self.navigationController.navigationBarHidden = NO;
-    self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
 }
 
--(UIStatusBarStyle) preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
-}
-
--(BOOL) prefersStatusBarHidden
-{
-    return NO;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -175,5 +156,9 @@
     
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
 @end
 

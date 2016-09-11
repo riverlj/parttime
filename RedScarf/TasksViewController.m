@@ -69,7 +69,7 @@
 
 -(void)initButton
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, 40)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 40)];
     view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view];
     view.layer.borderColor = color_gray_e8e8e8.CGColor;
@@ -90,7 +90,7 @@
     [group setSelectedIndex:0];
     _searchType = 0;
     self.tableView.top = view.height ;
-    self.tableView.height = kUIScreenHeigth - view.height;
+    self.tableView.height = kUIScreenHeigth - view.height + 64;
 }
 
 -(void) didClickBtn:(id)sender

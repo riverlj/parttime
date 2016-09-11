@@ -9,6 +9,6 @@
 #import "RSSingleTitleCell.h"
 
 @interface RSTwoTitleCell : RSSingleTitleCell
-@property (nonatomic ,strong)UILabel *subtitleLabel;
+@property (nonatomic ,strong)UILabel *twotitleLabel;
 
 @end

@@ -11,5 +11,8 @@
 @interface RSSingleTitleModel : RSModel
 @property(nonatomic, strong) NSAttributedString *str;
 
+@property (nonatomic ,strong)NSString *onetitle;
+
+
 - (id)initWithTitle:(NSString *)title;
 @end

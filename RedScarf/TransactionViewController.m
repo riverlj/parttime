@@ -23,9 +23,11 @@
     [super viewDidLoad];
     bodyArray = [NSMutableArray array];
     [self initTableView];
+    
     if ([self.title isEqualToString:@"提现纪录"]) {
         [self getMessage];
     }
+    
     if ([self.title isEqualToString:@"余额明细"]) {
         [self getSalaryMessage];
     }

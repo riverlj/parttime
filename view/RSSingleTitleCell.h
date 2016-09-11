@@ -9,5 +9,6 @@
 #import "RSTableViewCell.h"
 
 @interface RSSingleTitleCell : RSTableViewCell
+@property (nonatomic ,strong)UILabel *oneLabelLabel;
 
 @end

@@ -46,6 +46,7 @@
     myNAVI.tabBarItem.image = [[UIImage imageNamed:@"newwgeren"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     myNAVI.tabBarItem.selectedImage = [[UIImage imageNamed:@"newgeren"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     myNAVI.navigationController.navigationBar.translucent = NO;
+    myNAVI.navigationBar.barStyle = UIBarStyleBlack;
     
     HomePageViewController *homeVC = [[HomePageViewController alloc] init];
     UINavigationController *homeNAVI = [[UINavigationController alloc] initWithRootViewController:homeVC];
@@ -54,7 +55,7 @@
     [homeNAVI.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:MakeColor(133, 133, 133),NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
     homeNAVI.tabBarItem.image = [[UIImage imageNamed:@"newwshouye"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     homeNAVI.tabBarItem.selectedImage = [[UIImage imageNamed:@"newshouye"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
+    homeNAVI.navigationBar.barStyle = UIBarStyleBlack;
     self.viewControllers = @[homeNAVI, myNAVI];
     [self.view addSubview:self.btn];
 }

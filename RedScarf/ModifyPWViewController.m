@@ -114,7 +114,7 @@
 -(void)initModifyPW
 {
     for (int i = 0; i < 3; i++) {
-        UITextField *tf = [[UITextField alloc] initWithFrame:CGRectMake(25,(45*i+(i+1)*10)+64, kUIScreenWidth-50, 45)];
+        UITextField *tf = [[UITextField alloc] initWithFrame:CGRectMake(25,(45*i+(i+1)*10), kUIScreenWidth-50, 45)];
         tf.layer.borderColor = MakeColor(224, 224, 224).CGColor;
         tf.backgroundColor = [UIColor whiteColor];
         tf.delegate = self;
@@ -139,7 +139,7 @@
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [btn addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
-    btn.frame = CGRectMake(25, 245, kUIScreenWidth-50, 45);
+    btn.frame = CGRectMake(25, 181, kUIScreenWidth-50, 45);
     [btn setTitle:@"确认" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:16];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

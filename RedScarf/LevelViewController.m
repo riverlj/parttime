@@ -88,6 +88,7 @@
    
     self.tableView.left = 18;
     self.tableView.width = kUIScreenWidth - 36;
+    self.tableView.height += 49;
     self.tableView.layer.cornerRadius = 5;
     self.tableView.layer.masksToBounds = YES;
     

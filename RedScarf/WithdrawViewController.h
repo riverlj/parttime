@@ -14,6 +14,8 @@
 
 @property(nonatomic,strong)NSString *salary;
 @property(nonatomic,strong)NSString *telNum;
+@property (nonatomic ,strong)NSString *wxaccount;
+
 
 
 @end

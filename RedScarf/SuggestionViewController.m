@@ -30,7 +30,7 @@
 
 -(void)initView
 {
-    suggestionView = [[RSPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, 80, kUIScreenWidth-40, 150)];
+    suggestionView = [[RSPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, 20, kUIScreenWidth-40, 150)];
     suggestionView.delegate = self;
     suggestionView.placeholder= @"请输入您的问题,200字以内。";
     suggestionView.textColor = color155;

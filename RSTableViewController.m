@@ -102,6 +102,7 @@
     }
     return [model cellHeightWithWidth:tableView.width];
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     RSModel *model = nil;
