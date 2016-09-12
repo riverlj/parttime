@@ -25,13 +25,13 @@
 
 -(void)initView
 {
-    UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 80, kUIScreenWidth-40, (kUIScreenWidth - 36)*197.0/339)];
+    UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 80-64, kUIScreenWidth-40, (kUIScreenWidth - 36)*197.0/339)];
     bgView.image = [UIImage imageNamed:@"tijiaochengong"];
     [self.view addSubview:bgView];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     btn.frame = CGRectMake(kUIScreenWidth/2-100, bgView.frame.size.height+bgView.frame.origin.y+40, 200, 40);
-    [btn setTitle:@"查看提现纪录" forState:UIControlStateNormal];
+    [btn setTitle:@"查看提现记录" forState:UIControlStateNormal];
     btn.layer.cornerRadius = 6;
     btn.layer.masksToBounds = YES;
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -43,7 +43,7 @@
 -(void)TiXianJiLu
 {
     TransactionViewController *transactionVC = [[TransactionViewController alloc] init];
-    transactionVC.title = @"提现纪录";
+    transactionVC.title = @"提现记录";
     [self.navigationController pushViewController:transactionVC animated:YES];
 }
 

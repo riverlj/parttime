@@ -31,6 +31,7 @@
     [super viewDidLoad];
     self.title = @"我的工资";
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"说明" style:UIBarButtonItemStylePlain target:self action:@selector(clickShow)];
+    [right setTintColor:[UIColor whiteColor]];
     self.navigationItem.rightBarButtonItem = right;
     
     settleArray = [NSMutableArray array];
@@ -184,8 +185,8 @@
     [midView addSubview:weijisuanLabel];
     //[midView setBackgroundColor:[UIColor redColor]];
     
-    self.tableView.frame = CGRectMake(15, midView.bottom - kUITabBarHeight + 15, kUIScreenWidth-30, 0);
-    self.tableView.height = kUIScreenHeigth - self.tableView.top;
+    self.tableView.frame = CGRectMake(15, midView.bottom - kUITabBarHeight + 15 + 64, kUIScreenWidth-30, 0);
+    self.tableView.height = kUIScreenHeigth - self.tableView.top - 64;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     /*self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(15, midView.frame.size.height+midView.frame.origin.y+15, kUIScreenWidth-30, kUIScreenHeigth-242)];
    

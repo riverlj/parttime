@@ -63,7 +63,7 @@
     _rightBtn.frame = CGRectMake(0, 0, 74, 44);
     _rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     [_rightBtn setTitle:@"全  部" forState:UIControlStateNormal];
-    [_rightBtn setTitleColor:color_black_666666 forState:UIControlStateNormal];
+    [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _rightBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 57, 0, -57);
     _rightBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -17, 0, 17);
     [_rightBtn setImage:[UIImage imageNamed:@"shaixuan"] forState:UIControlStateNormal];

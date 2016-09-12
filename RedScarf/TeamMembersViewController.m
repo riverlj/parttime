@@ -44,6 +44,7 @@
 {
     AddMembersViewController *addMembersVC = [[AddMembersViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addMembersVC];
+    navController.navigationBar.barStyle = UIBarStyleBlack;
     [self presentViewController:navController animated:YES completion:nil];
 }
 

@@ -36,6 +36,7 @@
     addressArray = [NSMutableArray array];
     if ([self.judgeStr isEqualToString:@"name"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
+        [right setTintColor:[UIColor whiteColor]];
         self.navigationItem.rightBarButtonItem = right;
 
         self.title = @"修改姓名";
@@ -48,6 +49,7 @@
     }
     if ([self.judgeStr isEqualToString:@"address"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
+        [right setTintColor:[UIColor whiteColor]];
         self.navigationItem.rightBarButtonItem = right;
         [self initAddress];
         self.title = @"修改地址";

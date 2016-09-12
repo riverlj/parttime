@@ -118,6 +118,8 @@
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 100)];
     self.tableView.tableFooterView = view;
+    self.tableView.showsHorizontalScrollIndicator = NO;
+    self.tableView.showsVerticalScrollIndicator = NO;
     
     self.models = [NSMutableArray array];
 

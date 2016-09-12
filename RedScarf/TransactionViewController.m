@@ -24,7 +24,7 @@
     bodyArray = [NSMutableArray array];
     [self initTableView];
     
-    if ([self.title isEqualToString:@"提现纪录"]) {
+    if ([self.title isEqualToString:@"提现记录"]) {
         [self getMessage];
     }
     
@@ -64,7 +64,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    //self.tableView.backgroundColor = color242;
+    self.tableView.height += 49;
     UIView *footView = [[UIView alloc] init];
     self.tableView.tableFooterView = footView;
     [self.view addSubview:self.tableView];
@@ -84,10 +84,13 @@
         doPassWordVC.telNum = self.telNum;
         [self.navigationController pushViewController:doPassWordVC animated:YES];
     }
-    if ([self.title isEqualToString:@"提现纪录"]) {
+    if ([self.title isEqualToString:@"提现记录"]) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         dic = [bodyArray objectAtIndex:indexPath.row];
-        [self alertView:[dic valueForKey:@"returnMessage"]];
+        NSString *str = [dic valueForKey:@"returnMessage"];
+        if (![str isKindOfClass:NSNull.class] && str.length > 0) {
+            [self alertView:[dic valueForKey:str]];
+        }
     }
     
 }
@@ -154,7 +157,7 @@
             title.text = @"重置交易密码";
         }
 
-    }else if([self.title isEqualToString:@"提现纪录"]){
+    }else if([self.title isEqualToString:@"提现记录"]){
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         dic = [bodyArray objectAtIndex:indexPath.row];
         cell.detailLabel.text = @"提现";

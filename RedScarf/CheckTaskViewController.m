@@ -107,7 +107,7 @@
     [self.view addSubview:headView];
     
     self.tableView.top = headView.height;
-    self.tableView.height = kUIScreenHeigth - headView.height;
+    self.tableView.height = kUIScreenHeigth - headView.height + 49;
     UIView *foot = [[UIView alloc] init];
     self.tableView.tableFooterView = foot;
 }

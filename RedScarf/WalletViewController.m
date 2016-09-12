@@ -209,6 +209,11 @@
         [self showToast:@"当前账号已经被冻结"];
         return;
     }
+    
+    if (wxstatusid != 1) {
+        [[RSToastView shareRSToastView] showToast:@"请先绑定微信账号"];
+        return;
+    }
     WithdrawViewController *withdrawVC = [[WithdrawViewController alloc] init];
     withdrawVC.pwdStatus = pwdStatus;
     withdrawVC.telNum = telNum;

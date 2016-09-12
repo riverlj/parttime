@@ -33,7 +33,7 @@
     self.tableView.height = self.tableView.height - 44;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 44)];
-    btn.bottom = kUIScreenHeigth;
+    btn.bottom = kUIScreenHeigth-64;
     [btn setBackgroundColor:[UIColor whiteColor]];
     [btn setTitle:@"分配" forState:UIControlStateNormal];
     [btn setTitleColor:color_blue_287dd8 forState:UIControlStateNormal];

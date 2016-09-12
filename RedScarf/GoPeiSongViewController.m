@@ -21,7 +21,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    disTableView = [[DistributionTableView alloc] initWithFrame:CGRectMake(0, 64, kUIScreenWidth, kUIScreenHeigth-64)];
+    disTableView = [[DistributionTableView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, kUIScreenHeigth-64)];
     [self.view addSubview:disTableView];
     [super viewWillAppear:animated];
 }

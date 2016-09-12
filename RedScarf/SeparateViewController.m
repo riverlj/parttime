@@ -85,7 +85,7 @@
             self.tableView.frame = self.view.bounds;
         }
     }
-    self.tableView.height += 64;
+    self.tableView.height += 49;
 }
 
 -(void) beforeHttpRequest

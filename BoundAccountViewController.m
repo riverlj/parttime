@@ -38,7 +38,7 @@
     UIImage *image = [UIImage imageNamed:@"tip_money"];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 44, image.size.width, image.size.height)];
     imageView.image = image;
-    imageView.x = (SCREEN_WIDTH - image.size.width)/2;
+    imageView.x = (SCREEN_WIDTH - image.size.width)/2 + 20;
     NSLog(@"%@-\n--%@", imageView, image);
     [contentView addSubview:imageView];
 
@@ -59,6 +59,7 @@
     
     contentView.height = tip2.bottom;
     self.tableView.tableFooterView = contentView;
+    self.tableView.height += 49;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWexinBoundingStatus) name:@"UPDATE_WEIXIN_BOUNDING_STATUE" object:nil];
     

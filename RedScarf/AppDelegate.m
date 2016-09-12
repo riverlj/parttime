@@ -41,7 +41,7 @@
     
     [self.window makeKeyAndVisible];
     
-    application.statusBarStyle = UIStatusBarStyleLightContent;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     return YES;
 }
 
@@ -112,7 +112,7 @@
 - (void)setViewController:(UIViewController *)rootVC
 {
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:rootVC];
-    
+    navi.navigationBar.barStyle = UIBarStyleBlack;
     self.window.rootViewController = navi;
 }
 //强制用系统键盘

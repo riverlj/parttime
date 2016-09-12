@@ -33,7 +33,7 @@
     [self comeBack:nil];
     [self initView];
     
-    self.tableView.height += 64;
+    self.tableView.height += 49;
 }
 
 -(void)initView
@@ -49,6 +49,7 @@
     }
     if ([self.title isEqualToString:@"修改配送范围"]) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(didClickSave)];
+        [right setTintColor:[UIColor whiteColor]];
         self.navigationItem.rightBarButtonItem = right;
         [self getMessage];
         [self modifyRange];

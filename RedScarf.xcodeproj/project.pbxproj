@@ -18,8 +18,6 @@
 		1D24D4AD1B75E58000FD39BC /* 密码@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D24D4A91B75E58000FD39BC /* 密码@2x.png */; };
 		1D24D4AE1B75E58000FD39BC /* 密码.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D24D4AA1B75E58000FD39BC /* 密码.png */; };
 		1D24D4B71B76007A00FD39BC /* UIView+ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D24D4B61B76007A00FD39BC /* UIView+ViewController.m */; };
-		1D41C27F1C06FC0E0036E214 /* lingdang.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D41C27E1C06FC0E0036E214 /* lingdang.png */; };
-		1D41C2811C06FC8D0036E214 /* lingdang@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D41C2801C06FC8D0036E214 /* lingdang@2x.png */; };
 		1D41C2861C0701B00036E214 /* xitongxiaoxi.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D41C2841C0701B00036E214 /* xitongxiaoxi.png */; };
 		1D41C2871C0701B00036E214 /* huixitongxiaoxi.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D41C2851C0701B00036E214 /* huixitongxiaoxi.png */; };
 		1D41C28D1C0C41870036E214 /* LevelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D41C28C1C0C41870036E214 /* LevelViewController.m */; };
@@ -226,8 +224,6 @@
 		1DF408EB1BE1BEBF000BACA8 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF408EA1BE1BEBF000BACA8 /* libz.1.2.5.dylib */; };
 		1DF408ED1BE1BF19000BACA8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF408EC1BE1BF19000BACA8 /* UIKit.framework */; };
 		1DF408EF1BE1BF22000BACA8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF408EE1BE1BF22000BACA8 /* Foundation.framework */; };
-		1DF408F21BE1EEF6000BACA8 /* addmember.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF408F01BE1EEF6000BACA8 /* addmember.png */; };
-		1DF408F31BE1EEF6000BACA8 /* addmember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF408F11BE1EEF6000BACA8 /* addmember@2x.png */; };
 		1DF408F71BE1FBF2000BACA8 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF408F61BE1FBF2000BACA8 /* libBaiduMobStat.a */; };
 		1DF647191BC7B21400A80A89 /* comeback.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF647171BC7B21400A80A89 /* comeback.png */; };
 		1DF6471A1BC7B21400A80A89 /* comeback2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF647181BC7B21400A80A89 /* comeback2x.png */; };
@@ -346,8 +342,6 @@
 		1D24D4AA1B75E58000FD39BC /* 密码.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "密码.png"; sourceTree = "<group>"; };
 		1D24D4B51B76007A00FD39BC /* UIView+ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+ViewController.h"; path = "RedScarf/UIView+ViewController.h"; sourceTree = "<group>"; };
 		1D24D4B61B76007A00FD39BC /* UIView+ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+ViewController.m"; path = "RedScarf/UIView+ViewController.m"; sourceTree = "<group>"; };
-		1D41C27E1C06FC0E0036E214 /* lingdang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lingdang.png; sourceTree = "<group>"; };
-		1D41C2801C06FC8D0036E214 /* lingdang@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lingdang@2x.png"; sourceTree = "<group>"; };
 		1D41C2841C0701B00036E214 /* xitongxiaoxi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xitongxiaoxi.png; sourceTree = "<group>"; };
 		1D41C2851C0701B00036E214 /* huixitongxiaoxi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = huixitongxiaoxi.png; sourceTree = "<group>"; };
 		1D41C28B1C0C41870036E214 /* LevelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelViewController.h; sourceTree = "<group>"; };
@@ -618,8 +612,6 @@
 		1DF408EA1BE1BEBF000BACA8 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		1DF408EC1BE1BF19000BACA8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1DF408EE1BE1BF22000BACA8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1DF408F01BE1EEF6000BACA8 /* addmember.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addmember.png; sourceTree = "<group>"; };
-		1DF408F11BE1EEF6000BACA8 /* addmember@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addmember@2x.png"; sourceTree = "<group>"; };
 		1DF408F51BE1FBF2000BACA8 /* BaiduMobStat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobStat.h; sourceTree = "<group>"; };
 		1DF408F61BE1FBF2000BACA8 /* libBaiduMobStat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBaiduMobStat.a; sourceTree = "<group>"; };
 		1DF647171BC7B21400A80A89 /* comeback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comeback.png; sourceTree = "<group>"; };
@@ -1158,7 +1150,6 @@
 			children = (
 				1D41C2841C0701B00036E214 /* xitongxiaoxi.png */,
 				1D41C2851C0701B00036E214 /* huixitongxiaoxi.png */,
-				1D41C27E1C06FC0E0036E214 /* lingdang.png */,
 				1DC69C5D1BF9F7E1003F29BA /* banbenguanli.png */,
 				1DC69C571BF9DDAC003F29BA /* erweima.png */,
 				1DC69C551BF9DC93003F29BA /* versionicon.png */,
@@ -1219,7 +1210,6 @@
 				1DF6473C1BC8F6C000A80A89 /* xialazu2x.png */,
 				1DF647371BC8F3F900A80A89 /* loudong.png */,
 				1DF647381BC8F3F900A80A89 /* loudong2x.png */,
-				1D41C2801C06FC8D0036E214 /* lingdang@2x.png */,
 				1DF647171BC7B21400A80A89 /* comeback.png */,
 				1DF647181BC7B21400A80A89 /* comeback2x.png */,
 			);
@@ -1242,8 +1232,6 @@
 		1DD537051BB24FFB00BF46E6 /* 团队 */ = {
 			isa = PBXGroup;
 			children = (
-				1DF408F01BE1EEF6000BACA8 /* addmember.png */,
-				1DF408F11BE1EEF6000BACA8 /* addmember@2x.png */,
 				1DD5374B1BB2AA5700BF46E6 /* you.png */,
 				1DD5374C1BB2AA5700BF46E6 /* you2x.png */,
 				1DD5370A1BB2503A00BF46E6 /* paiban.png */,
@@ -1846,7 +1834,6 @@
 				1D72A8941C0D44F700C2284F /* level6.png in Resources */,
 				1D72A89C1C0D457000C2284F /* level3.png in Resources */,
 				1DD238411BCF847300D26BF2 /* newshaixuan.png in Resources */,
-				1DF408F21BE1EEF6000BACA8 /* addmember.png in Resources */,
 				1D5870151BD633F200ABB5DC /* peisong2x.png in Resources */,
 				1DCC57951BD0E5FF00AED986 /* zuo.png in Resources */,
 				1DD2381D1BCE4F4400D26BF2 /* sanjiao.png in Resources */,
@@ -1875,7 +1862,6 @@
 				1DC69D131BFB21F5003F29BA /* kongrenwu.png in Resources */,
 				1DD238451BCF877E00D26BF2 /* newfanhui.png in Resources */,
 				1DDE36271B9D79DE000A6954 /* xuxian.png in Resources */,
-				1DF408F31BE1EEF6000BACA8 /* addmember@2x.png in Resources */,
 				1DE0AE201B8C5B2A0092E87C /* time@2x.png in Resources */,
 				1DD238421BCF847300D26BF2 /* newshaixuan@2x.png in Resources */,
 				1DD237F81BCE2C1600D26BF2 /* qupeisong2x.png in Resources */,
@@ -1916,7 +1902,6 @@
 				1DC264401BE70AE300A915DB /* tijiaochengong.png in Resources */,
 				1DD238461BCF877E00D26BF2 /* newfanhui@2x.png in Resources */,
 				1DD3582C1B8D8303009EF0A5 /* 3@2x.png in Resources */,
-				1D41C2811C06FC8D0036E214 /* lingdang@2x.png in Resources */,
 				1DD238281BCE521700D26BF2 /* newgeren@2x.png in Resources */,
 				1D9F36511BE4B96C008315CD /* trade.bundle in Resources */,
 				1DF3A0EC1BE06BF60095DE24 /* biangeng2x.png in Resources */,
@@ -1950,7 +1935,6 @@
 				1DCC57861BD0A61800AED986 /* Wallet3x.png in Resources */,
 				1D5870141BD633F200ABB5DC /* peisong.png in Resources */,
 				1DE0AE301B8C81D10092E87C /* tuijian@2x.png in Resources */,
-				1D41C27F1C06FC0E0036E214 /* lingdang.png in Resources */,
 				1DF3A0FB1BE06CD10095DE24 /* huicaozuo.png in Resources */,
 				1DC69D171BFB21FF003F29BA /* meiyoupaiban.png in Resources */,
 				1DD2382A1BCE521700D26BF2 /* newshouye@2x.png in Resources */,

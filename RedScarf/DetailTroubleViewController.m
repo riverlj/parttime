@@ -27,10 +27,11 @@
     
     _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _cancelBtn.frame = CGRectMake(0, 0, 60, 44);
+    [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
     
     _cancelBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-     [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [[_cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -38,9 +39,9 @@
     _submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _submitBtn.frame = CGRectMake(0, 0, 60, 44);
     [_submitBtn setTitle:@"提交" forState:UIControlStateNormal];
-    [_submitBtn setTitleColor:textcolor forState:UIControlStateNormal];
-    _submitBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [_submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    _submitBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [[_submitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         if (!self.firstReasonCode) {
             [self showToast:@"一级原因不能为空"];
@@ -60,7 +61,7 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:_submitBtn];
     
-    _textView = [[RSPlaceHolderTextView alloc]initWithFrame:CGRectMake(10, 74, kUIScreenWidth-20, 200)];
+    _textView = [[RSPlaceHolderTextView alloc]initWithFrame:CGRectMake(10, 10, kUIScreenWidth-20, 200)];
     _textView.placeholder = self.placeholderText;
     _textView.textColor = color155;
     _textView.textAlignment = NSTextAlignmentLeft;
@@ -104,8 +105,6 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:_cancelBtn];
-    [_cancelBtn setTitleColor:textcolor forState:UIControlStateNormal];
-    [_submitBtn setTitleColor:textcolor forState:UIControlStateNormal];
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -130,5 +129,6 @@
         [self showToast:@"提交失败"];
     }
 }
+
 
 @end

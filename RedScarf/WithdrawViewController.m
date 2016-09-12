@@ -30,7 +30,6 @@
     UITextField *input;
     UIView *bgBlackView;
     NSString *cardNum;
-    UILabel *mLabel;
     NSArray *bankCards;
     UILabel *cardLabel;
     
@@ -39,6 +38,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [RSHttp payRequestWithURL:@"/account/accountInfo" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSMutableDictionary *dic = [data objectForKey:@"body"];
@@ -46,9 +47,7 @@
     } failure:^(NSInteger code, NSString *errmsg) {
         [self alertView:errmsg];
     }];
-    mLabel.text = [NSString stringWithFormat:@"¥%.2f",[self.salary floatValue]/100];
-
-    [super viewWillAppear:animated];
+    input.text = @"";
 }
 
 - (void)viewDidLoad {
@@ -57,7 +56,7 @@
     self.title = @"提现";
     self.passWordNum = 4;
     self.view.backgroundColor = RS_COLOR_BACKGROUND;
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现纪录" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXianJILu)];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提现记录" style:UIBarButtonItemStylePlain target:self action:@selector(didClickTianXianJILu)];
     right.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = right;
     
@@ -80,25 +79,22 @@
     tipLabel.font = Font(15);
     [contentView addSubview:tipLabel];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(tipLabel.x, tipLabel.bottom, SCREEN_WIDTH-2*tipLabel.x, 1.0/[UIScreen mainScreen].scale)];
-    lineView.backgroundColor = [UIColor blackColor];
-    [contentView addSubview:lineView];
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(tipLabel.x, lineView.bottom + 35, 21, 26)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(tipLabel.x, tipLabel.bottom + 20, 21, 26)];
     imageView.image = [UIImage imageNamed:@"icon_RMB"];
     [contentView addSubview:imageView];
     input = [[UITextField alloc] initWithFrame:CGRectMake(imageView.right + 15, imageView.top, SCREEN_WIDTH-imageView.right -  15 - tipLabel.x , 40)];
     input.textColor = [NSString colorFromHexString:@"222222"];
     input.font = BoldFont(40);
+    input.placeholder = @"0.00";
     [input becomeFirstResponder];
-    input.keyboardType = UIKeyboardTypeNumberPad;
+    input.keyboardType = UIKeyboardTypeDecimalPad;
     input.layer.borderColor = RS_Line_Color.CGColor;
     input.centerY = imageView.centerY;
 
     [contentView addSubview:input];
     
-    lineView = [[UIView alloc] initWithFrame:CGRectMake(tipLabel.x, input.bottom + 5, SCREEN_WIDTH-2*tipLabel.x, 1.0/[UIScreen mainScreen].scale)];
-    lineView.backgroundColor = [UIColor blackColor];
+    UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(tipLabel.x, input.bottom + 5, SCREEN_WIDTH-2*tipLabel.x, 1.0/[UIScreen mainScreen].scale)];
+    lineView.backgroundColor = [NSString colorFromHexString:@"dcdcdc"];
     [contentView addSubview:lineView];
 
     UILabel *totalMoneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(tipLabel.x, lineView.bottom + 5, SCREEN_WIDTH-2*tipLabel.x, 25)];
@@ -124,7 +120,7 @@
     UILabel *accountLabel = [[UILabel alloc] initWithFrame:CGRectMake(tipLabel.x, 0, SCREEN_WIDTH - 2*tipLabel.x, 48)];
     accountLabel.font = Font(15);
     accountLabel.textColor = [NSString colorFromHexString:@"515151"];
-    accountLabel.text = [NSString stringWithFormat:@"微信账号：%@", _wxaccount];
+    accountLabel.text = [NSString stringWithFormat:@"微信账号  %@", _wxaccount];
     accountContentView.height = accountLabel.bottom;
     [accountContentView addSubview:accountLabel];
     [scrollView addSubview:accountContentView];
@@ -147,7 +143,7 @@
 -(void)didClickTianXianJILu
 {
     TransactionViewController *transactionVC = [[TransactionViewController alloc] init];
-    transactionVC.title = @"提现纪录";
+    transactionVC.title = @"提现记录";
     [self.navigationController pushViewController:transactionVC animated:YES];
 }
 
@@ -162,7 +158,7 @@
             [self alertView:@"提现金额不能为空"];
             return;
         }
-        if ([input.text floatValue] <= 1) {
+        if ([input.text floatValue] < 1) {
             [self alertView:@"提现金额不能小于1元"];
             return;
         }

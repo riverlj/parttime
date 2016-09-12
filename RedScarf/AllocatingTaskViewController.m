@@ -37,6 +37,7 @@
     
     self.tableView.tableHeaderView = self.searchBar;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.height += 49;
     [self beginHttpRequest];
     normalArray = [NSMutableArray array];
     filterArray = [NSMutableArray array];

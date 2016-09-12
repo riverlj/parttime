@@ -75,7 +75,7 @@
         NSInteger redDoc = [[messageDic objectForKey:@"redDot"] integerValue];
         if (redDoc > 0) {
             //消息提示
-            image = [[UIImage imageNamed:@"lingdang@2x"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            image = [[UIImage imageNamed:@"lingdang"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         }else {
             image = [[UIImage imageNamed:@"konglingdang"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         }

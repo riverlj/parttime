@@ -46,6 +46,8 @@
     self.useFooterRefresh = NO;
     self.useHeaderRefresh = NO;
     
+//    self.tableView.height += 49;
+    
     [self beginHttpRequest];
     
 }
@@ -115,7 +117,7 @@
     [self.view addSubview:line];
     
     for (int i = 0; i < 2; i++) {
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2*i, kUIScreenHeigth-45, kUIScreenWidth/2, 45)];
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(kUIScreenWidth/2*i, kUIScreenHeigth-45-64, kUIScreenWidth/2, 45)];
         [btn setTitleColor:color155 forState:UIControlStateDisabled];
         [btn setEnabled:NO];
         btn.backgroundColor = [UIColor whiteColor];
@@ -212,6 +214,7 @@
             detailTroubleVC.sns = sns;
             
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:detailTroubleVC];
+            nav.navigationBar.barStyle = UIBarStyleBlack;
             [self presentViewController:nav animated:YES completion:nil];
         }
     }];
