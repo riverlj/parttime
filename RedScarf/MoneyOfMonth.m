@@ -31,7 +31,7 @@
     [super viewDidLoad];
     self.title = @"我的工资";
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"说明" style:UIBarButtonItemStylePlain target:self action:@selector(clickShow)];
-    [right setTintColor:[UIColor whiteColor]];
+//    [right setTintColor:[UIColor whiteColor]];
     self.navigationItem.rightBarButtonItem = right;
     
     settleArray = [NSMutableArray array];

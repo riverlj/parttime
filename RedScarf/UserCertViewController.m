@@ -80,6 +80,7 @@
     
     [self.saveBtn setTitle:@"提交审核" forState:UIControlStateNormal];
     [self.saveBtn addTarget:self action:@selector(identification) forControlEvents:UIControlEventTouchUpInside];
+    self.saveBtn.y -= 64;
     [self getMessage];
 }
 
@@ -223,7 +224,7 @@
 }
 
 -(void) setStatus:(NSInteger)status
-{
+{	
     _status = status;
     if(_status == 0 || _status == 2) {
         self.nameTextField.textField.enabled = NO;

@@ -11,5 +11,7 @@
 @interface TransactionViewController : RSTableViewController
 
 @property(nonatomic,strong)NSString *telNum;
+@property (nonatomic, strong)NSString *pwdStatus;
+
 
 @end

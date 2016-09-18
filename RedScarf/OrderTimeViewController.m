@@ -33,6 +33,7 @@
     [self comeBack:nil];
     
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDone)];
+    [right setTintColor:[UIColor whiteColor]];
     self.navigationItem.rightBarButtonItem = right;
     dateArr = [NSMutableArray array];
     [self getDate];

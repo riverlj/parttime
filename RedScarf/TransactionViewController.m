@@ -129,7 +129,7 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if ([self.title isEqualToString:@"交易密码"]) {
-        return 2;
+        return 1;
     }
     return 1;
 }
@@ -150,11 +150,10 @@
         title.textColor = color155;
         [cell.contentView addSubview:title];
         
-        if (indexPath.section == 0) {
+        if ([self.pwdStatus integerValue] == 0) {
             title.text = @"设置交易密码";
-        }
-        if (indexPath.section == 1) {
-            title.text = @"重置交易密码";
+        }else {
+            title.text = @"修改交易密码";
         }
 
     }else if([self.title isEqualToString:@"提现记录"]){

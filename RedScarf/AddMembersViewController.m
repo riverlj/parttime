@@ -24,6 +24,7 @@
     pickerArray = [NSMutableArray array];
     self.title = @"添加校园兼职";
     [self.saveBtn addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
+    self.saveBtn.y -= 64;
     UIView *view = [RSUIView roundRectViewWithFrame:CGRectMake(18, 18, kUIScreenWidth - 36, 45)];
     [view addSubview:self.nameTextField];
     [self.nameTextField addSubview:[RSUIView lineWithFrame:CGRectMake(0, self.nameTextField.height-0.8, self.nameTextField.width, 0.8)]];

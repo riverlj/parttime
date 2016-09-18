@@ -42,6 +42,7 @@
     [self.window makeKeyAndVisible];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
     return YES;
 }
 

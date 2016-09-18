@@ -49,9 +49,6 @@
     self.tableView.tableFooterView = footView;
     self.tableView.y = -64;
     
-    [self getToken];
-    
-    
 }
 
 -(void)getWeixin {
@@ -77,6 +74,8 @@
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    
+    [self getToken];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -187,6 +186,7 @@
     TransactionViewController *transactionVC = [[TransactionViewController alloc] init];
     transactionVC.title = @"交易密码";
     transactionVC.telNum = telNum;
+    transactionVC.pwdStatus = pwdStatus;
     [self.navigationController pushViewController:transactionVC animated:YES];
 }
 

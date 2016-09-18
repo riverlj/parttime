@@ -168,7 +168,10 @@
             [tempStr setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:MakeColor(0x59, 0x9a, 0xf8), NSForegroundColorAttributeName, nil] range:NSMakeRange(0, [[dic objectForKey:@"tag"] length])];
             [contentStr appendAttributedString:tempStr];
         }
-        [contentStr replaceCharactersInRange:NSMakeRange(contentStr.length - 1, 1) withString:@""];
+        if (contentStr.length > 0) {
+            [contentStr replaceCharactersInRange:NSMakeRange(contentStr.length - 1, 1) withString:@""];
+
+        }
         [self setIntroductionText:[contentStr copy]];
         self.numberLabel.text = [NSString stringWithFormat:@"任务编号：%@",m.numberStr];
         if ([m.status isEqualToString:@"FINISHED"]) {
