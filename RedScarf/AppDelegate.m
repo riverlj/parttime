@@ -86,9 +86,13 @@
 {
     BaiduMobStat *statTracker = [BaiduMobStat defaultStat];
     [statTracker startWithAppId:@"89b848cd73"];
+    
+    //版本号：
+    statTracker.shortAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     statTracker.enableExceptionLog = YES; //截获崩溃信息
     statTracker.logStrategy = BaiduMobStatLogStrategyAppLaunch;
     statTracker.logSendInterval = 1;
+    // 渠道ID
     statTracker.channelId = [UIDevice utm_source];
     statTracker.logSendWifiOnly = NO;
     statTracker.sessionResumeInterval = 60;

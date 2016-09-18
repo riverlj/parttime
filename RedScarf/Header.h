@@ -114,6 +114,11 @@
 #define IOS8 ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0f ? YES : NO)
 #define IOS9 ([[[UIDevice currentDevice] systemVersion] floatValue]>=9.0f ? YES : NO)
 
+#ifdef DEBUG
+#define UTM_SOURCE @"inhouse"
+#else
+#define UTM_SOURCE @"testDev"
+#endif
 
 
 #import "RSHttp.h"
