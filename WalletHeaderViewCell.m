@@ -17,8 +17,9 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundColor = RS_THRME_COLOR;
         self.contentView.backgroundColor = RS_THRME_COLOR;
-        self.accessoryType = UITableViewCellAccessoryNone;
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     return self;
 }

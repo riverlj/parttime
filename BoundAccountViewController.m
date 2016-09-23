@@ -27,11 +27,8 @@
     self.models = [NSMutableArray array];
     self.profileModel.title = @"微信绑定";
     self.profileModel.cellHeight = 49;
-//    self.profileModel.subtitle = [[NSAttributedString alloc]initWithString:@"未绑定"];
     [self.profileModel setSelectAction:@selector(bandWeiXin) target:self];
     [self.models addObject:self.profileModel];
-    
-//    [self.tableView reloadData];
     
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0)];
     
@@ -63,6 +60,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWexinBoundingStatus) name:@"UPDATE_WEIXIN_BOUNDING_STATUE" object:nil];
     
+    [self updateWexinBoundingStatus];
+    
 }
 
 - (void)updateWexinBoundingStatus {
@@ -84,7 +83,6 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self updateWexinBoundingStatus];
 }
 
 - (void)bandWeiXin {

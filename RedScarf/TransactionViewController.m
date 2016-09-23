@@ -49,12 +49,15 @@
 -(void)getSalaryMessage
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [[RSToastView shareRSToastView] showHUD:@""];
     [params setObject:@"0" forKey:@"timestamp"];
     [RSHttp payRequestWithURL:@"/account/moneyChangeRecord" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
+        [[RSToastView shareRSToastView] hidHUD];
         [bodyArray removeAllObjects];
         bodyArray = [data objectForKey:@"body"];
         [self.tableView reloadData];
     } failure:^(NSInteger code, NSString *errmsg) {
+        [[RSToastView shareRSToastView] hidHUD];
         [self alertView:errmsg];
     }];
 }

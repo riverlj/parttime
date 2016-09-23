@@ -22,7 +22,8 @@
     
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, textFont18, NSFontAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-    [self.navigationController.navigationBar setBackgroundImage:[self imageFromColor:RS_THRME_COLOR ] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageFromColor:RS_THRME_COLOR ] forBarMetrics:UIBarMetricsDefault];
+    
 }
 
 
@@ -154,17 +155,6 @@
     _tips = [[RSTipsView alloc] initWithFrame:self.view.bounds];
     [_tips setTitle:@"暂时没有数据哦" withImg:@"kongrenwu"];
     return _tips;
-}
-
-- (UIImage *)imageFromColor:(UIColor *)color {
-    CGRect rect = CGRectMake(0, 0, 1, 1);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
 }
 
 @end

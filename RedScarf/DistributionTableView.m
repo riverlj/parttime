@@ -132,6 +132,9 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    Model *model = [[Model alloc] init];
+    model = [self.addressArr objectAtIndex:section];
+    
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 45)];
     bgView.backgroundColor = [UIColor whiteColor];
     
@@ -140,16 +143,23 @@
     [bgView addSubview:lineView];
     
     UIImageView *click = [[UIImageView alloc] initWithFrame:CGRectMake(20, 18, 8, 8)];
-    
     [bgView addSubview:click];
     
+    UILabel *count = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-40, 8, 30, 30)];
+    count.text = [NSString stringWithFormat:@"%@单",model.taskNum];
+    CGSize countSize = [count sizeThatFits:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT)];
+    count.width = countSize.width;
+    count.x = kUIScreenWidth-10 - count.width;
+    count.textColor = color155;
+    count.font = textFont12;
+    count.centerY = click.centerY;
+    [bgView addSubview:count];
+
     UILabel *label = [[UILabel alloc] init];
     [bgView addSubview:label];
     label.textColor = color102;
     label.font = textFont15;
     label.textAlignment = NSTextAlignmentLeft;
-    Model *model = [[Model alloc] init];
-    model = [self.addressArr objectAtIndex:section];
     click.image = [UIImage imageNamed:model.select];
 
     NSString *str = [NSString stringWithFormat:@"%@",model.apartmentName];
@@ -160,26 +170,23 @@
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     NSDictionary *attributes = @{NSFontAttributeName:label.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
     CGRect rect = [str boundingRectWithSize:size options:options attributes:attributes context:nil];
-
-    
-    label.frame = CGRectMake(35, 12, rect.size.width, rect.size.height);
+    label.numberOfLines = 1;
+    label.frame = CGRectMake(35, 12, SCREEN_WIDTH - 35 - count.width - 50, rect.size.height);
     label.text = str;
+    
+    label.centerY = click.centerY;
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(label.frame.size.width+label.frame.origin.x+5, 15, 12, 12)];
     img.image = [UIImage imageNamed:@"loudong"];
+    img.centerY = click.centerY;
     [bgView addSubview:img];
     
-    UILabel *count = [[UILabel alloc] initWithFrame:CGRectMake(kUIScreenWidth-40, 8, 30, 30)];
-    count.text = [NSString stringWithFormat:@"%@单",model.taskNum];
-    count.textColor = color155;
-    count.font = textFont12;
-    [bgView addSubview:count];
     
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 45)];
-    [bgView addSubview:btn];
-    btn.tag = section;
-    [btn addTarget:self action:@selector(detail:) forControlEvents:UIControlEventTouchUpInside];
     
+    
+   
+    bgView.tag = section;
+    [bgView addTapAction:@selector(detail:) target:self];
     return bgView;
 }
 
@@ -333,12 +340,12 @@
     [self.viewController.navigationController popViewControllerAnimated:YES];
 }
 
--(void)detail:(id)sender
+-(void)detail:(UIGestureRecognizer *)sender
 {
-    UIButton *btn = (UIButton *)sender;
+    UIView *view = sender.view;
   
     Model *model = [[Model alloc] init];
-    model = self.addressArr[btn.tag];
+    model = self.addressArr[view.tag];
     if ([model.select isEqualToString:@"zu2x"]) {
         model.select = @"xialazu2x";
     }else{
@@ -346,7 +353,7 @@
     }
     
     for (int i = 0; i < self.addressArr.count; i++) {
-        if (i != btn.tag) {
+        if (i != view.tag) {
             Model *model = [[Model alloc] init];
             model = self.addressArr[i];
             model.select = @"zu2x";

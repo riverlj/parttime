@@ -295,6 +295,7 @@
 		30E246991C34D29C009A9A58 /* UserTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E246981C34D29C009A9A58 /* UserTaskTableViewCell.m */; };
 		30E2469E1C34F325009A9A58 /* AllocatingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E2469D1C34F325009A9A58 /* AllocatingTaskViewController.m */; };
 		7C8D67D81ACFEE17164795C3 /* libPods-RedScarf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2CE3D8BBEABCDE93EAE53B /* libPods-RedScarf.a */; };
+		B10403A71D90EB3400089DE4 /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = B10403A61D90EB3400089DE4 /* UIImage+Helper.m */; };
 		B108FA951D82AA660098F196 /* LayOutConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FA941D82AA660098F196 /* LayOutConfig.m */; };
 		B108FA981D839EE80098F196 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FA971D839EE80098F196 /* NSString+Helper.m */; };
 		B108FA9B1D83C9350098F196 /* RSTwoTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FA9A1D83C9350098F196 /* RSTwoTitleModel.m */; };
@@ -744,6 +745,8 @@
 		6E2CE3D8BBEABCDE93EAE53B /* libPods-RedScarf.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RedScarf.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71E1701B167A940C9B6E3EC7 /* Pods-RedScarf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedScarf.release.xcconfig"; path = "Pods/Target Support Files/Pods-RedScarf/Pods-RedScarf.release.xcconfig"; sourceTree = "<group>"; };
 		A0869CE4B41C9FD16F1FE7E9 /* Pods-RedScarf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedScarf.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RedScarf/Pods-RedScarf.debug.xcconfig"; sourceTree = "<group>"; };
+		B10403A51D90EB3400089DE4 /* UIImage+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helper.h"; sourceTree = "<group>"; };
+		B10403A61D90EB3400089DE4 /* UIImage+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helper.m"; sourceTree = "<group>"; };
 		B108FA931D82AA660098F196 /* LayOutConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayOutConfig.h; sourceTree = "<group>"; };
 		B108FA941D82AA660098F196 /* LayOutConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayOutConfig.m; sourceTree = "<group>"; };
 		B108FA961D839EE80098F196 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helper.h"; sourceTree = "<group>"; };
@@ -1512,6 +1515,8 @@
 		309F534F1C103C4800249476 /* category */ = {
 			isa = PBXGroup;
 			children = (
+				B10403A51D90EB3400089DE4 /* UIImage+Helper.h */,
+				B10403A61D90EB3400089DE4 /* UIImage+Helper.m */,
 				B108FA961D839EE80098F196 /* NSString+Helper.h */,
 				B108FA971D839EE80098F196 /* NSString+Helper.m */,
 				309F53541C15662C00249476 /* RSCategory.h */,
@@ -2110,6 +2115,7 @@
 				309F535E1C1711B500249476 /* UIView+CustomFrame.m in Sources */,
 				1D9F36551BE4B96C008315CD /* ZCTradeView.m in Sources */,
 				1DD537511BB2CD2F00BF46E6 /* ModifyMemberViewController.m in Sources */,
+				B10403A71D90EB3400089DE4 /* UIImage+Helper.m in Sources */,
 				309F536B1C17E01200249476 /* RSAccountModel.m in Sources */,
 				1DE0AE3A1B8C91DC0092E87C /* OrderCountsViewController.m in Sources */,
 				1DE0357A1BD490AD0032D7BC /* ForgetPassViewController.m in Sources */,
@@ -2272,6 +2278,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HVW9LQ2544;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2314,6 +2321,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Big brother Technology Co., Ltd";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HVW9LQ2544;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

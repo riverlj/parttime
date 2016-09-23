@@ -65,7 +65,8 @@
     [self hidHUD];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [self hidHUD];
     NSString *errmsg = [error.userInfo valueForKey:@"NSLocalizedDescription"];

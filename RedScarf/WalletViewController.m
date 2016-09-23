@@ -48,7 +48,6 @@
     UIView *footView = [[UIView alloc] init];
     self.tableView.tableFooterView = footView;
     self.tableView.y = -64;
-    
 }
 
 -(void)getWeixin {
@@ -69,13 +68,13 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [self getToken];
+    
     oldImg1 = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
     oldImg2 = [self.navigationController.navigationBar shadowImage];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-    
-    [self getToken];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -137,6 +136,7 @@
     model.onetitle = @"账户余额(元)";
     model.twotitle =  salary;
     model.cellHeight = 128+64;
+    [model setSelectAction:@selector(transaction) target:self];
     [items1 addObject:model];
     
     model = [[RSTwoTitleModel alloc]init];

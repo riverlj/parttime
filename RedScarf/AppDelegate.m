@@ -19,14 +19,11 @@
 @interface AppDelegate (){
     NSString *updateUrl;
 }
-
 @end
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self BaiduMobStat];
@@ -43,6 +40,10 @@
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, textFont18, NSFontAttributeName, nil];
+    [[UINavigationBar appearance] setTitleTextAttributes:attributes];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageFromColor:RS_THRME_COLOR] forBarMetrics:UIBarMetricsDefault];
+    
     return YES;
 }
 
@@ -193,8 +194,4 @@
         });
     });
 }
-
-
-
-
 @end

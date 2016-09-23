@@ -18,4 +18,5 @@
 #import "RSFileStorage.h"
 #import "NSUserDefaults+Token.h"
 #import "NSString+Helper.h"
+#import "UIImage+Helper.h"
 #endif /* RSCategory_h */
