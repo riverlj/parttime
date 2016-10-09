@@ -295,12 +295,18 @@
 		30E246991C34D29C009A9A58 /* UserTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E246981C34D29C009A9A58 /* UserTaskTableViewCell.m */; };
 		30E2469E1C34F325009A9A58 /* AllocatingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E2469D1C34F325009A9A58 /* AllocatingTaskViewController.m */; };
 		7C8D67D81ACFEE17164795C3 /* libPods-RedScarf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2CE3D8BBEABCDE93EAE53B /* libPods-RedScarf.a */; };
+		B1032A9F1DA8E4A900F2838F /* MissGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1032A9E1DA8E4A900F2838F /* MissGoodsViewController.m */; };
 		B10403A71D90EB3400089DE4 /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = B10403A61D90EB3400089DE4 /* UIImage+Helper.m */; };
 		B108FA951D82AA660098F196 /* LayOutConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FA941D82AA660098F196 /* LayOutConfig.m */; };
 		B108FA981D839EE80098F196 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FA971D839EE80098F196 /* NSString+Helper.m */; };
 		B108FA9B1D83C9350098F196 /* RSTwoTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FA9A1D83C9350098F196 /* RSTwoTitleModel.m */; };
 		B108FA9F1D83CBA90098F196 /* WalletViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FA9E1D83CBA90098F196 /* WalletViewCell.m */; };
 		B108FAA21D83D34E0098F196 /* WalletHeaderViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FAA11D83D34E0098F196 /* WalletHeaderViewCell.m */; };
+		B113EC4B1DA89A5F00A62421 /* MerchantSigninViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC4A1DA89A5F00A62421 /* MerchantSigninViewController.m */; };
+		B113EC511DA89D5200A62421 /* MerChantSignInModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC501DA89D5200A62421 /* MerChantSignInModel.m */; };
+		B113EC571DA8B96300A62421 /* MerChantSignInCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC561DA8B96300A62421 /* MerChantSignInCell.m */; };
+		B113EC5A1DA8BE1700A62421 /* RSLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC591DA8BE1700A62421 /* RSLineView.m */; };
+		B113EC5D1DA8CECE00A62421 /* SimulateActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC5C1DA8CECE00A62421 /* SimulateActionSheet.m */; };
 		B168833A1CA513A500630E37 /* DetailTroubleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16883391CA513A500630E37 /* DetailTroubleViewController.m */; };
 		B17C46B51CACD23B008874FD /* MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C46B41CACD23B008874FD /* MenuModel.m */; };
 		B17FFC6D1CAD30510056A638 /* LaunchimageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */; };
@@ -745,6 +751,8 @@
 		6E2CE3D8BBEABCDE93EAE53B /* libPods-RedScarf.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RedScarf.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71E1701B167A940C9B6E3EC7 /* Pods-RedScarf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedScarf.release.xcconfig"; path = "Pods/Target Support Files/Pods-RedScarf/Pods-RedScarf.release.xcconfig"; sourceTree = "<group>"; };
 		A0869CE4B41C9FD16F1FE7E9 /* Pods-RedScarf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedScarf.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RedScarf/Pods-RedScarf.debug.xcconfig"; sourceTree = "<group>"; };
+		B1032A9D1DA8E4A900F2838F /* MissGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MissGoodsViewController.h; sourceTree = "<group>"; };
+		B1032A9E1DA8E4A900F2838F /* MissGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MissGoodsViewController.m; sourceTree = "<group>"; };
 		B10403A51D90EB3400089DE4 /* UIImage+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helper.h"; sourceTree = "<group>"; };
 		B10403A61D90EB3400089DE4 /* UIImage+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helper.m"; sourceTree = "<group>"; };
 		B108FA931D82AA660098F196 /* LayOutConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayOutConfig.h; sourceTree = "<group>"; };
@@ -757,6 +765,16 @@
 		B108FA9E1D83CBA90098F196 /* WalletViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalletViewCell.m; sourceTree = "<group>"; };
 		B108FAA01D83D34E0098F196 /* WalletHeaderViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalletHeaderViewCell.h; sourceTree = "<group>"; };
 		B108FAA11D83D34E0098F196 /* WalletHeaderViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalletHeaderViewCell.m; sourceTree = "<group>"; };
+		B113EC491DA89A5F00A62421 /* MerchantSigninViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantSigninViewController.h; sourceTree = "<group>"; };
+		B113EC4A1DA89A5F00A62421 /* MerchantSigninViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantSigninViewController.m; sourceTree = "<group>"; };
+		B113EC4F1DA89D5200A62421 /* MerChantSignInModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerChantSignInModel.h; sourceTree = "<group>"; };
+		B113EC501DA89D5200A62421 /* MerChantSignInModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerChantSignInModel.m; sourceTree = "<group>"; };
+		B113EC551DA8B96300A62421 /* MerChantSignInCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerChantSignInCell.h; sourceTree = "<group>"; };
+		B113EC561DA8B96300A62421 /* MerChantSignInCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerChantSignInCell.m; sourceTree = "<group>"; };
+		B113EC581DA8BE1700A62421 /* RSLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSLineView.h; sourceTree = "<group>"; };
+		B113EC591DA8BE1700A62421 /* RSLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSLineView.m; sourceTree = "<group>"; };
+		B113EC5B1DA8CECE00A62421 /* SimulateActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimulateActionSheet.h; sourceTree = "<group>"; };
+		B113EC5C1DA8CECE00A62421 /* SimulateActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulateActionSheet.m; sourceTree = "<group>"; };
 		B16883381CA513A500630E37 /* DetailTroubleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTroubleViewController.h; sourceTree = "<group>"; };
 		B16883391CA513A500630E37 /* DetailTroubleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTroubleViewController.m; sourceTree = "<group>"; };
 		B17C46B31CACD23B008874FD /* MenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuModel.h; sourceTree = "<group>"; };
@@ -1427,6 +1445,8 @@
 		309F53451C0FF6BA00249476 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B113EC5B1DA8CECE00A62421 /* SimulateActionSheet.h */,
+				B113EC5C1DA8CECE00A62421 /* SimulateActionSheet.m */,
 				306D896D1C31553C00C9772E /* RSSingleTitleCell.h */,
 				306D896E1C31553C00C9772E /* RSSingleTitleCell.m */,
 				B1FFB3081D6A9DAD006CE693 /* RSTwoTitleCell.h */,
@@ -1467,6 +1487,7 @@
 		309F53481C0FF72B00249476 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B113EC481DA89A0900A62421 /* MerchantSignin */,
 				309F534E1C1035BE00249476 /* Index */,
 				1D72D68F1B71EC1800E80D15 /* Team */,
 				1D72D68E1B71EBDF00E80D15 /* Mission */,
@@ -1617,6 +1638,8 @@
 		309F537A1C18549600249476 /* UIWidget */ = {
 			isa = PBXGroup;
 			children = (
+				B113EC581DA8BE1700A62421 /* RSLineView.h */,
+				B113EC591DA8BE1700A62421 /* RSLineView.m */,
 				B19F76221D6911F600AE334A /* RSToastView.h */,
 				B19F761F1D6911C100AE334A /* RSToastView.m */,
 				309F535F1C17139B00249476 /* RSCalendar.h */,
@@ -1672,6 +1695,45 @@
 				B108FAA11D83D34E0098F196 /* WalletHeaderViewCell.m */,
 			);
 			name = view;
+			sourceTree = "<group>";
+		};
+		B113EC481DA89A0900A62421 /* MerchantSignin */ = {
+			isa = PBXGroup;
+			children = (
+				B113EC4E1DA89CAE00A62421 /* Model */,
+				B113EC4D1DA89C9C00A62421 /* View */,
+				B113EC4C1DA89C9400A62421 /* Controller */,
+			);
+			path = MerchantSignin;
+			sourceTree = "<group>";
+		};
+		B113EC4C1DA89C9400A62421 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B113EC491DA89A5F00A62421 /* MerchantSigninViewController.h */,
+				B113EC4A1DA89A5F00A62421 /* MerchantSigninViewController.m */,
+				B1032A9D1DA8E4A900F2838F /* MissGoodsViewController.h */,
+				B1032A9E1DA8E4A900F2838F /* MissGoodsViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B113EC4D1DA89C9C00A62421 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B113EC551DA8B96300A62421 /* MerChantSignInCell.h */,
+				B113EC561DA8B96300A62421 /* MerChantSignInCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B113EC4E1DA89CAE00A62421 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B113EC4F1DA89D5200A62421 /* MerChantSignInModel.h */,
+				B113EC501DA89D5200A62421 /* MerChantSignInModel.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		B19F76171D690D0500AE334A /* Frame */ = {
@@ -2037,6 +2099,7 @@
 				30E246991C34D29C009A9A58 /* UserTaskTableViewCell.m in Sources */,
 				3030B1D61C48D17F009FD451 /* BuildingTaskCell.m in Sources */,
 				309F53861C1962A200249476 /* LevelLogModel.m in Sources */,
+				B113EC5D1DA8CECE00A62421 /* SimulateActionSheet.m in Sources */,
 				1D72D6A61B71FC2500E80D15 /* TeamTableViewCell.m in Sources */,
 				3030B1C21C465484009FD451 /* UserCertViewController.m in Sources */,
 				30E2468A1C337D87009A9A58 /* RSSubTitleView.m in Sources */,
@@ -2119,6 +2182,7 @@
 				309F536B1C17E01200249476 /* RSAccountModel.m in Sources */,
 				1DE0AE3A1B8C91DC0092E87C /* OrderCountsViewController.m in Sources */,
 				1DE0357A1BD490AD0032D7BC /* ForgetPassViewController.m in Sources */,
+				B113EC511DA89D5200A62421 /* MerChantSignInModel.m in Sources */,
 				1DEA80A51B7E3DFB0071D956 /* RoomViewController.m in Sources */,
 				3058A3981C2E44AF0095345D /* RSPlaceHolderTextView.m in Sources */,
 				1D24D4741B74F71100FD39BC /* RSHttp.m in Sources */,
@@ -2134,6 +2198,7 @@
 				B168833A1CA513A500630E37 /* DetailTroubleViewController.m in Sources */,
 				1DF647361BC8DEA900A80A89 /* GoPeiSongViewController.m in Sources */,
 				1D9F36531BE4B96C008315CD /* UIView+Extension.m in Sources */,
+				B113EC5A1DA8BE1700A62421 /* RSLineView.m in Sources */,
 				3030B1C51C465CCF009FD451 /* AddMembersViewController.m in Sources */,
 				30640FB31C4F74D200CA0198 /* PromotionModel.m in Sources */,
 				30E2469E1C34F325009A9A58 /* AllocatingTaskViewController.m in Sources */,
@@ -2151,7 +2216,10 @@
 				309F538F1C1C51AD00249476 /* MyprofileCell.m in Sources */,
 				B19F76211D6911C100AE334A /* RSToastView.m in Sources */,
 				1D41C28D1C0C41870036E214 /* LevelViewController.m in Sources */,
+				B113EC571DA8B96300A62421 /* MerChantSignInCell.m in Sources */,
 				1DE0AE401B8C92150092E87C /* TotalMoneyViewController.m in Sources */,
+				B113EC4B1DA89A5F00A62421 /* MerchantSigninViewController.m in Sources */,
+				B1032A9F1DA8E4A900F2838F /* MissGoodsViewController.m in Sources */,
 				1D9F36541BE4B96C008315CD /* ZCTradeInputView.m in Sources */,
 				1DD358381B8DA295009EF0A5 /* ThreeRowsCell.m in Sources */,
 				1DB7428F1BE3579400D6496B /* TransactionViewController.m in Sources */,

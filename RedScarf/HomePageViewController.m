@@ -256,6 +256,10 @@
             bannerVC.urlString = menuModel.url;
             [self.navigationController pushViewController:bannerVC animated:YES];
         } else if([btn.menuModel.url hasPrefix:@"rsparttime://"]){
+            if (!btn.menuModel.vcName) {
+                [[RSToastView shareRSToastView] showToast:@"请升级到最新版本"];
+                return;
+            }
             UIViewController *vc = [[NSClassFromString(btn.menuModel.vcName) alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
