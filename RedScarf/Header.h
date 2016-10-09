@@ -131,5 +131,6 @@
 #import "WXApi.h"
 #import "LayOutConfig.h"
 #import "RSToastView.h"
+#import "RSLineView.h"
 
  #endif

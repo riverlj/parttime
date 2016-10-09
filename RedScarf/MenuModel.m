@@ -35,7 +35,9 @@
                              @"rsparttime://team/schedule" : @"CheckTaskViewController",
                              @"rsparttime://team/member" : @"TeamMembersViewController",
                              @"rsparttime://user/promotion" : @"PromotionViewController",
-                             @"rsparttime://task/userDisPos" : @"SeparateViewController"
+                             @"rsparttime://task/userDisPos" : @"SeparateViewController",
+                             @"rsparttime://merchant/signin" : @"MerchantSigninViewController"
+                             
                              };
     if ([urlDic objectForKey:url]) {
         _vcName = [urlDic objectForKey:url];
