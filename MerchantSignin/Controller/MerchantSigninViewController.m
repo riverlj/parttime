@@ -60,6 +60,7 @@
     imageView.hidden = YES;
     label.hidden = YES;
 
+
     self.tableView.tableFooterView = [UIView new];
     self.tableView.separatorStyle = NO;
     self.models = [[NSMutableArray alloc]init];
@@ -79,7 +80,6 @@
             imageView.hidden = NO;
             label.hidden = NO;
         }
-        
         [selfWeak.tableView reloadData];
     } failure:^{
         [[RSToastView shareRSToastView] hidHUD];

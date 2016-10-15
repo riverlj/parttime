@@ -307,10 +307,13 @@
 		B113EC571DA8B96300A62421 /* MerChantSignInCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC561DA8B96300A62421 /* MerChantSignInCell.m */; };
 		B113EC5A1DA8BE1700A62421 /* RSLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC591DA8BE1700A62421 /* RSLineView.m */; };
 		B113EC5D1DA8CECE00A62421 /* SimulateActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC5C1DA8CECE00A62421 /* SimulateActionSheet.m */; };
+<<<<<<< HEAD
 		B123160F1DB0B35900743A04 /* RSUILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B123160E1DB0B35900743A04 /* RSUILabel.m */; };
 		B12316131DB0B9C000743A04 /* WithdrawDetaiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B12316121DB0B9C000743A04 /* WithdrawDetaiViewController.m */; };
 		B12316161DB0BC2D00743A04 /* WithdrawModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B12316151DB0BC2D00743A04 /* WithdrawModel.m */; };
 		B12316191DB0C08700743A04 /* WithdrawCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B12316181DB0C08700743A04 /* WithdrawCell.m */; };
+=======
+>>>>>>> 48a280933affb5dd7ce20ccb3428a2ef7b208547
 		B168833A1CA513A500630E37 /* DetailTroubleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16883391CA513A500630E37 /* DetailTroubleViewController.m */; };
 		B17C46B51CACD23B008874FD /* MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C46B41CACD23B008874FD /* MenuModel.m */; };
 		B17FFC6D1CAD30510056A638 /* LaunchimageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */; };
@@ -778,6 +781,7 @@
 		B113EC591DA8BE1700A62421 /* RSLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSLineView.m; sourceTree = "<group>"; };
 		B113EC5B1DA8CECE00A62421 /* SimulateActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimulateActionSheet.h; sourceTree = "<group>"; };
 		B113EC5C1DA8CECE00A62421 /* SimulateActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulateActionSheet.m; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		B123160A1DB0AA4400743A04 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		B123160B1DB0AA4400743A04 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
 		B123160D1DB0B35900743A04 /* RSUILabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSUILabel.h; sourceTree = "<group>"; };
@@ -789,6 +793,8 @@
 		B12316151DB0BC2D00743A04 /* WithdrawModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithdrawModel.m; sourceTree = "<group>"; };
 		B12316171DB0C08700743A04 /* WithdrawCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WithdrawCell.h; sourceTree = "<group>"; };
 		B12316181DB0C08700743A04 /* WithdrawCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithdrawCell.m; sourceTree = "<group>"; };
+=======
+>>>>>>> 48a280933affb5dd7ce20ccb3428a2ef7b208547
 		B16883381CA513A500630E37 /* DetailTroubleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTroubleViewController.h; sourceTree = "<group>"; };
 		B16883391CA513A500630E37 /* DetailTroubleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTroubleViewController.m; sourceTree = "<group>"; };
 		B17C46B31CACD23B008874FD /* MenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuModel.h; sourceTree = "<group>"; };
@@ -1757,6 +1763,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		B123160C1DB0B24C00743A04 /* RSUIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1767,6 +1774,8 @@
 			path = RSUIKit;
 			sourceTree = "<group>";
 		};
+=======
+>>>>>>> 48a280933affb5dd7ce20ccb3428a2ef7b208547
 		B19F76171D690D0500AE334A /* Frame */ = {
 			isa = PBXGroup;
 			children = (
