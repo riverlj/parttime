@@ -44,14 +44,15 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSMutableURLRequest *req = [request mutableCopy];
-    NSString *urlStr = [req.URL absoluteString];
+    NSLog(@"%@", request.URL.scheme);
+//    NSMutableURLRequest *req = [request mutableCopy];
+//    NSString *urlStr = [req.URL absoluteString];
     //判断是否有带上统计参数
-    if([urlStr rangeOfString:@"utm_campaign="].location == NSNotFound) {
-        req.URL = [NSURL URLWithString:[urlStr urlWithHost:nil]];
-        [bannerView loadRequest:req];
-        return false;
-    }
+//    if([urlStr rangeOfString:@"utm_campaign="].location == NSNotFound) {
+//        req.URL = [NSURL URLWithString:[urlStr urlWithHost:nil]];
+//        [bannerView loadRequest:req];
+//        return false;
+//    }
     return YES;
 }
 
@@ -70,7 +71,8 @@
 {
     [self hidHUD];
     NSString *errmsg = [error.userInfo valueForKey:@"NSLocalizedDescription"];
-    [self alertView:errmsg];
+    NSLog(@"%@,errmsg=%@",webView.request.URL, errmsg);
+//    [self alertView:errmsg];
 }
 
 @end

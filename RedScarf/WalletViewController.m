@@ -14,6 +14,7 @@
 #import "RSSingleTitleCell.h"
 #import "WalletHeaderViewCell.h"
 #import "BoundAccountViewController.h"
+#import "RSWebViewController.h"
 
 #define HEADER_HEIGHT [LayOutConfig adapterDeviceHeight(187)]
 #define HEADER_COLOR [NSString colorFromHexString:@"1474ff"]
@@ -161,10 +162,30 @@
     singleModel.cellHeight = 48;
     [items1 addObject:singleModel];
     [singleModel setSelectAction:@selector(modifyPass) target:self];
+    
+    singleModel = [[RSSingleTitleModel alloc]init];
+    attrDict = @{
+                               NSFontAttributeName : Font(15),
+                               NSForegroundColorAttributeName : [NSString colorFromHexString:@"222222"]
+                               };
+    attrStr = [[NSMutableAttributedString alloc]initWithString:@"金融湾" attributes:attrDict];
+    singleModel.str = attrStr;
+    singleModel.cellHeight = 48;
+    [items1 addObject:singleModel];
+    [singleModel setSelectAction:@selector(goJRW) target:self];
     [_models addObject:items1];
     
     [self.tableView reloadData];
     
+}
+
+- (void)goJRW {
+    RSWebViewController *web = [[RSWebViewController alloc] init];
+    web.title = @"金融湾";
+    NSString *token = [NSUserDefaults getValue:@"withdrawToken"];
+    web.urlString = [NSString stringWithFormat:@"http://pay.honglingjinclub.com/auth/authuser?token=%@",token];
+//    web.urlString = [NSString stringWithFormat:@"http://pyc.dev.honglingjinclub.com/auth/authuser?token=%@",token];
+    [self.navigationController pushViewController:web animated:YES];
 }
 
 -(void)transaction

@@ -16,7 +16,7 @@
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"me_background.jpg"]];
+        self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"me_background"]];
         [self.contentView addSubview:self.titleLabel];
         [self.contentView addSubview:self.headView];
         [self.contentView addSubview: self.nameLabel];

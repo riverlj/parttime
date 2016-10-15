@@ -307,6 +307,10 @@
 		B113EC571DA8B96300A62421 /* MerChantSignInCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC561DA8B96300A62421 /* MerChantSignInCell.m */; };
 		B113EC5A1DA8BE1700A62421 /* RSLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC591DA8BE1700A62421 /* RSLineView.m */; };
 		B113EC5D1DA8CECE00A62421 /* SimulateActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = B113EC5C1DA8CECE00A62421 /* SimulateActionSheet.m */; };
+		B123160F1DB0B35900743A04 /* RSUILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B123160E1DB0B35900743A04 /* RSUILabel.m */; };
+		B12316131DB0B9C000743A04 /* WithdrawDetaiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B12316121DB0B9C000743A04 /* WithdrawDetaiViewController.m */; };
+		B12316161DB0BC2D00743A04 /* WithdrawModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B12316151DB0BC2D00743A04 /* WithdrawModel.m */; };
+		B12316191DB0C08700743A04 /* WithdrawCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B12316181DB0C08700743A04 /* WithdrawCell.m */; };
 		B168833A1CA513A500630E37 /* DetailTroubleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16883391CA513A500630E37 /* DetailTroubleViewController.m */; };
 		B17C46B51CACD23B008874FD /* MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C46B41CACD23B008874FD /* MenuModel.m */; };
 		B17FFC6D1CAD30510056A638 /* LaunchimageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B17FFC6C1CAD30510056A638 /* LaunchimageViewController.m */; };
@@ -340,7 +344,6 @@
 		1D24D4441B747AEE00FD39BC /* DistributionTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistributionTableView.m; sourceTree = "<group>"; };
 		1D24D44D1B748A6400FD39BC /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		1D24D44E1B748A6400FD39BC /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		1D24D4711B74B29F00FD39BC /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Header.h; path = RedScarf/Header.h; sourceTree = "<group>"; };
 		1D24D4721B74F71100FD39BC /* RSHttp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSHttp.h; path = RedScarf/RSHttp.h; sourceTree = "<group>"; };
 		1D24D4731B74F71100FD39BC /* RSHttp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSHttp.m; path = RedScarf/RSHttp.m; sourceTree = "<group>"; };
 		1D24D4A71B75E58000FD39BC /* 账户@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "账户@2x.png"; sourceTree = "<group>"; };
@@ -775,6 +778,17 @@
 		B113EC591DA8BE1700A62421 /* RSLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSLineView.m; sourceTree = "<group>"; };
 		B113EC5B1DA8CECE00A62421 /* SimulateActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimulateActionSheet.h; sourceTree = "<group>"; };
 		B113EC5C1DA8CECE00A62421 /* SimulateActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulateActionSheet.m; sourceTree = "<group>"; };
+		B123160A1DB0AA4400743A04 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		B123160B1DB0AA4400743A04 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
+		B123160D1DB0B35900743A04 /* RSUILabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSUILabel.h; sourceTree = "<group>"; };
+		B123160E1DB0B35900743A04 /* RSUILabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSUILabel.m; sourceTree = "<group>"; };
+		B12316101DB0B4B000743A04 /* RSUIKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSUIKit.h; sourceTree = "<group>"; };
+		B12316111DB0B9C000743A04 /* WithdrawDetaiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WithdrawDetaiViewController.h; sourceTree = "<group>"; };
+		B12316121DB0B9C000743A04 /* WithdrawDetaiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithdrawDetaiViewController.m; sourceTree = "<group>"; };
+		B12316141DB0BC2D00743A04 /* WithdrawModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WithdrawModel.h; sourceTree = "<group>"; };
+		B12316151DB0BC2D00743A04 /* WithdrawModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithdrawModel.m; sourceTree = "<group>"; };
+		B12316171DB0C08700743A04 /* WithdrawCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WithdrawCell.h; sourceTree = "<group>"; };
+		B12316181DB0C08700743A04 /* WithdrawCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithdrawCell.m; sourceTree = "<group>"; };
 		B16883381CA513A500630E37 /* DetailTroubleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTroubleViewController.h; sourceTree = "<group>"; };
 		B16883391CA513A500630E37 /* DetailTroubleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTroubleViewController.m; sourceTree = "<group>"; };
 		B17C46B31CACD23B008874FD /* MenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuModel.h; sourceTree = "<group>"; };
@@ -1274,6 +1288,8 @@
 				30640FB21C4F74D200CA0198 /* PromotionModel.m */,
 				B17C46B31CACD23B008874FD /* MenuModel.h */,
 				B17C46B41CACD23B008874FD /* MenuModel.m */,
+				B12316141DB0BC2D00743A04 /* WithdrawModel.h */,
+				B12316151DB0BC2D00743A04 /* WithdrawModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -1299,6 +1315,8 @@
 				30640FB51C4F782200CA0198 /* PromotionCell.m */,
 				B19F76141D69017300AE334A /* XHCustomShareView.h */,
 				B19F76151D69017300AE334A /* XHCustomShareView.m */,
+				B12316171DB0C08700743A04 /* WithdrawCell.h */,
+				B12316181DB0C08700743A04 /* WithdrawCell.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -1342,6 +1360,8 @@
 				1DD358311B8D9183009EF0A5 /* RuleOfActive.m */,
 				309F53811C194D0600249476 /* LevelLogViewController.h */,
 				309F53821C194D0600249476 /* LevelLogViewController.m */,
+				B12316111DB0B9C000743A04 /* WithdrawDetaiViewController.h */,
+				B12316121DB0B9C000743A04 /* WithdrawDetaiViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -1501,9 +1521,10 @@
 		309F53491C0FF74300249476 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				1D24D4711B74B29F00FD39BC /* Header.h */,
+				B123160A1DB0AA4400743A04 /* Header.h */,
+				B123160B1DB0AA4400743A04 /* Theme.h */,
 			);
-			name = Config;
+			path = Config;
 			sourceTree = "<group>";
 		};
 		309F534A1C0FF86F00249476 /* Common */ = {
@@ -1736,12 +1757,23 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B123160C1DB0B24C00743A04 /* RSUIKit */ = {
+			isa = PBXGroup;
+			children = (
+				B123160D1DB0B35900743A04 /* RSUILabel.h */,
+				B123160E1DB0B35900743A04 /* RSUILabel.m */,
+				B12316101DB0B4B000743A04 /* RSUIKit.h */,
+			);
+			path = RSUIKit;
+			sourceTree = "<group>";
+		};
 		B19F76171D690D0500AE334A /* Frame */ = {
 			isa = PBXGroup;
 			children = (
+				B123160C1DB0B24C00743A04 /* RSUIKit */,
 				B19F76181D690D1500AE334A /* ThreeLibs */,
 			);
-			name = Frame;
+			path = Frame;
 			sourceTree = "<group>";
 		};
 		B19F76181D690D1500AE334A /* ThreeLibs */ = {
@@ -1749,7 +1781,7 @@
 			children = (
 				B19F76191D690D2600AE334A /* weixin */,
 			);
-			name = ThreeLibs;
+			path = ThreeLibs;
 			sourceTree = "<group>";
 		};
 		B19F76191D690D2600AE334A /* weixin */ = {
@@ -1760,7 +1792,7 @@
 				B19F761C1D690D4500AE334A /* WXApi.h */,
 				B19F761D1D690D4500AE334A /* WXApiObject.h */,
 			);
-			name = weixin;
+			path = weixin;
 			sourceTree = "<group>";
 		};
 		E4E0D69113B98B9D1B99DC68 /* Frameworks */ = {
@@ -2103,6 +2135,7 @@
 				1D72D6A61B71FC2500E80D15 /* TeamTableViewCell.m in Sources */,
 				3030B1C21C465484009FD451 /* UserCertViewController.m in Sources */,
 				30E2468A1C337D87009A9A58 /* RSSubTitleView.m in Sources */,
+				B12316191DB0C08700743A04 /* WithdrawCell.m in Sources */,
 				3001825D1C44C2EA00BC1138 /* AddressViewVontroller.m in Sources */,
 				309F536E1C181C2D00249476 /* RSTableViewCell.m in Sources */,
 				30E246961C34C6DD009A9A58 /* RoomTaskTableViewCell.m in Sources */,
@@ -2149,6 +2182,7 @@
 				309A8AA61C1EC7AE00E0EE42 /* RSMenuButton.m in Sources */,
 				1DF810C41B78739F0049C2B2 /* ModTableViewCell.m in Sources */,
 				1DDB70D91B8EBEAF009AD1D4 /* MyModel.m in Sources */,
+				B12316161DB0BC2D00743A04 /* WithdrawModel.m in Sources */,
 				1DD3583B1B8DA5C9009EF0A5 /* FourRowsCell.m in Sources */,
 				1DEA809F1B7E2B510071D956 /* FinishTableViewCell.m in Sources */,
 				1DD302891B81DB53001B197F /* Model.m in Sources */,
@@ -2175,6 +2209,7 @@
 				1DC69C521BF9D107003F29BA /* VersionViewController.m in Sources */,
 				309A8AAD1C216EDD00E0EE42 /* NSUserDefaults+Token.m in Sources */,
 				B19F76161D69017300AE334A /* XHCustomShareView.m in Sources */,
+				B123160F1DB0B35900743A04 /* RSUILabel.m in Sources */,
 				309F535E1C1711B500249476 /* UIView+CustomFrame.m in Sources */,
 				1D9F36551BE4B96C008315CD /* ZCTradeView.m in Sources */,
 				1DD537511BB2CD2F00BF46E6 /* ModifyMemberViewController.m in Sources */,
@@ -2209,6 +2244,7 @@
 				1DF3A0DE1BDF50590095DE24 /* MsgViewController.m in Sources */,
 				309F53571C16BFBF00249476 /* NSDate+RSFormatter.m in Sources */,
 				1DCCFA601BB15B8400B82609 /* TeamModel.m in Sources */,
+				B12316131DB0B9C000743A04 /* WithdrawDetaiViewController.m in Sources */,
 				B1F30BDA1CA92197000E48A1 /* SettingViewController.m in Sources */,
 				1D24D4B71B76007A00FD39BC /* UIView+ViewController.m in Sources */,
 				300968C21C3A499A00C51DA7 /* RSTaskTitleViewCell.m in Sources */,
@@ -2354,7 +2390,7 @@
 					"$(PROJECT_DIR)/RedScarf/UMSocial_Sdk_4.2.3/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/RedScarf/umeng_ios_social_sdk_4.2.3_arm64_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
-				GCC_PREFIX_HEADER = RedScarf/Header.h;
+				GCC_PREFIX_HEADER = Config/Header.h;
 				INFOPLIST_FILE = RedScarf/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2397,7 +2433,7 @@
 					"$(PROJECT_DIR)/RedScarf/UMSocial_Sdk_4.2.3/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/RedScarf/umeng_ios_social_sdk_4.2.3_arm64_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
-				GCC_PREFIX_HEADER = RedScarf/Header.h;
+				GCC_PREFIX_HEADER = Config/Header.h;
 				INFOPLIST_FILE = RedScarf/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

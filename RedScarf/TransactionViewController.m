@@ -9,6 +9,7 @@
 #import "TransactionViewController.h"
 #import "DoPassWordViewController.h"
 #import "SalaryTableViewCell.h"
+#import "WithdrawDetaiViewController.h"
 
 @interface TransactionViewController ()
 
@@ -90,10 +91,11 @@
     if ([self.title isEqualToString:@"提现记录"]) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         dic = [bodyArray objectAtIndex:indexPath.row];
-        NSString *str = [dic valueForKey:@"returnMessage"];
-        if (![str isKindOfClass:NSNull.class] && str.length > 0) {
-            [self alertView:[dic valueForKey:str]];
-        }
+        WithdrawDetaiViewController *withdrawDetailViewController = [[WithdrawDetaiViewController alloc] init];
+        withdrawDetailViewController.dic = dic;
+        [self.navigationController pushViewController:withdrawDetailViewController animated:YES];
+        
+        
     }
     
 }
