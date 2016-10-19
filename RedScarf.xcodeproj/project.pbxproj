@@ -297,6 +297,7 @@
 		7C8D67D81ACFEE17164795C3 /* libPods-RedScarf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2CE3D8BBEABCDE93EAE53B /* libPods-RedScarf.a */; };
 		B1032A9F1DA8E4A900F2838F /* MissGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1032A9E1DA8E4A900F2838F /* MissGoodsViewController.m */; };
 		B10403A71D90EB3400089DE4 /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = B10403A61D90EB3400089DE4 /* UIImage+Helper.m */; };
+		B108F1111DB4827400CF210D /* ManageMoneyMattersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B108F1101DB4827400CF210D /* ManageMoneyMattersViewController.m */; };
 		B108FA951D82AA660098F196 /* LayOutConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FA941D82AA660098F196 /* LayOutConfig.m */; };
 		B108FA981D839EE80098F196 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FA971D839EE80098F196 /* NSString+Helper.m */; };
 		B108FA9B1D83C9350098F196 /* RSTwoTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B108FA9A1D83C9350098F196 /* RSTwoTitleModel.m */; };
@@ -758,6 +759,8 @@
 		B1032A9E1DA8E4A900F2838F /* MissGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MissGoodsViewController.m; sourceTree = "<group>"; };
 		B10403A51D90EB3400089DE4 /* UIImage+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helper.h"; sourceTree = "<group>"; };
 		B10403A61D90EB3400089DE4 /* UIImage+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helper.m"; sourceTree = "<group>"; };
+		B108F10F1DB4827400CF210D /* ManageMoneyMattersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageMoneyMattersViewController.h; sourceTree = "<group>"; };
+		B108F1101DB4827400CF210D /* ManageMoneyMattersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageMoneyMattersViewController.m; sourceTree = "<group>"; };
 		B108FA931D82AA660098F196 /* LayOutConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayOutConfig.h; sourceTree = "<group>"; };
 		B108FA941D82AA660098F196 /* LayOutConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayOutConfig.m; sourceTree = "<group>"; };
 		B108FA961D839EE80098F196 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helper.h"; sourceTree = "<group>"; };
@@ -1592,6 +1595,8 @@
 		309F53581C16DD4F00249476 /* Finance */ = {
 			isa = PBXGroup;
 			children = (
+				B108F10F1DB4827400CF210D /* ManageMoneyMattersViewController.h */,
+				B108F1101DB4827400CF210D /* ManageMoneyMattersViewController.m */,
 				B108FA9C1D83CB4F0098F196 /* view */,
 				1DC2643B1BE704E800A915DB /* SubmitViewController.h */,
 				1DC2643C1BE704E800A915DB /* SubmitViewController.m */,
@@ -1767,7 +1772,6 @@
 			path = RSUIKit;
 			sourceTree = "<group>";
 		};
-
 		B19F76171D690D0500AE334A /* Frame */ = {
 			isa = PBXGroup;
 			children = (
@@ -2148,6 +2152,7 @@
 				1DD358191B8D5E98009EF0A5 /* RecommendViewController.m in Sources */,
 				3030B1C81C474E15009FD451 /* RSCatchline.m in Sources */,
 				309F53801C191F3100249476 /* RSProgressView.m in Sources */,
+				B108F1111DB4827400CF210D /* ManageMoneyMattersViewController.m in Sources */,
 				B17C46B51CACD23B008874FD /* MenuModel.m in Sources */,
 				B108FA951D82AA660098F196 /* LayOutConfig.m in Sources */,
 				300968C51C3BE0BE00C51DA7 /* RSTipsView.m in Sources */,

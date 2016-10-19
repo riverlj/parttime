@@ -58,7 +58,7 @@
     }
     if (withdrawModel.status.integerValue == 0 || withdrawModel.status.integerValue == 1) {
         wvm2.statustr = @"提现成功";
-        wvm2.timestr = @"审核中...请耐心等待！";
+        wvm2.timestr = @"";
     }
     
     if (withdrawModel.status.integerValue == 2) {

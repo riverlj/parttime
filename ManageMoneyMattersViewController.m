@@ -1,27 +1,25 @@
 //
-//  RSWebViewController.m
+//  ManageMoneyMattersViewController.m
 //  RedScarf
 //
-//  Created by lishipeng on 15/12/16.
-//  Copyright © 2015年 zhangb. All rights reserved.
+//  Created by 李江 on 16/10/17.
+//  Copyright © 2016年 zhangb. All rights reserved.
 //
 
-#import "RSWebViewController.h"
+#import "ManageMoneyMattersViewController.h"
 #import "RSWebView.h"
 
-@interface RSWebViewController ()
-
-@end
-
-@implementation RSWebViewController
+@interface ManageMoneyMattersViewController ()
 {
     RSWebView *bannerView;
 }
+@end
+
+@implementation ManageMoneyMattersViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    [self comeBack:nil];
+    
     [self initWebView];
 }
 
@@ -30,7 +28,7 @@
     NSURL *url;
     bannerView = [[RSWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     bannerView.delegate = self;
-    url = [NSURL URLWithString:self.urlString];
+    url = [NSURL URLWithString:self.urlstr];
     if(!url) {
         [self alertView:@"URL地址错误"];
         return;
@@ -44,15 +42,6 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSLog(@"%@", request.URL.scheme);
-    NSMutableURLRequest *req = [request mutableCopy];
-    NSString *urlStr = [req.URL absoluteString];
-//    判断是否有带上统计参数
-    if([urlStr rangeOfString:@"utm_campaign="].location == NSNotFound) {
-        req.URL = [NSURL URLWithString:[urlStr urlWithHost:nil]];
-        [bannerView loadRequest:req];
-        return false;
-    }
     return YES;
 }
 
@@ -66,16 +55,8 @@
     [self hidHUD];
 }
 
-
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [self hidHUD];
-    NSString *errmsg = [error.userInfo valueForKey:@"NSLocalizedDescription"];
-    if ([error.domain isEqualToString:@"WebKitErrorDomain"] && (error.code == 102 || error.code == 204)) {
-        NSLog(@"ignore: %@", error);
-        return;
-    }
-    [self alertView:errmsg];
 }
-
 @end

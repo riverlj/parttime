@@ -148,6 +148,7 @@
     }
     
     if ([self.title isEqualToString:@"交易密码"]) {
+        [cell.contentView removeAllSubviews];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         UILabel *title = [[UILabel alloc] init];
         title.frame = CGRectMake(15, 0, 100, 50);
