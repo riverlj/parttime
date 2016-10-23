@@ -121,8 +121,9 @@
 #endif
 
 #import "Theme.h"
+#import "AppConfig.h"
+#import "WXApi.h"
 #import "RSUIKit.h"
-
 #import "RSHttp.h"
 #import "RSCategory.h"
 #import "MJRefresh.h"
@@ -130,8 +131,8 @@
 #import "ReactiveCocoa.h"
 #import "Masonry.h"
 #import "UMSocial.h"
-#import "WXApi.h"
 #import "LayOutConfig.h"
 #import "RSToastView.h"
 #import "RSLineView.h"
- #endif
+
+#endif

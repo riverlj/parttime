@@ -8,8 +8,6 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-#import "Header.h"
-#import "UMSocial.h"
 #import "UMSocialQQHandler.h"
 #import "UMSocialWechatHandler.h"
 #import "BaiduMobStat.h"
@@ -27,6 +25,7 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self BaiduMobStat];
+    [AppSettingModel getAppSetting];
     [self UpdateVersion];
 
     LaunchimageViewController *lanchImageVc = [[LaunchimageViewController alloc]init];

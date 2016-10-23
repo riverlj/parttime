@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseTabbarViewController.h"
+#import "AppSettingModel.h"
+#import "WXApi.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate, WXApiDelegate>
+
+@property (nonatomic, strong)AppSettingModel *appSettingModel;
+
 
 @property (strong, nonatomic) UIWindow *window;
 @property float autoSizeScaleX;

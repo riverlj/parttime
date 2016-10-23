@@ -14,6 +14,7 @@
     return @{
              @"room": @"room",
              @"taskNum" : @"taskNum",
+             @"apartmentId" : @"apartmentId"
              };
 }
 
@@ -21,4 +22,21 @@
 {
     return 55;
 }
+
++(void)getBuildingTaskSuccess:(void(^)(NSArray *buildingTaskModels))success failure:(void (^)(void))failure{
+    [RSHttp requestWithURL:@"/task/assignedTask/apartmentAndCount" params:nil httpMethod:@"GET" success:^(NSDictionary *data) {
+        NSArray *body = [data valueForKey:@"body"];
+        NSError *error = nil;
+        NSArray * buildingTaskModels = [MTLJSONAdapter modelsOfClass:BuildingTaskModel.class fromJSONArray:body error:&error];
+        if (error) {
+            NSLog(@"error:%@",error);
+        }
+        success(buildingTaskModels);
+    } failure:^(NSInteger code, NSString *errmsg) {
+        failure();
+    }];
+}
+
+
+
 @end

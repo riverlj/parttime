@@ -12,4 +12,8 @@
 @property(nonatomic, strong) NSString *room;
 @property(nonatomic) NSInteger taskNum;
 @property(nonatomic) BOOL isSelected;
+@property (nonatomic, strong)NSNumber *apartmentId;
+
+
++(void)getBuildingTaskSuccess:(void(^)(NSArray *buildingTaskModels))success failure:(void (^)(void))failure;
 @end

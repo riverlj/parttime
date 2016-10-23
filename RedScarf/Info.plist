@@ -69,6 +69,8 @@
 	<string>使用期间访问您的位置信息</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>先锋将访问您的相册</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string></string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

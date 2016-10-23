@@ -160,6 +160,9 @@
 		B19F76161D69017300AE334A /* XHCustomShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19F76151D69017300AE334A /* XHCustomShareView.m */; };
 		B19F761E1D690D4500AE334A /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B19F761A1D690D4500AE334A /* libWeChatSDK.a */; };
 		B19F76211D6911C100AE334A /* RSToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19F761F1D6911C100AE334A /* RSToastView.m */; };
+		B1BA6E1E1DB9C8C300F63798 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1BA6E1D1DB9C8C300F63798 /* Reveal.framework */; };
+		B1BA6E211DB9CBE500F63798 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B1BA6E201DB9CBE500F63798 /* AppConfig.m */; };
+		B1BA6E241DB9CD0900F63798 /* AppSettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B1BA6E231DB9CD0900F63798 /* AppSettingModel.m */; };
 		B1DFE9581DB773C4002E60B4 /* UIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DFE9571DB773C4002E60B4 /* UIUtils.m */; };
 		B1DFE9651DB77405002E60B4 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DFE95B1DB77404002E60B4 /* NSString+Extension.m */; };
 		B1DFE9661DB77405002E60B4 /* trade.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B1DFE95C1DB77404002E60B4 /* trade.bundle */; };
@@ -642,6 +645,11 @@
 		B19F761D1D690D4500AE334A /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		B19F761F1D6911C100AE334A /* RSToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSToastView.m; sourceTree = "<group>"; };
 		B19F76221D6911F600AE334A /* RSToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSToastView.h; sourceTree = "<group>"; };
+		B1BA6E1D1DB9C8C300F63798 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		B1BA6E1F1DB9CBE500F63798 /* AppConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConfig.h; sourceTree = "<group>"; };
+		B1BA6E201DB9CBE500F63798 /* AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfig.m; sourceTree = "<group>"; };
+		B1BA6E221DB9CD0900F63798 /* AppSettingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettingModel.h; sourceTree = "<group>"; };
+		B1BA6E231DB9CD0900F63798 /* AppSettingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettingModel.m; sourceTree = "<group>"; };
 		B1DFE9561DB773C4002E60B4 /* UIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIUtils.h; sourceTree = "<group>"; };
 		B1DFE9571DB773C4002E60B4 /* UIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIUtils.m; sourceTree = "<group>"; };
 		B1DFE95A1DB77404002E60B4 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
@@ -830,6 +838,7 @@
 				B1DFE97A1DB77613002E60B4 /* JavaScriptCore.framework in Frameworks */,
 				B1DFE9781DB775B0002E60B4 /* libBaiduMobStat.a in Frameworks */,
 				1DF408EF1BE1BF22000BACA8 /* Foundation.framework in Frameworks */,
+				B1BA6E1E1DB9C8C300F63798 /* Reveal.framework in Frameworks */,
 				B19F761E1D690D4500AE334A /* libWeChatSDK.a in Frameworks */,
 				1DF408ED1BE1BF19000BACA8 /* UIKit.framework in Frameworks */,
 				1DDB72E01B8F0D41009AD1D4 /* CoreGraphics.framework in Frameworks */,
@@ -1278,6 +1287,10 @@
 			children = (
 				B123160A1DB0AA4400743A04 /* Header.h */,
 				B123160B1DB0AA4400743A04 /* Theme.h */,
+				B1BA6E1F1DB9CBE500F63798 /* AppConfig.h */,
+				B1BA6E201DB9CBE500F63798 /* AppConfig.m */,
+				B1BA6E221DB9CD0900F63798 /* AppSettingModel.h */,
+				B1BA6E231DB9CD0900F63798 /* AppSettingModel.m */,
 			);
 			name = Config;
 			path = RedScarf/Config;
@@ -1561,6 +1574,7 @@
 		B19F76181D690D1500AE334A /* ThreeLibs */ = {
 			isa = PBXGroup;
 			children = (
+				B1BA6E1D1DB9C8C300F63798 /* Reveal.framework */,
 				B19DA74E1DB7663400E0F177 /* baidu */,
 				B19F76191D690D2600AE334A /* weixin */,
 			);
@@ -2171,6 +2185,7 @@
 				1DB7428C1BE33CA900D6496B /* WalletViewController.m in Sources */,
 				1D9F36401BE460DD008315CD /* SalaryTableViewCell.m in Sources */,
 				1D24D4421B747A7100FD39BC /* ModAddressTableView.m in Sources */,
+				B1BA6E241DB9CD0900F63798 /* AppSettingModel.m in Sources */,
 				300968C81C3CB2C300C51DA7 /* RSRoute.m in Sources */,
 				1DCCFA571BB1394B00B82609 /* TeamMembersViewController.m in Sources */,
 				1DF647331BC8C30000A80A89 /* UITabBarController+ViewController.m in Sources */,
@@ -2196,6 +2211,7 @@
 				309A8AA61C1EC7AE00E0EE42 /* RSMenuButton.m in Sources */,
 				1DF810C41B78739F0049C2B2 /* ModTableViewCell.m in Sources */,
 				B1DFE96A1DB77405002E60B4 /* ZCTradeView.m in Sources */,
+				B1BA6E211DB9CBE500F63798 /* AppConfig.m in Sources */,
 				1DDB70D91B8EBEAF009AD1D4 /* MyModel.m in Sources */,
 				B12316161DB0BC2D00743A04 /* WithdrawModel.m in Sources */,
 				1DD3583B1B8DA5C9009EF0A5 /* FourRowsCell.m in Sources */,
@@ -2403,6 +2419,7 @@
 					"$(PROJECT_DIR)/RedScarf/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/RedScarf/UMSocial_Sdk_4.2.3/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/RedScarf/umeng_ios_social_sdk_4.2.3_arm64_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(PROJECT_DIR)/RedScarf/Frame/ThreeLibs",
 				);
 				GCC_PREFIX_HEADER = RedScarf/Config/Header.h;
 				INFOPLIST_FILE = RedScarf/Info.plist;
@@ -2424,6 +2441,83 @@
 					"$(PROJECT_DIR)/RedScarf/Frame/ThreeLibs/baidu",
 				);
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"APOpenSdk\"",
+					"-l\"FCUUID\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"Mantle\"",
+					"-l\"Masonry\"",
+					"-l\"ReactiveCocoa\"",
+					"-l\"SDCycleScrollView\"",
+					"-l\"SDWebImage\"",
+					"-l\"SocialAlipayShare\"",
+					"-l\"SocialFacebook\"",
+					"-l\"SocialInstagram\"",
+					"-l\"SocialLaiWang\"",
+					"-l\"SocialLine\"",
+					"-l\"SocialQQ\"",
+					"-l\"SocialSina\"",
+					"-l\"SocialSinaSSO\"",
+					"-l\"SocialTumblr\"",
+					"-l\"SocialTwitter\"",
+					"-l\"SocialWechat\"",
+					"-l\"SocialWhatsapp\"",
+					"-l\"UICKeyChainStore\"",
+					"-l\"UMSocial_Sdk_4.4\"",
+					"-l\"UMSocial_Sdk_Comment_4.4\"",
+					"-l\"WeChatSDK\"",
+					"-l\"WeiboSDK\"",
+					"-l\"c++\"",
+					"-l\"iconv\"",
+					"-l\"pop\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Accounts\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBSDKCoreKit\"",
+					"-framework",
+					"\"FBSDKLoginKit\"",
+					"-framework",
+					"\"FBSDKShareKit\"",
+					"-framework",
+					"\"Fabric\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"Social\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"TencentOpenAPI\"",
+					"-framework",
+					"\"TwitterCore\"",
+					"-framework",
+					"\"TwitterKit\"",
+					"-framework",
+					"\"UIKit\"",
+					"-ObjC",
+					"-lz",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.RedScarf.PartTimeInhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2447,6 +2541,7 @@
 					"$(PROJECT_DIR)/RedScarf/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/RedScarf/UMSocial_Sdk_4.2.3/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/RedScarf/umeng_ios_social_sdk_4.2.3_arm64_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(PROJECT_DIR)/RedScarf/Frame/ThreeLibs",
 				);
 				GCC_PREFIX_HEADER = RedScarf/Config/Header.h;
 				INFOPLIST_FILE = RedScarf/Info.plist;
@@ -2468,6 +2563,83 @@
 					"$(PROJECT_DIR)/RedScarf/Frame/ThreeLibs/baidu",
 				);
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"APOpenSdk\"",
+					"-l\"FCUUID\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"Mantle\"",
+					"-l\"Masonry\"",
+					"-l\"ReactiveCocoa\"",
+					"-l\"SDCycleScrollView\"",
+					"-l\"SDWebImage\"",
+					"-l\"SocialAlipayShare\"",
+					"-l\"SocialFacebook\"",
+					"-l\"SocialInstagram\"",
+					"-l\"SocialLaiWang\"",
+					"-l\"SocialLine\"",
+					"-l\"SocialQQ\"",
+					"-l\"SocialSina\"",
+					"-l\"SocialSinaSSO\"",
+					"-l\"SocialTumblr\"",
+					"-l\"SocialTwitter\"",
+					"-l\"SocialWechat\"",
+					"-l\"SocialWhatsapp\"",
+					"-l\"UICKeyChainStore\"",
+					"-l\"UMSocial_Sdk_4.4\"",
+					"-l\"UMSocial_Sdk_Comment_4.4\"",
+					"-l\"WeChatSDK\"",
+					"-l\"WeiboSDK\"",
+					"-l\"c++\"",
+					"-l\"iconv\"",
+					"-l\"pop\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Accounts\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBSDKCoreKit\"",
+					"-framework",
+					"\"FBSDKLoginKit\"",
+					"-framework",
+					"\"FBSDKShareKit\"",
+					"-framework",
+					"\"Fabric\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"Social\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"TencentOpenAPI\"",
+					"-framework",
+					"\"TwitterCore\"",
+					"-framework",
+					"\"TwitterKit\"",
+					"-framework",
+					"\"UIKit\"",
+					"-ObjC",
+					"-lz",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.RedScarf.PartTimeInhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
