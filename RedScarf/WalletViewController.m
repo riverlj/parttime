@@ -171,7 +171,7 @@
     attrStr = [[NSMutableAttributedString alloc]initWithString:@"红领巾理财" attributes:attrDict];
     singleModel.str = attrStr;
     singleModel.cellHeight = 48;
-//    [items1 addObject:singleModel];
+    [items1 addObject:singleModel];
     [singleModel setSelectAction:@selector(goJRW) target:self];
     [_models addObject:items1];
     

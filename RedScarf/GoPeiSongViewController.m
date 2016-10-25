@@ -41,39 +41,79 @@
     //选择的类型
     AppBusiness *_selectedAppBusiness;
     
+    //
+    NSInteger _selectedtitleIndex;
+    
+    Boolean isconfig;
+    
+    UIImageView *kimageView;
+    
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"开始配送";
-    _selectedSection = -1;
+    _selectedSection = 0;
+    _selectedtitleIndex = 0;
     _selfWeak = self;
     
+    
+
     [self initTableView];
+    
+    kimageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 131, 131)];
+    kimageView.image = [UIImage imageNamed:@"kongrenwu.png"];
+    kimageView.contentMode = UIViewContentModeScaleAspectFill;
+    kimageView.centerX = _goPSTableView.centerX;
+    kimageView.centerY = _goPSTableView.centerY-113;
+    [_goPSTableView addSubview:kimageView];
+
     
     _dataSource = [[NSMutableArray alloc] init];
     _sectionDataSource = [[NSMutableArray alloc] init];
     
+    isconfig = YES;
+    
     AppSettingModel *appSettingModel = [AppConfig getAPPDelegate].appSettingModel;
     _businesslist = appSettingModel.businesslist;
     if (![AppConfig getAPPDelegate].appSettingModel.businesslist ) {
-        [[RSToastView shareRSToastView] showToast:@"获取配置信息失败"];
+        isconfig = NO;
+        return;
     }
     
     // 已经获取到了配置信息
     if (appSettingModel.businesslist.count > 1) {
         //需要显示Tab
         [self setTypeTitle];
-        _selectedAppBusiness = _businesslist[0];
-        [self getBuildingTaskInfo:[NSString stringWithFormat:@"%@",_selectedAppBusiness.type]];
+        
         _goPSTableView.y = 40;
-        
+        _goPSTableView.height += 9;
+    
     }else {
-        //不需要显示Tab
-        _selectedAppBusiness = _businesslist[0];
-        [self getBuildingTaskInfo:[NSString stringWithFormat:@"%@",_selectedAppBusiness.type]];
+        _goPSTableView.height += 49;
+    }
+    
+    _selectedAppBusiness = _businesslist[0];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if (isconfig) {
+        _selectedSection = 0;
+        [_sectionDataSource removeAllObjects];
+        [_dataSource removeAllObjects];
+        [_goPSTableView reloadData];
         
+        [self getBuildingTaskInfo:[NSString stringWithFormat:@"%@",_selectedAppBusiness.type]];
+    }
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (!isconfig) {
+        [[RSToastView shareRSToastView] showToast:@"获取配置信息失败"];
     }
 }
 
@@ -126,7 +166,7 @@
         [view addSubview:title];
         [group addObj:title];
     }
-    [group setSelectedIndex:0];
+    [group setSelectedIndex:_selectedtitleIndex];
 }
 
 /**
@@ -143,9 +183,11 @@
         
         if (buildingTaskModels.count == 0) {
             //空数据
-            [[RSToastView shareRSToastView] showToast:@"暂无配送任务"];
+            [[RSToastView shareRSToastView] hidHUD];
+
             return;
         }
+        [kimageView removeFromSuperview];
         
         //楼栋信息
         for (int i=0; i<buildingTaskModels.count; i++) {
@@ -158,10 +200,9 @@
         
         BuildingTaskModel *buildingTaskModel = buildingTaskModels[0];
         buildingTaskModel.isSelected = YES;
-        _selectedSection = 0;
-        [_selfWeak getRoomInfo:buildingTaskModel.apartmentId];
-        
         [[RSToastView shareRSToastView] hidHUD];
+        
+        [_selfWeak getRoomInfo:buildingTaskModel.apartmentId];
         
     } failure:^{
     }];
@@ -180,10 +221,19 @@
                           };
     [[RSToastView shareRSToastView] showHUD:@""];
     [RoomTaskModel getRoomTask:params success:^(NSArray *roomTaskModels) {
+        
+        if (roomTaskModels.count == 0) {
+            [_sectionDataSource removeObjectAtIndex:_selectedSection];
+            [_dataSource removeObjectAtIndex:_selectedSection];
+            [_goPSTableView reloadData];
+        }
+        
         NSMutableArray *mArray = _dataSource[_selectedSection];
+        [mArray removeAllObjects];
         for (int i=0; i<roomTaskModels.count; i++) {
             RoomTaskModel *roomTaskModel = roomTaskModels[i];
             roomTaskModel.cellClassName = @"roomTaskCell";
+            roomTaskModel.sectionIndex = _selectedSection;
             [mArray addObject:roomTaskModel];
         }
         
@@ -215,6 +265,11 @@
  点击Hearder type 切换
  */
 -(void)didClickBtn:(RSSubTitleView *)sender {
+    if (sender.tag == _selectedtitleIndex) {
+        return;
+    }
+    _selectedtitleIndex = sender.tag;
+    _selectedSection = 0;
     [group setSelectedIndex:sender.tag];
     
     [_sectionDataSource removeAllObjects];
@@ -316,19 +371,24 @@
     [params setValue:buildingTaksModel.apartmentId forKey:@"aId"];
     [params setValue:model.room forKey:@"room"];
     [params setValue:@"2" forKey:@"source"];
+    [params setValue:_selectedAppBusiness.type forKey:@"type"];
     [self showHUD:@"送达中..."];
+    
     [RSHttp requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
-        [self showToast:@"成功送达"];
-        [_selfWeak getBuildingTaskInfo:[NSString stringFromNumber:_selectedAppBusiness.type]];
-        [self hidHUD];
+        [_selfWeak showToast:@"成功送达"];
+        //送达之后的逻辑
+        [_selfWeak getRoomInfo:buildingTaksModel.apartmentId];
+        
+        [_selfWeak hidHUD];
     } failure:^(NSInteger code, NSString *errmsg) {
-        [self hidHUD];
-        [self showToast:errmsg];
+        [_selfWeak hidHUD];
+        [_selfWeak showToast:errmsg];
     }];
+    
 }
 
 -(void)detailBtnEvent:(RoomTaskModel *)model {
-    BuildingTaskModel *buildingTaksModel = _sectionDataSource[_selectedSection];
+    BuildingTaskModel *buildingTaksModel = _sectionDataSource[model.sectionIndex];
     RoomViewController *roomVC = [[RoomViewController alloc] init];
     roomVC.titleStr = model.room;
     roomVC.room = model.room;

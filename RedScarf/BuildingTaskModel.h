@@ -19,6 +19,9 @@
 @property (nonatomic ,strong)NSNumber *taskNum;
 @property (nonatomic ,strong)NSArray *content;
 
+@property (nonatomic ,assign)NSInteger sectionIndex;
+
+
 +(void)getRoomTask:(NSDictionary *)params success:(void(^)(NSArray *roomTaskModels))success failure:(void (^)(void))failure;
 @end
 

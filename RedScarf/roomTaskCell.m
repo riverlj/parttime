@@ -80,8 +80,7 @@
     self.numTaskLabel.frame = CGRectMake(self.roomNameLabel.right + 2, 0, numTaskSize.width, 43);
     self.numTaskLabel.bottom = self.roomNameLabel.bottom;
     
-    self.detailBtn.frame = CGRectMake(SCREEN_WIDTH-15-75, 0, 75, 43);
-    
+    self.detailBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH-15, 43);
     CGFloat tmpHeight = 0;
     
     [_contensView removeAllSubviews];
@@ -145,6 +144,7 @@
     _blankView.frame = CGRectMake(0, self.sendedBtn.bottom + 10, SCREEN_WIDTH, 6);
     model.cellHeight = _blankView.bottom;
     
+    [self.contentView bringSubviewToFront:self.detailBtn];
 }
 
 -(void)detailBtnClicked:(UIButton *)sender {

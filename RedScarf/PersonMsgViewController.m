@@ -397,6 +397,7 @@
 {
     [NSUserDefaults clearValueForKey:@"token"];
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    app.appSettingModel = nil;
     LoginViewController *loginVC = [[LoginViewController alloc] init];
     [app setRootViewController:loginVC];
 }

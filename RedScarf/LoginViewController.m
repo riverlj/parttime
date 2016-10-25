@@ -182,6 +182,7 @@
     __weak __typeof(&*self)weakSelf = self;
     [RSHttp requestWithURL:@"/auth" params:dic httpMethod:@"POST" success:^(NSDictionary *data) {
         [weakSelf hidHUD];
+        //重新获取配置信息
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         app.tocken = [data objectForKey:@"body"];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -189,6 +190,7 @@
         [defaults synchronize];
         baseTabVC = [[BaseTabbarViewController alloc] init];
         [app setRootViewController:baseTabVC];
+        [AppSettingModel getAppSetting];
     } failure:^(NSInteger code, NSString *errmsg) {
         [weakSelf hidHUD];
         [weakSelf alertView:errmsg];

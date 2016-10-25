@@ -29,6 +29,7 @@
         [self.bgView addSubview:self.addressLabel];
         [self.bgView addSubview:self.buyerLabel];
         [self.bgView addSubview:self.numberLabel];
+        [self.bgView addSubview:self.typeLabel];
         [self.contentView addSubview:self.bgView];
     }
     
@@ -139,12 +140,14 @@
 
 -(UILabel *)typeLabel {
     if (_typeLabel) {
-        _typeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _typeLabel.textColor = RS_THRME_COLOR;
-        _typeLabel.font = textFont12;
-        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _typeLabel.width, 0.5)];
-        [line setBackgroundColor:color_gray_e8e8e8];
+        return _typeLabel;
     }
+    
+    _typeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _typeLabel.textColor = RS_THRME_COLOR;
+    _typeLabel.textAlignment = NSTextAlignmentRight;
+    _typeLabel.font = textFont12;
+    
     return _typeLabel;
 }
 
@@ -190,6 +193,14 @@
         }if ([m.status isEqualToString:@"UNDELIVERED"]) {
             [self.statusImage setTitle:@"未送达" withBgColor:color_red_f9494b];
         }
+        
+        if ([m.type integerValue] == 1) {
+            self.typeLabel.text = @"早餐";
+        }else if([m.type integerValue] ==2) {
+            self.typeLabel.text = @"午餐";
+        }
+        
+        self.typeLabel.frame = CGRectMake(self.bgView.width-100, self.numberLabel.y, 80, self.numberLabel.height);
     }
 }
 
