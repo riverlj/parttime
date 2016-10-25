@@ -15,4 +15,5 @@
 @property(nonatomic,strong)NSString *aId;
 @property(nonatomic,strong)NSString *room;
 @property(nonatomic,strong)NSString *sn;
+@property(nonatomic,strong)NSString *type;
 @end

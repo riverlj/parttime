@@ -22,6 +22,8 @@
 @property(nonatomic,strong)UILabel *numberLabel;
 @property(nonatomic, strong) RSCatchline *statusImage;
 
+@property(nonatomic, strong) UILabel *typeLabel;
+
 -(void)setIntroductionText:(NSString*)text;
 
 @end

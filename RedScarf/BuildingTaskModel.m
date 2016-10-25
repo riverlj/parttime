@@ -44,8 +44,8 @@
         success(roomTaskModels);
         
     } failure:^(NSInteger code, NSString *errmsg) {
-        [[RSToastView shareRSToastView] showToast:errmsg];
         failure();
+        [[RSToastView shareRSToastView] showToast:errmsg];
     }];
 
 }
@@ -63,7 +63,25 @@
              };
 }
 
+-(int)cellHeight {
+    return 65;
+}
+
+/*
+ 兼容
+ */
++ (NSValueTransformer *)taskNumJSONTransformer {
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(id value, BOOL *success, NSError *__autoreleasing *error) {
+        if ([value isKindOfClass:[NSNumber class]]){
+            return [NSString stringFromNumber:value];
+        } else {
+            return value;
+        }
+    }];
+}
+
 +(void)getBuildingTask:(NSDictionary *)params success:(void(^)(NSArray *buildingTaskModels))success failure:(void (^)(void))failure{
+    
     [RSHttp requestWithURL:@"/task/assignedTask/apartmentAndCount" params:params httpMethod:@"GET" success:^(NSDictionary *data) {
         NSArray *body = [data valueForKey:@"body"];
         NSError *error = nil;

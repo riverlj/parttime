@@ -137,6 +137,17 @@
     return _statusImage;
 }
 
+-(UILabel *)typeLabel {
+    if (_typeLabel) {
+        _typeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _typeLabel.textColor = RS_THRME_COLOR;
+        _typeLabel.font = textFont12;
+        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _typeLabel.width, 0.5)];
+        [line setBackgroundColor:color_gray_e8e8e8];
+    }
+    return _typeLabel;
+}
+
 -(void)setIntroductionText:(NSAttributedString*)text
 {
     self.foodLabel.attributedText = text;

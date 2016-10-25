@@ -38,7 +38,7 @@
     [super setModel:model];
     if([model isKindOfClass:[BuildingTaskModel class]]) {
         BuildingTaskModel *m = (BuildingTaskModel *) model;
-        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %ld单", m.room, m.taskNum] attributes:@{NSForegroundColorAttributeName:color_black_333333,NSFontAttributeName:textFont15}];
+        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@单", m.room, m.taskNum] attributes:@{NSForegroundColorAttributeName:color_black_333333,NSFontAttributeName:textFont15}];
         [attrStr setAttributes:@{NSForegroundColorAttributeName:color_black_666666,NSFontAttributeName:textFont14} range:NSMakeRange(m.room.length, attrStr.length - m.room.length)];
         self.titleLabel.attributedText = attrStr;
         if(m.isSelected) {

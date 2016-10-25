@@ -14,21 +14,31 @@
 #import "RSRadioGroup.h"
 #import "RSSubTitleView.h"
 
-@interface GoPeiSongViewController ()<UITableViewDelegate, UITableViewDataSource>
+#import "RoomViewController.h"
+
+@interface GoPeiSongViewController ()<UITableViewDelegate, UITableViewDataSource, RoomTaskCellEventDelegate>
 
 @end
 
 @implementation GoPeiSongViewController
 {
     UITableView *_goPSTableView;
+    
+    //宿舍信息
     NSMutableArray *_dataSource;
+    //楼栋信息
     NSMutableArray *_sectionDataSource;
+    
     __weak GoPeiSongViewController *_selfWeak;
+    
+    //选中的楼栋
     NSInteger _selectedSection;
     
+    //所有的类型
     NSArray *_businesslist;
     RSRadioGroup *group;
     
+    //选择的类型
     AppBusiness *_selectedAppBusiness;
     
 }
@@ -128,6 +138,7 @@
     NSDictionary *params = @{
                              @"type" : typeid
                              };
+    [[RSToastView shareRSToastView] showHUD:@""];
     [BuildingTaskModel getBuildingTask:params success:^(NSArray *buildingTaskModels) {
         
         if (buildingTaskModels.count == 0) {
@@ -150,7 +161,10 @@
         _selectedSection = 0;
         [_selfWeak getRoomInfo:buildingTaskModel.apartmentId];
         
-    } failure:^{}];
+        [[RSToastView shareRSToastView] hidHUD];
+        
+    } failure:^{
+    }];
     
 }
 
@@ -164,7 +178,7 @@
                           @"aId" : roomid,
                           @"type" : _selectedAppBusiness.type
                           };
-    
+    [[RSToastView shareRSToastView] showHUD:@""];
     [RoomTaskModel getRoomTask:params success:^(NSArray *roomTaskModels) {
         NSMutableArray *mArray = _dataSource[_selectedSection];
         for (int i=0; i<roomTaskModels.count; i++) {
@@ -175,7 +189,10 @@
         
         [_goPSTableView reloadData];
         
-    } failure:^{}];
+        [[RSToastView shareRSToastView] hidHUD];
+        
+    } failure:^{
+    }];
 }
 
 /*
@@ -204,7 +221,8 @@
     [_dataSource removeAllObjects];
     [_goPSTableView reloadData];
     
-    [self getBuildingTaskInfo:sender.key];
+    _selectedAppBusiness = _businesslist[sender.tag];
+    [self getBuildingTaskInfo:[NSString stringFromNumber:_selectedAppBusiness.type]];
 }
 
 /*
@@ -263,6 +281,7 @@
         cell = [[roomTaskCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"roomTaskCell"];
     }
     
+    cell.cellEventDelegate = self;
     [cell setModel:model];
     
     return cell;
@@ -289,4 +308,32 @@
     return _dataSource.count;
 }
 
+
+#pragma mark RoomTaskCellEventDelegate
+-(void)sendedBtnEvent:(RoomTaskModel *)model {
+    BuildingTaskModel *buildingTaksModel = _sectionDataSource[_selectedSection];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:buildingTaksModel.apartmentId forKey:@"aId"];
+    [params setValue:model.room forKey:@"room"];
+    [params setValue:@"2" forKey:@"source"];
+    [self showHUD:@"送达中..."];
+    [RSHttp requestWithURL:@"/task/assignedTask/finishRoom" params:params httpMethod:@"PUT" success:^(NSDictionary *data) {
+        [self showToast:@"成功送达"];
+        [_selfWeak getBuildingTaskInfo:[NSString stringFromNumber:_selectedAppBusiness.type]];
+        [self hidHUD];
+    } failure:^(NSInteger code, NSString *errmsg) {
+        [self hidHUD];
+        [self showToast:errmsg];
+    }];
+}
+
+-(void)detailBtnEvent:(RoomTaskModel *)model {
+    BuildingTaskModel *buildingTaksModel = _sectionDataSource[_selectedSection];
+    RoomViewController *roomVC = [[RoomViewController alloc] init];
+    roomVC.titleStr = model.room;
+    roomVC.room = model.room;
+    roomVC.aId = buildingTaksModel.apartmentId;
+    roomVC.type = [NSString stringFromNumber:_selectedAppBusiness.type];
+    [self.navigationController pushViewController:roomVC animated:YES];
+}
 @end

@@ -41,4 +41,6 @@
 @property(nonatomic,strong)NSString *room;
 @property(nonatomic,strong)NSString *select;
 
+@property(nonatomic,strong)NSNumber *type;
+
 @end

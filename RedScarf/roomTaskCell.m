@@ -7,7 +7,6 @@
 //
 
 #import "roomTaskCell.h"
-#import "BuildingTaskModel.h"
 
 @implementation roomTaskCell
 {
@@ -35,6 +34,8 @@
         [self.detailBtn setTitleColor:RS_THRME_COLOR forState:UIControlStateNormal];
         [self.detailBtn setTitleColor:RS_THRME_COLOR forState:UIControlStateHighlighted];
         [self.detailBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+        [self.detailBtn addTarget:self action:@selector(detailBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+
         [self.contentView addSubview:self.detailBtn];
         
         self.sendedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -45,6 +46,7 @@
         self.sendedBtn.titleLabel.font = textFont15;
         self.sendedBtn.layer.cornerRadius = 4;
         self.sendedBtn.layer.masksToBounds = YES;
+        [self.sendedBtn addTarget:self action:@selector(sendedBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         [self.contentView addSubview:self.sendedBtn];
         
@@ -66,6 +68,8 @@
 }
 
 -(void)setModel:(RoomTaskModel *)model {
+    
+    self.taskModel = model;
     
     self.roomNameLabel.text = model.room;
     CGSize roomSize =  [self.roomNameLabel sizeThatFits:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT)];
@@ -141,6 +145,18 @@
     _blankView.frame = CGRectMake(0, self.sendedBtn.bottom + 10, SCREEN_WIDTH, 6);
     model.cellHeight = _blankView.bottom;
     
+}
+
+-(void)detailBtnClicked:(UIButton *)sender {
+    if (self.cellEventDelegate && [self.cellEventDelegate respondsToSelector:@selector(detailBtnEvent:)]) {
+        [self.cellEventDelegate detailBtnEvent:self.taskModel];
+    }
+}
+
+-(void)sendedBtnClicked:(UIButton *)sender {
+    if (self.cellEventDelegate && [self.cellEventDelegate respondsToSelector:@selector(sendedBtnEvent:)]) {
+        [self.cellEventDelegate sendedBtnEvent:self.taskModel];
+    }
 }
 
 @end

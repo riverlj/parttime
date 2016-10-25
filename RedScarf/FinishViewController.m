@@ -113,6 +113,7 @@
         model.numberStr = [dic objectForKey:@"sn"];
         model.status = [dic objectForKey:@"status"];
         model.room = [dic objectForKey:@"room"];
+        model.type = [dic objectForKey:@"type"];
         model.cellClassName = @"FinishTableViewCell";
         model.cellHeight = 10;
         [self.models addObject:model];

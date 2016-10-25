@@ -57,7 +57,8 @@
     [self.params setValue:self.aId forKey:@"aId"];
     [self.params setValue:self.room forKey:@"room"];
     [self.params setValue:@"2" forKey:@"source"];
-
+    [self.params setValue:self.type forKey:@"type"];
+    NSLog(@"%@",self.params);
 }
 
 -(void)afterHttpSuccess:(NSDictionary *)data{
