@@ -118,14 +118,8 @@
 
 -(void)initTableView
 {
-    UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kUIScreenWidth, 40)];
-    hintLabel.text = @"工资提示：从10月26日，薪资以线上数据为准。";
-    [self.view addSubview:hintLabel];
-    hintLabel.font = textFont14;
-    hintLabel.textAlignment = NSTextAlignmentCenter;
-    hintLabel.textColor = colorrede5;
     
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, kUIScreenWidth, 54)];
+    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kUIScreenWidth, 54)];
     bgView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:bgView];
     

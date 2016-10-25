@@ -14,9 +14,9 @@
     self = [super init];
     if(self) {
         [self addSubview:self.image];
-        self.normalColor = color_black_666666;
-        self.highlightColor = color_blue_5999f8;
-        self.titleLabel.font = textFont16;
+        self.normalColor = rs_color_7d7d7d;
+        self.highlightColor = RS_THRME_COLOR;
+        self.titleLabel.font = textFont14;
     }
     return self;
 }
@@ -26,9 +26,9 @@
     self = [super initWithFrame:frame];
     if(self) {
         [self addSubview:self.image];
-        self.normalColor = color_black_666666;
-        self.highlightColor = color_blue_5999f8;
-        self.titleLabel.font = textFont16;
+        self.normalColor = rs_color_7d7d7d;
+        self.highlightColor = RS_THRME_COLOR;
+        self.titleLabel.font = textFont14;
     }
     return self;
 }

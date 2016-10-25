@@ -163,6 +163,7 @@
 		B1BA6E1E1DB9C8C300F63798 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1BA6E1D1DB9C8C300F63798 /* Reveal.framework */; };
 		B1BA6E211DB9CBE500F63798 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B1BA6E201DB9CBE500F63798 /* AppConfig.m */; };
 		B1BA6E241DB9CD0900F63798 /* AppSettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B1BA6E231DB9CD0900F63798 /* AppSettingModel.m */; };
+		B1D1AF001DBDEEBD00B7B37A /* roomTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D1AEFF1DBDEEBD00B7B37A /* roomTaskCell.m */; };
 		B1DFE9581DB773C4002E60B4 /* UIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DFE9571DB773C4002E60B4 /* UIUtils.m */; };
 		B1DFE9651DB77405002E60B4 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DFE95B1DB77404002E60B4 /* NSString+Extension.m */; };
 		B1DFE9661DB77405002E60B4 /* trade.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B1DFE95C1DB77404002E60B4 /* trade.bundle */; };
@@ -650,6 +651,8 @@
 		B1BA6E201DB9CBE500F63798 /* AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfig.m; sourceTree = "<group>"; };
 		B1BA6E221DB9CD0900F63798 /* AppSettingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettingModel.h; sourceTree = "<group>"; };
 		B1BA6E231DB9CD0900F63798 /* AppSettingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettingModel.m; sourceTree = "<group>"; };
+		B1D1AEFE1DBDEEBD00B7B37A /* roomTaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = roomTaskCell.h; sourceTree = "<group>"; };
+		B1D1AEFF1DBDEEBD00B7B37A /* roomTaskCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = roomTaskCell.m; sourceTree = "<group>"; };
 		B1DFE9561DB773C4002E60B4 /* UIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIUtils.h; sourceTree = "<group>"; };
 		B1DFE9571DB773C4002E60B4 /* UIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIUtils.m; sourceTree = "<group>"; };
 		B1DFE95A1DB77404002E60B4 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
@@ -872,8 +875,8 @@
 				1DD302871B81DB53001B197F /* Model.h */,
 				1DD302881B81DB53001B197F /* Model.m */,
 				30D08B871C23DD4F008706E8 /* RoomMissionModel.h */,
-				300968BD1C3A16DF00C51DA7 /* RSTaskModel.h */,
 				30D08B881C23DD4F008706E8 /* RoomMissionModel.m */,
+				300968BD1C3A16DF00C51DA7 /* RSTaskModel.h */,
 				300968BE1C3A16DF00C51DA7 /* RSTaskModel.m */,
 				3030B1D11C48D0FC009FD451 /* BuildingTaskModel.h */,
 				3030B1D21C48D0FC009FD451 /* BuildingTaskModel.m */,
@@ -1201,6 +1204,8 @@
 				300968C11C3A499A00C51DA7 /* RSTaskTitleViewCell.m */,
 				3030B1D41C48D17F009FD451 /* BuildingTaskCell.h */,
 				3030B1D51C48D17F009FD451 /* BuildingTaskCell.m */,
+				B1D1AEFE1DBDEEBD00B7B37A /* roomTaskCell.h */,
+				B1D1AEFF1DBDEEBD00B7B37A /* roomTaskCell.m */,
 			);
 			name = cell;
 			sourceTree = "<group>";
@@ -2210,6 +2215,7 @@
 				1DE0654F1BABADE3007A5D4B /* ModifyPMViewController.m in Sources */,
 				309A8AA61C1EC7AE00E0EE42 /* RSMenuButton.m in Sources */,
 				1DF810C41B78739F0049C2B2 /* ModTableViewCell.m in Sources */,
+				B1D1AF001DBDEEBD00B7B37A /* roomTaskCell.m in Sources */,
 				B1DFE96A1DB77405002E60B4 /* ZCTradeView.m in Sources */,
 				B1BA6E211DB9CBE500F63798 /* AppConfig.m in Sources */,
 				1DDB70D91B8EBEAF009AD1D4 /* MyModel.m in Sources */,

@@ -14,5 +14,6 @@
 @property(nonatomic, strong) UIImageView *image;
 @property(nonatomic, strong) UIColor *normalColor;
 @property(nonatomic, strong) UIColor *highlightColor;
+@property(nonatomic, strong) NSString *key;
 
 @end
