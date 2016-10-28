@@ -23,7 +23,7 @@
         [self.contentView addSubview:self.roomNameLabel];
         
         self.numTaskLabel =  [[UILabel alloc] init];
-        self.numTaskLabel.textColor = rs_color_ffa53a;
+        self.numTaskLabel.textColor = rs_color_222222;
         self.numTaskLabel.font = textFont12;
         [self.contentView addSubview:self.numTaskLabel];
         
@@ -77,7 +77,7 @@
     CGSize numTaskSize =  [self.numTaskLabel sizeThatFits:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT)];
     
     self.roomNameLabel.frame = CGRectMake(15, 0, roomSize.width, 43);
-    self.numTaskLabel.frame = CGRectMake(self.roomNameLabel.right + 2, 0, numTaskSize.width, 43);
+    self.numTaskLabel.frame = CGRectMake(self.roomNameLabel.right + 5, 0, numTaskSize.width, 43);
     self.numTaskLabel.bottom = self.roomNameLabel.bottom;
     
     self.detailBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH-15, 43);
@@ -85,18 +85,13 @@
     
     [_contensView removeAllSubviews];
     for (int i=0; i<model.content.count; i++) {
-        UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, (SCREEN_WIDTH-30)/4 , 44)];
-        tagLabel.textAlignment = NSTextAlignmentLeft;
-        tagLabel.textColor = rs_color_222222;
-        tagLabel.numberOfLines = 0;
-        tagLabel.font = textFont13;
-        [_contensView addSubview:tagLabel];
         
-        UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(tagLabel.right, 0, 2*(SCREEN_WIDTH-30)/4, 0)];
-        contentLabel.textAlignment = NSTextAlignmentCenter;
+        
+        UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 3*(SCREEN_WIDTH-30)/4, 0)];
+        contentLabel.textAlignment = NSTextAlignmentLeft;
         contentLabel.textColor = rs_color_222222;
-        contentLabel.font = textFont12;
-        contentLabel.numberOfLines = 1;
+        contentLabel.font = textFont14;
+        contentLabel.numberOfLines = 0;
         [_contensView addSubview:contentLabel];
         
         UILabel *numLabel = [[UILabel alloc] initWithFrame:CGRectMake(contentLabel.right, 0, (SCREEN_WIDTH-30)/4 , 0)];
@@ -106,7 +101,6 @@
         [_contensView addSubview:numLabel];
         
         RoomContentModel *roomContentModel = model.content[i];
-        tagLabel.text = roomContentModel.tag;
         contentLabel.text = roomContentModel.content;
         numLabel.text = [NSString stringWithFormat:@"%@",roomContentModel.count];
         
@@ -120,21 +114,19 @@
             height = contentSize.height;
         }
         
-        tagLabel.height = height + 34;
         contentLabel.height = height + 34;
         numLabel.height = height + 34;
         
-        tagLabel.y =  tmpHeight;
         contentLabel.y = tmpHeight;
         numLabel.y = tmpHeight;
         
         UIView *lview = [RSLineView lineViewHorizontal];
         lview.x = 15;
         lview.width = SCREEN_WIDTH - 30;
-        lview.y = tagLabel.bottom-1;
+        lview.y = contentLabel.bottom-1;
         [_contensView addSubview:lview];
         
-        tmpHeight = tagLabel.bottom;
+        tmpHeight = contentLabel.bottom;
     }
     
     _contensView.frame = CGRectMake(0, 44, SCREEN_WIDTH, tmpHeight);

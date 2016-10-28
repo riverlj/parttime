@@ -48,6 +48,9 @@
     
     UIImageView *kimageView;
     
+    NSString *_detailapartmentId;
+    
+    
 }
 
 
@@ -196,13 +199,30 @@
             
             [_dataSource addObject:[NSMutableArray array]];
         }
-        [_goPSTableView reloadData];
+//        [_goPSTableView reloadData];
         
-        BuildingTaskModel *buildingTaskModel = buildingTaskModels[0];
-        buildingTaskModel.isSelected = YES;
+        Boolean hasApid = NO;
+        if (_detailapartmentId.length > 0) {
+            for (int i=0; i<buildingTaskModels.count; i++) {
+                BuildingTaskModel *buildingTaskModel = buildingTaskModels[i];
+                if ([buildingTaskModel.apartmentId isEqualToString:_detailapartmentId]) {
+                    _selectedSection = i;
+                    hasApid = YES;
+                    buildingTaskModel.isSelected = YES;
+                    break;
+                }
+            }
+        }
+        
+        if (!hasApid || _detailapartmentId.length <= 0) {
+            BuildingTaskModel *buildingTaskModel = buildingTaskModels[0];
+            _selectedSection = 0;
+            buildingTaskModel.isSelected = YES;
+            _detailapartmentId = buildingTaskModel.apartmentId;
+        }
+        
         [[RSToastView shareRSToastView] hidHUD];
-        
-        [_selfWeak getRoomInfo:buildingTaskModel.apartmentId];
+        [_selfWeak getRoomInfo:_detailapartmentId];
         
     } failure:^{
     }];
@@ -223,9 +243,14 @@
     [RoomTaskModel getRoomTask:params success:^(NSArray *roomTaskModels) {
         
         if (roomTaskModels.count == 0) {
+            
             [_sectionDataSource removeObjectAtIndex:_selectedSection];
             [_dataSource removeObjectAtIndex:_selectedSection];
+            
             [_goPSTableView reloadData];
+            [[RSToastView shareRSToastView] hidHUD];
+
+            return;
         }
         
         NSMutableArray *mArray = _dataSource[_selectedSection];
@@ -238,9 +263,8 @@
         }
         
         [_goPSTableView reloadData];
-        
         [[RSToastView shareRSToastView] hidHUD];
-        
+
     } failure:^{
     }];
 }
@@ -254,10 +278,23 @@
     if (buildingTaksModel.isSelected) {
         [_dataSource[_selectedSection] removeAllObjects];
         [_goPSTableView reloadData];
+        buildingTaksModel.isSelected = NO;
+        return;
     }else {
-        [self getRoomInfo:buildingTaksModel.apartmentId];
+        
+        [_sectionDataSource enumerateObjectsUsingBlock:^(BuildingTaskModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            obj.isSelected = NO;
+        }];
+        
+        buildingTaksModel.isSelected = YES;
+        
+        [_dataSource enumerateObjectsUsingBlock:^(NSMutableArray *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [obj removeAllObjects];
+        }];
+        [_goPSTableView reloadData];
     }
-    buildingTaksModel.isSelected  = !buildingTaksModel.isSelected;
+    
+    [self getRoomInfo:buildingTaksModel.apartmentId];
 
 }
 
@@ -268,6 +305,7 @@
     if (sender.tag == _selectedtitleIndex) {
         return;
     }
+    _detailapartmentId = nil;
     _selectedtitleIndex = sender.tag;
     _selectedSection = 0;
     [group setSelectedIndex:sender.tag];
@@ -389,6 +427,8 @@
 
 -(void)detailBtnEvent:(RoomTaskModel *)model {
     BuildingTaskModel *buildingTaksModel = _sectionDataSource[model.sectionIndex];
+    _detailapartmentId = buildingTaksModel.apartmentId;
+    
     RoomViewController *roomVC = [[RoomViewController alloc] init];
     roomVC.titleStr = model.room;
     roomVC.room = model.room;
