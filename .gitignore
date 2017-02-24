@@ -2,3 +2,6 @@ Pods/
 RedScarf.xcodeproj/xcuserdata/*.xcuserdatad/
 RedScarf.xcworkspace/xcuserdata/*.xcuserdatad/
 RedScarf.xcodeproj/project.xcworkspace/xcuserdata/
+.git/
+.gitignore
+.DS_Store
